@@ -1,0 +1,7 @@
+.*
+!.gitignore
+.env.php
+cache/analytics/*
+cache/catalogue/*
+cache/reviews/*
+cache/webform/*
