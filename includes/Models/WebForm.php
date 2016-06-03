@@ -17,7 +17,6 @@ namespace BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Polymorphism;
 use BCcampus\OpenTextBooks\Views;
 
-
 class WebForm extends Polymorphism\DataAbstract {
 
 	/**
@@ -28,6 +27,11 @@ class WebForm extends Polymorphism\DataAbstract {
 	private $type = 'txt';
 	private $location = 'cache/webform';
 	private $responses = array();
+	private $non_bc_responses = array();
+//	private $baseline_non_bc_savings_100 = 48300; // may 18, 2016
+//	private $baseline_non_bc_savings_actual = 53121; // may 18, 2016
+//	private $baseline_non_bc_adoptions = 17; // may 18, 2016
+//	private $baseline_non_bc_students = 513; // may 18, 2016
 	private $faculty = array();
 
 	/**
@@ -43,8 +47,10 @@ class WebForm extends Polymorphism\DataAbstract {
 		'artinstitutes.edu',
 		'cdicollege.ca',
 		'columbiacollege.ca',
+		'columbiacollege.bc.ca',
 		'corpuschristi.ca',
 		'etoncollege.ca',
+		'fdu.edu',
 		'fraseric.ca',
 		'necvancouver.org',
 		'pcu-whs.ca',
@@ -222,10 +228,18 @@ class WebForm extends Polymorphism\DataAbstract {
 	 * need a way to only count adoptions in B.C.
 	 */
 	private function filterNonBcAdoptions() {
+
 		foreach ( $this->responses as $key => $response ) {
 			if ( 0 === strcmp( $response['institution_name'], 'Other' ) ) {
-				// delete record, if they don't have a private bc institute domain
-				if ( ! in_array( $response['email'], $this->other_bc_domains ) ) {
+				//get rid of username
+				$part = strstr( $response['email'], '@' );
+				// return everything but the @
+				$domain = substr( $part, 1 );
+				if ( ! in_array( $domain, $this->other_bc_domains ) ) {
+					// @TODO - deal with non bc responses
+					// set the variable
+					// $this->non_bc_responses[ $key ] = $this->responses[ $key ];
+					// delete record, if they don't have a private bc institute domain
 					unset( $this->responses[ $key ] );
 				}
 			}

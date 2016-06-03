@@ -87,6 +87,59 @@ class Analytics {
 	}
 
 	/**
+	 * @throws \Exception
+	 */
+	public function displayAdoptionsByVisits() {
+		$multi     = $this->data->getMultiSites();
+		$low_prob  = 0.001;
+		$high_prob = 0.002;
+		$total     = array(
+			'low'    => 0,
+			'high'   => 0,
+			'visits' => 0,
+			'count'  => count( $multi ),
+		);
+		$html      = '';
+		$range     = $this->data->getDateRange();
+
+		foreach ( $multi as $site ) {
+			$total['low']    = $total['low'] + ( $site['visits'] * $low_prob );
+			$total['high']   = $total['high'] + ( $site['visits'] * $high_prob );
+			$total['visits'] = $total['visits'] + $site['visits'];
+		}
+
+		$html .= "<hr><h2>Likely adoptions</h2><h3>Based on visits <a class='btn btn-default' type='button' tabindex='0' data-target='#likely' data-toggle='modal'
+                   title='Relative Frequency Explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><table class='table table-striped'><tbody>";
+		$html .= "<tr><td>Number of web-based books</td><td>{$total['count']}</td></tr>";
+		$html .= "<tr><td>Number of total visits to all {$total['count']} web-based books</td><td>{$total['visits']}</td></tr>";
+		$html .= "<tr><td>Number of likely adoptions in the last 4 months</td><td>{$total['low']} - {$total['high']}</td></tr>";
+		$html .= "</tbody></table>";
+		$html .= "<div class='modal fade' id='likely' tabindex='-1' role='dialog' aria-labelledby='likely'>
+                <div class='modal-dialog' role='document'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
+                                    aria-hidden='true'>&times;</span></button>
+                            <h4 class='modal-title' id='myModalLabel'>Likely adoptions based on visits</h4>
+                        </div>";
+		$html .= "<div class='modal-body'>
+                           <dl><dt>Assumptions</dt><dd>Knowing that an adoption is not possible without first downloading a file or viewing a webpage, this analysis assumes a correlation 
+                           between online activities (visits) and adoption. Since there is no way of confirming what percentage of visits translates to an actual adoption, adjusting the 
+                           probability is going to affect both the number of adoptions counted and the prediction of future adoptions. A liberal estimate is that 1 in every 500 visits <b>(0.002)</b> 
+                           translates to an adoption, and a conservative estimate is that 1 in every 1000 <b>(0.001)</b> visits translates to an adoption.</dd>
+                           <dt>Visits vs Downloads</dt><dd>Downloading a file is treated as a different measurement of a likely adoption than a 'visit' to a web-based book. 
+                           For instance, when faculty members and students access a web-based book throughout the duration of the course, the volume of tracked events will be higher than they would be with a downloaded file. 
+                           Thus, the probability is adjusted to make a more realistic estimate of how many visits translates to 1 adoption. </dd></dl>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+
+		echo $html;
+
+	}
+
+	/**
 	 * @param $num_of_books
 	 *
 	 * @throws \Exception

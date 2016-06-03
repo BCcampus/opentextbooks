@@ -134,12 +134,16 @@ class PiwikController {
 				break;
 			// opentext summary of all sites
 			case 8:
-				// need to grab the number of books in the collection
-				$books_rest_api = new Models\EquellaApi();
-				$books_data     = new Models\OtbBooks( $books_rest_api, [ 'type_of' => 'books' ] );
-				$num_of_books   = count( $books_data->getResponses() );
-				$view->displayOpenTextSummary( $num_of_books );
-
+				if ( 0 === strcmp( $this->args['type_of'], 'adoptions')){
+					$view->displayAdoptionsByVisits();
+					
+				} else {
+					// need to grab the number of books in the collection
+					$books_rest_api = new Models\EquellaApi();
+					$books_data     = new Models\OtbBooks( $books_rest_api, [ 'type_of' => 'books' ] );
+					$num_of_books   = count( $books_data->getResponses() );
+					$view->displayOpenTextSummary( $num_of_books );
+				}
 				break;
 			// single site stats
 			default:

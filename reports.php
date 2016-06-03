@@ -50,7 +50,15 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			);
 
 			new Webform\AdoptionController( $wf_args );
+			
+			$tmp = array(
+				'site_id' => 8,
+				'type_of' => 'adoptions',
+			);
+			new Analytics\PiwikController( $tmp )
+			
 			?>
+			
 
 		</div>
 
