@@ -299,7 +299,7 @@ class Analytics {
 		$html .= '<div class="panel-heading">Number of likely adoptions <a class="btn btn-default" type="button" tabindex="0" data-target="#adoptions" data-toggle="modal"
                    title="Counting Likely Adoptions Explained">What is this?</a></div><div class="panel-body">';
 		$html .= "<p>If one in every 50 downloads is likely an adoption, then <b>{$low_prob_adoption}</b> 
-adoptions have occurred.</p><p>If one in every 10 downloads is likely an adoption, then <b>{$high_prob_adoption}</b> adoptions have occurred.</p>";
+adoptions have occurred.</p><p>If one in every 10 downloads is likely an adoption, then <b>{$high_prob_adoption}</b> adoptions have occurred over the past <b>{$days}</b> days.</p>";
 		$html .= '</div></div>';
 		$html .= '</div>
     </div>
