@@ -16,6 +16,10 @@ include( OTB_DIR . 'assets/templates/partial/style.php' );
 	article.page ul, article.post ul {
 		padding: 0;
 	}
+	article.page ul.list-unstyled{
+		padding-left: 25px;
+		list-style: none;
+	}
 	#second-menu ul.nav > li > a{
 		padding: 10px 0 0 0;
 	}
@@ -97,6 +101,15 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 		</div>
 
+		<div role="tabpanel" id="subject_stats" class="tab-pane">
+
+			<?php
+			$subj_args['type_of'] = 'subject_stats';
+			new Catalogue\OtbController( $subj_args );
+			?>
+
+		</div>
+
 		<?php
 		unset( $_GET );
 		?>
@@ -106,5 +119,5 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 <?php
 include( OTB_DIR . 'assets/templates/partial/container-end.php' );
-include( OTB_DIR . 'assets/templates/partial/scripts.php' );
+include( OTB_DIR . 'assets/templates/partial/wp-scripts.php' );
 ?>

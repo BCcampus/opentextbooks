@@ -111,7 +111,7 @@ class Analytics {
 		$html .= "<hr><h2>Likely adoptions</h2><h3>Based on visits <a class='btn btn-default' type='button' tabindex='0' data-target='#likely' data-toggle='modal'
                    title='Relative Frequency Explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><table class='table table-striped'><tbody>";
 		$html .= "<tr><td>Number of web-based books</td><td>{$total['count']}</td></tr>";
-		$html .= "<tr><td>Number of total visits to all {$total['count']} web-based books</td><td>{$total['visits']}</td></tr>";
+		$html .= "<tr><td>Number of visits to all {$total['count']} web-based books</td><td>{$total['visits']}</td></tr>";
 		$html .= "<tr><td>Number of likely adoptions in the last 4 months</td><td>{$total['low']} - {$total['high']}</td></tr>";
 		$html .= "</tbody></table>";
 		$html .= "<div class='modal fade' id='likely' tabindex='-1' role='dialog' aria-labelledby='likely'>

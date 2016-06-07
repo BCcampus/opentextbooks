@@ -139,6 +139,8 @@ class OtbBooks extends Polymorphism\DataAbstract {
 	}
 
 	/**
+	 * slimmed down version of results
+	 * 
 	 * @return array
 	 */
 	public function getPrunedResults() {
@@ -179,6 +181,50 @@ class OtbBooks extends Polymorphism\DataAbstract {
 		}
 
 		return $uuids;
+	}
+
+	/**
+	 * will return how many books are in each subject area 
+	 * 
+	 * @return array
+	 */
+	public function getSubjectAreas() {
+		$subjects    = array();
+		$num_sub2    = array();
+		$unique_sub2 = array();
+
+		// collect all sub1 and sub2 elements from data
+		foreach ( $this->data as $book ) {
+			$xml  = new \SimpleXMLElement( $book['metadata'] );
+			$sub1 = $xml->xpath( 'item/subject_class_level1' );
+			$sub2 = $xml->xpath( 'item/subject_class_level2' );
+
+			foreach ( $sub2 as $obj ) {
+				$tmp = $obj->__toString();
+			}
+			$subjects[ $sub1[0]->__toString() ][] = $tmp;
+
+		}
+
+		// arrange from most books per subject to least
+		array_multisort( $subjects, SORT_DESC );
+
+		// discover the number of subject level2 books
+		foreach ( $subjects as $key => $subject ) {
+			foreach ( $subject as $sub ) {
+				$num_sub2[ $key ][ $sub ][] = 1;
+			}
+		}
+
+		// final formatting
+		foreach ( $num_sub2 as $key => $sub ) {
+			foreach ( $sub as $k => $s ) {
+				$unique_sub2[ $key ][ $k ] = count( $s );
+			}
+		}
+
+		return $unique_sub2;
+
 	}
 
 }

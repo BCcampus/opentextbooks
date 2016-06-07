@@ -40,7 +40,7 @@ class StatsBooks {
 		foreach ( $tmp as $uuid => $name ) {
 			$html .= '<tr>';
 			$html .= "<td><a href='https://open.bccampus.ca/find-open-textbooks/?uuid={$uuid}' target='_blank'><i class='glyphicon glyphicon-book'></i></a> — {$name}</td>";
-			$html .= "<td><a href='".OTB_URL."analytics.php?uuid={$uuid}&view=single'><i class='glyphicon glyphicon-stats'></i></a></td>";
+			$html .= "<td><a href='" . OTB_URL . "analytics.php?uuid={$uuid}&view=single'><i class='glyphicon glyphicon-stats'></i></a></td>";
 			$html .= '</tr>';
 
 		}
@@ -48,6 +48,9 @@ class StatsBooks {
 		echo $html;
 	}
 
+	/**
+	 * 
+	 */
 	public function displayStatsUuid() {
 		$book        = $this->books->getPrunedResults();
 		$today       = time();
@@ -59,6 +62,38 @@ class StatsBooks {
 		$html .= "<h6>Days online: {$days_online}</h6>";
 
 		echo $html;
+	}
+
+	/**
+	 * 
+	 */
+	public function displaySubjectStats() {
+		$html       = '';
+		$cumulative = 0;
+		$base_url   = 'https://open.bccampus.ca/find-open-textbooks/?subject=';
+		$num_sub1   = count( $this->books->getSubjectAreas() );
+		$num_sub2   = 0;
+
+		foreach ( $this->books->getSubjectAreas() as $key => $val ) {
+			$total    = 0;
+			$second   = '';
+			$num_sub2 = $num_sub2 + count( $val );
+
+			foreach ( $val as $k => $sub2 ) {
+				$url = $base_url . \BCcampus\Utility\url_encode( $k );
+				$second .= "<li><a href='{$url}'>{$k}</a>: {$sub2}</li>";
+				$total = $total + intval( $sub2 );
+
+			}
+			$cumulative = $cumulative + $total;
+
+			$first = "<h4>{$key} ({$total})</h4>";
+			$html .= $first . '<ul class="list-unstyled">' . $second . '</ul>';
+
+		}
+
+		echo "<h2>Summary</h2><h4>Number of books in the collection: {$cumulative}</h4><h4>Number of main subject areas: {$num_sub1}</h4><h4>Number of secondary subject areas: {$num_sub2}</h4><hr>" . $html;
+
 	}
 
 
