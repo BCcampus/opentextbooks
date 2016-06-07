@@ -55,12 +55,19 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 			new Webform\AdoptionController( $wf_args );
 			
-			$tmp = array(
+			$adoptions_v = array(
 				'site_id' => 8,
-				'type_of' => 'adoptions',
+				'type_of' => 'adoptions-v',
 			);
-			new Analytics\PiwikController( $tmp )
+			new Analytics\PiwikController( $adoptions_v );
+
+			$adoptions_d = array(
+				'site_id' => 8,
+				'type_of' => 'adoptions-d',
+			);
 			
+			new Analytics\PiwikController( $adoptions_d );
+
 			?>
 			
 

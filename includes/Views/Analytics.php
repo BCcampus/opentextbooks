@@ -91,8 +91,8 @@ class Analytics {
 	 */
 	public function displayAdoptionsByVisits() {
 		$multi     = $this->data->getMultiSites();
-		$low_prob  = 0.001;
-		$high_prob = 0.002;
+		$low_prob  = 0.0006; // 1 out of every 1500
+		$high_prob = 0.002; // 1 out of every 500
 		$total     = array(
 			'low'    => 0,
 			'high'   => 0,
@@ -101,20 +101,28 @@ class Analytics {
 		);
 		$html      = '';
 		$range     = $this->data->getDateRange();
+		$days      = round( ( time() - strtotime( $range['start'] ) ) / 84600, 2 );
 
 		foreach ( $multi as $site ) {
-			$total['low']    = $total['low'] + ( $site['visits'] * $low_prob );
-			$total['high']   = $total['high'] + ( $site['visits'] * $high_prob );
+			$total['low']    = round( $total['low'] + ( $site['visits'] * $low_prob ) );
+			$total['high']   = round( $total['high'] + ( $site['visits'] * $high_prob ) );
 			$total['visits'] = $total['visits'] + $site['visits'];
 		}
 
+		// Predictions
+		$freq_of_visits   = round( $total['visits'] / $days, 2 );
+		$low_prob_future  = ( 0 == $freq_of_visits ) ? 0 : 24 * ( round( 1500 / $freq_of_visits, 2 ) );
+		$high_prob_future = ( 0 == $freq_of_visits ) ? 0 : 24 * ( round( 500 / $freq_of_visits, 2 ) );
+
 		$html .= "<hr><h2>Likely adoptions</h2><h3>Based on visits <a class='btn btn-default' type='button' tabindex='0' data-target='#likely' data-toggle='modal'
-                   title='Relative Frequency Explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><table class='table table-striped'><tbody>";
+                   title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><table class='table table-striped'><tbody>";
 		$html .= "<tr><td>Number of web-based books</td><td>{$total['count']}</td></tr>";
 		$html .= "<tr><td>Number of visits to all {$total['count']} web-based books</td><td>{$total['visits']}</td></tr>";
 		$html .= "<tr><td>Number of likely adoptions in the last 4 months</td><td>{$total['low']} - {$total['high']}</td></tr>";
+		$html .= "<tr><td>Predictions</td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
+
 		$html .= "</tbody></table>";
-		$html .= "<div class='modal fade' id='likely' tabindex='-1' role='dialog' aria-labelledby='likely'>
+		$html .= "<div class='modal fade' id='likely' tabindex='-1' role='dialog' aria-labelledby='likely'>	
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>
                         <div class='modal-header'>
@@ -126,7 +134,7 @@ class Analytics {
                            <dl><dt>Assumptions</dt><dd>Knowing that an adoption is not possible without first downloading a file or viewing a webpage, this analysis assumes a correlation 
                            between online activities (visits) and adoption. Since there is no way of confirming what percentage of visits translates to an actual adoption, adjusting the 
                            probability is going to affect both the number of adoptions counted and the prediction of future adoptions. A liberal estimate is that 1 in every 500 visits <b>(0.002)</b> 
-                           translates to an adoption, and a conservative estimate is that 1 in every 1000 <b>(0.001)</b> visits translates to an adoption.</dd>
+                           translates to an adoption, and a conservative estimate is that 1 in every 1500 <b>(0.0006)</b> visits translates to an adoption.</dd>
                            <dt>Visits vs Downloads</dt><dd>Downloading a file is treated as a different measurement of a likely adoption than a 'visit' to a web-based book. 
                            For instance, when faculty members and students access a web-based book throughout the duration of the course, the volume of tracked events will be higher than they would be with a downloaded file. 
                            Thus, the probability is adjusted to make a more realistic estimate of how many visits translates to 1 adoption. </dd></dl>
@@ -137,6 +145,59 @@ class Analytics {
 
 		echo $html;
 
+	}
+
+	/**
+	 *
+	 */
+	public function displayAdoptionsByDownloads() {
+		$html       = '';
+		$cumulative = 0;
+		$num_books  = count( $this->data->getNumDownloads() );
+		$range      = $this->data->getDateRange();
+		$days       = round( ( time() - strtotime( $range['start'] ) ) / 84600, 2 );
+		foreach ( $this->data->getNumDownloads() as $download ) {
+			$cumulative = $cumulative + $download;
+		}
+
+		// Prediction
+		$freq_of_downloads  = round( $cumulative / $days, 2 );
+		$low_prob_adoption  = round( 0.02 * $cumulative );
+		$high_prob_adoption = round( 0.1 * $cumulative );
+		$low_prob_future    = ( 0 == $freq_of_downloads ) ? 0 : 24 * ( round( 50 / $freq_of_downloads, 2 ) );
+		$high_prob_future   = ( 0 == $freq_of_downloads ) ? 0 : 24 * ( round( 10 / $freq_of_downloads, 2 ) );
+
+		$html .= "<h3>Based on downloads <a class='btn btn-default' type='button' tabindex='0' data-target='#likely-downloads' data-toggle='modal'
+                   title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><h5>Site: opentextbc.ca</h5><table class='table table-striped'><tbody>";
+		$html .= "<tr><td>Number of books</td><td>{$num_books}</td></tr>";
+		$html .= "<tr><td>Number of downloads of all {$num_books} books</td><td>{$cumulative}</td></tr>";
+		$html .= "<tr><td>Number of likely adoptions in the last 4 months</td><td>{$low_prob_adoption} - {$high_prob_adoption}</td></tr>";
+		$html .= "<tr><td>Predictions</td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
+
+		$html .= "</tbody></table>";
+		$html .= "<div class='modal fade' id='likely-downloads' tabindex='-1' role='dialog' aria-labelledby='likely-downloads'>
+                <div class='modal-dialog' role='document'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
+                                    aria-hidden='true'>&times;</span></button>
+                            <h4 class='modal-title' id='myModalLabel'>Likely adoptions based on downloads</h4>
+                        </div>";
+		$html .= "<div class='modal-body'>
+                           <dl><dt>Assumptions</dt><dd>Knowing that an adoption is not possible without first downloading a file or viewing a webpage, this analysis assumes a correlation 
+                           between online activities (downloads) and adoption. Since there is no way of confirming what percentage of downloads translates to an actual adoption, adjusting the 
+                           probability is going to affect both the number of adoptions counted and the prediction of future adoptions. A liberal estimate is that 1 in every 10 downloads <b>(0.01)</b> 
+                           translates to an adoption, and a conservative estimate is that 1 in every 50 <b>(0.02)</b> downloads translates to an adoption.</dd>
+                           <dt>Visits vs Downloads</dt><dd>Downloading a file is treated as a different measurement of a likely adoption than a 'visit' to a web-based book. 
+                           For instance, a faculty member can download a file once (which is tracked) then make it available to their class through an LMS (not tracked). 
+                           Conversely, a faculty member can download the file once then instruct their class to download the same file from the same location, in which case all 
+                           35 students downloading the file will trigger a tracked event. In both scenarios, downloading a file has less tracked events than visiting a website.</dd></dl>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+
+		echo $html;
 	}
 
 	/**
@@ -199,9 +260,7 @@ class Analytics {
 	 * @param array $book_data
 	 */
 	public function displayOpenSingleBook( $uuid, $range_start, array $book_data ) {
-		$end_day   = date( 'Y-m-d', time() );
-		$start_day = $range_start;
-		$days      = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
+		$days = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
 
 		$segment           = 'outlinkUrl%3D@solr.bccampus.ca%3A8001';
 		$outlinks_resource = array();
@@ -252,9 +311,7 @@ class Analytics {
 	}
 
 	public function displaySingleSite( $range_start ) {
-		$end_day   = date( 'Y-m-d', time() );
-		$start_day = $range_start;
-		$days      = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
+		$days = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
 
 		$downloads = $this->data->getEventName();
 		$html      = '<h1>opentextbc.ca</h1><table class="table table-striped">';
@@ -381,7 +438,7 @@ adoptions have occurred.</p><p>If one in every 10 downloads is likely an adoptio
                     </div>
                 </div>
             </div>";
-		$html .= '<h4>1 every ' . $low_prob_future . ' days - 1 every ' . $high_prob_future . ' days</h4>
+		$html .= '<h4>1 every ' . $high_prob_future . ' - ' . $low_prob_future . ' days</h4>
       <div class="caption">';
 		$html .= '<div class="panel panel-info">';
 		$html .= '<div class="panel-heading">Future Adoptions <a class="btn btn-default" type="button" tabindex="0" data-target="#future" data-toggle="modal"
