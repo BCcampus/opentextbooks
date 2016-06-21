@@ -115,7 +115,7 @@ class Analytics {
 		$high_prob_future = ( 0 == $freq_of_visits ) ? 0 : 24 * ( round( 500 / $freq_of_visits, 2 ) );
 
 		$html .= "<hr><h2>Likely adoptions</h2><h3>Based on visits <a class='btn btn-default' type='button' tabindex='0' data-target='#likely' data-toggle='modal'
-                   title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><table class='table table-striped'><tbody>";
+                   title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><h5>Site: opentextbc.ca</h5><table class='table table-striped'><tbody>";
 		$html .= "<tr><td>Number of web-based books</td><td>{$total['count']}</td></tr>";
 		$html .= "<tr><td>Number of visits to all {$total['count']} web-based books</td><td>{$total['visits']}</td></tr>";
 		$html .= "<tr><td>Number of likely adoptions in the last 4 months</td><td>{$total['low']} - {$total['high']}</td></tr>";

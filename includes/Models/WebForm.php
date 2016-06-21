@@ -437,7 +437,9 @@ class WebForm extends Polymorphism\DataAbstract {
 
 		// count the new ones only
 		foreach ( $this->responses as $response ) {
-			$tmp[ $response['institution_name'] ] = $tmp[ $response['institution_name'] ] + 1;
+			if ( !empty( $response['institution_name'] ) ) {
+				$tmp[ $response['institution_name'] ] = $tmp[ $response['institution_name'] ] + 1;
+			}
 		}
 
 		// each institution counts as one, except 'other'
@@ -514,7 +516,9 @@ class WebForm extends Polymorphism\DataAbstract {
 
 		// count the new ones only
 		foreach ( $this->responses as $response ) {
-			$tmp[ $response['institution_name'] ] = $tmp[ $response['institution_name'] ] + 1;
+			if ( !empty( $response['institution_name'] ) ) {
+				$tmp[ $response['institution_name'] ] = $tmp[ $response['institution_name'] ] + 1;
+			}
 		}
 
 		array_multisort( $tmp, SORT_DESC, SORT_NUMERIC );
