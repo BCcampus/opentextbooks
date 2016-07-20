@@ -178,10 +178,16 @@ class OtbReviews extends Polymorphism\DataAbstract {
 	 *
 	 */
 	private function apiRequest() {
-		$env                = include( OTB_DIR . '.env.php' );
-		$this->sessionKey   = $this->limeSurveyApi->get_session_key( $env['limesurvey']['LS_USER'], $env['limesurvey']['LS_PWD'] );
-		$this->responsesCSV = base64_decode( $this->limeSurveyApi->export_responses( $this->sessionKey, $this->options['survey_id'], 'csv', 'en', 'complete' ) );
-		$this->saveResponsesTmp();
+		$env              = include( OTB_DIR . '.env.php' );
+		$this->sessionKey = $this->limeSurveyApi->get_session_key( $env['limesurvey']['LS_USER'], $env['limesurvey']['LS_PWD'] );
+
+		// check for a string, array is returned if uname/pswd not valid
+		if ( is_string( $this->sessionKey ) ) {
+			$this->responsesCSV = base64_decode( $this->limeSurveyApi->export_responses( $this->sessionKey, $this->options['survey_id'], 'csv', 'en', 'complete' ) );
+			$this->saveResponsesTmp();
+		} else {
+			throw new \Exception( 'Invalid user name or password' );
+		}
 	}
 
 	/**

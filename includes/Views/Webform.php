@@ -41,14 +41,15 @@ class Webform {
 		$limit    = 5;
 		$top_inst = $this->data->getTopInstitutions( $limit );
 		$top      = \BCcampus\Utility\array_to_csv( $top_inst );
+		$this_year = date('Y', time());
 
-		$html .= '<h2>Known Open Textbook Adoptions in B.C.</h2><table class="table table-striped"><tbody>';
+		$html .= "<h2>Known adoptions in B.C.</h2><h4>Date range: 2012 - {$this_year}</h4><table class='table table-striped'><tbody>";
 		$html .= "<tr><td>Student savings</td><td>{$low} - {$high}</td></tr>";
-		$html .= "<tr><td>Number of students using open textbooks</td><td>{$this->data->getNumStudents()}</td></tr>";
-		$html .= "<tr><td>Number of institutions currently adopting</td><td>{$this->data->getNumInstitutions()}</td></tr>";
+		$html .= "<tr><td>Number of B.C. students using open textbooks</td><td>{$this->data->getNumStudents()}</td></tr>";
+		$html .= "<tr><td>Number of B.C. institutions currently adopting</td><td>{$this->data->getNumInstitutions()}</td></tr>";
 		$html .= "<tr><td>Top {$limit} adopting institutions (in order)</td><td>{$top}</td></tr>";
-		$html .= "<tr><td>Number of known faculty adopting</td><td>{$this->data->getNumFaculty()}</td></tr>";
-		$html .= "<tr><td>Number of known adoptions</td><td>{$this->data->getTotalAdoptions()}</td></tr>";
+		$html .= "<tr><td>Number of known B.C. faculty adopting</td><td>{$this->data->getNumFaculty()}</td></tr>";
+		$html .= "<tr><td>Number of known B.C. adoptions</td><td>{$this->data->getTotalAdoptions()}</td></tr>";
 		$html .= "</tbody></table>";
 
 		$html .= '<dl class="dl-horizontal">';
@@ -78,7 +79,6 @@ class Webform {
 		$html .= "<li><span class='bcc-main-text'>Participating Institutions: <b>" . $this->data->getNumInstitutions() . "</b></span></li>";
 
 		$html .= "</ul></div>";
-
 
 		echo $html;
 	}

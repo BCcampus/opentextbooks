@@ -165,6 +165,40 @@ class Piwik extends Polymorphism\DataAbstract {
 		return $multi_array;
 	}
 
+	/**
+	 * fetches all download events from each site
+	 *
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getNumDownloads() {
+		$results   = array();
+		$serialize = true;
+		$file_name = 'getnumdownloads';
+		$file_type = $this->type;
+
+		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );
+
+		if ( $persistent_data ) {
+			$results = $persistent_data->load();
+
+		} else {
+			// this works, but takes time to process
+			foreach ( $this->getMultiSites() as $site ) {
+				$total = 0;
+				$this->piwik_api->setSiteId( $site['id'] );
+				$tmp = $this->getEventName( $site['id'] );
+
+				foreach ( $tmp as $obj ) {
+					$total = $total + $obj->nb_events;
+				}
+				$results[ $site['id'] ] = $total;
+			}
+			$this->saveToStorage( $this->location, $file_name, $file_type, $results, $serialize );
+		}
+
+		return $results;
+	}
 
 	/**
 	 * @return array
@@ -219,11 +253,13 @@ class Piwik extends Polymorphism\DataAbstract {
 	}
 
 	/**
+	 * @param string $uid
+	 *
 	 * @return array|obj|bool|string|void
 	 */
-	public function getEventName() {
+	public function getEventName( $uid = '' ) {
 		$serialize = true;
-		$file_name = $this->uid . 'geteventname';
+		$file_name = ( empty( $uid ) ) ? $this->uid . 'geteventname' : $uid . 'geteventname';
 		$file_type = $this->type;
 
 		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );

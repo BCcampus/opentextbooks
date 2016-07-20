@@ -42,7 +42,7 @@ class OtbController {
 	/**
 	 * @var array
 	 */
-	private $expected = [ 'books', 'book_stats' ];
+	private $expected = [ 'books', 'book_stats', 'subject_stats' ];
 
 	/**
 	 * OtbController constructor.
@@ -128,7 +128,7 @@ class OtbController {
 		if ( in_array( $this->args['type_of'], $this->expected ) ) {
 			$this->decider();
 		} else {
-			return '';
+			return new Views\Errors( [ 'msg' => 'Whoops! Looks like you need to pass an expected parameter. Love ya!' ] );
 		}
 	}
 
@@ -149,8 +149,8 @@ class OtbController {
 
 				switch ( $this->args['lists'] ) {
 					case 'titles':
-						$env = include( OTB_DIR . '.env.php');
-						$rpc_client = new Models\LimeSurveyApi( $env['limesurvey']['LS_URL']);
+						$env        = include( OTB_DIR . '.env.php' );
+						$rpc_client = new Models\LimeSurveyApi( $env['limesurvey']['LS_URL'] );
 						$reviews    = new Models\OtbReviews( $rpc_client, $this->args );
 
 						$view->displayContactFormTitles( $reviews->getNumReviewsPerBook() );
@@ -185,6 +185,11 @@ class OtbController {
 			}
 
 
+		}
+
+		if ( $this->args['type_of'] == 'subject_stats' ) {
+			$view = new Views\StatsBooks( $data );
+			$view->displaySubjectStats();
 		}
 
 	}

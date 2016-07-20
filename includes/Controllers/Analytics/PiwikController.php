@@ -95,10 +95,10 @@ class PiwikController {
 		}
 
 		// configure date range
-		$time_string = "-{$this->args['range']} months";
-		$t = strtotime( $time_string );
+		$time_string               = "-{$this->args['range']} months";
+		$t                         = strtotime( $time_string );
 		$this->args['range_start'] = date( 'Y-m-d', $t );
-		$this->args['range_end'] = date( 'Y-m-d', time() );
+		$this->args['range_end']   = date( 'Y-m-d', time() );
 
 		$this->decider();
 
@@ -134,12 +134,20 @@ class PiwikController {
 				break;
 			// opentext summary of all sites
 			case 8:
-				// need to grab the number of books in the collection
-				$books_rest_api = new Models\EquellaApi();
-				$books_data     = new Models\OtbBooks( $books_rest_api, [ 'type_of' => 'books' ] );
-				$num_of_books   = count( $books_data->getResponses() );
-				$view->displayOpenTextSummary( $num_of_books );
+				// likely adoptions by visit
+				if ( 0 === strcmp( $this->args['type_of'], 'adoptions-v' ) ) {
+					$view->displayAdoptionsByVisits();
 
+				} elseif ( 0 === strcmp( $this->args['type_of'], 'adoptions-d' ) ) {
+						$view->displayAdoptionsByDownloads();
+					
+				} else {
+					// need to grab the number of books in the collection
+					$books_rest_api = new Models\EquellaApi();
+					$books_data     = new Models\OtbBooks( $books_rest_api, [ 'type_of' => 'books' ] );
+					$num_of_books   = count( $books_data->getResponses() );
+					$view->displayOpenTextSummary( $num_of_books );
+				}
 				break;
 			// single site stats
 			default:
@@ -148,4 +156,4 @@ class PiwikController {
 		}
 
 	}
-}
+	}

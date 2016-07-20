@@ -51,11 +51,6 @@ class LimeSurveyController
     protected $args = array();
 
     /**
-     * @var string
-     */
-    private $ls_base_url = 'https://survey.bccampus.ca/admin/remotecontrol';
-
-    /**
      * Filter user input, limited to the variables we control
      * Evaluate what model/view to invoke based on arguments passed to it
      *
@@ -117,7 +112,8 @@ class LimeSurveyController
      */
     protected function decider()
     {
-        $rpc_client = new Models\LimeSurveyApi($this->ls_base_url);
+        $env                  = include( OTB_DIR . '.env.php' );
+        $rpc_client = new Models\LimeSurveyApi($env['limesurvey']['LS_URL']);
         $data = new Models\OtbReviews($rpc_client, $this->args);
 
         switch ($this->args['type_of']) {

@@ -233,7 +233,7 @@ class StatsBookReviews
      *
      * @param array $response
      */
-    private function setAvgAndTotal(array $response)
+    private function setAvgAndTotal( $response )
     {
 
         foreach ($response as $val) {
