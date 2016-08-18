@@ -16,14 +16,17 @@ include( OTB_DIR . 'assets/templates/partial/style.php' );
 	article.page ul, article.post ul {
 		padding: 0;
 	}
-	article.page ul.list-unstyled{
+
+	article.page ul.list-unstyled {
 		padding-left: 25px;
 		list-style: none;
 	}
-	#second-menu ul.nav > li > a{
+
+	#second-menu ul.nav > li > a {
 		padding: 10px 0 0 0;
 	}
-	.post_content{
+
+	.post_content {
 		padding-top: 0px;
 	}
 </style>
@@ -45,7 +48,8 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 	<div class="tab-content">
 
 		<div role="tabpanel" id="webform_stats" class="tab-pane active">
-			<img src="<?php echo OTB_URL ?>assets/images/webform.png" class="pull-right img-responsive img-rounded" alt="webform" />
+			<img src="<?php echo OTB_URL ?>assets/images/webform.png" class="pull-right img-responsive img-rounded"
+			     alt="webform"/>
 
 			<?php
 
@@ -54,7 +58,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			);
 
 			new Webform\AdoptionController( $wf_args );
-			
+
 			$adoptions_v = array(
 				'site_id' => 8,
 				'type_of' => 'adoptions-v',
@@ -65,16 +69,17 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 				'site_id' => 8,
 				'type_of' => 'adoptions-d',
 			);
-			
+
 			new Analytics\PiwikController( $adoptions_d );
 
 			?>
-			
+
 
 		</div>
 
 		<div role="tabpanel" id="opentext_stats" class="tab-pane">
-			<img src="<?php echo OTB_URL ?>assets/images/opentext.png" class="pull-right img-responsive img-rounded" alt="open text bc site"/>
+			<img src="<?php echo OTB_URL ?>assets/images/opentext.png" class="pull-right img-responsive img-rounded"
+			     alt="open text bc site"/>
 
 			<?php
 
@@ -87,7 +92,8 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 		</div>
 
 		<div role="tabpanel" id="open_stats" class="tab-pane">
-			<img src="<?php echo OTB_URL ?>assets/images/open.png" class="pull-right img-responsive img-rounded" alt="open site"/>
+			<img src="<?php echo OTB_URL ?>assets/images/open.png" class="pull-right img-responsive img-rounded"
+			     alt="open site"/>
 			<?php
 			$open_args = array(
 				'site_id' => 12,
@@ -99,7 +105,8 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 		</div>
 
 		<div role="tabpanel" id="review_stats" class="tab-pane">
-			<img src="<?php echo OTB_URL ?>assets/images/reviews.png" class="pull-right img-responsive img-rounded" alt="lime survey site" />
+			<img src="<?php echo OTB_URL ?>assets/images/reviews.png" class="pull-right img-responsive img-rounded"
+			     alt="lime survey site"/>
 
 			<?php
 			$ls_args['type_of'] = 'review_stats';
