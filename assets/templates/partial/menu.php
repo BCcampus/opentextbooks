@@ -62,6 +62,7 @@
                     <li><a href="?subject=Biology">Biology</a></li>
                     <li><a href="?subject=Chemistry">Chemistry</a></li>
                     <li><a href="?subject=Computer Science">Computer Sci</a></li>
+                    <li><a href="?subject=Geography">Geography</a></li>
                     <li><a href="?subject=Earth, Ocean %26 Atmospheric Science">Earth Sciences</a></li>
                     <li><a href="?subject=Kinetics %26 Kinesiology">Kinetics & Kinesiology</a></li>
                     <li><a href="?subject=Math/Statistics">Math/Stats</a></li>
@@ -75,7 +76,6 @@
             <div id="collapseSocialSciences" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Anthropology">Anthropology</a></li>
-                    <li><a href="?subject=Geography">Geography</a></li>
                     <li><a href="?subject=Political Science">Political Science</a></li>
                     <li><a href="?subject=Psychology">Psychology</a></li>
                     <li><a href="?subject=Sociology">Sociology</a></li>
