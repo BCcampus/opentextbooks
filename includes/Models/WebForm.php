@@ -80,7 +80,6 @@ class WebForm extends Polymorphism\DataAbstract {
 		"Emily Carr University of Art and Design"                => 0,
 		"Fairleigh Dickinson University"                         => 0,
 		"Fraser International College"                           => 0,
-		"Institute of Indigenous Government"                     => 0,
 		"Justice Institute of B.C."                              => 40,
 		"Kwantlen Polytechnic University"                        => 115,
 		"Langara College"                                        => 56,
