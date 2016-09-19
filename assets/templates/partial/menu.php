@@ -39,6 +39,7 @@
             <div id="collapseHealth" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Health/Medical - General">Health/Medical - General</a></li>
+                    <li><a href="?subject=Home Support/Resident Care Related">Home Support/Resident Care</a></li>
                     <li><a href="?subject=Pharmacy/Pharmacology Related">Pharmacy/Pharmacology</a></li>
                     <li><a href="?subject=Psychiatric/Mental Health Nursing">Psychiatric/Mental Health</a></li>
                 </ul>
@@ -76,6 +77,7 @@
             <div id="collapseSocialSciences" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Anthropology">Anthropology</a></li>
+                    <li><a href="?subject=Criminology">Criminology</a></li>
                     <li><a href="?subject=Political Science">Political Science</a></li>
                     <li><a href="?subject=Psychology">Psychology</a></li>
                     <li><a href="?subject=Sociology">Sociology</a></li>
