@@ -133,5 +133,5 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 <?php
 include( OTB_DIR . 'assets/templates/partial/container-end.php' );
-include( OTB_DIR . 'assets/templates/partial/wp-scripts.php' );
+include( OTB_DIR . 'assets/templates/partial/scripts.php' );
 ?>

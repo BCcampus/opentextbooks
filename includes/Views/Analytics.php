@@ -87,9 +87,9 @@ class Analytics {
 	}
 
 	/**
-	 * @throws \Exception
+	 * @param $num_of_books
 	 */
-	public function displayAdoptionsByVisits() {
+	public function displayAdoptionsByVisits( $num_of_books ) {
 		$multi     = $this->data->getMultiSites();
 		$low_prob  = 0.0006; // 1 out of every 1500
 		$high_prob = 0.002; // 1 out of every 500
@@ -116,10 +116,11 @@ class Analytics {
 
 		$html .= "<hr><h2>Likely adoptions</h2><h3>Based on visits <a class='btn btn-default' type='button' tabindex='0' data-target='#likely' data-toggle='modal'
                    title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><h5>Site: opentextbc.ca</h5><table class='table table-striped'><tbody>";
-		$html .= "<tr><td>Number of web-based books</td><td>{$total['count']}</td></tr>";
-		$html .= "<tr><td>Number of visits to all {$total['count']} web-based books</td><td>{$total['visits']}</td></tr>";
-		$html .= "<tr><td>Number of likely adoptions in the last 4 months</td><td>{$total['low']} - {$total['high']}</td></tr>";
-		$html .= "<tr><td>Predictions</td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
+		$html .= "<tr><td>Number of books in the collection</td><td>{$num_of_books}</td></tr>";
+		$html .= "<tr><td>Number of web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$total['count']}</td></tr>";
+		$html .= "<tr><td>Number of visits to all {$total['count']} web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$total['visits']}</td></tr>";
+		$html .= "<tr><td>Number of likely adoptions in the last 4 months <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$total['low']} - {$total['high']}</td></tr>";
+		$html .= "<tr><td>Predictions <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
 
 		$html .= "</tbody></table>";
 		$html .= "<div class='modal fade' id='likely' tabindex='-1' role='dialog' aria-labelledby='likely'>	
@@ -148,9 +149,9 @@ class Analytics {
 	}
 
 	/**
-	 *
+	 * @param $num_of_books
 	 */
-	public function displayAdoptionsByDownloads() {
+	public function displayAdoptionsByDownloads( $num_of_books ) {
 		$html       = '';
 		$cumulative = 0;
 		$num_books  = count( $this->data->getNumDownloads() );
@@ -169,10 +170,11 @@ class Analytics {
 
 		$html .= "<h3>Based on downloads <a class='btn btn-default' type='button' tabindex='0' data-target='#likely-downloads' data-toggle='modal'
                    title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><h5>Site: opentextbc.ca</h5><table class='table table-striped'><tbody>";
-		$html .= "<tr><td>Number of books</td><td>{$num_books}</td></tr>";
-		$html .= "<tr><td>Number of downloads of all {$num_books} books</td><td>{$cumulative}</td></tr>";
-		$html .= "<tr><td>Number of likely adoptions in the last 4 months</td><td>{$low_prob_adoption} - {$high_prob_adoption}</td></tr>";
-		$html .= "<tr><td>Predictions</td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
+		$html .= "<tr><td>Number of books in the collection</td><td>{$num_of_books}</td></tr>";
+		$html .= "<tr><td>Number of web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></i></a></small></td><td>{$num_books}</td></tr>";
+		$html .= "<tr><td>Number of downloads of all {$num_books} web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$cumulative}</td></tr>";
+		$html .= "<tr><td>Number of likely adoptions in the last 4 months <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$low_prob_adoption} - {$high_prob_adoption}</td></tr>";
+		$html .= "<tr><td>Predictions <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
 
 		$html .= "</tbody></table>";
 		$html .= "<div class='modal fade' id='likely-downloads' tabindex='-1' role='dialog' aria-labelledby='likely-downloads'>
