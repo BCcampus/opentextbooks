@@ -192,7 +192,6 @@ class OtbBooks extends Polymorphism\DataAbstract {
 		$subjects    = array();
 		$num_sub2    = array();
 		$unique_sub2 = array();
-		$unique = array();
 
 		// collect all sub1 and sub2 elements from data
 		foreach ( $this->data as $book ) {
