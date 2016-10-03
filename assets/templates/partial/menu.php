@@ -89,8 +89,9 @@
                                              href="#collapseTrades">Trades</a></li>
             <div id="collapseTrades" class="accordion-body collapse">
                 <ul>
-                    <li><a href="?subject=Professional Cook">Professional Cook</a></li>
                     <li><a href="?subject=Common Core">Common Core</a></li>
+                    <li><a href="?subject=Pipe Trades">Pipe Trades</a></li>
+                    <li><a href="?subject=Professional Cook">Professional Cook</a></li>
                 </ul>
             </div>
         </div>
