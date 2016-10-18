@@ -95,7 +95,6 @@ class Books
                 $html .= $sources . "</p>";
             }
 
-            $html .= "<p><strong>Notifications: </strong><a href='stay-informed'>Stay informed about updates to this textbook <i class='glyphicon glyphicon-envelope'></i></a></p>";
             $html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
             $html .= "<p><strong>Further Adaptations: </strong><a href='/contact'>Contact us about adapting this book <i class='glyphicon glyphicon-book'></i></a></p>";
             $html .= "<h3>Open Textbook(s):</h3><ol>";
@@ -157,7 +156,6 @@ class Books
                     $html .= $sources . "</p>";
                 }
 
-                $html .= "<p><strong>Notifications: </strong><a href='stay-informed'>Stay informed about updates to this textbook <i class='glyphicon glyphicon-envelope'></i></a></p>";
                 $html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
                 $html .= "<p><strong>Further Adaptations: </strong><a href='/contact'>Contact us about adapting this book <i class='glyphicon glyphicon-book'></i></a></p>";
                 $html .= "<h3>Open Textbook(s):</h3><ol>";
