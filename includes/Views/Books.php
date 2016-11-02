@@ -96,7 +96,7 @@ class Books
             }
 
             $html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
-            $html .= "<p><strong>Further Adaptations: </strong><a href='/contact'>Contact us about adapting this book <i class='glyphicon glyphicon-book'></i></a></p>";
+            $html .= "<p><strong>Adaptations: </strong><a href='https://open.bccampus.ca/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook<i class='glyphicon glyphicon-book'></i></a></p>";
             $html .= "<h3>Open Textbook(s):</h3><ol>";
 
             $attachments = $this->reOrderAttachments($data['attachments']);
@@ -157,7 +157,7 @@ class Books
                 }
 
                 $html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
-                $html .= "<p><strong>Further Adaptations: </strong><a href='/contact'>Contact us about adapting this book <i class='glyphicon glyphicon-book'></i></a></p>";
+                $html .= "<p><strong>Adaptations: </strong><a href=' https://open.bccampus.ca/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook <i class='glyphicon glyphicon-book'></i></a></p>";
                 $html .= "<h3>Open Textbook(s):</h3><ol>";
 
                 $attachments = $this->reOrderAttachments($value['attachments']);
