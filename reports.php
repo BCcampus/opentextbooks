@@ -63,14 +63,14 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 				'site_id' => 8,
 				'type_of' => 'adoptions-v',
 			);
-			new Analytics\PiwikController( $adoptions_v );
+			//new Analytics\PiwikController( $adoptions_v );
 
 			$adoptions_d = array(
 				'site_id' => 8,
 				'type_of' => 'adoptions-d',
 			);
 
-			new Analytics\PiwikController( $adoptions_d );
+			//new Analytics\PiwikController( $adoptions_d );
 
 			?>
 
