@@ -101,10 +101,10 @@
             <div id="collapseUpgrading" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Academic/Basic Upgrading">Academic/Basic Upgrading</a></li>
-                    <!--							<li><a href="?subject=Adult Special Education">Adult Special Education</a></li>
-                                                <li><a href="?subject=Employment Preparation">Employment Preparation</a></li>
-                                                <li><a href="?subject=English as a Second Language">English as a Second Language</a></li>
-                                                <li><a href="?subject=Trades/Technology Access & Bridging">Trades/Technology Access & Bridging</a></li>-->
+                    <li><a href="?subject=English as a Second Language">English as a Second Language</a></li>
+                    <!-- <li><a href="?subject=Adult Special Education">Adult Special Education</a></li>
+                         <li><a href="?subject=Employment Preparation">Employment Preparation</a></li>
+                         <li><a href="?subject=Trades/Technology Access & Bridging">Trades/Technology Access & Bridging</a></li> -->
                 </ul>
             </div>
         </div>
