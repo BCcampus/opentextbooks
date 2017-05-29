@@ -18,9 +18,34 @@ use BCcampus\OpenTextBooks\Polymorphism;
 
 
 class DspaceApi implements Polymorphism\RestInterface {
+	private $apiBaseUrl = '';
+	private $collectionUuid = '';
+	private $url = '';
 
 	function retrieve( $args ) {
-		// TODO: Implement retrieve() method.
+		$env                  = include( OTB_DIR . '.env.php' );
+		$opts                 = array(
+			'http'   => 'GET',
+			'header' => 'Accept: application/json',
+		);
+		$context              = stream_context_create( $opts );
+		$this->apiBaseUrl     = $env['dspace']['SITE_URL'];
+		$this->collectionUuid = $env['dspace']['UUID'];
+
+		// nothing can happen without a collection
+		if ( empty( $args['collectionUuid'] ) ) {
+			$args['collectionUuid'] = $this->collectionUuid;
+		}
+
+		// one item
+		if ( ! empty( $args['uuid'] ) ) {
+			$this->url = $this->apiBaseUrl . 'items/' . $args['uuid'] . '?expand=all';
+			$result    = json_decode( file_get_contents( $this->url ), true, $context );
+		} else {
+			// TODO: implement many items
+		}
+
+		return $result;
 	}
 
 	function create() {
