@@ -23,29 +23,50 @@ class DspaceApi implements Polymorphism\RestInterface {
 	private $url = '';
 
 	function retrieve( $args ) {
-		$env                  = include( OTB_DIR . '.env.php' );
-		$opts                 = array(
+		$env            = include( OTB_DIR . '.env.php' );
+		$opts           = array(
 			'http' => array(
 				'method' => 'GET',
 				'header' => 'Accept: application/json',
 			)
 		);
+		$default_expand = 'metadata,bitstreams';
+
 		$context              = stream_context_create( $opts );
 		$this->apiBaseUrl     = $env['dspace']['SITE_URL'];
 		$this->collectionUuid = $env['dspace']['UUID'];
 
-		// nothing can happen without a collection
+		// allow for collection to be overridden with a passed argument
+		// otherwise default collection uuid should be set in .env.php
 		if ( empty( $args['collectionUuid'] ) ) {
 			$args['collectionUuid'] = $this->collectionUuid;
+		} else {
+			$this->collectionUuid = $args['collectionUuid'];
 		}
 
 		// one item
 		if ( ! empty( $args['uuid'] ) ) {
-			$this->url = $this->apiBaseUrl . 'items/' . $args['uuid'] . '?expand=all';
-			$result    = json_decode( file_get_contents( $this->url, false, $context ), true );
+			$this->url = $this->apiBaseUrl . 'items/' . $args['uuid'] . '?expand=' . $default_expand;
 		} else {
+			// many items
+
+			// return all items in the collection
+			// rest/collections/:ID/items[?expand={metadata,bitstreams}]
+			if ( empty( $args['keyword'] ) && empty( $args['subject'] ) && isset( $this->collectionUuid ) ) {
+				$this->url = $this->apiBaseUrl . 'collections/' . $this->collectionUuid . '/items?expand=' . $default_expand;
+			}
+
+			// filter by subject area
+
+			// filter by keyword
+
+			// filter by contributor
+
+			//
 
 		}
+
+		$result = json_decode( file_get_contents( $this->url, false, $context ), true );
 
 		return $result;
 	}
