@@ -2,6 +2,7 @@
 include_once 'autoloader.php';
 
 use BCcampus\OpenTextBooks\Controllers\Catalogue;
+use BCcampus\OpenTextBooks\Models;
 
 //use BCcampus\OpenTextBooks\Controllers\Reviews;
 
@@ -33,7 +34,13 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 	$args            = $_GET;
 	$args['type_of'] = 'books';
 
-	new Catalogue\DspaceController( $args );
+	//new Catalogue\DspaceController( $args );
+    $api = new Models\DspaceApi();
+	echo "<pre>";
+	print_r( $api->retrieve( $args ) );
+	echo "</pre>";
+	die();
+
 
 //	if ( isset( $args['uuid'] ) && $args['uuid'] != '' ) {
 //

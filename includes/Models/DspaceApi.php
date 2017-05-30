@@ -25,8 +25,10 @@ class DspaceApi implements Polymorphism\RestInterface {
 	function retrieve( $args ) {
 		$env                  = include( OTB_DIR . '.env.php' );
 		$opts                 = array(
-			'http'   => 'GET',
-			'header' => 'Accept: application/json',
+			'http' => array(
+				'method' => 'GET',
+				'header' => 'Accept: application/json',
+			)
 		);
 		$context              = stream_context_create( $opts );
 		$this->apiBaseUrl     = $env['dspace']['SITE_URL'];
@@ -40,7 +42,7 @@ class DspaceApi implements Polymorphism\RestInterface {
 		// one item
 		if ( ! empty( $args['uuid'] ) ) {
 			$this->url = $this->apiBaseUrl . 'items/' . $args['uuid'] . '?expand=all';
-			$result    = json_decode( file_get_contents( $this->url ), true, $context );
+			$result    = json_decode( file_get_contents( $this->url, false, $context ), true );
 		} else {
 			// TODO: implement many items
 		}
