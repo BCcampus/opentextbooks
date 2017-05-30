@@ -34,6 +34,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 	$args            = $_GET;
 	$args['type_of'] = 'books';
 	//$args['uuid']  = 'e3b8de93-9e07-44c6-803c-501c219f8e11';
+    $args['subject'] = 'psych';
 
 	//new Catalogue\DspaceController( $args );
     $api = new Models\DspaceApi();
