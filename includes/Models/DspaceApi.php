@@ -44,7 +44,7 @@ class DspaceApi implements Polymorphism\RestInterface {
 			$this->url = $this->apiBaseUrl . 'items/' . $args['uuid'] . '?expand=all';
 			$result    = json_decode( file_get_contents( $this->url, false, $context ), true );
 		} else {
-			// TODO: implement many items
+
 		}
 
 		return $result;
