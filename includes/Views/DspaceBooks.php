@@ -19,13 +19,22 @@ use BCcampus\OpenTextBooks\Models;
 class DspaceBooks {
 
 	/**
+	 * @var $books
+	 */
+	private $books;
+
+	/**
 	 * DspaceBooks constructor.
 	 *
 	 * @param Models\DspaceBooks $books
 	 */
 	public function __construct( Models\DspaceBooks $books ) {
 
-		// TODO: Implement constructor
+		// TODO: Implement more robust constructor
+
+		if ( is_object( $books ) ) {
+			$this->books = $books;
+		}
 
 	}
 
@@ -53,10 +62,9 @@ class DspaceBooks {
 	 * @return string
 	 */
 	public function displayBooks() {
-		$html = '';
-
-		// TODO: Implement displayBooks()
-		return $html;
+		echo "<pre>";
+		print_r( $this->books );
+		echo "</pre>";
 	}
 
 	/**

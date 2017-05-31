@@ -33,28 +33,27 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 	<?php
 	$args            = $_GET;
 	$args['type_of'] = 'books';
-	//$args['uuid']  = 'e3b8de93-9e07-44c6-803c-501c219f8e11';
-    $args['subject'] = 'psych';
-
-	//new Catalogue\DspaceController( $args );
-    $api = new Models\DspaceApi();
-	echo "<pre>";
-	print_r( $api->retrieve( $args ) );
-	echo "</pre>";
-	die();
 
 
-//	if ( isset( $args['uuid'] ) && $args['uuid'] != '' ) {
-//
-//		// overwrite variable
-//		$args['type_of'] = 'reviews';
-//
-//		try {
-//			new Reviews\LimeSurveyController($args);
-//		} catch (\Exception $exc) {
-//			error_log( $exc->getMessage(), 0);
-//		}
-//	}
+	new Catalogue\DspaceController( $args );
+	//    $api = new Models\DspaceApi();
+	//	echo "<pre>";
+	//	print_r( $api->retrieve( $args ) );
+	//	echo "</pre>";
+	//	die();
+
+
+	//	if ( isset( $args['uuid'] ) && $args['uuid'] != '' ) {
+	//
+	//		// overwrite variable
+	//		$args['type_of'] = 'reviews';
+	//
+	//		try {
+	//			new Reviews\LimeSurveyController($args);
+	//		} catch (\Exception $exc) {
+	//			error_log( $exc->getMessage(), 0);
+	//		}
+	//	}
 	unset( $_GET );
 	?>
 </div>

@@ -23,10 +23,20 @@ class DspaceApi implements Polymorphism\RestInterface {
 	private $url = '';
 	private $handle = '';
 
+	/**
+	 * Based on DSpace RESTapi v6
+	 * Documentation
+	 * https://github.com/DSpace/DSpace/tree/master/dspace-rest
+	 * https://wiki.duraspace.org/display/DSDOC6x/REST+Reports+-+Summary+of+API+Calls
+	 *
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
 	function retrieve( $args ) {
 		$env = include( OTB_DIR . '.env.php' );
 		/**
-		 * would like a JSON response
+		 * JSON response please
 		 */
 		$opts                 = array(
 			'http' => array(
@@ -38,12 +48,13 @@ class DspaceApi implements Polymorphism\RestInterface {
 		$query_field          = 'query_field[]=';
 		$query_op             = 'query_op[]=';
 		$query_val            = 'query_val[]=';
+		$coll_sel             = 'collSel[]=';
+		$filters              = 'is_discoverable';
 		$start                = 0;
 		$limit                = 0;
 		$context              = stream_context_create( $opts );
 		$this->apiBaseUrl     = $env['dspace']['SITE_URL'];
 		$this->collectionUuid = $env['dspace']['UUID'];
-		$this->handle         = $env['dspace']['HANDLE'];
 
 		// allow for collection to be overridden with a passed argument
 		// otherwise default collection uuid should be set in .env.php
@@ -52,7 +63,6 @@ class DspaceApi implements Polymorphism\RestInterface {
 		} else {
 			$this->collectionUuid = $args['collectionUuid'];
 		}
-
 
 		// one item
 		if ( ! empty( $args['uuid'] ) ) {
@@ -66,17 +76,18 @@ class DspaceApi implements Polymorphism\RestInterface {
 			}
 
 			// filter by subject area, contain the search by the collection handle
-			if ( isset( $args['subject'] ) && isset( $this->collectionUuid ) ) {
-				$filtered_query   = $query_field . 'dc.subject&' . $query_op . 'contains&' . $query_val . $args['subject'];
-				$collection_query = $query_field . 'dc.identifier.uri&' . $query_op . 'contains&' . $query_val . $this->handle;
-				$this->url        = $this->apiBaseUrl . 'filtered-items?' . $filtered_query . '&' . $collection_query;
+			if ( ! empty( $args['subject'] ) && ! empty( $this->collectionUuid ) ) {
+				$filtered_query   = $query_field . 'dc.subject.*&' . $query_op . 'contains&' . $query_val . $args['subject'];
+				$collection_query = $coll_sel . $this->collectionUuid;
+				$filter_query     = 'filters=' . $filters;
+				$this->url        = $this->apiBaseUrl . 'filtered-items?' . $filtered_query . '&' . $collection_query . '&' . $filter_query;
 			}
 
-			// filter by keyword
+			// filter by search term
+			// rest/filtered-items?query_field[]=dc.subject.*&query_field[]=dc.creator&query_op[]=contains&query_op[]=matches&query_val[]=politic&query_val[]=.*Krogh.*
+			// &collSel[]=&limit=100&offset=0&expand=parentCollection,metadata&filters=is_withdrawn,is_discoverable&show_fields[]=dc.subject&show_fields[]=dc.subject.other
 
-			// filter by contributor
-
-			//
+			// filter by author
 
 		}
 

@@ -18,6 +18,10 @@ use BCcampus\OpenTextBooks\Polymorphism;
 
 
 class DspaceBooks extends Polymorphism\DataAbstract {
+	/**
+	 * @var
+	 */
+	private $data;
 
 	/**
 	 * DspaceBooks constructor.
@@ -26,13 +30,14 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	 * @param $args
 	 */
 	public function __construct( Polymorphism\RestInterface $api, $args ) {
-		// TODO: Implement constructor
+		// TODO: Implement more robust constructor
+		$this->data = $api->retrieve( $args );
 	}
 
 	/**
 	 * @return mixed
 	 */
 	function getResponses() {
-		// TODO: Implement getResponses() method.
+		return $this->data;
 	}
 }
