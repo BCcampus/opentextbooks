@@ -30,6 +30,7 @@ function sanitize( $anyString ) {
 		$result = trim( $anyString );
 		$result = str_replace( '"', '', $result );
 		$result = filter_var( $result, FILTER_SANITIZE_STRING ); //strip tags
+
 		return $result;
 	} else {
 		return false;
@@ -95,7 +96,7 @@ function array_to_csv( $anyArray = array(), $key = '' ) {
 		} else {
 			foreach ( $anyArray as $value ) {
 				//names in db sometimes contain usernames [inbrackets], strip 'em out!
-				$tmp = ( ! strpos( $value[ $key ], '[' ) ) ? $value[ $key ] : rtrim( strstr( $value[ $key ], '[', true ) );
+				$tmp    = ( ! strpos( $value[ $key ], '[' ) ) ? $value[ $key ] : rtrim( strstr( $value[ $key ], '[', true ) );
 				$result .= $tmp . ", ";
 			}
 		}
@@ -106,6 +107,33 @@ function array_to_csv( $anyArray = array(), $key = '' ) {
 	}
 
 	return $result;
+}
+
+/**
+ * expects
+ * [0] => Array(
+ *  [key] => dc.contributor.author
+ *  [value] => P. Scott Corbett, PhD - Ventura College
+ *  [language] =>
+ *  [element] => contributor
+ *  [qualifier] => author
+ *  [schema] => dc
+ * )
+ *
+ * @param $dspace_array
+ */
+function authors_to_csv( $dspace_array ) {
+	$authors_list = '';
+	if ( ! is_array( $dspace_array ) ) {
+		return $authors_list;
+	}
+	foreach ( $dspace_array as $item ) {
+		if ( 0 === str_cmp( $item['key'], 'dc.contributor.author' ) ) {
+			$authors_list .= $item['value'] . ', ';
+		}
+
+		return rtrim( $authors_list, ', ' );
+	}
 }
 
 /**

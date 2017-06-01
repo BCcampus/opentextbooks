@@ -45,6 +45,9 @@ class DspaceBooks {
 		$html = '';
 
 		// TODO: Implement displayOneTextbook();
+		echo "<pre>";
+		print_r( $this->books );
+		echo "</pre>";
 		return $html;
 	}
 
