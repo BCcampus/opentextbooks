@@ -122,18 +122,158 @@ function array_to_csv( $anyArray = array(), $key = '' ) {
  *
  * @param $dspace_array
  */
-function authors_to_csv( $dspace_array ) {
-	$authors_list = '';
-	if ( ! is_array( $dspace_array ) ) {
-		return $authors_list;
+function dc_metadata_to_csv( $dspace_array, $dc_type ) {
+	$expected = array(
+		'dc.contributor.advisor',
+		'dc.contributor.author',
+		'dc.contributor.editor',
+		'dc.contributor.illustrator',
+		'dc.contributor.other',
+		'dc.contributor',
+		'dc.coverage.spatial',
+		'dc.coverage.temporal',
+		'dc.creator',
+		'dc.date.accessioned',
+		'dc.date.available',
+		'dc.date.copyright',
+		'dc.date.created',
+		'dc.date.issued',
+		'dc.date.submitted',
+		'dc.date.updated',
+		'dc.date',
+		'dc.description.abstract',
+		'dc.description.provenance',
+		'dc.description.sponsorship',
+		'dc.description.statementofresponsibility',
+		'dc.description.tableofcontents',
+		'dc.description.uri',
+		'dc.description.version',
+		'dc.description',
+		'dc.format.extent',
+		'dc.format.medium',
+		'dc.format.mimetype',
+		'dc.format',
+		'dc.identifier.citation',
+		'dc.identifier.govdoc',
+		'dc.identifier.isbn',
+		'dc.identifier.ismn',
+		'dc.identifier.issn',
+		'dc.identifier.other',
+		'dc.identifier.sici',
+		'dc.identifier.slug',
+		'dc.identifier.uri',
+		'dc.identifier',
+		'dc.language.iso',
+		'dc.language.rfc3066',
+		'dc.language',
+		'dc.provenance',
+		'dc.publisher',
+		'dc.relation.haspart',
+		'dc.relation.hasversion',
+		'dc.relation.isbasedon',
+		'dc.relation.isformatof',
+		'dc.relation.ispartof',
+		'dc.relation.ispartofseries',
+		'dc.relation.isreferencedby',
+		'dc.relation.isreplacedby',
+		'dc.relation.isversionof',
+		'dc.relation.replaces',
+		'dc.relation.requires',
+		'dc.relation.uri',
+		'dc.relation',
+		'dc.rights.holder',
+		'dc.rights.license',
+		'dc.rights.uri',
+		'dc.rights',
+		'dc.source.uri',
+		'dc.source',
+		'dc.subject.classification',
+		'dc.subject.ddc',
+		'dc.subject.lcc',
+		'dc.subject.lcsh',
+		'dc.subject.mesh',
+		'dc.subject.other',
+		'dc.subject',
+		'dc.title.alternative',
+		'dc.title',
+		'dc.type',
+		'dcterms.abstract',
+		'dcterms.accessRights',
+		'dcterms.accrualMethod',
+		'dcterms.accrualPeriodicity',
+		'dcterms.accrualPolicy',
+		'dcterms.alternative',
+		'dcterms.audience',
+		'dcterms.available',
+		'dcterms.bibliographicCitation',
+		'dcterms.conformsTo',
+		'dcterms.contributor',
+		'dcterms.coverage',
+		'dcterms.created',
+		'dcterms.creator',
+		'dcterms.date',
+		'dcterms.dateAccepted',
+		'dcterms.dateCopyrighted',
+		'dcterms.dateSubmitted',
+		'dcterms.description',
+		'dcterms.educationLevel',
+		'dcterms.extent',
+		'dcterms.format',
+		'dcterms.hasFormat',
+		'dcterms.hasPart',
+		'dcterms.hasVersion',
+		'dcterms.identifier',
+		'dcterms.instructionalMethod',
+		'dcterms.isFormatOf',
+		'dcterms.isPartOf',
+		'dcterms.isReferencedBy',
+		'dcterms.isReplacedBy',
+		'dcterms.isRequiredBy',
+		'dcterms.issued',
+		'dcterms.isVersionOf',
+		'dcterms.language',
+		'dcterms.license',
+		'dcterms.mediator',
+		'dcterms.medium',
+		'dcterms.modified',
+		'dcterms.provenance',
+		'dcterms.publisher',
+		'dcterms.references',
+		'dcterms.relation',
+		'dcterms.replaces',
+		'dcterms.requires',
+		'dcterms.rights',
+		'dcterms.rightsHolder',
+		'dcterms.source',
+		'dcterms.spatial',
+		'dcterms.subject',
+		'dcterms.tableOfContents',
+		'dcterms.temporal',
+		'dcterms.title',
+		'dcterms.type',
+		'dcterms.valid',
+		'eperson.firstname',
+		'eperson.language',
+		'eperson.lastname',
+		'eperson.phone',
+	);
+	$list     = '';
+	// return empty, return early
+	if ( ! is_array( $dspace_array ) || ! in_array( $dc_type, $expected ) ) {
+		return $list;
 	}
-	foreach ( $dspace_array as $item ) {
-		if ( 0 === strcmp( $item['key'], 'dc.contributor.author' ) ) {
-			$authors_list .= $item['value'] . ', ';
-		}
 
-		return rtrim( $authors_list, ', ' );
+	// just deals with metadata
+	if ( isset( $dspace_array['metadata'] ) ) {
+		foreach ( $dspace_array['metadata'] as $item ) {
+			if ( 0 === strcmp( $item['key'], $dc_type ) ) {
+				$list .= $item['value'] . ', ';
+			}
+		}
 	}
+
+	return rtrim( $list, ', ' );
+
 }
 
 /**

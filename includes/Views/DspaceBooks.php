@@ -56,7 +56,7 @@ class DspaceBooks {
 		print_r( $this->books );
 		echo "</pre>";
 
-		return $html;
+		echo $html;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class DspaceBooks {
 
 		// TODO: Implement displaySearchForm()
 
-		return $html;
+		echo $html;
 	}
 
 	/**
@@ -110,15 +110,48 @@ class DspaceBooks {
 
 		// TODO: Implement displayTitlesByType()
 
-		return $html;
+		echo $html;
 	}
 
 	public function displayBySubject( $start = 0, $limit = 0 ) {
-		$html = '<p>display by subject placeholder</p>';
+		$html = '';
+		$i    = 0;
+		$data = $this->books->getResponses();
 
-		// TODO: Implement displayBySubject()
+		// necessary to see the last record
+		$start = ( $start == $this->books->getSize() ? $start = $start - 1 : $start = $start );
 
-		return $html;
+		// if we're displaying all of the results (from a search form request)
+
+		$html .= "<ul class='no-bullets'>";
+		// check if it's been reviewed
+		while ( $i < $limit ) {
+			$title       = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.title' );
+			$description = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.description.abstract' );
+			$authors     = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.contributor.author' );
+			//$desc     = ( strlen( $description ) > 500 ) ? mb_substr( $description, 0, 499 ) . "<a href=" . $this->baseURL . "?uuid=" . $data[ $start ]['uuid'] . "&contributor=" . $this->args['contributor'] . "&keyword=" . $this->args['keyword'] . "&subject=" . $this->args['subject'] . ">...[more]</a>" : $description;
+
+			//$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
+			$html .= "<li>";
+			//$html .= "<h4><a href='" . $this->baseURL . "?uuid=" . $data[ $start ]['uuid'] . "&contributor=" . $this->args['contributor'] . "&keyword=" . $this->args['keyword'] . "&subject=" . $this->args['subject'] . "'>" . $data[ $start ]['name'] . "</a></h4> "
+			//. "<h4>" . $metadata . " </h4>";
+			//$html .= "<strong>Author(s):</strong> " . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . "<br>";
+			//$html .= "<strong>Date:</strong> " . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
+			$html .= "<p><strong>Title:</strong> " . $title . "</p>";
+
+			$html .= "<p><strong>Description:</strong> " . $description . "</p>";
+			$html .= "<p><b>Authors:</b> " . $authors . "</p>";
+			$html .= "</li>";
+			$start ++;
+			$i ++;
+		}
+		if ( $limit == $this->books->getSize() ) {
+			$html .= "</ol>";
+		} else {
+			$html .= "</ul>";
+		}
+
+		echo $html;
 	}
 
 	public function displayLinks( $start_here, $search_term ) {
@@ -126,7 +159,7 @@ class DspaceBooks {
 
 		// TODO: Implement displayLinks();
 
-		return $html;
+		echo $html;
 	}
 
 	/**
@@ -139,7 +172,7 @@ class DspaceBooks {
 		$html = '';
 
 		// TODO: Implement licensePicker
-		return $html;
+		echo $html;
 	}
 
 	/**
