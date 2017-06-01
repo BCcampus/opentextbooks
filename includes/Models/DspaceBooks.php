@@ -23,6 +23,10 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	 */
 	private $data;
 
+	protected $args = array();
+
+	protected $size;
+
 	/**
 	 * DspaceBooks constructor.
 	 *
@@ -32,12 +36,30 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	public function __construct( Polymorphism\RestInterface $api, $args ) {
 		// TODO: Implement more robust constructor
 		$this->data = $api->retrieve( $args );
+
+		$this->args = $args;
+		$this->size = count( $this->getResponses() );
+
 	}
 
 	/**
 	 * @return mixed
 	 */
-	function getResponses() {
+	public function getResponses() {
 		return $this->data;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getArgs() {
+		return $this->args;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSize() {
+		return $this->size;
 	}
 }

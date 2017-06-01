@@ -128,7 +128,7 @@ function authors_to_csv( $dspace_array ) {
 		return $authors_list;
 	}
 	foreach ( $dspace_array as $item ) {
-		if ( 0 === str_cmp( $item['key'], 'dc.contributor.author' ) ) {
+		if ( 0 === strcmp( $item['key'], 'dc.contributor.author' ) ) {
 			$authors_list .= $item['value'] . ', ';
 		}
 

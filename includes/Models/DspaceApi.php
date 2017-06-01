@@ -49,8 +49,8 @@ class DspaceApi implements Polymorphism\RestInterface {
 		$query_op             = 'query_op[]=';
 		$query_val            = 'query_val[]=';
 		$coll_sel             = 'collSel[]=';
+		$start                = 'offset=';
 		$filters              = 'is_discoverable';
-		$start                = 0;
 		$limit                = 0;
 		$context              = stream_context_create( $opts );
 		$this->apiBaseUrl     = $env['dspace']['SITE_URL'];
@@ -72,7 +72,7 @@ class DspaceApi implements Polymorphism\RestInterface {
 			// return all items in the collection
 			// rest/collections/:ID/items[?expand={metadata,bitstreams}]
 			if ( empty( $args['keyword'] ) && empty( $args['subject'] ) && isset( $this->collectionUuid ) ) {
-				$this->url = $this->apiBaseUrl . 'collections/' . $this->collectionUuid . '/items?' . $expand;
+				$this->url = $this->apiBaseUrl . 'collections/' . $this->collectionUuid . '/items?' . $expand . '&' . $start . $args['start'];
 			}
 
 			// filter by subject area, contain the search by the collection handle
