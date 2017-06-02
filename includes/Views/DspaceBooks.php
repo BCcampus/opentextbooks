@@ -55,8 +55,11 @@ class DspaceBooks {
 		$description = \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.description.abstract' );
 		$authors     = \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.contributor.author' );
 		$date        = date( 'M j, Y', strtotime( \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.date.issued' ) ) );
-		$attachments = '';
-		$img = '';
+		$pdf         = \BCcampus\Utility\dc_bitstream_files( $data, 'Adobe PDF' );
+		$epub        = \BCcampus\Utility\dc_bitstream_files( $data, 'EPUB' );
+		$zip         = \BCcampus\Utility\dc_bitstream_files( $data, 'ZIP' );
+		$xml         = \BCcampus\Utility\dc_bitstream_files( $data, 'RDF XML' );
+		$img         = '';
 
 		$html .= "<h2 itemprop='name'>" . $title . "</h2>";
 		$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $description . "</span></p>";
@@ -65,6 +68,10 @@ class DspaceBooks {
 		$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook <i class='glyphicon glyphicon-book'></i></a></p>";
 		$html .= "<b><strong>Date Issued</strong></b>: <span itemprop='issued'>" . $date . "<br>";
 		$html .= "<h3>Open Textbook(s):</h3><ol>";
+		$html .= "<li>" . $pdf . "</li>";
+		$html .= "<li>" . $epub . "</li>";
+		$html .= "<li>" . $zip . "</li>";
+		$html .= "<li>" . $xml . "</li></ol>";
 
 		echo $html;
 	}
@@ -168,7 +175,7 @@ class DspaceBooks {
 	 *
 	 * @param $data
 	 */
-	private function getCustomMeta( $data ){
+	private function getCustomMeta( $data ) {
 		// TODO: Implement displayLinks();
 	}
 
@@ -196,18 +203,6 @@ class DspaceBooks {
 		// TODO: Implement licensePicker
 		echo $html;
 	}
-
-	/**
-	 * @param $number
-	 *
-	 * return float
-	 */
-	private function determineFileSize( $number ) {
-
-		// TODO: Implement determineFileSize
-
-	}
-
 
 	private function addLogo() {
 

@@ -277,6 +277,70 @@ function dc_metadata_to_csv( $dspace_array, $dc_type ) {
 }
 
 /**
+ * @param $number
+ *
+ * @return float|string|void
+ */
+function determineFileSize( $number ) {
+	$result = '';
+	$num    = '';
+
+	//bail if nothing is passed.
+	if ( empty( $number ) ) {
+		return;
+	}
+
+	//if it's a number
+	if ( is_int( $number ) ) {
+		$num = intval( $number );
+	}
+	//only process if it's bigger than zero
+	if ( $num > 0 ) {
+		//return in Megabytes
+		$result = ( $num / 1000000 );
+		//account for the fact that it might be less than 1MB
+		( $result <= 1 ) ? $result = round( $result, 2 ) : $result = intval( $result );
+		$result = "(" . $result . " MB)";
+	}
+
+	return $result;
+}
+
+/**
+ * @param $dspace_array
+ * @param $dc_format
+ *
+ * @return string
+ */
+function dc_bitstream_files( $dspace_array, $dc_format ) {
+	$expected = array(
+		'Adobe PDF',
+		'EPUB',
+		'ZIP',
+		'RDF XML',
+	);
+	$list     = '';
+	// return empty, return early
+	if ( ! is_array( $dspace_array ) || ! in_array( $dc_format, $expected ) ) {
+		return $list;
+	}
+
+	// just deals with metadata
+	if ( isset( $dspace_array['bitstreams'] ) ) {
+		foreach ( $dspace_array['bitstreams'] as $item ) {
+			if ( 0 === strcmp( $item['format'], $dc_format ) ) {
+				$list .= "<a href='" . $item['retrieveLink'] . "'><i class='glyphicon glyphicon-download'></i>  Download </a>";
+				$list .= $item['format'];
+				$list .= determineFileSize( $item['sizeBytes'] );
+			}
+		}
+	}
+
+	return rtrim( $list, ', ' );
+
+}
+
+/**
  * @TODO this needs to be generated dynamically
  * Needed to generate a link to the canadian version
  * on open.
