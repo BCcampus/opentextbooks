@@ -21,7 +21,6 @@ class DspaceApi implements Polymorphism\RestInterface {
 	private $apiBaseUrl = '';
 	private $collectionUuid = '';
 	private $url = '';
-	private $handle = '';
 
 	/**
 	 * Based on DSpace RESTapi v6

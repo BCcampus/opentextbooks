@@ -113,6 +113,10 @@ class DspaceBooks {
 		echo $html;
 	}
 
+	/**
+	 * @param int $start
+	 * @param int $limit
+	 */
 	public function displayBySubject( $start = 0, $limit = 0 ) {
 		$html = '';
 		$i    = 0;
@@ -129,31 +133,28 @@ class DspaceBooks {
 			$title       = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.title' );
 			$description = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.description.abstract' );
 			$authors     = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.contributor.author' );
-			//$desc     = ( strlen( $description ) > 500 ) ? mb_substr( $description, 0, 499 ) . "<a href=" . $this->baseURL . "?uuid=" . $data[ $start ]['uuid'] . "&contributor=" . $this->args['contributor'] . "&keyword=" . $this->args['keyword'] . "&subject=" . $this->args['subject'] . ">...[more]</a>" : $description;
+			$date        = date( 'M j, Y', strtotime( \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.date.issued' ) ) );
+			$desc        = ( strlen( $description ) > 500 ) ? mb_substr( $description, 0, 499 ) . " <a href=?uuid=" . $data[ $start ]['uuid'] . ">...[more]</a>" : $description;
 
-			//$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
 			$html .= "<li>";
-			//$html .= "<h4><a href='" . $this->baseURL . "?uuid=" . $data[ $start ]['uuid'] . "&contributor=" . $this->args['contributor'] . "&keyword=" . $this->args['keyword'] . "&subject=" . $this->args['subject'] . "'>" . $data[ $start ]['name'] . "</a></h4> "
-			//. "<h4>" . $metadata . " </h4>";
-			//$html .= "<strong>Author(s):</strong> " . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . "<br>";
-			//$html .= "<strong>Date:</strong> " . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
-			$html .= "<p><strong>Title:</strong> " . $title . "</p>";
-
-			$html .= "<p><strong>Description:</strong> " . $description . "</p>";
-			$html .= "<p><b>Authors:</b> " . $authors . "</p>";
+			$html .= "<h4><a href=?uuid=" . $data[ $start ]['uuid'] . ">" . $title . "</a></h4>";
+			$html .= "<b>Author(s):</b> " . $authors . "<br>";
+			$html .= "<b>Date Issued:</b> " . $date . "<br>";
+			$html .= "<p><b>Description:</b> " . $desc . "</p>";
 			$html .= "</li>";
 			$start ++;
 			$i ++;
 		}
-		if ( $limit == $this->books->getSize() ) {
-			$html .= "</ol>";
-		} else {
-			$html .= "</ul>";
-		}
 
+		$html .= "</ul>";
 		echo $html;
+
 	}
 
+	/**
+	 * @param $start_here
+	 * @param $search_term
+	 */
 	public function displayLinks( $start_here, $search_term ) {
 		$html = '<p>display links placeholder</p>';
 
