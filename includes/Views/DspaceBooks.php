@@ -49,12 +49,22 @@ class DspaceBooks {
 	 * @return string
 	 */
 	public function displayOneTextbook() {
-		$html = '';
+		$html        = '';
+		$data        = $this->books->getResponses();
+		$title       = \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.title' );
+		$description = \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.description.abstract' );
+		$authors     = \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.contributor.author' );
+		$date        = date( 'M j, Y', strtotime( \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.date.issued' ) ) );
+		$attachments = '';
+		$img = '';
 
-		// TODO: Implement displayOneTextbook();
-		echo "<pre>";
-		print_r( $this->books );
-		echo "</pre>";
+		$html .= "<h2 itemprop='name'>" . $title . "</h2>";
+		$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $description . "</span></p>";
+		$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . "</span></p>";
+		$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
+		$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook <i class='glyphicon glyphicon-book'></i></a></p>";
+		$html .= "<b><strong>Date Issued</strong></b>: <span itemprop='issued'>" . $date . "<br>";
+		$html .= "<h3>Open Textbook(s):</h3><ol>";
 
 		echo $html;
 	}
