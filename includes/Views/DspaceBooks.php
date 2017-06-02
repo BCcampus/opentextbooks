@@ -148,6 +148,7 @@ class DspaceBooks {
 
 			$html .= "<li>";
 			$html .= "<h4><a href=?uuid=" . $data[ $start ]['uuid'] . ">" . $title . "</a></h4>";
+			//$html .= $this->getCustomMeta( $data[ $start ] );
 			$html .= "<b>Author(s):</b> " . $authors . "<br>";
 			$html .= "<b>Date Issued:</b> " . $date . "<br>";
 			$html .= "<p><b>Description:</b> " . $desc . "</p>";
@@ -159,6 +160,16 @@ class DspaceBooks {
 		$html .= "</ul>";
 		echo $html;
 
+	}
+
+	/**
+	 * Looks for custom metadata
+	 * returns HTML
+	 *
+	 * @param $data
+	 */
+	private function getCustomMeta( $data ){
+		// TODO: Implement displayLinks();
 	}
 
 	/**
