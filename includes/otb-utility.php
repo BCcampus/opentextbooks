@@ -279,15 +279,15 @@ function dc_metadata_to_csv( $dspace_array, $dc_type ) {
 /**
  * @param $number
  *
- * @return float|string|void
+ * @return float|string
  */
-function determineFileSize( $number ) {
+function determine_file_size( $number ) {
 	$result = '';
 	$num    = '';
 
 	//bail if nothing is passed.
 	if ( empty( $number ) ) {
-		return;
+		return $result;
 	}
 
 	//if it's a number
@@ -331,7 +331,7 @@ function dc_bitstream_files( $dspace_array, $dc_format ) {
 			if ( 0 === strcmp( $item['format'], $dc_format ) ) {
 				$list .= "<a href='" . $item['retrieveLink'] . "'><i class='glyphicon glyphicon-download'></i>  Download </a>";
 				$list .= $item['format'];
-				$list .= determineFileSize( $item['sizeBytes'] );
+				$list .= determine_file_size( $item['sizeBytes'] );
 			}
 		}
 	}
