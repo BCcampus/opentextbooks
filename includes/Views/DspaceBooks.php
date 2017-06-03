@@ -55,10 +55,10 @@ class DspaceBooks {
 		$description = $this->metadataToCsv( $data, 'dc.description.abstract' );
 		$authors     = $this->metadataToCsv( $data, 'dc.contributor.author' );
 		$date        = date( 'M j, Y', strtotime( $this->metadataToCsv( $data, 'dc.date.issued' ) ) );
-		$pdf         = \BCcampus\Utility\dc_bitstream_files( $data, 'Adobe PDF' );
-		$epub        = \BCcampus\Utility\dc_bitstream_files( $data, 'EPUB' );
-		$zip         = \BCcampus\Utility\dc_bitstream_files( $data, 'ZIP' );
-		$xml         = \BCcampus\Utility\dc_bitstream_files( $data, 'RDF XML' );
+		$pdf         = $this->displayBitStreamFiles( $data, 'Adobe PDF' );
+		$epub        = $this->displayBitStreamFiles( $data, 'EPUB' );
+		$zip         = $this->displayBitStreamFiles( $data, 'ZIP' );
+		$xml         = $this->displayBitStreamFiles( $data, 'RDF XML' );
 		$img         = '';
 
 		$html .= "<h2 itemprop='name'>" . $title . "</h2>";
@@ -220,6 +220,44 @@ class DspaceBooks {
 	private function getWebLicenseHtml( \SimpleXMLElement $response ) {
 
 		// TODO: Implement getWebLicenseHtml();
+
+	}
+
+	/**
+	 * @param $dspace_array
+	 * @param $dc_format
+	 *
+	 * @return string
+	 */
+	private function displayBitStreamFiles( $dspace_array, $dc_format ) {
+		$env          = include( OTB_DIR . '.env.php' );
+		$api_endpoint = $env['dspace']['SITE_URL'];
+		$base_url     = parse_url( $api_endpoint, PHP_URL_HOST );
+
+		$expected = array(
+			'Adobe PDF',
+			'EPUB',
+			'ZIP',
+			'RDF XML',
+		);
+		$list     = '';
+		// return empty, return early
+		if ( ! is_array( $dspace_array ) || ! in_array( $dc_format, $expected ) ) {
+			return $list;
+		}
+
+		// just deals with metadata
+		if ( isset( $dspace_array['bitstreams'] ) ) {
+			foreach ( $dspace_array['bitstreams'] as $item ) {
+				if ( 0 === strcmp( $item['format'], $dc_format ) ) {
+					$list .= "<a href='//" . $base_url . $item['retrieveLink'] . "'><i class='glyphicon glyphicon-download'></i>  Download </a>";
+					$list .= $item['format'];
+					$list .= \BCcampus\Utility\determine_file_size( $item['sizeBytes'] );
+				}
+			}
+		}
+
+		return rtrim( $list, ', ' );
 
 	}
 
