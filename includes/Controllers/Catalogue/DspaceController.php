@@ -111,9 +111,9 @@ class DspaceController {
 			$this->args['subject'] = Utility\url_encode( $this->args['subject'] );
 		}
 		// multiple values need to be presented in an array
-//		if ( ! empty( $this->args['search'] ) ){
-//			$this->args['search'] = explode( ' ', $this->args['search'] );
-//		}
+		if ( ! empty( $this->args['search'] ) ){
+			$this->args['search'] = explode( ' ', $this->args['search'] );
+		}
 	}
 
 	/**
