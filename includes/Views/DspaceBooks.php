@@ -55,11 +55,6 @@ class DspaceBooks {
 		$description = $this->metadataToCsv( $data, 'dc.description.abstract' );
 		$authors     = $this->metadataToCsv( $data, 'dc.contributor.author' );
 		$date        = date( 'M j, Y', strtotime( $this->metadataToCsv( $data, 'dc.date.issued' ) ) );
-		$pdf         = $this->displayBitStreamFiles( $data, 'Adobe PDF' );
-		$epub        = $this->displayBitStreamFiles( $data, 'EPUB' );
-		$zip         = $this->displayBitStreamFiles( $data, 'ZIP' );
-		$xml         = $this->displayBitStreamFiles( $data, 'RDF XML' );
-		$img         = '';
 
 		$html .= "<h2 itemprop='name'>" . $title . "</h2>";
 		$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $description . "</span></p>";
@@ -67,11 +62,8 @@ class DspaceBooks {
 		$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
 		$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook <i class='glyphicon glyphicon-book'></i></a></p>";
 		$html .= "<b><strong>Date Issued</strong></b>: <span itemprop='issued'>" . $date . "<br>";
-		$html .= "<h3>Open Textbook(s):</h3><ol>";
-		$html .= "<li>" . $pdf . "</li>";
-		$html .= "<li>" . $epub . "</li>";
-		$html .= "<li>" . $zip . "</li>";
-		$html .= "<li>" . $xml . "</li></ol>";
+		$html .= "<h3>Open Textbook(s):</h3>";
+		$html .= $this->displayBitStreamFiles( $data );
 
 		echo $html;
 	}
@@ -225,39 +217,33 @@ class DspaceBooks {
 
 	/**
 	 * @param $dspace_array
-	 * @param $dc_format
 	 *
 	 * @return string
 	 */
-	private function displayBitStreamFiles( $dspace_array, $dc_format ) {
+	private function displayBitStreamFiles( $dspace_array ) {
+		$html = '';
+		// return empty, return early
+		if ( ! is_array( $dspace_array ) || ! isset( $dspace_array['bitstreams'] ) ) {
+			return $html;
+		}
 		$env          = include( OTB_DIR . '.env.php' );
 		$api_endpoint = $env['dspace']['SITE_URL'];
 		$base_url     = parse_url( $api_endpoint, PHP_URL_HOST );
 
-		$expected = array(
-			'Adobe PDF',
-			'EPUB',
-			'ZIP',
-			'RDF XML',
-		);
-		$list     = '';
-		// return empty, return early
-		if ( ! is_array( $dspace_array ) || ! in_array( $dc_format, $expected ) ) {
-			return $list;
-		}
-
+		$html .= '<ol>';
 		// just deals with metadata
-		if ( isset( $dspace_array['bitstreams'] ) ) {
-			foreach ( $dspace_array['bitstreams'] as $item ) {
-				if ( 0 === strcmp( $item['format'], $dc_format ) ) {
-					$list .= "<a href='//" . $base_url . $item['retrieveLink'] . "'><i class='glyphicon glyphicon-download'></i>  Download </a>";
-					$list .= $item['format'];
-					$list .= \BCcampus\Utility\determine_file_size( $item['sizeBytes'] );
-				}
+		foreach ( $dspace_array['bitstreams'] as $item ) {
+			if ( 0 === strcmp( $item['format'], 'License' ) ) {
+				continue;
 			}
+			$html .= "<li><a href='//" . $base_url . $item['retrieveLink'] . "'><i class='glyphicon glyphicon-download'></i>  Download </a>";
+			$html .= $item['format'];
+			$html .= \BCcampus\Utility\determine_file_size( $item['sizeBytes'] ) . "</li>";
 		}
 
-		return rtrim( $list, ', ' );
+		$html .= '</ol>';
+
+		return $html;
 
 	}
 
