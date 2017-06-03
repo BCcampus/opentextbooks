@@ -51,10 +51,10 @@ class DspaceBooks {
 	public function displayOneTextbook() {
 		$html        = '';
 		$data        = $this->books->getResponses();
-		$title       = \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.title' );
-		$description = \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.description.abstract' );
-		$authors     = \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.contributor.author' );
-		$date        = date( 'M j, Y', strtotime( \BCcampus\Utility\dc_metadata_to_csv( $data, 'dc.date.issued' ) ) );
+		$title       = $this->metadataToCsv( $data, 'dc.title' );
+		$description = $this->metadataToCsv( $data, 'dc.description.abstract' );
+		$authors     = $this->metadataToCsv( $data, 'dc.contributor.author' );
+		$date        = date( 'M j, Y', strtotime( $this->metadataToCsv( $data, 'dc.date.issued' ) ) );
 		$pdf         = \BCcampus\Utility\dc_bitstream_files( $data, 'Adobe PDF' );
 		$epub        = \BCcampus\Utility\dc_bitstream_files( $data, 'EPUB' );
 		$zip         = \BCcampus\Utility\dc_bitstream_files( $data, 'ZIP' );
@@ -139,23 +139,27 @@ class DspaceBooks {
 		$i    = 0;
 		$data = $this->books->getResponses();
 
-		// necessary to see the last record
-		$start = ( $start == $this->books->getSize() ? $start = $start - 1 : $start = $start );
+		// account for different array structures resulting from
+		// different API calls
+		$data_adj = ( isset( $data['items'] ) ) ? $data['items'] : $data;
+		$size     = count( $data_adj );
 
-		// if we're displaying all of the results (from a search form request)
+		// necessary to see the last record
+		$start = ( $start == $size ? $start = $start - 1 : $start = $start );
+
 
 		$html .= "<ul class='no-bullets'>";
 		// check if it's been reviewed
-		while ( $i < $limit ) {
-			$title       = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.title' );
-			$description = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.description.abstract' );
-			$authors     = \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.contributor.author' );
-			$date        = date( 'M j, Y', strtotime( \BCcampus\Utility\dc_metadata_to_csv( $data[ $start ], 'dc.date.issued' ) ) );
-			$desc        = ( strlen( $description ) > 500 ) ? mb_substr( $description, 0, 499 ) . " <a href=?uuid=" . $data[ $start ]['uuid'] . ">...[more]</a>" : $description;
+		while ( $i < $size ) {
+			$title       = $this->metadataToCsv( $data_adj[ $start ], 'dc.title' );
+			$description = $this->metadataToCsv( $data_adj[ $start ], 'dc.description.abstract' );
+			$authors     = $this->metadataToCsv( $data_adj[ $start ], 'dc.contributor.author' );
+			$date        = date( 'M j, Y', strtotime( $this->metadataToCsv( $data_adj[ $start ], 'dc.date.issued' ) ) );
+			$desc        = ( strlen( $description ) > 500 ) ? mb_substr( $description, 0, 499 ) . " <a href=?uuid=" . $data_adj[ $start ]['uuid'] . ">...[more]</a>" : $description;
 
 			$html .= "<li>";
-			$html .= "<h4><a href=?uuid=" . $data[ $start ]['uuid'] . ">" . $title . "</a></h4>";
-			//$html .= $this->getCustomMeta( $data[ $start ] );
+			$html .= "<h4><a href=?uuid=" . $data_adj[ $start ]['uuid'] . ">" . $title . "</a></h4>";
+			//$html .= $this->getCustomMeta( $data_adj[ $start ] );
 			$html .= "<b>Author(s):</b> " . $authors . "<br>";
 			$html .= "<b>Date Issued:</b> " . $date . "<br>";
 			$html .= "<p><b>Description:</b> " . $desc . "</p>";
@@ -216,6 +220,165 @@ class DspaceBooks {
 	private function getWebLicenseHtml( \SimpleXMLElement $response ) {
 
 		// TODO: Implement getWebLicenseHtml();
+
+	}
+
+	/**
+	 * @param $dspace_array
+	 * @param $dc_type
+	 *
+	 * @return string
+	 */
+	private function metadataToCsv( $dspace_array, $dc_type ) {
+		$expected = array(
+			'dc.contributor.advisor',
+			'dc.contributor.author',
+			'dc.contributor.editor',
+			'dc.contributor.illustrator',
+			'dc.contributor.other',
+			'dc.contributor',
+			'dc.coverage.spatial',
+			'dc.coverage.temporal',
+			'dc.creator',
+			'dc.date.accessioned',
+			'dc.date.available',
+			'dc.date.copyright',
+			'dc.date.created',
+			'dc.date.issued',
+			'dc.date.submitted',
+			'dc.date.updated',
+			'dc.date',
+			'dc.description.abstract',
+			'dc.description.provenance',
+			'dc.description.sponsorship',
+			'dc.description.statementofresponsibility',
+			'dc.description.tableofcontents',
+			'dc.description.uri',
+			'dc.description.version',
+			'dc.description',
+			'dc.format.extent',
+			'dc.format.medium',
+			'dc.format.mimetype',
+			'dc.format',
+			'dc.identifier.citation',
+			'dc.identifier.govdoc',
+			'dc.identifier.isbn',
+			'dc.identifier.ismn',
+			'dc.identifier.issn',
+			'dc.identifier.other',
+			'dc.identifier.sici',
+			'dc.identifier.slug',
+			'dc.identifier.uri',
+			'dc.identifier',
+			'dc.language.iso',
+			'dc.language.rfc3066',
+			'dc.language',
+			'dc.provenance',
+			'dc.publisher',
+			'dc.relation.haspart',
+			'dc.relation.hasversion',
+			'dc.relation.isbasedon',
+			'dc.relation.isformatof',
+			'dc.relation.ispartof',
+			'dc.relation.ispartofseries',
+			'dc.relation.isreferencedby',
+			'dc.relation.isreplacedby',
+			'dc.relation.isversionof',
+			'dc.relation.replaces',
+			'dc.relation.requires',
+			'dc.relation.uri',
+			'dc.relation',
+			'dc.rights.holder',
+			'dc.rights.license',
+			'dc.rights.uri',
+			'dc.rights',
+			'dc.source.uri',
+			'dc.source',
+			'dc.subject.classification',
+			'dc.subject.ddc',
+			'dc.subject.lcc',
+			'dc.subject.lcsh',
+			'dc.subject.mesh',
+			'dc.subject.other',
+			'dc.subject',
+			'dc.title.alternative',
+			'dc.title',
+			'dc.type',
+			'dcterms.abstract',
+			'dcterms.accessRights',
+			'dcterms.accrualMethod',
+			'dcterms.accrualPeriodicity',
+			'dcterms.accrualPolicy',
+			'dcterms.alternative',
+			'dcterms.audience',
+			'dcterms.available',
+			'dcterms.bibliographicCitation',
+			'dcterms.conformsTo',
+			'dcterms.contributor',
+			'dcterms.coverage',
+			'dcterms.created',
+			'dcterms.creator',
+			'dcterms.date',
+			'dcterms.dateAccepted',
+			'dcterms.dateCopyrighted',
+			'dcterms.dateSubmitted',
+			'dcterms.description',
+			'dcterms.educationLevel',
+			'dcterms.extent',
+			'dcterms.format',
+			'dcterms.hasFormat',
+			'dcterms.hasPart',
+			'dcterms.hasVersion',
+			'dcterms.identifier',
+			'dcterms.instructionalMethod',
+			'dcterms.isFormatOf',
+			'dcterms.isPartOf',
+			'dcterms.isReferencedBy',
+			'dcterms.isReplacedBy',
+			'dcterms.isRequiredBy',
+			'dcterms.issued',
+			'dcterms.isVersionOf',
+			'dcterms.language',
+			'dcterms.license',
+			'dcterms.mediator',
+			'dcterms.medium',
+			'dcterms.modified',
+			'dcterms.provenance',
+			'dcterms.publisher',
+			'dcterms.references',
+			'dcterms.relation',
+			'dcterms.replaces',
+			'dcterms.requires',
+			'dcterms.rights',
+			'dcterms.rightsHolder',
+			'dcterms.source',
+			'dcterms.spatial',
+			'dcterms.subject',
+			'dcterms.tableOfContents',
+			'dcterms.temporal',
+			'dcterms.title',
+			'dcterms.type',
+			'dcterms.valid',
+			'eperson.firstname',
+			'eperson.language',
+			'eperson.lastname',
+			'eperson.phone',
+		);
+		$list     = '';
+		// return empty, return early
+		if ( ! is_array( $dspace_array ) || ! in_array( $dc_type, $expected ) ) {
+			return $list;
+		}
+
+		// just deals with metadata
+		foreach ( $dspace_array['metadata'] as $book ) {
+			if ( 0 === strcmp( $book['key'], $dc_type ) ) {
+				$list .= $book['value'] . ', ';
+			}
+		}
+
+
+		return rtrim( $list, ', ' );
 
 	}
 
