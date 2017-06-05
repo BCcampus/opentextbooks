@@ -219,12 +219,18 @@ class DspaceBooks {
 	 * @return type|mixed|string
 	 */
 	private function licensePicker( $dspace_array, $authors ) {
+		$allowed  = array( 'zero', 'by', 'by-sa', 'by-nd', 'by-nc', 'by-nc-sa', 'by-nc-nd' );
 		$uricheck = $this->metadataToCsv( $dspace_array, 'dc.rights.uri' );
 		if ( $uricheck ) {
+			$uricheck = strtolower( $uricheck );
+			$uricheck = explode( "/", $uricheck );
+			$uricheck = $uricheck[4];
+		}
+		if ( in_array( $uricheck, $allowed ) ) {
 			$v3       = false;
 			$endpoint = 'https://api.creativecommons.org/rest/1.5/';
 			$expected = array(
-				'zero'      => array(
+				'zero'     => array(
 					'license'     => 'zero',
 					'commercial'  => 'y',
 					'derivatives' => 'y',
@@ -387,6 +393,40 @@ class DspaceBooks {
 
 		return $html;
 
+	}
+
+	/**
+	 *
+	 * @param array $error
+	 * @param type $xml
+	 *
+	 * @return type
+	 */
+	protected function displayXmlError( $error, $xml ) {
+		$return = $xml[ $error->line - 1 ];
+		$return .= str_repeat( '-', $error->column );
+
+		switch ( $error->level ) {
+			case LIBXML_ERR_WARNING:
+				$return .= "Warning $error->code: ";
+				break;
+			case LIBXML_ERR_ERROR:
+				$return .= "Error $error->code: ";
+				break;
+			case LIBXML_ERR_FATAL:
+				$return .= "Fatal Error $error->code: ";
+				break;
+		}
+
+		$return .= trim( $error->message ) .
+		           "  Line: $error->line" .
+		           "  Column: $error->column";
+
+		if ( $error->file ) {
+			$return .= "  File: $error->file";
+		}
+
+		return "$return--------------------------------------------END";
 	}
 
 	/**
