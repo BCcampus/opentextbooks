@@ -64,6 +64,10 @@ class DspaceBooks {
 		$html .= "<b><strong>Date Issued</strong></b>: <span itemprop='issued'>" . $date . "<br>";
 		$html .= "<h3>Open Textbook(s):</h3>";
 		$html .= $this->displayBitStreamFiles( $data );
+		//send it to the picker for evaluation
+		$substring = $this->licensePicker( $data, $authors );
+		//include it, depending on what license it is
+		$html .= $substring;
 
 		echo $html;
 	}
@@ -209,16 +213,126 @@ class DspaceBooks {
 	}
 
 	/**
-	 * @param $string
+	 * @param $dspace_array
 	 * @param $authors
 	 *
-	 * @return string
+	 * @return type|mixed|string
 	 */
-	private function licensePicker( $string, $authors ) {
-		$html = '';
+	private function licensePicker( $dspace_array, $authors ) {
+		$v3       = false;
+		$endpoint = 'https://api.creativecommons.org/rest/1.5/';
+		$expected = array(
+			'cc0'      => array(
+				'license'     => 'zero',
+				'commercial'  => 'y',
+				'derivatives' => 'y',
+			),
+			'by'       => array(
+				'license'     => 'standard',
+				'commercial'  => 'y',
+				'derivatives' => 'y',
+			),
+			'by-sa'    => array(
+				'license'     => 'standard',
+				'commercial'  => 'y',
+				'derivatives' => 'sa',
+			),
+			'by-nd'    => array(
+				'license'     => 'standard',
+				'commercial'  => 'y',
+				'derivatives' => 'n',
+			),
+			'by-nc'    => array(
+				'license'     => 'standard',
+				'commercial'  => 'n',
+				'derivatives' => 'y',
+			),
+			'by-nc-sa' => array(
+				'license'     => 'standard',
+				'commercial'  => 'n',
+				'derivatives' => 'sa',
+			),
+			'by-nc-nd' => array(
+				'license'     => 'standard',
+				'commercial'  => 'n',
+				'derivatives' => 'n',
+			),
+		);
+		// interpret string as an object
+		$xml = $dspace_array;
 
-		// TODO: Implement licensePicker
-		echo $html;
+		if ( $xml ) {
+			$license = $this->metadataToCsv( $xml, 'dc.rights.uri' );
+			$license = strtolower( $license );
+			$license = explode( "/", $license );
+			$license = $license[4];
+			$title   = $this->metadataToCsv( $xml, 'dc.title' );
+			$lang    = $this->metadataToCsv( $xml, 'dc.language' );;
+		}
+
+		// nothing meaningful to hit the api with, so bail
+		if ( ! array_key_exists( $license, $expected ) ) {
+			// try this first
+			try {
+				$license = $this->v3license( $license );
+				$v3      = true;
+			} catch ( \Exception $exc ) {
+				\error_log( $exc->getMessage() );
+
+				// get out of here
+				return $license;
+			}
+		}
+
+		$key = array_keys( $expected[ $license ] );
+		$val = array_values( $expected[ $license ] );
+
+		// build the url
+		$url = $endpoint . $key[0] . "/" . $val[0] . "/get?" . $key[1] . "=" . $val[1] . "&" . $key[2] . "=" . $val[2] .
+		       "&creator=" . urlencode( $authors ) . "&title=" . urlencode( $title ) . "&locale=" . $lang;
+
+		// go and get it
+		$c = curl_init( $url );
+		curl_setopt( $c, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $c, CURLOPT_TIMEOUT, 20 );
+
+		$response = curl_exec( $c );
+		curl_close( $c );
+
+		// if server response is not ok, return semi-meaningful string
+		if ( false == $response ) {
+			return 'license information currently unavailable from https://api.creativecommons.org/rest/1.5/';
+		}
+
+		// in case response is not xml/invalid xml
+		libxml_use_internal_errors( true );
+
+		$obj = simplexml_load_string( $response );
+		$xml = explode( "\n", $response );
+
+		// catch errors, give them to php log
+		if ( ! $obj ) {
+			$errors = libxml_get_errors(); //@TODO do something with errors
+			foreach ( $errors as $error ) {
+				$msg = $this->displayXmlError( $error, $xml );
+				\error_log( $msg, 0 );
+			}
+			libxml_clear_errors();
+		}
+
+		// ensure instance of SimpleXMLElement, to avoid fatal error
+		if ( is_object( $obj ) ) {
+			$result = $this->getWebLicenseHtml( $obj->html );
+		} else {
+			$result = '';
+		}
+
+		// modify it for v3 if need be
+		if ( true == $v3 ) {
+			$result = preg_replace( '/(4\.0)/', '3.0', $result );
+		}
+
+		return $result;
 	}
 
 	private function addLogo() {
@@ -228,12 +342,30 @@ class DspaceBooks {
 	}
 
 	/**
+	 * Helper function customizes html response from cc api
+	 *
 	 * @param \SimpleXMLElement $response
+	 *
+	 * @return type
 	 */
 	private function getWebLicenseHtml( \SimpleXMLElement $response ) {
+		$html = '';
 
-		// TODO: Implement getWebLicenseHtml();
+		if ( is_object( $response ) ) {
+			$content = $response->asXML();
+			$content = trim( str_replace( array(
+				'<p xmlns:dct="http://purl.org/dc/terms/">',
+				'</p>',
+				'<html>',
+				'</html>'
+			), array( '', '', '', '' ), $content ) );
+			$content = preg_replace( "/http:\/\/i.creativecommons/iU", "https://i.creativecommons", $content );
 
+			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="muted" xmlns:dct="http://purl.org/dc/terms/">'
+			        . rtrim( $content, "." ) . ', except where otherwise noted.</p></div>';
+		}
+
+		return html_entity_decode( $html, ENT_XHTML, 'UTF-8' );
 	}
 
 	/**
