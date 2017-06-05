@@ -92,29 +92,24 @@ class DspaceBooks {
 	/**
 	 * @return string
 	 */
-	public function displayBooks( $start_here ) {
-		$limit = 10;
+	public function displayBooks( $args ) {
+		$limit = ( ! empty( $args['limit'] ) ) ? $args['limit'] : 10;
 		$html  = '';
 
-		if ( is_int( $start_here ) ) {
-			//set the limit if there are less than 10 results based on where we start
-			if ( ( $this->books->getSize() - $start_here ) < 10 ) {
-				//add a limit to the results, but avoid setting the limit to 0, since that'll give you more than you want
-				$limit = ( $this->books->getSize() - $start_here ) == 0 ? $limit = 1 : $this->books->getSize() - $start_here;
-			}
+		//if ( is_int( $args['start'] ) ) {
 
-			$html .= $this->displaySearchForm( $this->args['search'] );
+		$html .= $this->displaySearchForm( $this->args['search'] );
 
-			//if the search term is empty, then set where it starts and limit it to ten
-			if ( empty( $this->args['search'] ) ) {
-				$html .= $this->displayLinks( $start_here, $this->args['search'] );
-				$html .= $this->displayBySubject( $start_here, $limit );
-			} //otherwise, display all the results starting at the first one (from a search form)
-			else {
-				$html .= $this->displayBySubject( 0, 0 );
-			}
-			echo $html;
+		//if the search term is empty, then set where it starts and limit it to ten
+		if ( empty( $this->args['search'] ) ) {
+			$html .= $this->displayLinks( $args['start'], $this->args['search'] );
+			$html .= $this->displayBySubject( $limit );
+		} //otherwise, display all the results starting at the first one (from a search form)
+		else {
+			$html .= $this->displayBySubject( $limit );
 		}
+		echo $html;
+		//}
 		echo "<pre>";
 		print_r( $this->books );
 		echo "</pre>";
@@ -133,40 +128,31 @@ class DspaceBooks {
 	}
 
 	/**
-	 * @param int $start
 	 * @param int $limit
 	 */
-	public function displayBySubject( $start = 0, $limit = 0 ) {
+	public function displayBySubject( $limit = 0 ) {
 		$html = '';
 		$i    = 0;
 		$data = $this->books->getResponses();
-
-		// account for different array structures resulting from
-		// different API calls
-		$data_adj = ( isset( $data['items'] ) ) ? $data['items'] : $data;
-		$size     = count( $data_adj );
-
-		// necessary to see the last record
-		$start = ( $start == $size ? $start = $start - 1 : $start = $start );
+		$size = ( $this->books->getSize() > $limit ) ? $limit : $this->books->getSize();
 
 
 		$html .= "<ul class='no-bullets'>";
 		// check if it's been reviewed
 		while ( $i < $size ) {
-			$title       = $this->metadataToCsv( $data_adj[ $start ], 'dc.title' );
-			$description = $this->metadataToCsv( $data_adj[ $start ], 'dc.description.abstract' );
-			$authors     = $this->metadataToCsv( $data_adj[ $start ], 'dc.contributor.author' );
-			$date        = date( 'M j, Y', strtotime( $this->metadataToCsv( $data_adj[ $start ], 'dc.date.issued' ) ) );
-			$desc        = ( strlen( $description ) > 500 ) ? mb_substr( $description, 0, 499 ) . " <a href=?uuid=" . $data_adj[ $start ]['uuid'] . ">...[more]</a>" : $description;
+			$title       = $this->metadataToCsv( $data[ $i ], 'dc.title' );
+			$description = $this->metadataToCsv( $data[ $i ], 'dc.description.abstract' );
+			$authors     = $this->metadataToCsv( $data[ $i ], 'dc.contributor.author' );
+			$date        = date( 'M j, Y', strtotime( $this->metadataToCsv( $data[ $i ], 'dc.date.issued' ) ) );
+			$desc        = ( strlen( $description ) > 500 ) ? mb_substr( $description, 0, 499 ) . " <a href=?uuid=" . $data[ $i ]['uuid'] . ">...[more]</a>" : $description;
 
 			$html .= "<li>";
-			$html .= "<h4><a href=?uuid=" . $data_adj[ $start ]['uuid'] . ">" . $title . "</a></h4>";
-			//$html .= $this->getCustomMeta( $data_adj[ $start ] );
+			$html .= "<h4><a href=?uuid=" . $data[ $i ]['uuid'] . ">" . $title . "</a></h4>";
+			//$html .= $this->getCustomMeta( $data_adj[ $i ] );
 			$html .= "<b>Author(s):</b> " . $authors . "<br>";
 			$html .= "<b>Date Issued:</b> " . $date . "<br>";
 			$html .= "<p><b>Description:</b> " . $desc . "</p>";
 			$html .= "</li>";
-			$start ++;
 			$i ++;
 		}
 
@@ -182,18 +168,43 @@ class DspaceBooks {
 	 * @param $data
 	 */
 	private function getCustomMeta( $data ) {
-		// TODO: Implement displayLinks();
+		// TODO: Implement getCustomMeta();
 	}
 
 	/**
-	 * @param $start_here
-	 * @param $search_term
+	 *
+	 * @param int $start_here
+	 * @param string $search_term
+	 *
+	 * @return string $html
 	 */
-	public function displayLinks( $start_here, $search_term ) {
-		$html = '<p>display links placeholder</p>';
+	private function displayLinks( $start_here, $search_term ) {
+		$by_ten = 0;
 
-		// TODO: Implement displayLinks();
+		//reduce startHere to a multiple of 10
+		$start_here = ( 10 * intval( $start_here / 10 ) );
 
+		//reduce limit to an integer value
+		$limit = intval( $this->books->getSize() / 10 );
+
+		//if it is less than 10 or equal to 10, just return (all the links are on the page)
+		if ( $limit == 0 || $this->books->getSize() == 10 ) {
+			return;
+		}
+		$html = "<p>";
+		//otherwise, produce as many links as there are results divided by 10
+		while ( $limit >= 0 ) {
+			if ( $start_here == $by_ten ) {
+				$html .= "<strong>" . $by_ten . "</strong> | ";
+			} else {
+				$html .= "<a href='?start=" . $by_ten . "&subject=" . $this->args['subject'] . "&search=" . $search_term . "'>" . $by_ten . "</a> | ";
+			}
+			$by_ten = $by_ten + 10;
+			$limit --;
+		}
+		$html .= " <em>" . $this->books->getSize() . " available results</em></p>";
+
+		//return html blob
 		echo $html;
 	}
 

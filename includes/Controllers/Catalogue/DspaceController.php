@@ -28,6 +28,7 @@ class DspaceController {
 		'search'         => '',
 		'subject'        => '',
 		'start'          => 0,
+		'limit'          => '',
 
 		// TODO: confirm more default args
 	);
@@ -72,6 +73,10 @@ class DspaceController {
 			'start'          => array(
 				'filter' => FILTER_SANITIZE_NUMBER_INT,
 			),
+			// Remove all characters except digits, plus and minus sign.
+			'limit'          => array(
+				'filter' => FILTER_SANITIZE_NUMBER_INT,
+			),
 			// Strips characters that have a numerical value >127.
 			'search'         => array(
 				'filter' => FILTER_SANITIZE_STRING,
@@ -111,8 +116,14 @@ class DspaceController {
 			$this->args['subject'] = Utility\url_encode( $this->args['subject'] );
 		}
 		// multiple values need to be presented in an array
-		if ( ! empty( $this->args['search'] ) ){
+		if ( ! empty( $this->args['search'] ) ) {
 			$this->args['search'] = explode( ' ', $this->args['search'] );
+		}
+		if ( ! empty( $this->args['start'] ) ) {
+			$this->args['start'] = intval( $this->args['start'] );
+		}
+		if ( ! empty( $this->args['limit'] ) ) {
+			$this->args['limit'] = intval( $this->args['limit'] );
 		}
 	}
 

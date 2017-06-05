@@ -52,7 +52,8 @@ class DspaceApi implements Polymorphism\RestInterface {
 		$filters              = 'is_discoverable';
 		$case_insensitive     = '(?i)';
 		$wild_card            = '.*';
-		$limit                = 0;
+		$limit                = 'limit=';
+		$limitations          = $start . $args['start'] . '&' . $limit . $args['limit'];
 		$regex                = '';
 		$context              = stream_context_create( $opts );
 		$this->apiBaseUrl     = $env['dspace']['SITE_URL'];
@@ -74,13 +75,13 @@ class DspaceApi implements Polymorphism\RestInterface {
 			// return all items in the collection
 			// rest/collections/:ID/items[?expand={metadata,bitstreams}]
 			if ( empty( $args['search'] ) && empty( $args['subject'] ) ) {
-				$this->url = $this->apiBaseUrl . 'collections/' . $this->collectionUuid . '/items?' . $expand . '&' . $start . $args['start'];
+				$this->url = $this->apiBaseUrl . 'collections/' . $this->collectionUuid . '/items?' . $expand . '&' . $limitations;
 			} // filter by subject area, contain the search by the collection handle
 			elseif ( ! empty( $args['subject'] ) ) {
 				$filtered_query   = $query_field . 'dc.subject.*&' . $query_op . 'matches&' . $query_val . $case_insensitive . $args['subject'];
 				$collection_query = $coll_sel . $this->collectionUuid;
 				$filter_query     = 'filters=' . $filters;
-				$this->url        = $this->apiBaseUrl . 'filtered-items?' . $filtered_query . '&' . $collection_query . '&' . $filter_query . '&' . $expand;
+				$this->url        = $this->apiBaseUrl . 'filtered-items?' . $filtered_query . '&' . $collection_query . '&' . $filter_query . '&' . $expand . '&' . $limitations;
 			} // filter by search term
 			elseif ( ! empty ( $args['search'] ) && is_array( $args['search'] ) ) {
 				foreach ( $args['search'] as $term ) {
@@ -89,13 +90,8 @@ class DspaceApi implements Polymorphism\RestInterface {
 				$filtered_query   = $query_field . 'dc.title&' . $query_op . 'matches&' . $query_val . $case_insensitive . $regex . $wild_card;
 				$collection_query = $coll_sel . $this->collectionUuid;
 				$filter_query     = 'filters=' . $filters;
-				$this->url        = $this->apiBaseUrl . 'filtered-items?' . $filtered_query . '&' . $collection_query . '&' . $expand . '&' . $filter_query;
+				$this->url        = $this->apiBaseUrl . 'filtered-items?' . $filtered_query . '&' . $collection_query . '&' . $expand . '&' . $filter_query . '&' . $limitations;
 			}
-
-			// rest/filtered-items?query_field[]=dc.subject.*&query_field[]=dc.creator&query_op[]=contains&query_op[]=matches&query_val[]=politic&query_val[]=.*Krogh.*
-			// &collSel[]=&limit=100&offset=0&expand=parentCollection,metadata&filters=is_withdrawn,is_discoverable&show_fields[]=dc.subject&show_fields[]=dc.subject.other
-
-			// filter by author
 
 		}
 
