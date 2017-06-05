@@ -71,11 +71,21 @@ class DspaceBooks {
 	/**
 	 * @return string
 	 */
-	public function displaySearchForm() {
-		$html = '<p>search form placeholder</p>';
+	public function displaySearchForm( $post_value = '' ) {
+		$string = \BCcampus\Utility\array_to_string( $post_value );
+		$html   = "
+      <fieldset name='dspace' class='pull-right'>
+      <form class='form-search form-inline' action='' method='get'>
+        <input type='text' class='input-small' name='search' id='dspaceSearchTerm' value='" . $string . "'/> 
+        <button type='submit' formaction='' class='btn' name='dspaceSearchSubmit' id='dspaceSearchSubmit'>Search</button>
+      </form>
+      </fieldset>";
 
-		// TODO: Implement displaySearchForm()
-
+		if ( $this->books->getSize() > 0 ) {
+			$html .= "<h5>Available results: " . $this->books->getSize() . "</h5>";
+		} else {
+			$html .= "<h5>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
+		}
 		echo $html;
 	}
 

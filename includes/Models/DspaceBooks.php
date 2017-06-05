@@ -46,7 +46,9 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	 * @return mixed
 	 */
 	public function getResponses() {
-		return $this->data;
+		$data = ( isset( $this->data['items'] ) ) ? $this->data['items'] : $this->data;
+
+		return $data;
 	}
 
 	/**
