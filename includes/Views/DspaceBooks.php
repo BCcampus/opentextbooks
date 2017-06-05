@@ -224,7 +224,7 @@ class DspaceBooks {
 			$v3       = false;
 			$endpoint = 'https://api.creativecommons.org/rest/1.5/';
 			$expected = array(
-				'cc0'      => array(
+				'zero'      => array(
 					'license'     => 'zero',
 					'commercial'  => 'y',
 					'derivatives' => 'y',
