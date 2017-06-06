@@ -323,12 +323,6 @@ class DspaceBooks {
 		}
 	}
 
-	private function addLogo() {
-
-		// TODO: Implement addLogo();
-
-	}
-
 	/**
 	 * Helper function customizes html response from cc api
 	 *
@@ -378,34 +372,8 @@ class DspaceBooks {
 			if ( 0 === strcmp( $item['format'], 'License' ) ) {
 				continue;
 			}
-
-			$mime_type    = $item['mimeType'];
-			$add_logo = '';
-			// get the correct image for each mimetype
-			switch ( $mime_type ) {
-				case 'application/pdf':
-					$add_logo .= "<img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>";
-					break;
-
-				case 'application/epub+zip':
-					$add_logo .= "<img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>";
-					break;
-
-				case 'application/zip':
-					$add_logo .= "<img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>";
-					break;
-
-				case 'application/rdf+xml; charset=utf-8':
-					$add_logo .= "<img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />";
-					break;
-			}
-
 			$html .= "<li><a href='//" . $base_url . $item['retrieveLink'] . "'><i class='glyphicon glyphicon-download'></i>  Download </a>";
-			$html .= $add_logo . $item['format'];
+			$html .= $this->addLogo( $item['mimeType'] ) . $item['format'];
 			$html .= \BCcampus\Utility\determine_file_size( $item['sizeBytes'] ) . "</li>";
 		}
 
@@ -413,6 +381,43 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />";
 
 		return $html;
 
+	}
+
+	/**
+	 * @param $mimeType
+	 *
+	 * @return string
+	 */
+	private function addLogo( $mimeType ) {
+		$logo = '';
+		// get the correct image for each mimetype
+		switch ( $mimeType ) {
+			case 'application/pdf':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
+Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>";
+				break;
+
+			case 'application/epub+zip':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
+Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>";
+				break;
+
+			case 'application/zip':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. This icon is licensed under a Creative Commons
+Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>";
+				break;
+
+			case 'application/rdf+xml; charset=utf-8':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
+Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />";
+				break;
+			default:
+				$logo .= "<img src='" . OTB_URL . "assets/images/document   .png' alt='XML file. This icon is licensed under a Creative Commons
+Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />";
+				break;
+		}
+
+		return $logo;
 	}
 
 	/**
