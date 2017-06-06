@@ -266,16 +266,14 @@ class DspaceBooks {
 					'derivatives' => 'n',
 				),
 			);
-			// interpret string as an object
-			$xml = $dspace_array;
 
-			if ( $xml ) {
-				$license = $this->metadataToCsv( $xml, 'dc.rights.uri' );
+			if ( $dspace_array ) {
+				$license = $this->metadataToCsv( $dspace_array, 'dc.rights.uri' );
 				$license = strtolower( $license );
 				$license = explode( "/", $license );
 				$license = $license[4];
-				$title   = $this->metadataToCsv( $xml, 'dc.title' );
-				$lang    = $this->metadataToCsv( $xml, 'dc.language' );;
+				$title   = $this->metadataToCsv( $dspace_array, 'dc.title' );
+				$lang    = $this->metadataToCsv( $dspace_array, 'dc.language' );;
 			}
 
 			$key = array_keys( $expected[ $license ] );
