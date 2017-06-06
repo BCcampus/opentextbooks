@@ -219,106 +219,107 @@ class DspaceBooks {
 	 * @return type|mixed|string
 	 */
 	private function licensePicker( $dspace_array, $authors ) {
-		$allowed  = array( 'zero', 'by', 'by-sa', 'by-nd', 'by-nc', 'by-nc-sa', 'by-nc-nd' );
-		$uricheck = $this->metadataToCsv( $dspace_array, 'dc.rights.uri' );
-		if ( $uricheck ) {
-			$uricheck = strtolower( $uricheck );
-			$uricheck = explode( "/", $uricheck );
-			$uricheck = $uricheck[4];
-		}
-		if ( in_array( $uricheck, $allowed ) ) {
-			$endpoint = 'https://api.creativecommons.org/rest/1.5/';
-			$expected = array(
-				'zero'     => array(
-					'license'     => 'zero',
-					'commercial'  => 'y',
-					'derivatives' => 'y',
-				),
-				'by'       => array(
-					'license'     => 'standard',
-					'commercial'  => 'y',
-					'derivatives' => 'y',
-				),
-				'by-sa'    => array(
-					'license'     => 'standard',
-					'commercial'  => 'y',
-					'derivatives' => 'sa',
-				),
-				'by-nd'    => array(
-					'license'     => 'standard',
-					'commercial'  => 'y',
-					'derivatives' => 'n',
-				),
-				'by-nc'    => array(
-					'license'     => 'standard',
-					'commercial'  => 'n',
-					'derivatives' => 'y',
-				),
-				'by-nc-sa' => array(
-					'license'     => 'standard',
-					'commercial'  => 'n',
-					'derivatives' => 'sa',
-				),
-				'by-nc-nd' => array(
-					'license'     => 'standard',
-					'commercial'  => 'n',
-					'derivatives' => 'n',
-				),
-			);
 
-			if ( $dspace_array ) {
-				$license = $this->metadataToCsv( $dspace_array, 'dc.rights.uri' );
-				$license = strtolower( $license );
-				$license = explode( "/", $license );
+		$license  = $this->metadataToCsv( $dspace_array, 'dc.rights.uri' );
+		$endpoint = 'https://api.creativecommons.org/rest/1.5/';
+		$expected = array(
+			'zero'     => array(
+				'license'     => 'zero',
+				'commercial'  => 'y',
+				'derivatives' => 'y',
+			),
+			'by'       => array(
+				'license'     => 'standard',
+				'commercial'  => 'y',
+				'derivatives' => 'y',
+			),
+			'by-sa'    => array(
+				'license'     => 'standard',
+				'commercial'  => 'y',
+				'derivatives' => 'sa',
+			),
+			'by-nd'    => array(
+				'license'     => 'standard',
+				'commercial'  => 'y',
+				'derivatives' => 'n',
+			),
+			'by-nc'    => array(
+				'license'     => 'standard',
+				'commercial'  => 'n',
+				'derivatives' => 'y',
+			),
+			'by-nc-sa' => array(
+				'license'     => 'standard',
+				'commercial'  => 'n',
+				'derivatives' => 'sa',
+			),
+			'by-nc-nd' => array(
+				'license'     => 'standard',
+				'commercial'  => 'n',
+				'derivatives' => 'n',
+			),
+		);
+
+		if ( $dspace_array && $license ) {
+			$license = strtolower( $license );
+			$license = explode( "/", $license );
+			// get keys of expected values
+			$keys = array_keys( $expected );
+			// check license value exists and that it's value matches an expected license
+			if ( $license[4] && in_array( $license[4], $keys ) ) {
 				$license = $license[4];
-				$title   = $this->metadataToCsv( $dspace_array, 'dc.title' );
-				$lang    = $this->metadataToCsv( $dspace_array, 'dc.language' );;
-			}
-
-			$key = array_keys( $expected[ $license ] );
-			$val = array_values( $expected[ $license ] );
-
-			// build the url
-			$url = $endpoint . $key[0] . "/" . $val[0] . "/get?" . $key[1] . "=" . $val[1] . "&" . $key[2] . "=" . $val[2] .
-			       "&creator=" . urlencode( $authors ) . "&title=" . urlencode( $title ) . "&locale=" . $lang;
-
-			// go and get it
-			$c = curl_init( $url );
-			curl_setopt( $c, CURLOPT_RETURNTRANSFER, true );
-			curl_setopt( $c, CURLOPT_TIMEOUT, 20 );
-
-			$response = curl_exec( $c );
-			curl_close( $c );
-
-			// if server response is not ok, return semi-meaningful string
-			if ( false == $response ) {
-				return 'license information currently unavailable from https://api.creativecommons.org/rest/1.5/';
-			}
-
-			// in case response is not xml/invalid xml
-			libxml_use_internal_errors( true );
-
-			$obj = simplexml_load_string( $response );
-			$xml = explode( "\n", $response );
-
-			// catch errors, give them to php log
-			if ( ! $obj ) {
-				$errors = libxml_get_errors(); //@TODO do something with errors
-				foreach ( $errors as $error ) {
-					$msg = $this->displayXmlError( $error, $xml );
-					\error_log( $msg, 0 );
-				}
-				libxml_clear_errors();
-			}
-
-			// ensure instance of SimpleXMLElement, to avoid fatal error
-			if ( is_object( $obj ) ) {
-				$result = $this->getWebLicenseHtml( $obj->html );
 			} else {
-				$result = '';
+				$license = "Unknown license";
 			}
+			// proceed if license is one of the expected
+			if ( in_array( $license, $keys ) ) {
+				$title = $this->metadataToCsv( $dspace_array, 'dc.title' );
+				$lang  = $this->metadataToCsv( $dspace_array, 'dc.language' );;
+				$key = array_keys( $expected[ $license ] );
+				$val = array_values( $expected[ $license ] );
 
-			return $result;
+				// build the url
+				$url = $endpoint . $key[0] . "/" . $val[0] . "/get?" . $key[1] . "=" . $val[1] . "&" . $key[2] . "=" . $val[2] .
+				       "&creator=" . urlencode( $authors ) . "&title=" . urlencode( $title ) . "&locale=" . $lang;
+
+				// go and get it
+				$c = curl_init( $url );
+				curl_setopt( $c, CURLOPT_RETURNTRANSFER, true );
+				curl_setopt( $c, CURLOPT_TIMEOUT, 20 );
+
+				$response = curl_exec( $c );
+				curl_close( $c );
+
+				// if server response is not ok, return semi-meaningful string
+				if ( false == $response ) {
+					return 'license information currently unavailable from https://api.creativecommons.org/rest/1.5/';
+				}
+
+				// in case response is not xml/invalid xml
+				libxml_use_internal_errors( true );
+
+				$obj = simplexml_load_string( $response );
+				$xml = explode( "\n", $response );
+
+				// catch errors, give them to php log
+				if ( ! $obj ) {
+					$errors = libxml_get_errors(); //@TODO do something with errors
+					foreach ( $errors as $error ) {
+						$msg = $this->displayXmlError( $error, $xml );
+						\error_log( $msg, 0 );
+					}
+					libxml_clear_errors();
+				}
+
+				// ensure instance of SimpleXMLElement, to avoid fatal error
+				if ( is_object( $obj ) ) {
+					$result = $this->getWebLicenseHtml( $obj->html );
+				} else {
+					$result = '';
+				}
+
+				return $result;
+			}
 		}
 	}
 
