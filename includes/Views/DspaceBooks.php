@@ -412,7 +412,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>";
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />";
 				break;
 			default:
-				$logo .= "<img src='" . OTB_URL . "assets/images/document   .png' alt='XML file. This icon is licensed under a Creative Commons
+				$logo .= "<img src='" . OTB_URL . "assets/images/document.png' alt='XML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />";
 				break;
 		}
