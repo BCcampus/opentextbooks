@@ -266,13 +266,13 @@ class DspaceBooks {
 			// get keys of expected values
 			$keys = array_keys( $expected );
 			// check license value exists and that it's value matches an expected license
-			if ( $license[4] && in_array( $license[4], $keys ) ) {
+			if ( $license[4] && isset( $license[4], $keys ) ) {
 				$license = $license[4];
 			} else {
 				$license = "Unknown license";
 			}
 			// proceed if license is one of the expected
-			if ( in_array( $license, $keys ) ) {
+			if ( isset( $license, $keys ) ) {
 				$title = $this->metadataToCsv( $dspace_array, 'dc.title' );
 				$lang  = $this->metadataToCsv( $dspace_array, 'dc.language' );;
 				$key = array_keys( $expected[ $license ] );
