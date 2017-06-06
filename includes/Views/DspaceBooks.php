@@ -227,7 +227,6 @@ class DspaceBooks {
 			$uricheck = $uricheck[4];
 		}
 		if ( in_array( $uricheck, $allowed ) ) {
-			$v3       = false;
 			$endpoint = 'https://api.creativecommons.org/rest/1.5/';
 			$expected = array(
 				'zero'     => array(
@@ -317,11 +316,6 @@ class DspaceBooks {
 				$result = $this->getWebLicenseHtml( $obj->html );
 			} else {
 				$result = '';
-			}
-
-			// modify it for v3 if need be
-			if ( true == $v3 ) {
-				$result = preg_replace( '/(4\.0)/', '3.0', $result );
 			}
 
 			return $result;
