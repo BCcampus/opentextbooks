@@ -389,31 +389,49 @@ class DspaceBooks {
 	 * @return string
 	 */
 	private function addLogo( $mimeType ) {
-		$logo = '';
-		// get the correct image for each mimetype
+		$logo      = '';
+		$copyright = "This icon is licensed under a Creative Commons Attribution 3.0 License. Copyright Yusuke Kamiyamane.";
+
+		// get the logo image for each mimetype we an image for
 		switch ( $mimeType ) {
 			case 'application/pdf':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>";
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. " . $copyright . "'/>";
 				break;
 
 			case 'application/epub+zip':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>";
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. " . $copyright . "'/>";
 				break;
 
 			case 'application/zip':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>";
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. " . $copyright . "'/>";
 				break;
 
 			case 'application/rdf+xml; charset=utf-8':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />";
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. " . $copyright . "'/>";
+				break;
+			case 'application/mobi':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. " . $copyright . "'/>";
+				break;
+			case 'application/print':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-code.png' alt='Print file. " . $copyright . "'/>";
+				break;
+			case 'application/html':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-code.png' alt='HTML file. " . $copyright . "'/>";
+				break;
+			case 'application/text':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEXT file. " . $copyright . "'/>";
+				break;
+			case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-word.png' alt='ODT file. " . $copyright . "'/>";
+				break;
+			case 'application/msword':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. " . $copyright . "'/>";
+				break;
+			case 'text/richtext':
+				$logo .= "<img src='" . OTB_URL . "assets/images/document-word.png' alt='RTF file. " . $copyright . "'/>";
 				break;
 			default:
-				$logo .= "<img src='" . OTB_URL . "assets/images/document.png' alt='XML file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />";
+				$logo .= "<img src='" . OTB_URL . "assets/images/document.png' alt='Document File. " . $copyright . "'/>";
 				break;
 		}
 
