@@ -389,49 +389,48 @@ class DspaceBooks {
 	 * @return string
 	 */
 	private function addLogo( $mimeType ) {
-		$logo      = '';
+		if ( empty( $mimeType ) || ! is_string( $mimeType ) ) {
+			return '';
+		}
 		$copyright = "This icon is licensed under a Creative Commons Attribution 3.0 License. Copyright Yusuke Kamiyamane.";
 
 		// get the logo image for each mimetype we an image for
 		switch ( $mimeType ) {
 			case 'application/pdf':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. " . $copyright . "'/>";
 				break;
-
 			case 'application/epub+zip':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. " . $copyright . "'/>";
 				break;
-
 			case 'application/zip':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. " . $copyright . "'/>";
 				break;
-
 			case 'application/rdf+xml; charset=utf-8':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. " . $copyright . "'/>";
 				break;
 			case 'application/mobi':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. " . $copyright . "'/>";
-				break;
-			case 'application/print':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-code.png' alt='Print file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. " . $copyright . "'/>";
 				break;
 			case 'application/html':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-code.png' alt='HTML file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-code.png' alt='HTML file. " . $copyright . "'/>";
 				break;
-			case 'application/text':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEXT file. " . $copyright . "'/>";
+			case 'application/x-tex':
+				$logo = "<img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEX file. " . $copyright . "'/>";
+				break;
+			case 'application/vnd.oasis.opendocument.text':
+				$logo = "<img src='" . OTB_URL . "assets/images/document-word.png' alt='ODT file. " . $copyright . "'/>";
 				break;
 			case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-word.png' alt='ODT file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. " . $copyright . "'/>";
 				break;
 			case 'application/msword':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. " . $copyright . "'/>";
 				break;
 			case 'text/richtext':
-				$logo .= "<img src='" . OTB_URL . "assets/images/document-word.png' alt='RTF file. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document-word.png' alt='RTF file. " . $copyright . "'/>";
 				break;
 			default:
-				$logo .= "<img src='" . OTB_URL . "assets/images/document.png' alt='Document File. " . $copyright . "'/>";
+				$logo = "<img src='" . OTB_URL . "assets/images/document.png' alt='Document File. " . $copyright . "'/>";
 				break;
 		}
 
@@ -445,10 +444,7 @@ class DspaceBooks {
 	 *
 	 * @return type
 	 */
-	protected
-	function displayXmlError(
-		$error, $xml
-	) {
+	protected function displayXmlError( $error, $xml ) {
 		$return = $xml[ $error->line - 1 ];
 		$return .= str_repeat( '-', $error->column );
 
@@ -481,10 +477,7 @@ class DspaceBooks {
 	 *
 	 * @return string
 	 */
-	private
-	function metadataToCsv(
-		$dspace_array, $dc_type
-	) {
+	private function metadataToCsv( $dspace_array, $dc_type ) {
 		$expected = array(
 			'dc.contributor.advisor',
 			'dc.contributor.author',
