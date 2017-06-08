@@ -97,7 +97,7 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 		elseif ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && ! empty( $this->args['search'] ) ) {
 			$name = $this->args['collectionUuid'] . $this->args['search'];
 		} // subject area
-		elseif ( ! empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) {
+		elseif ( ! empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) ) {
 			$name = $this->args['collectionUuid'] . $this->args['subject'];
 		} // subject area and search term
 		elseif ( ! empty( $this->args['subject'] ) && ! empty( $this->args['search'] ) ) {
