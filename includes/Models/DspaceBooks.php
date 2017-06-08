@@ -16,7 +16,6 @@ namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
 
-
 class DspaceBooks extends Polymorphism\DataAbstract {
 	/**
 	 * @var
@@ -26,6 +25,9 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	protected $args = array();
 
 	protected $size;
+	private $location = 'cache/catalogue';
+	private $type = 'txt';
+	protected $api;
 
 	/**
 	 * DspaceBooks constructor.
@@ -36,9 +38,16 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	public function __construct( Polymorphism\RestInterface $api, $args ) {
 		// TODO: Implement more robust constructor
 		$this->data = $api->retrieve( $args );
-
 		$this->args = $args;
 		$this->size = count( $this->getResponses() );
+		$this->api  = $api;
+
+		try {
+			$this->setResponses();
+		} catch ( \Exception $exp ) {
+			error_log( $exp->getMessage() );
+		}
+
 
 	}
 
@@ -49,6 +58,53 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 		$data = ( isset( $this->data['items'] ) ) ? $this->data['items'] : $this->data;
 
 		return $data;
+	}
+
+	/**
+	 *
+	 */
+	private function setResponses() {
+		$serialize = true;
+		$file_name = $this->setFileName();
+		$file_type = $this->type;
+
+		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );
+
+		// check if there is a stored version of the results
+		if ( $persistent_data ) {
+			$this->data = $persistent_data->load();
+		} else {
+			// request an API response
+
+			$this->data = $this->api->retrieve( $this->args );
+			$this->saveToStorage( $this->location, $file_name, $file_type, $this->data, $serialize );
+		}
+	}
+
+	/**
+	 * @return mixed|string
+	 */
+	private function setFileName() {
+
+		$name = '';
+		// name file after the collection
+		if ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) ) {
+			$name = $this->args['collectionUuid'];
+		} // individual record
+		elseif ( ! empty( $this->args['uuid'] ) ) {
+			$name = $this->args['uuid'];
+		} // name the file after the search term
+		elseif ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && ! empty( $this->args['search'] ) ) {
+			$name = $this->args['collectionUuid'] . $this->args['search'];
+		} // name the file after the subject area
+		elseif ( ! empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) ) {
+			$name = $this->args['collectionUuid'] . $this->args['subject'] . $this->args['search'];
+		} // name the file after the subject area and search term
+		elseif ( ! empty( $this->args['subject'] ) && ! empty( $this->args['search'] ) ) {
+			$name = $this->args['subject'] . $this->args['search'];
+		}
+
+		return $name;
 	}
 
 	/**

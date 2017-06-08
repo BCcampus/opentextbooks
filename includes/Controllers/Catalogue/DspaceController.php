@@ -111,6 +111,13 @@ class DspaceController {
 		if ( ! is_array( $args ) ) {
 			return;
 		}
+
+		$env = include( OTB_DIR . '.env.php' );
+		// allow for collection to be overridden with a passed argument
+		// otherwise default collection uuid should be set in .env.php
+		if ( empty( $args['collectionUuid'] ) ) {
+			$args['collectionUuid'] = $env['dspace']['UUID'];
+		}
 		// needs to be 'Arts+and+Culture'
 		if ( ! empty( $this->args['subject'] ) ) {
 			$this->args['subject'] = Utility\url_encode( $this->args['subject'] );
