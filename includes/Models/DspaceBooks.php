@@ -92,16 +92,16 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 			$name = $this->args['collectionUuid'];
 		} // individual record
 		elseif ( ! empty( $this->args['uuid'] ) ) {
-			$name = $this->args['uuid'];
-		} // name the file after the search term
+			$name = $this->args['collectionUuid'] . $this->args['uuid'];
+		} // search term
 		elseif ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && ! empty( $this->args['search'] ) ) {
 			$name = $this->args['collectionUuid'] . $this->args['search'];
-		} // name the file after the subject area
-		elseif ( ! empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) ) {
-			$name = $this->args['collectionUuid'] . $this->args['subject'] . $this->args['search'];
-		} // name the file after the subject area and search term
+		} // subject area
+		elseif ( ! empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) {
+			$name = $this->args['collectionUuid'] . $this->args['subject'];
+		} // subject area and search term
 		elseif ( ! empty( $this->args['subject'] ) && ! empty( $this->args['search'] ) ) {
-			$name = $this->args['subject'] . $this->args['search'];
+			$name = $this->args['collectionUuid'] . $this->args['subject'] . $this->args['search'];
 		}
 
 		return $name;
