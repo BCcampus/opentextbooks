@@ -2,9 +2,6 @@
 include_once 'autoloader.php';
 
 use BCcampus\OpenTextBooks\Controllers\Catalogue;
-use BCcampus\OpenTextBooks\Models;
-
-//use BCcampus\OpenTextBooks\Controllers\Reviews;
 
 include( OTB_DIR . 'assets/templates/partial/style.php' );
 ?>
@@ -36,24 +33,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 
 
 	new Catalogue\DspaceController( $args );
-	//    $api = new Models\DspaceApi();
-	//	echo "<pre>";
-	//	print_r( $api->retrieve( $args ) );
-	//	echo "</pre>";
-	//	die();
 
-
-	//	if ( isset( $args['uuid'] ) && $args['uuid'] != '' ) {
-	//
-	//		// overwrite variable
-	//		$args['type_of'] = 'reviews';
-	//
-	//		try {
-	//			new Reviews\LimeSurveyController($args);
-	//		} catch (\Exception $exc) {
-	//			error_log( $exc->getMessage(), 0);
-	//		}
-	//	}
 	unset( $_GET );
 	?>
 </div>
@@ -62,7 +42,3 @@ include( OTB_DIR . 'assets/templates/partial/container-end.php' );
 include( OTB_DIR . 'assets/templates/partial/scripts.php' );
 ?>
 
-<!--<script type="text/x-mathjax-config">-->
-<!--	MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});-->
-<!--</script>-->
-<!--<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
