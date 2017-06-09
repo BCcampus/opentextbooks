@@ -1019,9 +1019,9 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	 * @return string
 	 */
 	private function displayShortURL( $url ) {
-		$result    = '';
 		$urlEncode = urlencode( $url );
-		$urls      = 'https://urls.bccampus.ca/yourls-api.php?signature=1e7d9edbca&action=shorturl&format=simple&url=';
+		$env       = include( OTB_DIR . '.env.php' );
+		$urls      = $env['yourls']['SITE_URL'] . '?signature=' . $env['yourls']['UUID'] . '&action=shorturl&format=simple&url=';
 
 		//get the string result
 		$result = "<p><strong>Short URL</strong>: ";
