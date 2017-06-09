@@ -90,11 +90,13 @@ class Books {
 				}
 
 				$sources = rtrim( $sources, ', ' );
-				$html .= $sources . "</p>";
+				$html    .= $sources . "</p>";
 			}
 
 			$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
 			$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook<i class='glyphicon glyphicon-book'></i></a></p>";
+			$html .= "<p><strong>Need help? </strong>Visit our <a href='https://open.bccampus.ca/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
+			$html .= "<p><strong>Accessibility: </strong><a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Textbooks flagged as accessible meet the criteria noted on the Accessibility Checklist.<i class='glyphicon glyphicon-book'></i></a></p>";
 			$html .= "<h3>Open Textbook(s):</h3><ol>";
 
 			$attachments = $this->reOrderAttachments( $data['attachments'] );
@@ -151,7 +153,7 @@ class Books {
 					}
 
 					$sources = rtrim( $sources, ', ' );
-					$html .= $sources . "</p>";
+					$html    .= $sources . "</p>";
 				}
 
 				$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
@@ -281,6 +283,9 @@ class Books {
 
 		if ( 'ancillary' == $type ) {
 			$html = "<p>There are currently {$count} textbooks with {$type} resources.</p>";
+		}
+		if ( 'accessible' == $type ) {
+			$html = "<p>There are currently {$count} {$type} textbooks. Accessible textbooks must meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.</a></p>";
 		} else {
 			$html = "<p>There are currently {$count} {$type} textbooks.</p>";
 		}
@@ -323,7 +328,7 @@ class Books {
 		// if we're displaying all of the results (from a search form request)
 		if ( $limit == 0 ) {
 			$limit = $this->size;
-			$html .= "<ol>";
+			$html  .= "<ol>";
 		} else {
 			$html .= "<ul class='no-bullets'>";
 		}
@@ -331,13 +336,13 @@ class Books {
 		while ( $i < $limit ) {
 			$desc     = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . "<a href=" . $this->baseURL . "?uuid=" . $data[ $start ]['uuid'] . "&contributor=" . $this->args['contributor'] . "&keyword=" . $this->args['keyword'] . "&subject=" . $this->args['subject'] . ">...[more]</a>" : $data[ $start ]['description'];
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
-			$html .= "<li>";
-			$html .= "<h4><a href='" . $this->baseURL . "?uuid=" . $data[ $start ]['uuid'] . "&contributor=" . $this->args['contributor'] . "&keyword=" . $this->args['keyword'] . "&subject=" . $this->args['subject'] . "'>" . $data[ $start ]['name'] . "</a></h4> "
-			         . "<h4>" . $metadata . " </h4>";
-			$html .= "<strong>Author(s):</strong> " . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . "<br>";
-			$html .= "<strong>Date:</strong> " . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
-			$html .= "<p><strong>Description:</strong> " . $desc . "</p>";
-			$html .= "</li>";
+			$html     .= "<li>";
+			$html     .= "<h4><a href='" . $this->baseURL . "?uuid=" . $data[ $start ]['uuid'] . "&contributor=" . $this->args['contributor'] . "&keyword=" . $this->args['keyword'] . "&subject=" . $this->args['subject'] . "'>" . $data[ $start ]['name'] . "</a></h4> "
+			             . "<h4>" . $metadata . " </h4>";
+			$html     .= "<strong>Author(s):</strong> " . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . "<br>";
+			$html     .= "<strong>Date:</strong> " . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
+			$html     .= "<p><strong>Description:</strong> " . $desc . "</p>";
+			$html     .= "</li>";
 			$start ++;
 			$i ++;
 		}
@@ -496,7 +501,7 @@ class Books {
 		if ( ! filter_var( $source, FILTER_VALIDATE_URL ) ) {
 			$formatted .= "<span itemprop='isBasedOnUrl'>" . $source . "</span>, ";
 		} else {
-			$url = parse_url( $source );
+			$url       = parse_url( $source );
 			$formatted .= "<a itemprop='isBasedOnUrl' href='" . $source . "'>" . $url['host'] . " </a>";
 		}
 
@@ -789,7 +794,7 @@ class Books {
 
 		foreach ( $results['drm']['options']['contentOwners'] as $owner ) {
 			$author = ( false !== strstr( $owner['name'], ',', true ) ) ? strstr( $owner['name'], ',', true ) : $owner['name'];
-			$html .= "<meta name='citation_author' content='{$author}'>\n";
+			$html   .= "<meta name='citation_author' content='{$author}'>\n";
 		}
 		$date = date( 'Y/m/d', strtotime( $results['createdDate'] ) );
 		$html .= "<meta name='citation_online_date' content='{$date}'>\n";
