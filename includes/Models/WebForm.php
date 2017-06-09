@@ -94,6 +94,7 @@ class WebForm extends Polymorphism\DataAbstract {
 		"Selkirk College"                                        => 5,
 		"Simon Fraser University"                                => 1,
 		"Thompson Rivers University"                             => 24,
+		"Trinity Western University"                             => 1,
 		"University of British Columbia"                         => 24,
 		"University Canada West"                                 => 0,
 		"University of Northern British Columbia"                => 2,
@@ -103,12 +104,12 @@ class WebForm extends Polymorphism\DataAbstract {
 		"Vancouver Island University"                            => 16,
 		"Other"                                                  => 6
 	);
-	public $baseline_num_adoptions = 492; // as of may 18 2016
-	public $baseline_num_students = 14320; // as of may 18 2016
-	public $baseline_savings_100 = 1432000; // as of may 18 2016
-	public $baseline_savings_actual = 1821636; // as of may 18 2016
-	public $baseline_num_inst = 28; // as of may 18 2016
-	public $baseline_num_faculty = 143; // as of may 18 2016
+	public $baseline_num_adoptions = 493; // as of may 18 2016
+	public $baseline_num_students = 14345; // as of may 18 2016
+	public $baseline_savings_100 = 1434000; // as of may 18 2016
+	public $baseline_savings_actual = 1823636; // as of may 18 2016
+	public $baseline_num_inst = 29; // as of may 18 2016
+	public $baseline_num_faculty = 144; // as of may 18 2016
 
 	/**
 	 * WebForm constructor.
