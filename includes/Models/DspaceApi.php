@@ -15,7 +15,6 @@
 namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
-use BCcampus\Utility;
 
 class DspaceApi implements Polymorphism\RestInterface {
 	private $apiBaseUrl = '';
@@ -23,6 +22,8 @@ class DspaceApi implements Polymorphism\RestInterface {
 	private $url = '';
 
 	/**
+	 * Builds URLs based on arguments passed to hit endpoints for data
+	 *
 	 * Based on DSpace RESTapi v6
 	 * Documentation
 	 * https://github.com/DSpace/DSpace/tree/master/dspace-rest
@@ -95,13 +96,16 @@ class DspaceApi implements Polymorphism\RestInterface {
 
 		}
 
-		// fetch results
-		$result = json_decode( file_get_contents( $this->url, false, $context ), true );
+		$result = file_get_contents( $this->url, false, $context );
 
 		// evaluate the result
-		// TODO: throw exception, implement graceful degradation
+		if ( ! $result ) {
+			// TODO: implement exception handling
+			error_log( 'DSpace API is not returning results as expected in \BCcampus\OpenTextBooks\DspaceApi::retrieve' );
+		}
 
-		return $result;
+		return json_decode( $result, true );
+
 	}
 
 	function create() {

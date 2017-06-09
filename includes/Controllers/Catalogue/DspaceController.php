@@ -19,6 +19,7 @@ use BCcampus\OpenTextBooks\Models;
 use BCcampus\Utility;
 
 class DspaceController {
+
 	/**
 	 * @var array
 	 */
@@ -29,8 +30,6 @@ class DspaceController {
 		'subject'        => '',
 		'start'          => 0,
 		'limit'          => '',
-
-		// TODO: confirm more default args
 	);
 
 	/**
@@ -45,6 +44,8 @@ class DspaceController {
 
 	/**
 	 * DspaceController constructor.
+	 *
+	 * @param $args
 	 */
 	public function __construct( $args ) {
 		// sanity check
@@ -107,6 +108,12 @@ class DspaceController {
 		}
 	}
 
+	/**
+	 * Ensures the arguments are formatted correctly before passing them
+	 * to a Model class
+	 *
+	 * @param $args
+	 */
 	private function formatArgs( $args ) {
 		if ( ! is_array( $args ) ) {
 			return;
@@ -135,6 +142,7 @@ class DspaceController {
 	}
 
 	/**
+	 * Controls which views get returned
 	 *
 	 */
 	protected function decider() {

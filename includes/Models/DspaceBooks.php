@@ -9,13 +9,12 @@
  * @author Brad Payne
  * @package OPENTEXTBOOKS
  * @license https://www.gnu.org/licenses/gpl-3.0.txt
- * @copyright (c) 2012-2017, Brad Payne
+ * @copyright (c) 2012-2017, Brad Payne, Alex Paredes
  */
 
 namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
-use BCcampus\Utility;
 
 class DspaceBooks extends Polymorphism\DataAbstract {
 	/**
@@ -23,11 +22,29 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	 */
 	private $data;
 
+	/**
+	 * @var array
+	 */
 	protected $args = array();
 
+	/**
+	 * @var int
+	 */
 	protected $size;
+
+	/**
+	 * @var string
+	 */
 	private $location = 'cache/catalogue';
+
+	/**
+	 * @var string
+	 */
 	private $type = 'txt';
+
+	/**
+	 * @var Polymorphism\RestInterface
+	 */
 	protected $api;
 
 	/**
@@ -37,18 +54,13 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	 * @param $args
 	 */
 	public function __construct( Polymorphism\RestInterface $api, $args ) {
-		// TODO: Implement more robust constructor
 		$this->data = $api->retrieve( $args );
 		$this->args = $args;
 		$this->size = count( $this->getResponses() );
 		$this->api  = $api;
 
-		try {
-			$this->setResponses();
-		} catch ( \Exception $exp ) {
-			error_log( $exp->getMessage() );
-		}
 
+		$this->setResponses();
 
 	}
 

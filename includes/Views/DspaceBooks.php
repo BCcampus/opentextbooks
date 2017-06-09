@@ -9,7 +9,7 @@
  * @author Brad Payne
  * @package OPENTEXTBOOKS
  * @license https://www.gnu.org/licenses/gpl-3.0.txt
- * @copyright (c) 2012-2017, Brad Payne
+ * @copyright (c) 2012-2017, Brad Payne, Alex Paredes
  */
 
 namespace BCcampus\OpenTextBooks\Views;
@@ -19,7 +19,10 @@ use BCcampus\OpenTextBooks\Models;
 class DspaceBooks {
 
 	/**
-	 * @var $books
+	 * Make the object holding the data available
+	 * to this View Class
+	 *
+	 * @var Models\DspaceBooks
 	 */
 	private $books;
 
@@ -46,7 +49,9 @@ class DspaceBooks {
 	}
 
 	/**
-	 * @return string
+	 * Display HTML for one textbook record
+	 *
+	 * @return string $html
 	 */
 	public function displayOneTextbook() {
 		$html        = '';
@@ -73,7 +78,11 @@ class DspaceBooks {
 	}
 
 	/**
-	 * @return string
+	 * Displays HTML for a search form
+	 *
+	 * @param string $post_value
+	 *
+	 * @return string $html
 	 */
 	public function displaySearchForm( $post_value = '' ) {
 		$string = \BCcampus\Utility\array_to_string( $post_value );
@@ -94,34 +103,33 @@ class DspaceBooks {
 	}
 
 	/**
-	 * @return string
+	 * Displays HTML for a catalogue of books
+	 *
+	 * @param $args
+	 *
+	 * @return string $html
 	 */
 	public function displayBooks( $args ) {
 		$limit = ( ! empty( $args['limit'] ) ) ? $args['limit'] : 10;
 		$html  = '';
 
-		//if ( is_int( $args['start'] ) ) {
-
+		// always display search form
 		$html .= $this->displaySearchForm( $this->args['search'] );
 
-		//if the search term is empty, then set where it starts and limit it to ten
+		// if the search term is empty, display pagination links
 		if ( empty( $this->args['search'] ) ) {
 			$html .= $this->displayLinks( $args['start'], $this->args['search'] );
 			$html .= $this->displayBySubject( $limit );
-		} //otherwise, display all the results starting at the first one (from a search form)
+		} // otherwise, no pagination links
 		else {
 			$html .= $this->displayBySubject( $limit );
 		}
 		echo $html;
-		//}
-		echo "<pre>";
-		print_r( $this->books );
-		echo "</pre>";
 
 	}
 
 	/**
-	 * @return string
+	 * @return string $html
 	 */
 	public function displayTitlesByType() {
 		$html = '';
@@ -132,7 +140,11 @@ class DspaceBooks {
 	}
 
 	/**
+	 * Displays HTML of books, based on a common subject area
+	 *
 	 * @param int $limit
+	 *
+	 * @return string $html
 	 */
 	public function displayBySubject( $limit = 0 ) {
 		$html = '';
@@ -213,6 +225,10 @@ class DspaceBooks {
 	}
 
 	/**
+	 * Uses the Creative Commons API to return a properly
+	 * formed license with Title, Author, Link
+	 * @see https://api.creativecommons.org/docs/readme_15.html
+	 *
 	 * @param $dspace_array
 	 * @param $authors
 	 *
@@ -328,7 +344,7 @@ class DspaceBooks {
 	 *
 	 * @param \SimpleXMLElement $response
 	 *
-	 * @return type
+	 * @return string $html
 	 */
 	private function getWebLicenseHtml( \SimpleXMLElement $response ) {
 		$html = '';
@@ -351,9 +367,12 @@ class DspaceBooks {
 	}
 
 	/**
+	 * Helper function to list file attachments
+	 * for a textbook
+	 *
 	 * @param $dspace_array
 	 *
-	 * @return string
+	 * @return string $html
 	 */
 	private function displayBitStreamFiles( $dspace_array ) {
 		$html = '';
@@ -384,9 +403,12 @@ class DspaceBooks {
 	}
 
 	/**
+	 * Helper function to display an appropriate logo
+	 * for different mime types
+	 *
 	 * @param $mimeType
 	 *
-	 * @return string
+	 * @return string $logo
 	 */
 	private function addLogo( $mimeType ) {
 		if ( empty( $mimeType ) || ! is_string( $mimeType ) ) {
@@ -472,10 +494,13 @@ class DspaceBooks {
 	}
 
 	/**
+	 * Extracts the value of metadata items returned by the
+	 * Dspace API. A CSV is returned if there is more than one value (example: authors)
+	 *
 	 * @param $dspace_array
 	 * @param $dc_type
 	 *
-	 * @return string
+	 * @return string $list
 	 */
 	private function metadataToCsv( $dspace_array, $dc_type ) {
 		$expected = array(
@@ -624,7 +649,6 @@ class DspaceBooks {
 				$list .= $book['value'] . ', ';
 			}
 		}
-
 
 		return rtrim( $list, ', ' );
 
