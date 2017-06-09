@@ -24,6 +24,8 @@ abstract class DataAbstract {
 	abstract function getResponses();
 
 	/**
+	 * Will get a storage record if it exists and if it has not expired.
+	 *
 	 * @param $location
 	 * @param $file_name
 	 * @param $file_type
@@ -43,6 +45,8 @@ abstract class DataAbstract {
 	}
 
 	/**
+	 * Will save data to a storage record.
+	 *
 	 * @param $location
 	 * @param $file_name
 	 * @param $file_type

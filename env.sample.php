@@ -35,5 +35,9 @@ return array(
 		'SITE_URL' => '',
 		'UUID' => ''
 	),
+	'dspace' => array(
+		'SITE_URL' => '',
+		'UUID' => ''
+	),
 
 );

@@ -99,7 +99,7 @@ class Books {
 
 			$attachments = $this->reOrderAttachments( $data['attachments'] );
 			foreach ( $attachments as $attachment ) {
-				( array_key_exists( 'size', $attachment ) ) ? $file_size = $this->determineFileSize( $attachment['size'] ) : $file_size = '';
+				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
 				$logo_type = $this->addLogo( $attachment['description'] );
 				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
 
@@ -161,7 +161,7 @@ class Books {
 				$attachments = $this->reOrderAttachments( $value['attachments'] );
 
 				foreach ( $attachments as $attachment ) {
-					( array_key_exists( 'size', $attachment ) ) ? $file_size = $this->determineFileSize( $attachment['size'] ) : $file_size = '';
+					( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
 					$logo_type = $this->addLogo( $attachment['description'] );
 					$tracking  = "_paq.push(['trackEvent','exportFiles','{$value['name']}','{$logo_type['type']}']);";
 
@@ -822,36 +822,6 @@ class Books {
 		$html = "<meta itemprop='educationalAlignment' content='" . $csv . "'>\n";
 
 		return $html;
-	}
-
-	/**
-	 * @param $number
-	 *
-	 * @return float|string|void
-	 */
-	private function determineFileSize( $number ) {
-		$result = '';
-		$num    = '';
-
-		//bail if nothing is passed.
-		if ( empty( $number ) ) {
-			return;
-		}
-
-		//if it's a number
-		if ( is_int( $number ) ) {
-			$num = intval( $number );
-		}
-		//only process if it's bigger than zero
-		if ( $num > 0 ) {
-			//return in Megabytes
-			$result = ( $num / 1000000 );
-			//account for the fact that it might be less than 1MB
-			( $result <= 1 ) ? $result = round( $result, 2 ) : $result = intval( $result );
-			$result = "(" . $result . " MB)";
-		}
-
-		return $result;
 	}
 
 	/**
