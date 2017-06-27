@@ -165,7 +165,7 @@ class DspaceBooks {
 			$desc        = ( strlen( $description ) > 500 ) ? mb_substr( $description, 0, 499 ) . " <a href=?uuid=" . $data[ $i ]['uuid'] . ">...[more]</a>" : $description;
 
 			$html .= "<li>";
-			$html .= "<h4><a href=?uuid=" . $data[ $i ]['uuid'] . ">" . $title . "</a></h4>";
+			$html .= "<h4><a href=\"?uuid=" . $data[ $i ]['uuid'] . "\">" . $title . "</a></h4>";
 			//$html .= $this->getCustomMeta( $data_adj[ $i ] );
 			$html .= "<b>Author(s):</b> " . $authors . "<br>";
 			$html .= "<b>Date Issued:</b> " . $date . "<br>";
