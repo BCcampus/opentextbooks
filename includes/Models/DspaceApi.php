@@ -88,7 +88,7 @@ class DspaceApi implements Polymorphism\RestInterface {
 				foreach ( $args['search'] as $term ) {
 					$regex .= $wild_card . $term;
 				}
-				$filtered_query   = $query_field . 'dc.title&' . $query_op . 'matches&' . $query_val . $case_insensitive . $regex . $wild_card;
+				$filtered_query   = $query_field . '*&' . $query_op . 'matches&' . $query_val . $case_insensitive . $regex . $wild_card;
 				$collection_query = $coll_sel . $this->collectionUuid;
 				$filter_query     = 'filters=' . $filters;
 				$this->url        = $this->apiBaseUrl . 'filtered-items?' . $filtered_query . '&' . $collection_query . '&' . $expand . '&' . $filter_query . '&' . $limitations;
