@@ -108,13 +108,13 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 			$name = $this->args['collectionUuid'] . $this->args['uuid'];
 		} // search term
 		elseif ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && ! empty( $this->args['search'] ) ) {
-			$name = $this->args['collectionUuid'] . \BCcampus\Utility\array_to_string( $this->args['search'] );
+			$name = $this->args['collectionUuid'] . implode(" ", $this->args['search'] );
 		} // subject area
 		elseif ( ! empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) ) {
 			$name = $this->args['collectionUuid'] . $this->args['subject'];
 		} // subject area and search term
 		elseif ( ! empty( $this->args['subject'] ) && ! empty( $this->args['search'] ) ) {
-			$name = $this->args['collectionUuid'] . $this->args['subject'] . \BCcampus\Utility\array_to_string( $this->args['search'] );
+			$name = $this->args['collectionUuid'] . $this->args['subject'] . implode(" ", $this->args['search'] );
 		}
 
 		return $name;

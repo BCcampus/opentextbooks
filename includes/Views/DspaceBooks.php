@@ -87,7 +87,7 @@ class DspaceBooks {
 	 * @return string $html
 	 */
 	public function displaySearchForm( $post_value = '' ) {
-		$string = \BCcampus\Utility\array_to_string( $post_value );
+		$string = implode(" ", $post_value );
 		$html   = "
       <fieldset name='dspace' class='pull-right'>
       <form class='form-search form-inline' action='' method='get'>

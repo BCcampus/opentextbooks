@@ -110,24 +110,6 @@ function array_to_csv( $anyArray = array(), $key = '' ) {
 }
 
 /**
- *
- * @param $any_array
- *
- * @return string
- */
-function array_to_string( $any_array ) {
-	$result = '';
-
-	if ( is_array( $any_array ) ) {
-		foreach ( $any_array as $item ) {
-			$result .= $item . ' ';
-		}
-	}
-
-	return $result;
-}
-
-/**
  * @param $number
  *
  * @return float|string
