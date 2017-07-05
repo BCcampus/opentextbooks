@@ -119,9 +119,7 @@ function array_to_string( $any_array ) {
 	$result = '';
 
 	if ( is_array( $any_array ) ) {
-		foreach ( $any_array as $item ) {
-			$result .= $item . ' ';
-		}
+		$result = implode(" ", $any_array);
 	}
 
 	return $result;
