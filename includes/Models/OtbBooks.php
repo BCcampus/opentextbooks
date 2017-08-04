@@ -221,6 +221,8 @@ class OtbBooks extends Polymorphism\DataAbstract {
 			foreach ( $sub as $k => $s ) {
 				$unique_sub2[ $key ][ $k ] = count( $s );
 			}
+			// sort with most subjects at the top
+			array_multisort( $unique_sub2[ $key ], SORT_DESC );
 		}
 
 		return $unique_sub2;

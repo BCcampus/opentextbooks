@@ -50,11 +50,11 @@
 */
 
 if ( ! defined( 'OTB_DIR' ) ) {
-	define( 'OTB_DIR', dirname( __FILE__ ) . '/' ); // Must have trailing slash!
+	define( 'OTB_DIR', str_replace("\\","/",dirname( __FILE__ )) . '/' ); // Must have trailing slash!
 }
 
 if ( ! defined( 'OTB_VERSION' ) ) {
-	define( 'OTB_VERSION', '1.0' );
+	define( 'OTB_VERSION', '1.5.0' );
 }
 
 if ( ! defined( 'OTB_URL' ) ) {

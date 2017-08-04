@@ -35,5 +35,13 @@ return array(
 		'SITE_URL' => '',
 		'UUID' => ''
 	),
+	'dspace' => array(
+		'SITE_URL' => '',
+		'UUID' => ''
+	),
+	'yourls' => array(
+		'SITE_URL' => '',
+		'UUID' => '',
+	),
 
 );

@@ -88,6 +88,11 @@ class AdoptionController {
 			case 'webform_summary':
 				$view->displaySummaryStats();
 				break;
+			case 'rest_stats':
+				$view->restSummaryStats();
+				break;
+			default:
+				new Views\Errors( [ 'msg' => 'Sorry, not a valid argument' ] );
 		}
 
 	}

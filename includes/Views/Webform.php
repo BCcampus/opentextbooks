@@ -84,6 +84,22 @@ class Webform {
 	}
 
 	/**
+	 * quick, dirty solution to expose stats at a rest endpoint
+	 *
+	 */
+	public function restSummaryStats() {
+		$savings = $this->data->getStudentSavings();
+		$stats = array(
+			'savings-min'  => $savings['100'],
+			'savings-max'  => $savings['actual'],
+			'adoptions'    => $this->data->getTotalAdoptions(),
+			'institutions' => $this->data->getNumInstitutions(),
+		);
+
+		echo json_encode( $stats, JSON_PRETTY_PRINT );
+	}
+
+	/**
 	 *
 	 */
 	public function displayFacultyNames() {

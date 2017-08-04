@@ -39,6 +39,7 @@
             <div id="collapseHealth" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Health/Medical - General">Health/Medical - General</a></li>
+                    <li><a href="?subject=Home Support/Resident Care Related">Home Support/Resident Care</a></li>
                     <li><a href="?subject=Pharmacy/Pharmacology Related">Pharmacy/Pharmacology</a></li>
                     <li><a href="?subject=Psychiatric/Mental Health Nursing">Psychiatric/Mental Health</a></li>
                 </ul>
@@ -76,6 +77,7 @@
             <div id="collapseSocialSciences" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Anthropology">Anthropology</a></li>
+                    <li><a href="?subject=Criminology">Criminology</a></li>
                     <li><a href="?subject=Political Science">Political Science</a></li>
                     <li><a href="?subject=Psychology">Psychology</a></li>
                     <li><a href="?subject=Sociology">Sociology</a></li>
@@ -87,8 +89,9 @@
                                              href="#collapseTrades">Trades</a></li>
             <div id="collapseTrades" class="accordion-body collapse">
                 <ul>
-                    <li><a href="?subject=Professional Cook">Professional Cook</a></li>
                     <li><a href="?subject=Common Core">Common Core</a></li>
+                    <li><a href="?subject=Pipe Trades">Pipe Trades</a></li>
+                    <li><a href="?subject=Professional Cook">Professional Cook</a></li>
                 </ul>
             </div>
         </div>
@@ -98,10 +101,10 @@
             <div id="collapseUpgrading" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Academic/Basic Upgrading">Academic/Basic Upgrading</a></li>
-                    <!--							<li><a href="?subject=Adult Special Education">Adult Special Education</a></li>
-                                                <li><a href="?subject=Employment Preparation">Employment Preparation</a></li>
-                                                <li><a href="?subject=English as a Second Language">English as a Second Language</a></li>
-                                                <li><a href="?subject=Trades/Technology Access & Bridging">Trades/Technology Access & Bridging</a></li>-->
+                    <li><a href="?subject=English as a Second Language">English as a Second Language</a></li>
+                    <!-- <li><a href="?subject=Adult Special Education">Adult Special Education</a></li>
+                         <li><a href="?subject=Employment Preparation">Employment Preparation</a></li>
+                         <li><a href="?subject=Trades/Technology Access & Bridging">Trades/Technology Access & Bridging</a></li> -->
                 </ul>
             </div>
         </div>

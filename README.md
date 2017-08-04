@@ -17,8 +17,9 @@ The application is embedded in a WordPress environment, and while there are WP i
 - an instance of Equella
 
 ##Functionality
-This application consumes API's from
- 1. A soon-to-be-open-source book repository
+This application can consume API's from
+ 1. A soon-to-be-open-source book repository (Equella) to display books from a collection
+ 2. [DSpace](http://dspace.org/) to display books from a collection 
  2. [LimeSurvey](https://www.limesurvey.org/) to display book reviews
  3. [Piwik Analytics](https://piwik.org/) to access book statistics
 

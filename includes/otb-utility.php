@@ -30,6 +30,7 @@ function sanitize( $anyString ) {
 		$result = trim( $anyString );
 		$result = str_replace( '"', '', $result );
 		$result = filter_var( $result, FILTER_SANITIZE_STRING ); //strip tags
+
 		return $result;
 	} else {
 		return false;
@@ -95,7 +96,7 @@ function array_to_csv( $anyArray = array(), $key = '' ) {
 		} else {
 			foreach ( $anyArray as $value ) {
 				//names in db sometimes contain usernames [inbrackets], strip 'em out!
-				$tmp = ( ! strpos( $value[ $key ], '[' ) ) ? $value[ $key ] : rtrim( strstr( $value[ $key ], '[', true ) );
+				$tmp    = ( ! strpos( $value[ $key ], '[' ) ) ? $value[ $key ] : rtrim( strstr( $value[ $key ], '[', true ) );
 				$result .= $tmp . ", ";
 			}
 		}
@@ -103,6 +104,52 @@ function array_to_csv( $anyArray = array(), $key = '' ) {
 		$result = rtrim( $result, ', ' );
 	} else {
 		return false;
+	}
+
+	return $result;
+}
+
+/**
+ *
+ * @param $any_array
+ *
+ * @return string
+ */
+function array_to_string( $any_array ) {
+	$result = '';
+
+	if ( is_array( $any_array ) ) {
+		$result = implode(" ", $any_array);
+	}
+
+	return $result;
+}
+
+/**
+ * @param $number
+ *
+ * @return float|string
+ */
+function determine_file_size( $number ) {
+	$result = '';
+	$num    = '';
+
+	//bail if nothing is passed.
+	if ( empty( $number ) ) {
+		return $result;
+	}
+
+	//if it's a number
+	if ( is_int( $number ) ) {
+		$num = intval( $number );
+	}
+	//only process if it's bigger than zero
+	if ( $num > 0 ) {
+		//return in Megabytes
+		$result = ( $num / 1000000 );
+		//account for the fact that it might be less than 1MB
+		( $result <= 1 ) ? $result = round( $result, 2 ) : $result = intval( $result );
+		$result = "(" . $result . " MB)";
 	}
 
 	return $result;
