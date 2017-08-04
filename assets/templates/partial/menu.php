@@ -84,6 +84,17 @@
                 </ul>
             </div>
         </div>
+         <div class="accordion-group">
+            <li class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                                             href="#collapseSupportResources">Support Resources</a></li>
+            <div id="collapseSupportResources" class="accordion-body collapse">
+                <ul>
+                    <li><a href="?subject=Guides">Guides</a></li>
+                    <li><a href="?subject=Toolkits">Toolkits</a></li>
+                    <li><a href="?subject=Tools">Tools</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="accordion-group">
             <li class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
                                              href="#collapseTrades">Trades</a></li>
