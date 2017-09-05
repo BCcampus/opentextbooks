@@ -42,7 +42,6 @@ include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 
 <?php
 include( OTB_DIR . 'assets/templates/partial/container-end.php' );
-include( OTB_DIR . 'assets/templates/partial/scripts.php');
+include( OTB_DIR . 'assets/templates/partial/scripts.php' );
 include( OTB_DIR . 'assets/templates/partial/footer.php' );
 ?>
-

@@ -6,7 +6,6 @@ include_once 'autoloader.php';
 
 use BCcampus\OpenTextBooks\Controllers\Webform;
 
-
 $wf_args = array(
 	'type_of' => 'webform_summary',
 );
