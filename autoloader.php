@@ -14,7 +14,7 @@
 	$prefix = 'BCcampus\\OpenTextBooks';
 
 	// base directory for the namespace prefix
-	$base_dir = __DIR__ . '/includes';
+	$base_dir = __DIR__ . '/inc';
 
 	// does the class use the namespace prefix?
 	$len = \strlen( $prefix );
@@ -50,7 +50,7 @@
 */
 
 if ( ! defined( 'OTB_DIR' ) ) {
-	define( 'OTB_DIR', str_replace("\\","/",dirname( __FILE__ )) . '/' ); // Must have trailing slash!
+	define( 'OTB_DIR', str_replace( '\\','/',dirname( __FILE__ ) ) . '/' ); // Must have trailing slash!
 }
 
 if ( ! defined( 'OTB_VERSION' ) ) {
@@ -86,4 +86,4 @@ if ( ! defined( 'OTB_URL' ) ) {
 |
 |
 */
-include( OTB_DIR . 'includes/otb-utility.php' );
+include( OTB_DIR . 'inc/otb-utility.php' );

@@ -10,8 +10,8 @@
  * @package OPENTEXTBOOKS
  * @license https://www.gnu.org/licenses/gpl-3.0.txt
  * @copyright (c) 2012-2016, Brad Payne
- * 
- * change the name of this file to `.env.php` 
+ *
+ * change the name of this file to `.env.php`
  */
 
 return array(
@@ -33,11 +33,11 @@ return array(
 	),
 	'solr' => array(
 		'SITE_URL' => '',
-		'UUID' => ''
+		'UUID' => '',
 	),
 	'dspace' => array(
 		'SITE_URL' => '',
-		'UUID' => ''
+		'UUID' => '',
 	),
 	'yourls' => array(
 		'SITE_URL' => '',

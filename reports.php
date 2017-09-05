@@ -49,7 +49,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 		<div role="tabpanel" id="webform_stats" class="tab-pane active">
 			<img src="<?php echo OTB_URL ?>assets/images/webform.png" class="pull-right img-responsive img-rounded"
-			     alt="webform"/>
+				 alt="webform"/>
 
 			<?php
 
@@ -79,7 +79,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 		<div role="tabpanel" id="opentext_stats" class="tab-pane">
 			<img src="<?php echo OTB_URL ?>assets/images/opentext.png" class="pull-right img-responsive img-rounded"
-			     alt="open text bc site"/>
+				 alt="open text bc site"/>
 
 			<?php
 
@@ -93,7 +93,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 		<div role="tabpanel" id="open_stats" class="tab-pane">
 			<img src="<?php echo OTB_URL ?>assets/images/open.png" class="pull-right img-responsive img-rounded"
-			     alt="open site"/>
+				 alt="open site"/>
 			<?php
 			$open_args = array(
 				'site_id' => 12,
@@ -106,7 +106,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 		<div role="tabpanel" id="review_stats" class="tab-pane">
 			<img src="<?php echo OTB_URL ?>assets/images/reviews.png" class="pull-right img-responsive img-rounded"
-			     alt="lime survey site"/>
+				 alt="lime survey site"/>
 
 			<?php
 			$ls_args['type_of'] = 'review_stats';
