@@ -13,8 +13,9 @@
                     <li><a href="?subject=Communication">Communication</a></li>
                     <li><a href="?subject=English">English</a></li>
                     <li><a href="?subject=French">French</a></li>
-                    <li><a href="?subject=Philosophy">Philosophy</a></li>
                     <li><a href="?subject=History">History</a></li>
+                    <li><a href="?subject=Philosophy">Philosophy</a></li>
+                    <li><a href="?subject=Spanish">Spanish</a></li>
                 </ul>
             </div>
         </div>
@@ -84,7 +85,7 @@
                 </ul>
             </div>
         </div>
-         <div class="accordion-group">
+        <div class="accordion-group">
             <li class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
                                              href="#collapseSupportResources">Support Resources</a></li>
             <div id="collapseSupportResources" class="accordion-body collapse">
@@ -112,7 +113,7 @@
             <div id="collapseUpgrading" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Academic/Basic Upgrading">Academic/Basic Upgrading</a></li>
-                    <li><a href="?subject=English as a Second Language">English as a Second Language</a></li>
+                    <li><a href="?subject=English Language Learning">English Language Learning</a></li>
                     <!-- <li><a href="?subject=Adult Special Education">Adult Special Education</a></li>
                          <li><a href="?subject=Employment Preparation">Employment Preparation</a></li>
                          <li><a href="?subject=Trades/Technology Access & Bridging">Trades/Technology Access & Bridging</a></li> -->
