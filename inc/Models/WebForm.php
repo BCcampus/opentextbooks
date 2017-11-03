@@ -27,11 +27,6 @@ class WebForm extends Polymorphism\DataAbstract {
 	private $type = 'txt';
 	private $location = 'cache/webform';
 	private $responses = array();
-	private $non_bc_responses = array();
-	//  private $baseline_non_bc_savings_100 = 48300; // may 18, 2016
-	//  private $baseline_non_bc_savings_actual = 53121; // may 18, 2016
-	//  private $baseline_non_bc_adoptions = 17; // may 18, 2016
-	//  private $baseline_non_bc_students = 513; // may 18, 2016
 	private $faculty = array();
 
 	/**
@@ -74,15 +69,18 @@ class WebForm extends Polymorphism\DataAbstract {
 		'BC Institute of Technology'                             => 14,
 		'Camosun College'                                        => 37,
 		'Capilano University'                                    => 9,
+		'CDI College'                                            => 4,
 		'College of New Caledonia'                               => 1,
 		'College of the Rockies'                                 => 23,
 		'Douglas College'                                        => 35,
 		'Emily Carr University of Art and Design'                => 0,
+		'Eton College'                                           => 1,
 		'Fairleigh Dickinson University'                         => 0,
 		'Fraser International College'                           => 0,
-		'Justice Institute of B.C.'                              => 40,
+		'Justice Institute of BC'                                => 40,
 		'Kwantlen Polytechnic University'                        => 115,
 		'Langara College'                                        => 56,
+		'Native Education College'                               => 3,
 		'Nicola Valley Institute of Technology'                  => 0,
 		'North Island College'                                   => 1,
 		'Northern Lights College'                                => 0,
@@ -104,12 +102,12 @@ class WebForm extends Polymorphism\DataAbstract {
 		'Vancouver Island University'                            => 16,
 		'Other'                                                  => 6,
 	);
-	public $baseline_num_adoptions = 493; // as of may 18 2016
-	public $baseline_num_students = 14345; // as of may 18 2016
-	public $baseline_savings_100 = 1434000; // as of may 18 2016
-	public $baseline_savings_actual = 1823636; // as of may 18 2016
-	public $baseline_num_inst = 29; // as of may 18 2016
-	public $baseline_num_faculty = 144; // as of may 18 2016
+	public $baseline_num_adoptions = 501; // as of nov 3 2017
+	public $baseline_num_students = 14603; // as of nov 3 2017
+	public $baseline_savings_100 = 1459800; // as of nov 3 2017
+	public $baseline_savings_actual = 1851366; // as of nov 3 2017
+	public $baseline_num_inst = 32; // as of nov 3 2017
+	public $baseline_num_faculty = 149; // as of nov 3 2017
 
 	/**
 	 * WebForm constructor.
