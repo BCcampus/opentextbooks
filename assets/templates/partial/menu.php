@@ -92,7 +92,6 @@
                 <ul>
                     <li><a href="?subject=Guides">Guides</a></li>
                     <li><a href="?subject=Toolkits">Toolkits</a></li>
-                    <li><a href="?subject=Tools">Tools</a></li>
                 </ul>
             </div>
         </div>
