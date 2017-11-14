@@ -156,5 +156,8 @@ class PiwikController {
 
 		}
 
+		$c = new Models\Storage\CleanUp();
+		$c->maybeRun('analytics' , 'txt' );
+
 	}
 }
