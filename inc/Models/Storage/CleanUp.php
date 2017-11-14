@@ -22,7 +22,7 @@ class CleanUp {
 	 *
 	 * @var int
 	 */
-	var $max_age = 7;
+	var $max_age = 3600 * 24 * 7;
 
 	/**
 	 * path to the cache directory
