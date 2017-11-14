@@ -188,6 +188,9 @@ class OtbController {
 			$view->displaySubjectStats();
 		}
 
+		$c = new Models\Storage\CleanUp();
+		$c->maybeRun('catalogue' , 'txt' );
+
 	}
 
 }
