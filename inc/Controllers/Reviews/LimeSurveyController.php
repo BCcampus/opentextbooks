@@ -20,6 +20,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.txt
  * @copyright (c) 2012-2016, Brad Payne
  */
+
 namespace BCcampus\OpenTextBooks\Controllers\Reviews;
 
 use BCcampus\OpenTextBooks\Controllers;
@@ -70,19 +71,19 @@ class LimeSurveyController {
 		 * ?reviews=stats
 		 */
 		$args_get = array(
-			'uuid' => array(
+			'uuid'    => array(
 				'filter' => FILTER_SANITIZE_STRING,
-				'flags' => FILTER_FLAG_STRIP_HIGH,
+				'flags'  => FILTER_FLAG_STRIP_HIGH,
 			),
 			'type_of' => array(
 				'filter' => FILTER_SANITIZE_STRING,
-				'flags' => FILTER_FLAG_STRIP_HIGH,
+				'flags'  => FILTER_FLAG_STRIP_HIGH,
 			),
 
-					);
+		);
 
 		// filter get input, delete empty values
-		$get = (false !== filter_input_array( INPUT_GET, $args_get, false )) ? filter_input_array( INPUT_GET, $args_get, false ) : '';
+		$get = ( false !== filter_input_array( INPUT_GET, $args_get, false ) ) ? filter_input_array( INPUT_GET, $args_get, false ) : '';
 
 		// let the filtered get variables override the default arguments
 		if ( is_array( $get ) ) {
@@ -110,9 +111,9 @@ class LimeSurveyController {
 	 * @throws \Exception
 	 */
 	protected function decider() {
-		$env                  = include( OTB_DIR . '.env.php' );
+		$env        = include( OTB_DIR . '.env.php' );
 		$rpc_client = new Models\LimeSurveyApi( $env['limesurvey']['LS_URL'] );
-		$data = new Models\OtbReviews( $rpc_client, $this->args );
+		$data       = new Models\OtbReviews( $rpc_client, $this->args );
 
 		switch ( $this->args['type_of'] ) {
 
@@ -122,7 +123,7 @@ class LimeSurveyController {
 					$view = new Views\BookReviews( $data );
 					$view->displayReviews();
 				} else {
-					 new Views\Errors( [ 'msg' => 'Sorry, book reviews need a UUID parameter to be set' ] );
+					new Views\Errors( [ 'msg' => 'Sorry, book reviews need a UUID parameter to be set' ] );
 				}
 
 				break;
@@ -136,6 +137,10 @@ class LimeSurveyController {
 			default:
 				//new Views\Errors(['msg' => 'Sorry, there is no view associated with that parameter']);
 		}
+
+		$c = new Models\Storage\CleanUp();
+		$c->maybeRun( 'reviews', 'txt' );
+		$c->maybeRun( 'reviews', 'csv' );
 	}
 
 }
