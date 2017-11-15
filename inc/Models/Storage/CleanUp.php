@@ -46,11 +46,18 @@ class CleanUp {
 	var $random;
 
 	/**
+	 * timestamp
+	 *
+	 * @var int
+	 */
+	var $now;
+
+	/**
 	 * CleanUp constructor.
 	 */
 	public function __construct() {
 		$this->random = rand( 0, 100 );
-
+		$this->now    = time();
 	}
 
 	/**
@@ -82,9 +89,9 @@ class CleanUp {
 				$match  = array_pop( $suffix );
 				if ( 0 === strcmp( $ext, $match ) ) {
 
-					$filelastmodified = filemtime( $this->path . $dir . '/' . $file );
+					$file_last_modified = filemtime( $this->path . $dir . '/' . $file );
 
-					if ( ( time() - $filelastmodified ) > $this->max_age ) {
+					if ( ( $this->now - $file_last_modified ) > $this->max_age ) {
 						unlink( $this->path . $dir . '/' . $file );
 					}
 
