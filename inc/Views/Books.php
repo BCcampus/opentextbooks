@@ -108,7 +108,7 @@ class Books {
 				$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
 						 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
 						 . "<a class='btn btn-default btn-sm' role='button'"
-						 . ' onlclick="' . $tracking . '"'
+						 . ' onclick="' . $tracking . '"'
 						 . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
 					{$logo_type['string']}</a> "
 						 . $attachment['description'] . ' ' . $file_size . '</li>';
@@ -169,7 +169,7 @@ class Books {
 					$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
 							 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
 							 . "<a class='btn btn-default btn-sm' role='button'"
-							 . ' onlclick="' . $tracking . '"'
+							 . ' onclick="' . $tracking . '"'
 							 . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
 							" . $logo_type['string'] . '</a> '
 							 . $attachment['description'] . ' ' . $file_size . '</li>';
