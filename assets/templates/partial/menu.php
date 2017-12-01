@@ -36,6 +36,15 @@
         </div>
         <div class="accordion-group">
             <li class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                                             href="#collapseEducation">Education</a></li>
+            <div id="collapseEducation" class="accordion-body collapse">
+                <ul>
+                    <li><a href="?subject=Early Childhood Education">Early Childhood Education</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <li class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
                                              href="#collapseHealth">Health Related</a></li>
             <div id="collapseHealth" class="accordion-body collapse">
                 <ul>
