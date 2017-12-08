@@ -1,4 +1,4 @@
-#Open Textbooks
+# Open Textbooks
 
 The application is currently hosted on open.bccampus.ca and is built and maintained to support the [Open Textbook Project](https://open.bccampus.ca/2016/06/01/the-b-c-open-textbook-project-celebrates-another-milestone-151-open-textbooks/) by [BCcampus](https://bccampus.ca/)
 - [books](https://open.bccampus.ca/find-open-textbooks/)
@@ -7,16 +7,16 @@ The application is currently hosted on open.bccampus.ca and is built and maintai
 
 The application is embedded in a WordPress environment, and while there are WP integrations, there are **zero** WordPress dependencies. It can be used as a standalone app.
 
-##Requirements
+## Requirements
 - PHP version > 5 (though has not been tested with PHP 7)
 
-###Will be useful if you also have any instances of:
+### Will be useful if you also have any instances of:
 - an instance of LimeSurvey
 - an instance of Piwik
 - an instance of WordPress
 - an instance of Equella
 
-##Functionality
+## Functionality
 This application can consume API's from
  1. A soon-to-be-open-source book repository (Equella) to display books from a collection
  2. [DSpace](http://dspace.org/) to display books from a collection 
@@ -29,16 +29,16 @@ It also
  3. pulls data from [Contact Form DB](https://wordpress.org/plugins/contact-form-7-to-database-extension/)
  4. waxes your neckbeard :neckbeard:
 
-##Purpose
+## Purpose
 Built to support the wide dissemination of open textbooks.
 
-##Quick Start
+## Quick Start
 - download the zip files to a web server
 - change `env.sample.php` to `.env.php`
 - ensure apache has write permissions to `cache` directory and all subdirectories (`cache/webform`, `cache/analytics`, etc)
 - modify values in `.env.php` to connect your instances of LimeSurvey, Wordpress, Equella and Piwik
 
-##Copyright and License
+## Copyright and License
 Unless otherwise noted, this code is copyright (c) 2012-2016 Brad Payne, released under a [GPLv3 license](https://www.gnu.org/licenses/gpl.html), or any later version
 
 Otherwise noted:
