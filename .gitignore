@@ -1,6 +1,7 @@
 .*
 vendor
 !.gitignore
+!.github/
 .env.php
 cache/analytics/*
 cache/catalogue/*
