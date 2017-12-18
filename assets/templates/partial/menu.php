@@ -75,6 +75,7 @@
                     <li><a href="?subject=Computer Science">Computer Sci</a></li>
                     <li><a href="?subject=Geography">Geography</a></li>
                     <li><a href="?subject=Earth, Ocean %26 Atmospheric Science">Earth Sciences</a></li>
+                    <li><a href="?subject=Engineering">Engineering</a></li>
                     <li><a href="?subject=Kinetics %26 Kinesiology">Kinetics & Kinesiology</a></li>
                     <li><a href="?subject=Math/Statistics">Math/Stats</a></li>
                     <li><a href="?subject=Physics">Physics</a></li>
