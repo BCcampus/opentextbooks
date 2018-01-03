@@ -8,8 +8,7 @@
   "authors": [
     {
       "name": "Brad Payne",
-      "email": "brad@bradpayne.ca",
-      "homepage": "https://bradpayne.ca"
+      "homepage": "https://github.com/bdolor"
     }
   ],
   "autoload": {
@@ -30,5 +29,8 @@
     "standards": [
       "vendor/bin/phpcs --standard=phpcs.ruleset.xml ."
     ]
+  },
+  "require": {
+    "weberhofer/jsonrpcphp": "^2.2"
   }
 }
