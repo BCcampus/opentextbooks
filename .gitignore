@@ -9,4 +9,5 @@ cache/webform/*
 !vendor
 vendor/*
 !vendor/autoload.php
+!vendor/composer
 !vendor/weberhofer
