@@ -63,4 +63,25 @@ abstract class DataAbstract {
 		}
 	}
 
+	/**
+	 * Avoids checking expiry, returns the file if exists
+	 *
+	 * @param $location
+	 * @param $file_name
+	 * @param $file_type
+	 * @param $serialize
+	 *
+	 * @return Storage\Cache|bool
+	 */
+	protected function getFailSafeStorage( $location, $file_name, $file_type, $serialize ) {
+		$storage = Storage\Cache::create( OTB_DIR . $location, $file_name, $file_type, $serialize );
+
+		// check if there is a stored version of the results
+		if ( $storage->fileExists() && $storage->getFileSize() > 10 ) {
+			return $storage;
+		} else {
+			return false;
+		}
+	}
+
 }

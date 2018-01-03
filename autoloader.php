@@ -87,3 +87,4 @@ if ( ! defined( 'OTB_URL' ) ) {
 |
 */
 include( OTB_DIR . 'inc/otb-utility.php' );
+include( OTB_DIR . 'vendor/autoload.php' );

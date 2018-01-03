@@ -1,5 +1,4 @@
 .*
-vendor
 !.gitignore
 !.github/
 .env.php
@@ -7,3 +6,7 @@ cache/analytics/*
 cache/catalogue/*
 cache/reviews/*
 cache/webform/*
+!vendor
+vendor/*
+!vendor/autoload.php
+!vendor/weberhofer

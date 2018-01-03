@@ -23,6 +23,7 @@ namespace BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Controllers\Reviews;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Polymorphism;
+use org\jsonrpcphp\JsonRPCClient;
 
 class OtbReviews extends Polymorphism\DataAbstract {
 	/**
@@ -111,10 +112,10 @@ class OtbReviews extends Polymorphism\DataAbstract {
 	/**
 	 * OtbReviews constructor.
 	 *
-	 * @param LimeSurveyApi $rpc_client
+	 * @param JsonRPCClient $rpc_client
 	 * @param array $args
 	 */
-	public function __construct( LimeSurveyApi $rpc_client, array $args ) {
+	public function __construct( JsonRPCClient $rpc_client, array $args ) {
 
 		$this->limeSurveyApi = $rpc_client;
 
@@ -165,8 +166,18 @@ class OtbReviews extends Polymorphism\DataAbstract {
 			$this->filteredResponsesArray = $persistent_data->load();
 
 		} else {
-			// request an API response
-			$this->apiRequest();
+			try {
+				// request an API response
+				$this->apiRequest();
+			} catch ( \Exception $exp ) {
+				error_log( $exp->getMessage(), 0 );
+
+				// attempt to recover, return data even if it's old
+				$persistent_data = $this->getFailSafeStorage( $this->location, $file_name, $file_type, $serialize );
+				if ( $persistent_data ) {
+					$this->filteredResponsesArray = $persistent_data->load();
+				}
+			}
 		}
 
 		$this->setInstitutionIDs();
@@ -176,6 +187,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 
 	/**
 	 *
+	 * @throws \Exception
 	 */
 	private function apiRequest() {
 		$env              = include( OTB_DIR . '.env.php' );
