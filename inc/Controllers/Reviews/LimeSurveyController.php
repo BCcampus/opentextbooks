@@ -26,6 +26,7 @@ namespace BCcampus\OpenTextBooks\Controllers\Reviews;
 use BCcampus\OpenTextBooks\Controllers;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Views;
+use org\jsonrpcphp;
 
 ini_set( 'auto_detect_line_endings', 1 );
 
@@ -56,6 +57,8 @@ class LimeSurveyController {
 	 * Evaluate what model/view to invoke based on arguments passed to it
 	 *
 	 * @param $args
+	 *
+	 * @throws \Exception
 	 */
 	public function __construct( $args ) {
 
@@ -112,7 +115,7 @@ class LimeSurveyController {
 	 */
 	protected function decider() {
 		$env        = include( OTB_DIR . '.env.php' );
-		$rpc_client = new Models\LimeSurveyApi( $env['limesurvey']['LS_URL'] );
+		$rpc_client = new jsonrpcphp\JsonRPCClient( $env['limesurvey']['LS_URL'], true );
 		$data       = new Models\OtbReviews( $rpc_client, $this->args );
 
 		switch ( $this->args['type_of'] ) {
@@ -139,7 +142,7 @@ class LimeSurveyController {
 		}
 
 		$c = new Models\Storage\CleanUp();
-		$c->maybeRun( 'reviews', 'txt' );
+//		$c->maybeRun( 'reviews', 'txt' );
 		$c->maybeRun( 'reviews', 'csv' );
 	}
 
