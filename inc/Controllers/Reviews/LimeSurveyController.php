@@ -115,7 +115,7 @@ class LimeSurveyController {
 	 */
 	protected function decider() {
 		$env        = include( OTB_DIR . '.env.php' );
-		$rpc_client = new jsonrpcphp\JsonRPCClient( $env['limesurvey']['LS_URL'], true );
+		$rpc_client = new jsonrpcphp\JsonRPCClient( $env['limesurvey']['LS_URL'] );
 		$data       = new Models\OtbReviews( $rpc_client, $this->args );
 
 		switch ( $this->args['type_of'] ) {
