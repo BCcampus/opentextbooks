@@ -14,7 +14,7 @@ include( OTB_DIR . 'assets/templates/partial/head.php' );
 
 	// token to authenticate API request.
 	$env        = include( OTB_DIR . '.env.php' );
-	$token_auth = $env['piwik']['TOKEN_AUTH'];
+	$token_auth = $env['piwik']['SITE_TOKEN'];
 
 	// call REST API and request the actions for idsite=12
 	$url = $env['piwik']['SITE_URL'];
@@ -28,7 +28,7 @@ include( OTB_DIR . 'assets/templates/partial/head.php' );
 
 	// error checking
 	if ( ! $content ) {
-		print( "Error, content fetched = " . $fetched );
+		// todo: write to error log file
 	}
 
 	?>

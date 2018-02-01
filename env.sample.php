@@ -30,7 +30,6 @@ return array(
 	'piwik'      => array(
 		'SITE_URL'   => '',
 		'SITE_TOKEN' => '',
-		'TOKEN_AUTH' => ''
 	),
 	'solr'       => array(
 		'SITE_URL' => '',
