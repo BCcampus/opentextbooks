@@ -23,25 +23,26 @@ return array(
 		'DB_PASSWORD' => '',
 	),
 	'limesurvey' => array(
-		'LS_URL' => '',
+		'LS_URL'  => '',
 		'LS_USER' => '',
 		'LS_PWD'  => '',
 	),
 	'piwik'      => array(
 		'SITE_URL'   => '',
 		'SITE_TOKEN' => '',
+		'TOKEN_AUTH' => ''
 	),
-	'solr' => array(
+	'solr'       => array(
 		'SITE_URL' => '',
-		'UUID' => '',
+		'UUID'     => '',
 	),
-	'dspace' => array(
+	'dspace'     => array(
 		'SITE_URL' => '',
-		'UUID' => '',
+		'UUID'     => '',
 	),
-	'yourls' => array(
+	'yourls'     => array(
 		'SITE_URL' => '',
-		'UUID' => '',
+		'UUID'     => '',
 	),
 
 );
