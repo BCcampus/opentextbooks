@@ -13,22 +13,22 @@ use BCcampus\OpenTextBooks\Models;
 include( OTB_DIR . 'assets/templates/partial/style.php' );
 ?>
 <style type="text/css">
-    article.page ul, article.post ul {
-        padding: 0;
-    }
+	article.page ul, article.post ul {
+		padding: 0;
+	}
 
-    article.page ul.list-unstyled {
-        padding-left: 25px;
-        list-style: none;
-    }
+	article.page ul.list-unstyled {
+		padding-left: 25px;
+		list-style: none;
+	}
 
-    #second-menu ul.nav > li > a {
-        padding: 10px 0 0 0;
-    }
+	#second-menu ul.nav > li > a {
+		padding: 10px 0 0 0;
+	}
 
-    .post_content {
-        padding-top: 0px;
-    }
+	.post_content {
+		padding-top: 0px;
+	}
 </style>
 <?php
 include( OTB_DIR . 'assets/templates/partial/error-level.php' );
@@ -45,11 +45,11 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 		$args['type_of'] = 'book_stats';
 	}
 	?>
-    <div class="tab-content">
+	<div class="tab-content">
 
-        <div role="tabpanel" id="webform_stats" class="tab-pane active">
-            <img src="<?php echo OTB_URL ?>assets/images/webform.png" class="pull-right img-responsive img-rounded"
-                 alt="webform"/>
+		<div role="tabpanel" id="webform_stats" class="tab-pane active">
+			<img src="<?php echo OTB_URL ?>assets/images/webform.png" class="pull-right img-responsive img-rounded"
+				 alt="webform"/>
 
 			<?php
 
@@ -75,11 +75,11 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			?>
 
 
-        </div>
+		</div>
 
-        <div role="tabpanel" id="opentext_stats" class="tab-pane">
-            <img src="<?php echo OTB_URL ?>assets/images/opentext.png" class="pull-right img-responsive img-rounded"
-                 alt="open text bc site"/>
+		<div role="tabpanel" id="opentext_stats" class="tab-pane">
+			<img src="<?php echo OTB_URL ?>assets/images/opentext.png" class="pull-right img-responsive img-rounded"
+				 alt="open text bc site"/>
 
 			<?php
 
@@ -89,11 +89,11 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			new Analytics\PiwikController( $opentext_args );
 			?>
 
-        </div>
+		</div>
 
-        <div role="tabpanel" id="open_stats" class="tab-pane">
-            <img src="<?php echo OTB_URL ?>assets/images/open.png" class="pull-right img-responsive img-rounded"
-                 alt="open site"/>
+		<div role="tabpanel" id="open_stats" class="tab-pane">
+			<img src="<?php echo OTB_URL ?>assets/images/open.png" class="pull-right img-responsive img-rounded"
+				 alt="open site"/>
 			<?php
 			$open_args = array(
 				'site_id' => 12,
@@ -102,33 +102,33 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			new Catalogue\OtbController( $args );
 			?>
 
-        </div>
+		</div>
 
-        <div role="tabpanel" id="review_stats" class="tab-pane">
-            <img src="<?php echo OTB_URL ?>assets/images/reviews.png" class="pull-right img-responsive img-rounded"
-                 alt="lime survey site"/>
+		<div role="tabpanel" id="review_stats" class="tab-pane">
+			<img src="<?php echo OTB_URL ?>assets/images/reviews.png" class="pull-right img-responsive img-rounded"
+				 alt="lime survey site"/>
 
 			<?php
 			$ls_args['type_of'] = 'review_stats';
 			new Reviews\LimeSurveyController( $ls_args );
 			?>
 
-        </div>
+		</div>
 
-        <div role="tabpanel" id="subject_stats" class="tab-pane">
+		<div role="tabpanel" id="subject_stats" class="tab-pane">
 
 			<?php
 			$subj_args['type_of'] = 'subject_stats';
 			new Catalogue\OtbController( $subj_args );
 			?>
 
-        </div>
+		</div>
 
 		<?php
 		unset( $_GET );
 		?>
 
-    </div>
+	</div>
 </div>
 
 <?php
