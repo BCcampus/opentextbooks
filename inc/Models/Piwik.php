@@ -233,22 +233,22 @@ class Piwik extends Polymorphism\DataAbstract {
 	 *
 	 * @return array|obj|bool|string|void
 	 */
-	public function getOutlinks( $segment = '' ) {
+	public function getEventActions( $segment = '' ) {
 		$serialize = true;
-		$file_name = $this->uid . 'outlinks' . $segment;
+		$file_name = $this->uid . $segment;
 		$file_type = $this->type;
 
 		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );
 
 		if ( $persistent_data ) {
-			$outlinks = $persistent_data->load();
+			$actions = $persistent_data->load();
 
 		} else {
-			$outlinks = $this->piwik_api->getOutlinks( $segment, [ 'expanded' => 1 ] );
-			$this->saveToStorage( $this->location, $file_name, $file_type, $outlinks, $serialize );
+			$actions = $this->piwik_api->getEventAction( $segment, 'eventName', [ 'expanded' => 1, 'flat' => 0 ] );
+			$this->saveToStorage( $this->location, $file_name, $file_type, $actions, $serialize );
 		}
 
-		return $outlinks;
+		return $actions;
 	}
 
 	/**
