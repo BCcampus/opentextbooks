@@ -120,7 +120,7 @@ class PiwikController {
 						'uuid'    => $this->args['uuid'],
 					] );
 					$d              = $books_data->getResponses();
-					$view->displayOpenSingleBook( $this->args['uuid'], $this->args['range_start'], $d );
+					$view->displayOpenSingleBook( $this->args['range_start'], $d );
 				} else {
 					// need to grab the number of books in the collection
 					$books_rest_api = new Models\EquellaApi();
@@ -157,7 +157,7 @@ class PiwikController {
 		}
 
 		$c = new Models\Storage\CleanUp();
-		$c->maybeRun('analytics' , 'txt' );
+		$c->maybeRun( 'analytics', 'txt' );
 
 	}
 }

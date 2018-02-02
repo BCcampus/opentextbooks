@@ -189,7 +189,7 @@ class OtbController {
 		}
 
 		$c = new Models\Storage\CleanUp();
-		$c->maybeRun('catalogue' , 'txt' );
+		$c->maybeRun( 'catalogue' , 'txt' );
 
 	}
 

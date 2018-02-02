@@ -14,7 +14,6 @@
 
 namespace BCcampus\OpenTextBooks\Models\Storage;
 
-
 class CleanUp {
 
 	/**
@@ -94,7 +93,6 @@ class CleanUp {
 					if ( ( $this->now - $file_last_modified ) > $this->max_age ) {
 						unlink( $this->path . $dir . '/' . $file );
 					}
-
 				}
 			}
 
