@@ -240,11 +240,11 @@ class Analytics {
 
 		$html .= '</tbody></table></div>';
 
-		$summary = '<h2>Summary</h2>';
-		$summary .= "<h4>Number of books in the collection: <b>{$num_of_books}</b></h4>";
-		$summary .= "<h4>Number of books in Pressbooks: <b>{$otb_count}</b></h4>";
+		$summary  = '<h2>Summary</h2>';
+		$summary  .= "<h4>Number of books in the collection: <b>{$num_of_books}</b></h4>";
+		$summary  .= "<h4>Number of books in Pressbooks: <b>{$otb_count}</b></h4>";
 		$otb_perc = round( 100 * ( $otb_count / $num_of_books ) );
-		$summary .= "<hr><h3>Percentage of books in the collection that have been imported into Pressbooks:</h3>
+		$summary  .= "<hr><h3>Percentage of books in the collection that have been imported into Pressbooks:</h3>
                 <div class='progress'>
                 <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuemin='0'
                      aria-valuenow='{$otb_count}' aria-valuemax='{$num_of_books}'
@@ -257,47 +257,30 @@ class Analytics {
 	}
 
 	/**
-	 * @param $uuid
 	 * @param $range_start
 	 * @param array $book_data
 	 */
-	public function displayOpenSingleBook( $uuid, $range_start, array $book_data ) {
-		$days = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
-
-		$segment           = 'outlinkUrl%3D@solr.bccampus.ca%3A8001';
-		$outlinks_resource = array();
-		$outlinks          = $this->data->getOutlinks( $segment );
+	public function displayOpenSingleBook( $range_start, array $book_data ) {
+		$days                   = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
+		$event_actions_resource = array();
+		$segment                = 'eventAction==' . urlencode( $book_data['name'] );
+		$event_actions          = $this->data->getEventActions( $segment );
 
 		// iterate through outlinks generated on open site
-		if ( $outlinks ) {
-			foreach ( $outlinks as $k => $v ) {
-				if ( $v->label == 'solr.bccampus.ca:8001' ) {
-					foreach ( $v->subtable as $key => $link ) {
-						if ( $key == 0 ) {
-							$highest = $link->nb_visits;
-						}
-						if ( false !== strpos( $link->label, $_GET['uuid'] ) ) {
-							$c                                               = strlen( $_GET['uuid'] );
-							$outlinks_resource[ substr( $link->url, - $c ) ] = $link->nb_visits;
-						}
-					}
-				}
+		if ( is_object( $event_actions[0] ) ) {
+			foreach ( $event_actions[0]->subtable as $obj ) {
+				$event_actions_resource[ $obj->label ] = $obj->nb_events;
 			}
 		}
 
-		$html = '<h1>open.bccampus.ca</h1><table class="table table-striped">';
-		$html .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
+		$html          = '<h1>open.bccampus.ca</h1><table class="table table-striped">';
+		$html          .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
 		$num_downloads = 0;
-		foreach ( $book_data['attachments'] as $attachment ) {
-			if ( is_array( $outlinks_resource ) && array_key_exists( $attachment['uuid'], $outlinks_resource ) ) {
-				$nb_visits = $outlinks_resource[ $attachment['uuid'] ];
-			} else {
-				$nb_visits = 0;
-			}
-			// keep track of downloads
-			$num_downloads = $num_downloads + $nb_visits;
+		foreach ( $event_actions_resource as $label => $num ) {
+
+			$num_downloads += $num;
 			// get the description of the resource
-			$html .= '<tr><td><i>' . $attachment['description'] . '</i></td><td><b>' . $nb_visits . '</b> times</td></tr>';
+			$html .= '<tr><td><i>' . $label . '</i></td><td><b>' . $num . '</b> times</td></tr>';
 		}
 		$html .= '</table>';
 
@@ -315,13 +298,13 @@ class Analytics {
 	public function displaySingleSite( $range_start ) {
 		$days = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
 
-		$downloads = $this->data->getEventName();
-		$html      = '<h1>opentextbc.ca</h1><table class="table table-striped">';
-		$html .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
+		$downloads     = $this->data->getEventName();
+		$html          = '<h1>opentextbc.ca</h1><table class="table table-striped">';
+		$html          .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
 		$num_downloads = 0;
 		foreach ( $downloads as $d ) {
 			$num_downloads = $num_downloads + $d->nb_events;
-			$html .= "<tr><td>{$d->label}</td><td>{$d->nb_events}</td></tr>";
+			$html          .= "<tr><td>{$d->label}</td><td>{$d->nb_events}</td></tr>";
 		}
 		$html .= '</table>';
 
