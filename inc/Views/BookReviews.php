@@ -55,7 +55,7 @@ class BookReviews {
 	 *
 	 * @var int
 	 */
-	private $slice = 21;
+	private $slice = 22;
 
 	/**
 	 * Reviews constructor
