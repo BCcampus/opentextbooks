@@ -11,3 +11,5 @@ vendor/*
 !vendor/autoload.php
 !vendor/composer
 !vendor/weberhofer
+node_modules/
+dist/
