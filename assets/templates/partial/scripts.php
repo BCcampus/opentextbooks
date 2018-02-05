@@ -1,5 +1,5 @@
 <script src="//code.jquery.com/jquery.js"></script>
-<script src="<?php echo OTB_URL; ?>assets/js/bootstrap.min.js"></script>
+<script src="<?php echo OTB_URL; ?>dist/scripts/bootstrap.min.js"></script>
 <script src="<?php echo OTB_URL; ?>assets/js/jquery.tablesorter.js"></script>
 <script>
 	jQuery(document).ready(function($)
