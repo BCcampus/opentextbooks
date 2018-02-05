@@ -31,7 +31,6 @@
     ]
   },
   "require": {
-    "weberhofer/jsonrpcphp": "^2.2",
-    "twbs/bootstrap": "3.3.6"
+    "weberhofer/jsonrpcphp": "^2.2"
   }
 }
