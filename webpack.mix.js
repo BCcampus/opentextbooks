@@ -16,7 +16,7 @@ const node = 'node_modules'
 
 mix.js(`${node}/bootstrap/dist/js/bootstrap.min.js`, `${dist}/scripts`)
 mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/styles`)
-
+    .copy(`${node}/bootstrap/dist/fonts/`, `${dist}/fonts`)
 
 // Full API
 // mix.js(src, output);
