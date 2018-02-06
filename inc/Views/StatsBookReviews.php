@@ -231,7 +231,7 @@ class StatsBookReviews {
 	private function setAvgAndTotal( $response ) {
 
 		foreach ( $response as $val ) {
-			$sum = '';
+			$sum = 0;
 			$count = 0;
 			// multiple reviews, one book
 			// need to lop off the first bit of array to get just Q&A
