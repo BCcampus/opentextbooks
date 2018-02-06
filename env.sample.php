@@ -23,7 +23,7 @@ return array(
 		'DB_PASSWORD' => '',
 	),
 	'limesurvey' => array(
-		'LS_URL' => '',
+		'LS_URL'  => '',
 		'LS_USER' => '',
 		'LS_PWD'  => '',
 	),
@@ -31,22 +31,24 @@ return array(
 		'SITE_URL'   => '',
 		'SITE_TOKEN' => '',
 	),
-	'solr' => array(
+	'solr'       => array(
 		'SITE_URL' => '',
-		'UUID' => '',
+		'UUID'     => '',
 	),
-	'dspace' => array(
+	'dspace'     => array(
 		'SITE_URL' => '',
-		'UUID' => '',
+		'UUID'     => '',
 	),
-	'yourls' => array(
+	'yourls'     => array(
 		'SITE_URL' => '',
-		'UUID' => '',
+		'UUID'     => '',
 	),
-	'domain' => array(
-		'SCHEME' => '',
-		'HOST' => '',
-		'APP_PATH' => '',
+	'domain'     => array(
+		'SCHEME'          => '',
+		'HOST'            => '',
+		'APP_PATH'        => '',
+		'ADOPTION_PATH'   => '',
+		'ADAPTATION_PATH' => '',
 	),
 
 );
