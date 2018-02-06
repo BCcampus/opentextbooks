@@ -32,6 +32,7 @@ class Webform {
 	 *
 	 */
 	public function displayOtbStats() {
+		$env = include( OTB_DIR . '.env.php' );
 		setlocale( LC_MONETARY, 'en_CA' );
 		$html     = '';
 		$savings  = $this->data->getStudentSavings();
@@ -54,7 +55,7 @@ class Webform {
 		$html .= '<dl class="dl-horizontal">';
 		$html .= '<dt>Adoption</dt><dd>Each adoption refers to a course section within a specific term and year for which an open textbook has replaced a a primary textbook or educational resource that must be purchased.</dd>';
 		$html .= '<dt>Faculty</dt><dd>The number of individual instructors who have adopted one or more open textbooks for one or more course sections. A faculty member is only counted once.</dd>';
-		$html .= '<dt>Savings</dt><dd>Savings include a range as reported in our blog, <a href="https://open.bccampus.ca/2015/02/18/calculating-student-savings/">Calculating Student Savings</a>.</dd>';
+		$html .= "<dt>Savings</dt><dd>Savings include a range as reported in our blog, <a href='//{$env['domain']['HOST']}/2015/02/18/calculating-student-savings/'>Calculating Student Savings</a>.</dd>";
 		$html .= '<dd>The number at the lower end is calculated as follows: number of students (see "Students") x $100 (This number was derived by OpenStax College based on a formula that takes into account used textbook purchases and rental costs as well as new textbook costs.)</dd>';
 		$html .= '<dd>The number at the upper end is calculated as follows: number of students (see "Students") x actual cost of the textbook being replaced if purchased as hard copy and new.</dd>';
 		$html .= '<dt>Students</dt><dd>The total number of students in all course sections within which an open textbook is used as the primary educational resource.</dd>';

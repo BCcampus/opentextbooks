@@ -15,6 +15,7 @@
 namespace BCcampus\OpenTextBooks\Views;
 
 use BCcampus\OpenTextBooks\Models;
+use function Composer\Autoload\includeFile;
 
 class Analytics {
 
@@ -261,6 +262,7 @@ class Analytics {
 	 * @param array $book_data
 	 */
 	public function displayOpenSingleBook( $range_start, array $book_data ) {
+		$env = include( OTB_DIR . '.env.php' );
 		$days                   = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
 		$event_actions_resource = array();
 		$segment                = 'eventAction==' . urlencode( $book_data['name'] );
@@ -273,7 +275,7 @@ class Analytics {
 			}
 		}
 
-		$html          = '<h1>open.bccampus.ca</h1><table class="table table-striped">';
+		$html          = "<h1>{$env['domain']['SITE_URL']}</h1><table class='table table-striped''>";
 		$html          .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
 		$num_downloads = 0;
 		foreach ( $event_actions_resource as $label => $num ) {

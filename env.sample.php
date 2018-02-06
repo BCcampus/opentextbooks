@@ -43,5 +43,10 @@ return array(
 		'SITE_URL' => '',
 		'UUID' => '',
 	),
+	'domain' => array(
+		'SCHEME' => '',
+		'HOST' => '',
+		'APP_PATH' => '',
+	),
 
 );

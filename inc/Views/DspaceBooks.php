@@ -54,6 +54,7 @@ class DspaceBooks {
 	 * @return string $html
 	 */
 	public function displayOneTextbook() {
+		$env          = include( OTB_DIR . '.env.php' );
 		$html        = '';
 		$data        = $this->books->getResponses();
 		$title       = $this->metadataToCsv( $data, 'dc.title' );
@@ -67,7 +68,7 @@ class DspaceBooks {
 		$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
 		$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook <i class='glyphicon glyphicon-book'></i></a></p>";
 		$html .= "<p><strong>Date Issued</strong>: <span itemprop='issued'>" . $date . '<br></span></p>';
-		$html .= "<p><strong>Need help? </strong>Visit our <a href='https://open.bccampus.ca/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
+		$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['HOST']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
 		$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='glyphicon glyphicon-book'></i></a></p>";
 		$html .= '<h3>Open Textbook(s):</h3>';
 		$html .= $this->displayBitStreamFiles( $data );
@@ -384,8 +385,7 @@ class DspaceBooks {
 			return $html;
 		}
 		$env          = include( OTB_DIR . '.env.php' );
-		$api_endpoint = $env['dspace']['SITE_URL'];
-		$base_url     = parse_url( $api_endpoint, PHP_URL_HOST );
+		$base_url     = parse_url( $env['dspace']['SITE_URL'], PHP_URL_HOST );
 
 		$html .= '<ol>';
 		// just deals with metadata
