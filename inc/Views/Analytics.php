@@ -15,7 +15,6 @@
 namespace BCcampus\OpenTextBooks\Views;
 
 use BCcampus\OpenTextBooks\Models;
-use function Composer\Autoload\includeFile;
 
 class Analytics {
 
@@ -275,7 +274,7 @@ class Analytics {
 			}
 		}
 
-		$html          = "<h1>{$env['domain']['SITE_URL']}</h1><table class='table table-striped''>";
+		$html          = "<h1>{$env['domain']['HOST']}</h1><table class='table table-striped''>";
 		$html          .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
 		$num_downloads = 0;
 		foreach ( $event_actions_resource as $label => $num ) {

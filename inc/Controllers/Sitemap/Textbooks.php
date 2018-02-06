@@ -41,7 +41,7 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 				$freq = $this->calcChangeFreq( $item['modifiedDate'], $this->now );
 
 				$xmlbody .= "\t<url>" . "\n";
-				$xmlbody .= "\t\t<loc>{$env['domain']['SCHEME']}{$env['domain']['HOST']}{$this->directory}?uuid={$item['uuid']}</loc>" . "\n";
+				$xmlbody .= "\t\t<loc>{$env['domain']['SCHEME']}{$env['domain']['HOST']}/{$env['domain']['APP_PATH']}/?uuid={$item['uuid']}</loc>" . "\n";
 				$xmlbody .= "\t\t<lastmod>{$item['modifiedDate']}</lastmod>" . "\n";
 				$xmlbody .= "\t\t<changefreq>{$freq}</changefreq>" . "\n";
 				$xmlbody .= "\t\t<priority>{$this->calcPriority( $freq )}</priority>" . "\n";
