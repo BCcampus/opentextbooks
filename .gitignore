@@ -1,15 +1,10 @@
 .*
 !.gitignore
 !.github/
-.env.php
 cache/analytics/*
 cache/catalogue/*
 cache/reviews/*
 cache/webform/*
-!vendor
-vendor/*
-!vendor/autoload.php
-!vendor/composer
-!vendor/weberhofer
+vendor/
 node_modules/
 dist/
