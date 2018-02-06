@@ -232,7 +232,7 @@ class BookReviews {
 	 */
 	private function getOverallAvg( array $array, $book_uuid = null ) {
 		if ( is_array( $array ) ) {
-			$sum = '';
+			$sum = '0';
 			$count = 0;
 			if ( ! isset( $book_uuid ) ) {
 				foreach ( $array as $val ) {
