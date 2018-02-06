@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'org\\jsonrpcphp\\' => array($vendorDir . '/weberhofer/jsonrpcphp/src'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
+    'Httpful' => array($vendorDir . '/voku/httpful/src'),
 );

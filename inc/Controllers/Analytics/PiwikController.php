@@ -16,6 +16,7 @@ namespace BCcampus\OpenTextBooks\Controllers\Analytics;
 
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Views;
+use VisualAppeal\Piwik;
 
 class PiwikController {
 
@@ -106,8 +107,8 @@ class PiwikController {
 	 *
 	 */
 	private function decider() {
-		$rest_api = new Models\PiwikApi( $this->args['site_id'], 'json', 'range', 'yesterday', $this->args['range_start'], $this->args['range_end'] );
-		$data     = new Models\Piwik( $rest_api, $this->args );
+		$rest_api = new Piwik( $this->args['site_id'], 'json', 'range', 'yesterday', $this->args['range_start'], $this->args['range_end'] );
+		$data     = new Models\Matomo( $rest_api, $this->args );
 		$view     = new Views\Analytics( $data );
 
 		switch ( $this->args['site_id'] ) {

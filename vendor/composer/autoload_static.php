@@ -7,10 +7,29 @@ namespace Composer\Autoload;
 class ComposerStaticInit2b88aea05d728903c296c0854093e512
 {
     public static $files = array (
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
+        '848a06382c1c883893a9c9833ae2b551' => __DIR__ . '/..' . '/symfony/polyfill/src/Apcu/bootstrap.php',
+        'd075ca29fdd460a76e9d730a9724dc20' => __DIR__ . '/..' . '/symfony/polyfill/src/Php54/bootstrap.php',
+        '7d1c739f734e1193d0c090179eeb95aa' => __DIR__ . '/..' . '/symfony/polyfill/src/Php55/bootstrap.php',
+        '974c792dde7e26133ce76c5ff3d097b1' => __DIR__ . '/..' . '/symfony/polyfill/src/Php56/bootstrap.php',
+        '8ac57d99d5d58e71376ea5f919e28d23' => __DIR__ . '/..' . '/symfony/polyfill/src/Php70/bootstrap.php',
+        '1f8375f522f51b04a337c2d88ac6167e' => __DIR__ . '/..' . '/symfony/polyfill/src/Php71/bootstrap.php',
+        '80ec413cbe3b4f464cf1ff314e3ce344' => __DIR__ . '/..' . '/symfony/polyfill/src/Php72/bootstrap.php',
+        '0782f09865a7e9f4ebd12e5f68b3135f' => __DIR__ . '/..' . '/symfony/polyfill/src/Iconv/bootstrap.php',
+        'f38c346c3a1bb49bd02ba8e9177d7e56' => __DIR__ . '/..' . '/symfony/polyfill/src/Intl/Grapheme/bootstrap.php',
+        '946db64f9a5c0688514fdcdafcabe7d2' => __DIR__ . '/..' . '/symfony/polyfill/src/Intl/Icu/bootstrap.php',
+        '299b3c040b39cb03c6eceb9bb272ad1d' => __DIR__ . '/..' . '/symfony/polyfill/src/Intl/Normalizer/bootstrap.php',
+        'e59f725579f9974327c76777296d6dcc' => __DIR__ . '/..' . '/symfony/polyfill/src/Mbstring/bootstrap.php',
+        'b46ad4fe52f4d1899a2951c7e6ea56b0' => __DIR__ . '/..' . '/voku/portable-utf8/bootstrap.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'v' => 
+        array (
+            'voku\\' => 5,
+        ),
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
@@ -19,9 +38,15 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
         array (
             'Webmozart\\Assert\\' => 17,
         ),
+        'V' => 
+        array (
+            'VisualAppeal\\' => 13,
+        ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\' => 17,
             'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Component\\Intl\\' => 23,
         ),
         'P' => 
         array (
@@ -39,6 +64,10 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
     );
 
     public static $prefixDirsPsr4 = array (
+        'voku\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/voku/portable-utf8/src/voku',
+        ),
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
@@ -49,9 +78,21 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
+        'VisualAppeal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/visualappeal/piwik-php-api/src',
+        ),
+        'Symfony\\Polyfill\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill/src',
+        ),
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Symfony\\Component\\Intl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/intl',
         ),
         'PSR2R\\' => 
         array (
@@ -86,9 +127,22 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
             ),
         ),
+        'H' => 
+        array (
+            'Httpful' => 
+            array (
+                0 => __DIR__ . '/..' . '/voku/httpful/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
+        'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill/src/Php70/Resources/stubs/ArithmeticError.php',
+        'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill/src/Php70/Resources/stubs/AssertionError.php',
+        'CallbackFilterIterator' => __DIR__ . '/..' . '/symfony/polyfill/src/Php54/Resources/stubs/CallbackFilterIterator.php',
+        'Collator' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/Collator.php',
+        'DivisionByZeroError' => __DIR__ . '/..' . '/symfony/polyfill/src/Php70/Resources/stubs/DivisionByZeroError.php',
+        'Error' => __DIR__ . '/..' . '/symfony/polyfill/src/Php70/Resources/stubs/Error.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
@@ -154,6 +208,8 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
         'Generic_Sniffs_WhiteSpace_DisallowSpaceIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/DisallowSpaceIndentSniff.php',
         'Generic_Sniffs_WhiteSpace_DisallowTabIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
         'Generic_Sniffs_WhiteSpace_ScopeIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
+        'IntlDateFormatter' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/IntlDateFormatter.php',
+        'Locale' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/Locale.php',
         'MySource_Sniffs_CSS_BrowserSpecificStylesSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/CSS/BrowserSpecificStylesSniff.php',
         'MySource_Sniffs_Channels_DisallowSelfActionsSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/DisallowSelfActionsSniff.php',
         'MySource_Sniffs_Channels_IncludeOwnSystemSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Channels/IncludeOwnSystemSniff.php',
@@ -170,6 +226,8 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
         'MySource_Sniffs_PHP_GetRequestDataSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/PHP/GetRequestDataSniff.php',
         'MySource_Sniffs_PHP_ReturnFunctionValueSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/PHP/ReturnFunctionValueSniff.php',
         'MySource_Sniffs_Strings_JoinStringsSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Strings/JoinStringsSniff.php',
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill/src/Intl/Normalizer/Resources/stubs/Normalizer.php',
+        'NumberFormatter' => __DIR__ . '/..' . '/symfony/intl/Resources/stubs/NumberFormatter.php',
         'PEAR_Sniffs_Classes_ClassDeclarationSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PEAR/Sniffs/Classes/ClassDeclarationSniff.php',
         'PEAR_Sniffs_Commenting_ClassCommentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PEAR/Sniffs/Commenting/ClassCommentSniff.php',
         'PEAR_Sniffs_Commenting_FileCommentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PEAR/Sniffs/Commenting/FileCommentSniff.php',
@@ -623,6 +681,8 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
         'PSR2_Sniffs_Methods_MethodDeclarationSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PSR2/Sniffs/Methods/MethodDeclarationSniff.php',
         'PSR2_Sniffs_Namespaces_NamespaceDeclarationSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PSR2/Sniffs/Namespaces/NamespaceDeclarationSniff.php',
         'PSR2_Sniffs_Namespaces_UseDeclarationSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PSR2/Sniffs/Namespaces/UseDeclarationSniff.php',
+        'ParseError' => __DIR__ . '/..' . '/symfony/polyfill/src/Php70/Resources/stubs/ParseError.php',
+        'RecursiveCallbackFilterIterator' => __DIR__ . '/..' . '/symfony/polyfill/src/Php54/Resources/stubs/RecursiveCallbackFilterIterator.php',
         'SebastianBergmann\\CodeCoverage\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage.php',
         'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
         'SebastianBergmann\\CodeCoverage\\Driver\\Driver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Driver/Driver.php',
@@ -702,6 +762,8 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
         'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => __DIR__ . '/..' . '/sebastian/recursion-context/src/InvalidArgumentException.php',
         'SebastianBergmann\\ResourceOperations\\ResourceOperations' => __DIR__ . '/..' . '/sebastian/resource-operations/src/ResourceOperations.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SessionHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill/src/Php54/Resources/stubs/SessionHandlerInterface.php',
+        'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill/src/Php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
         'Squiz_Sniffs_Arrays_ArrayBracketSpacingSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Squiz/Sniffs/Arrays/ArrayBracketSpacingSniff.php',
         'Squiz_Sniffs_Arrays_ArrayDeclarationSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php',
         'Squiz_Sniffs_CSS_ClassDefinitionClosingBraceSpaceSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Squiz/Sniffs/CSS/ClassDefinitionClosingBraceSpaceSniff.php',
@@ -803,6 +865,7 @@ class ComposerStaticInit2b88aea05d728903c296c0854093e512
         'Squiz_Sniffs_WhiteSpace_SemicolonSpacingSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Squiz/Sniffs/WhiteSpace/SemicolonSpacingSniff.php',
         'Squiz_Sniffs_WhiteSpace_SuperfluousWhitespaceSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Squiz/Sniffs/WhiteSpace/SuperfluousWhitespaceSniff.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
+        'TypeError' => __DIR__ . '/..' . '/symfony/polyfill/src/Php70/Resources/stubs/TypeError.php',
         'Zend_Sniffs_Debug_CodeAnalyzerSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/Debug/CodeAnalyzerSniff.php',
         'Zend_Sniffs_Files_ClosingTagSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/Files/ClosingTagSniff.php',
         'Zend_Sniffs_NamingConventions_ValidVariableNameSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/NamingConventions/ValidVariableNameSniff.php',
