@@ -199,7 +199,7 @@ class BookReviews {
 
 			// only want to send them to canadian version if there is one, and less than max reviews
 			if ( $adaptation && $total < $max ) {
-				$domain = "//{$env['domain']['HOST']}/find-open-textbooks/?uuid=";
+				$domain = "//{$env['domain']['HOST']}/{$env['domain']['APP_PATH']}/?uuid=";
 				$html .= "<h4 class='alert alert-success'>Review the Canadian edition of this book ";
 				$html .= "<a href='{$domain}{$adaptation}'> here </a>";
 				$html .= '</h4>';

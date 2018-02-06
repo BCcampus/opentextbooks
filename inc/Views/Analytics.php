@@ -40,6 +40,7 @@ class Analytics {
 	 * @param $num_of_books
 	 */
 	public function displayOpenSummary( $num_of_books ) {
+		$env = include( OTB_DIR . '.env.php' );
 		$segment_title = \BCcampus\Utility\url_encode( 'pageTitle==Find Open Textbooks | BCcampus OpenEd Resources' );
 		$page_visits   = $this->data->getVisits( $segment_title );
 		$visits        = $this->data->getVisits();
@@ -54,7 +55,7 @@ class Analytics {
 		<h2>Summary</h2>
             <h4>Number of books in the collection: <b>{$num_of_books}</b></h4>
             <h4>Number of visits to the site in the last 4 months: <b>{$visits}</b></h4>
-            <h4>Number of visits to the page 'find-open-textbooks': <b>{$page_visits}</b>
+            <h4>Number of visits to the page '{$env['domain']['APP_PATH']}': <b>{$page_visits}</b>
             
                 <a class='btn btn-default' type='button' tabindex='0' data-target='#region' data-toggle='modal'
                    title='Which Region'>Which regions?</a></h4>
@@ -73,7 +74,7 @@ class Analytics {
                     </div>
                 </div>
             </div>";
-		$html .= "<hr><h3>Percentage of total visits to the page find-open-textbooks: </h3>
+		$html .= "<hr><h3>Percentage of total visits to the page {$env['domain']['APP_PATH']}: </h3>
             <div class='progress'>
                 <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar'
                      aria-valuemin='0'
