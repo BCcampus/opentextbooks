@@ -103,13 +103,13 @@ class PiwikController {
 
 	}
 
-	/**
-	 *
-	 */
 	private function decider() {
-		$rest_api = new Piwik( $this->args['site_id'], 'json', 'range', 'yesterday', $this->args['range_start'], $this->args['range_end'] );
-		$data     = new Models\Matomo( $rest_api, $this->args );
-		$view     = new Views\Analytics( $data );
+		$env      = include( OTB_DIR . '.env.php' );
+		$rest_api = new Piwik( $env['piwik']['SITE_URL'], $env['piwik']['SITE_TOKEN'], 12, Piwik::FORMAT_JSON );
+		$rest_api->setPeriod( Piwik::PERIOD_RANGE );
+		$rest_api->setRange( $this->args['range_start'], $this->args['range_end'] );
+		$data = new Models\Matomo( $rest_api, $this->args );
+		$view = new Views\Analytics( $data );
 
 		switch ( $this->args['site_id'] ) {
 			// open downloads
