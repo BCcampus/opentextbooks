@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/BCcampus/opentextbooks#readme",
   "dependencies": {
-    "bootstrap": "3.3.6"
+    "bootstrap": "^3.3.7"
   },
   "devDependencies": {
     "cross-env": "^5.1.3",
