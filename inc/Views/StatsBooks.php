@@ -34,7 +34,7 @@ class StatsBooks {
 
 		array_multisort( $tmp, SORT_ASC | SORT_NATURAL );
 
-		$html = '<table class="table table-striped">';
+		$html = '<table id="opentext" class="table table-striped">';
 		$html .= '<thead><tr><th>Title</th><th>Download Stats</th></tr></thead><tbody>';
 		foreach ( $tmp as $uuid => $name ) {
 			$html .= '<tr>';
