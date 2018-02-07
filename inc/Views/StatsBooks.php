@@ -34,7 +34,7 @@ class StatsBooks {
 
 		array_multisort( $tmp, SORT_ASC | SORT_NATURAL );
 
-		$html = "<table id='opentext' class='table table-responsive table-striped table-hover tablesorter'>";
+		$html = "<table id='opentext' class='table table-striped tablesorter'>";
 		$html .= "<thead><tr>
         <th>Title&nbsp;<i class='fa fa-sort'></i></th>
         <th>Download Stats&nbsp;<i class='fa fa-sort'></i></th>

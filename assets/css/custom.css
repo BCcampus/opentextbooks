@@ -170,3 +170,11 @@ details {
 th.tablesorter-headerAsc, th.tablesorter-headerDesc {
     color: #3399FF;
 }
+
+.card-block {
+    padding: 15px;
+}
+
+div.card-footer.text-muted {
+ border:none;
+}
