@@ -14,9 +14,17 @@ const assets = 'assets';
 const dist = 'dist';
 const node = 'node_modules'
 
+// scripts
 mix.js(`${node}/bootstrap/dist/js/bootstrap.min.js`, `${dist}/scripts`)
-mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/styles`)
-    .copy(`${node}/bootstrap/dist/fonts/`, `${dist}/fonts`)
+    .js(`${node}/popper.js/dist/popper.min.js`, `${dist}/scripts`)
+    .js(`${node}/jquery/dist/jquery.min.js`, `${dist}/scripts`)
+
+// styles
+mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/css`)
+    .copy(`${node}/font-awesome/css/font-awesome.min.css`, `${dist}/css`)
+
+// fonts
+    .copy(`${node}/font-awesome/fonts/`, `${dist}/fonts`)
 
 // Full API
 // mix.js(src, output);

@@ -119,9 +119,9 @@ class BookReviews {
 
 				// create the left nav sidebar
 				foreach ( $this->questionGroups as $group => $question ) {
-					($active == 1) ? $html .= "<li class='active'>" : $html .= '<li>';
+					($active == 1) ? $html .= "<li class=nav-item'>" : $html .= '<li>';
 
-					$html .= "<a href='#" . substr( $group, 0, 5 ) . $num . "' data-toggle='tab'>" . $group . '</a></li>';
+					$html .= "<a class='nav-link' href='#" . substr( $group, 0, 5 ) . $num . "' data-toggle='tab'>" . $group . '</a></li>';
 					$active = 0;
 				}
 				$active = '';

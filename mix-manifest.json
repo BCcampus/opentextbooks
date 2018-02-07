@@ -1,4 +1,7 @@
 {
     "/dist/scripts/bootstrap.min.js": "/dist/scripts/bootstrap.min.js",
-    "/dist/styles/bootstrap.min.css": "/dist/styles/bootstrap.min.css"
+    "/dist/scripts/popper.min.js": "/dist/scripts/popper.min.js",
+    "/dist/scripts/jquery.min.js": "/dist/scripts/jquery.min.js",
+    "/dist/css/bootstrap.min.css": "/dist/css/bootstrap.min.css",
+    "/dist/css/font-awesome.min.css": "/dist/css/font-awesome.min.css"
 }

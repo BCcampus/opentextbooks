@@ -119,9 +119,9 @@ class StatsBookReviews {
 		$html .= "<div id='table-responsive'>";
 		$html .= "<table id='reviews' class='table table-responsive table-striped table-hover table-condensed tablesorter'>";
 		$html .= "<thead><tr>
-        <th>Title&nbsp;<i class='glyphicon glyphicon-sort'></i></th>
-        <th>Num of Reviews&nbsp;<i class='glyphicon glyphicon-sort'></i></th>
-        <th>Overall Score<br>(max 5)&nbsp;<i class='glyphicon glyphicon-sort'></i></th>
+        <th>Title&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Num of Reviews&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Overall Score<br>(max 5)&nbsp;<i class='fa fa-sort'></i></th>
         <th>Details</th>
         </tr></thead><tbody>";
 		foreach ( $this->data->getAvailableReviews() as $uid => $book ) {
