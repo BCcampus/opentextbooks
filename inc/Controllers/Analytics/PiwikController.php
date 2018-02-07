@@ -105,7 +105,7 @@ class PiwikController {
 
 	private function decider() {
 		$env      = include( OTB_DIR . '.env.php' );
-		$rest_api = new Piwik( $env['piwik']['SITE_URL'], $env['piwik']['SITE_TOKEN'], 12, Piwik::FORMAT_JSON );
+		$rest_api = new Piwik( $env['piwik']['url'], $env['piwik']['token'], 12, Piwik::FORMAT_JSON );
 		$rest_api->setPeriod( Piwik::PERIOD_RANGE );
 		$rest_api->setRange( $this->args['range_start'], $this->args['range_end'] );
 		$data = new Models\Matomo( $rest_api, $this->args );

@@ -36,8 +36,8 @@ class EquellaApi implements Polymorphism\RestInterface {
 	 */
 	function retrieve( $args ) {
 		$env                  = include( OTB_DIR . '.env.php' );
-		$this->apiBaseUrl     = $env['solr']['SITE_URL'];
-		$this->collectionUuid = $env['solr']['UUID'];
+		$this->apiBaseUrl     = $env['solr']['url'];
+		$this->collectionUuid = $env['solr']['uuid'];
 
 		// must be url encoded
 		$args['subject'] = \BCcampus\Utility\url_encode( $args['subject'] );

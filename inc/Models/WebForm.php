@@ -131,9 +131,9 @@ class WebForm extends Polymorphism\DataAbstract {
 	private function connection() {
 		$db  = '';
 		$env = include( OTB_DIR . '.env.php' );
-		$dsn = "mysql:host={$env['webform']['DB_HOST']};dbname={$env['webform']['DB_NAME']};port={$env['webform']['DB_PORT']}";
-		$usr = $env['webform']['DB_USER'];
-		$pwd = $env['webform']['DB_PASSWORD'];
+		$dsn = "mysql:host={$env['webform']['db_host']};dbname={$env['webform']['db_name']};port={$env['webform']['db_port']}";
+		$usr = $env['webform']['db_user'];
+		$pwd = $env['webform']['db_pswd'];
 
 		try {
 			$db = new \PDO( $dsn, $usr, $pwd );

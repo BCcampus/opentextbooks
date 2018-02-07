@@ -94,9 +94,9 @@ class Books {
 				$html    .= $sources . '</p>';
 			}
 
-			$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['ADOPTION_PATH']}/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
-			$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['ADAPTATION_PATH']}/'>Support for adapting an open textbook<i class='glyphicon glyphicon-book'></i></a></p>";
-			$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['HOST']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
+			$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
+			$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='glyphicon glyphicon-book'></i></a></p>";
+			$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['host']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
 			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='glyphicon glyphicon-book'></i></a></p>";
 			$html .= '<h3>Open Textbook(s):</h3><ol>';
 
@@ -156,8 +156,8 @@ class Books {
 					$html    .= $sources . '</p>';
 				}
 
-				$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['ADOPTION_PATH']}/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
-				$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['ADAPTATION_PATH']}/'>Support for adapting an open textbook<i class='glyphicon glyphicon-book'></i></a></p>";
+				$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
+				$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='glyphicon glyphicon-book'></i></a></p>";
 				$html .= '<h3>Open Textbook(s):</h3><ol>';
 
 				$attachments = $this->reOrderAttachments( $value['attachments'] );
@@ -504,8 +504,8 @@ class Books {
 		} else {
 			$url = parse_url( $source );
 			// change the base domain if we're not in the base domain environment
-			if ( 0 == strcmp( $url['host'], 'open.bccampus.ca' ) && 0 !== strcmp( $env['domain']['HOST'], 'open.bccampus.ca' ) ) {
-				$url['host'] = $env['domain']['HOST'];
+			if ( 0 == strcmp( $url['host'], 'open.bccampus.ca' ) && 0 !== strcmp( $env['domain']['host'], 'open.bccampus.ca' ) ) {
+				$url['host'] = $env['domain']['host'];
 			}
 			$formatted .= "<a itemprop='isBasedOnUrl' href='//" . $url['host'] . $url['path'] . '?' . $url['query'] . "'>" . $url['host'] . " </a>";
 
@@ -522,7 +522,7 @@ class Books {
 	private function getCitationPdfUrl( array $attachments ) {
 		$redirect_url = '';
 		$env          = include( OTB_DIR . '.env.php' );
-		$base         = "{$env['domain']['SCHEME']}{$env['domain']['HOST']}/wp-content/opensolr/opentextbooks/redirects.php";
+		$base         = "{$env['domain']['scheme']}{$env['domain']['host']}/wp-content/opensolr/opentextbooks/redirects.php";
 		//$base = 'http://localhost/opentextbooks/redirects.php';
 		foreach ( $attachments as $attachment ) {
 			if ( 'file' == $attachment['type'] && isset( $attachment['filename'] ) ) {
@@ -1033,7 +1033,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	private function displayShortURL( $url ) {
 		$urlEncode = urlencode( $url );
 		$env       = include( OTB_DIR . '.env.php' );
-		$urls      = $env['yourls']['SITE_URL'] . '?signature=' . $env['yourls']['UUID'] . '&action=shorturl&format=simple&url=';
+		$urls      = $env['yourls']['url'] . '?signature=' . $env['yourls']['uuid'] . '&action=shorturl&format=simple&url=';
 
 		//get the string result
 		$result = '<p><strong>Short URL</strong>: ';

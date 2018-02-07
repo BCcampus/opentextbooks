@@ -123,7 +123,7 @@ class DspaceController {
 		// allow for collection to be overridden with a passed argument
 		// otherwise default collection uuid should be set in .env.php
 		if ( empty( $args['collectionUuid'] ) ) {
-			$args['collectionUuid'] = $env['dspace']['UUID'];
+			$args['collectionUuid'] = $env['dspace']['uuid'];
 		}
 		// needs to be 'Arts+and+Culture'
 		if ( ! empty( $this->args['subject'] ) ) {

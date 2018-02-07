@@ -16,39 +16,39 @@
 
 return array(
 	'webform'    => array(
-		'DB_HOST'     => '127.0.0.1',
-		'DB_PORT'     => '3306',
-		'DB_NAME'     => '',
-		'DB_USER'     => '',
-		'DB_PASSWORD' => '',
+		'db_host'     => '127.0.0.1',
+		'db_port'     => '3306',
+		'db_name'     => '',
+		'db_user'     => '',
+		'db_pswd' => '',
 	),
 	'limesurvey' => array(
-		'LS_URL'  => '',
-		'LS_USER' => '',
-		'LS_PWD'  => '',
+		'url'  => '',
+		'user' => '',
+		'pswd'  => '',
 	),
 	'piwik'      => array(
-		'SITE_URL'   => '',
-		'SITE_TOKEN' => '',
+		'url'   => '',
+		'token' => '',
 	),
 	'solr'       => array(
-		'SITE_URL' => '',
-		'UUID'     => '',
+		'url' => '',
+		'uuid'     => '',
 	),
 	'dspace'     => array(
-		'SITE_URL' => '',
-		'UUID'     => '',
+		'url' => '',
+		'uuid'     => '',
 	),
 	'yourls'     => array(
-		'SITE_URL' => '',
-		'UUID'     => '',
+		'url' => '',
+		'uuid'     => '',
 	),
 	'domain'     => array(
-		'SCHEME'          => '',
-		'HOST'            => '',
-		'APP_PATH'        => '',
-		'ADOPTION_PATH'   => '',
-		'ADAPTATION_PATH' => '',
+		'scheme'          => '',
+		'host'            => '',
+		'app_path'        => '',
+		'adoption_path'   => '',
+		'adaptation_path' => '',
 	),
 
 );

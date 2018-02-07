@@ -41,7 +41,7 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 				$freq = $this->calcChangeFreq( $item['modifiedDate'], $this->now );
 
 				$xmlbody .= "\t<url>" . "\n";
-				$xmlbody .= "\t\t<loc>{$env['domain']['SCHEME']}{$env['domain']['HOST']}/{$env['domain']['APP_PATH']}/?uuid={$item['uuid']}</loc>" . "\n";
+				$xmlbody .= "\t\t<loc>{$env['domain']['scheme']}{$env['domain']['host']}/{$env['domain']['app_path']}/?uuid={$item['uuid']}</loc>" . "\n";
 				$xmlbody .= "\t\t<lastmod>{$item['modifiedDate']}</lastmod>" . "\n";
 				$xmlbody .= "\t\t<changefreq>{$freq}</changefreq>" . "\n";
 				$xmlbody .= "\t\t<priority>{$this->calcPriority( $freq )}</priority>" . "\n";
@@ -59,7 +59,7 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 	 */
 	protected function getResults() {
 		$env                    = include( OTB_DIR . '.env.php' );
-		$args['collectionUuid'] = $env['solr']['UUID'];
+		$args['collectionUuid'] = $env['solr']['uuid'];
 		$rest_api               = new Models\EquellaApi();
 		$data                   = new Models\OtbBooks( $rest_api, $args );
 
