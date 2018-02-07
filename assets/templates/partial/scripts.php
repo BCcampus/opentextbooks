@@ -1,11 +1,11 @@
 <script src="//code.jquery.com/jquery.js"></script>
 <script src="<?php echo OTB_URL; ?>dist/scripts/bootstrap.min.js"></script>
-<script src="<?php echo OTB_URL; ?>assets/js/jquery.tablesorter.js"></script>
-<script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script><script>
 	jQuery(document).ready(function($)
 		{
-			$("#reviews").tablesorter({sortList: [[0,0]]});
-			$("#opentextbc").tablesorter({sortList: [[0,0]]});
+			$("#reviews").DataTable();
+			$("#opentextbc").DataTable();
+            $("#opentext").DataTable();
 		}
 	);
 </script>

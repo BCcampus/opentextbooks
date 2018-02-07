@@ -277,10 +277,39 @@ class Analytics {
 		$html          .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
 		$num_downloads = 0;
 		foreach ( $event_actions_resource as $label => $num ) {
-
+			// give the file type an icon
+			switch ( $label ) {
+				case "pdf":
+					$icon = "document-pdf";
+					break;
+				case "url":
+					$icon = "document-code";
+					break;
+				case "doc":
+					$icon = "document-word";
+					break;
+				case "zip":
+					$icon = "document-zipper";
+					break;
+				case "xml":
+					$icon = "document-xml";
+					break;
+				case "epub":
+					$icon = "document-epub";
+					break;
+				case "mobi":
+					$icon = "document-mobi";
+					break;
+				case "html":
+					$icon = "document-code";
+					break;
+				default;
+					$icon = "document";
+					break;
+			}
 			$num_downloads += $num;
 			// get the description of the resource
-			$html .= '<tr><td><i>' . $label . '</i></td><td><b>' . $num . '</b> times</td></tr>';
+			$html .= '<tr><td><i>' . $label . ' <img src=' . OTB_URL . 'assets/images/' . $icon . '.png></i></td><td><b>' . $num . '</b> times</td></tr>';
 		}
 		$html .= '</table>';
 
