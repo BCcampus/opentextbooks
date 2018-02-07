@@ -31,7 +31,7 @@
     ]
   },
   "require": {
-    "weberhofer/jsonrpcphp": "^2.2"
+    "weberhofer/jsonrpcphp": "^2.2",
+    "visualappeal/piwik-php-api": "^1.3"
   }
 }
-

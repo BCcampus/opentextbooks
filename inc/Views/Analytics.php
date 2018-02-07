@@ -19,16 +19,16 @@ use BCcampus\OpenTextBooks\Models;
 class Analytics {
 
 	/**
-	 * @var Models\Piwik
+	 * @var Models\Matomo
 	 */
 	private $data;
 
 	/**
 	 * Analytics constructor.
 	 *
-	 * @param Models\Piwik $data
+	 * @param Models\Matomo $data
 	 */
-	public function __construct( Models\Piwik $data ) {
+	public function __construct( Models\Matomo $data ) {
 
 		if ( is_object( $data ) ) {
 			$this->data = $data;
