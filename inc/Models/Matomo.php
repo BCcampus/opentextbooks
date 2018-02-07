@@ -23,8 +23,13 @@ namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
 use Exception;
+use VisualAppeal\Piwik;
 
-class Piwik extends Polymorphism\DataAbstract {
+/**
+ * Class Matomo
+ * @package BCcampus\OpenTextBooks\Models
+ */
+class Matomo extends Polymorphism\DataAbstract {
 
 	private $piwik_api;
 	private $location = 'cache/analytics';
@@ -33,12 +38,12 @@ class Piwik extends Polymorphism\DataAbstract {
 	private $args = array();
 
 	/**
-	 * Piwik constructor.
+	 * Matomo constructor.
 	 *
-	 * @param PiwikApi $api
-	 * @param array $args
+	 * @param Piwik $api
+	 * @param $args
 	 */
-	public function __construct( PiwikApi $api, $args ) {
+	public function __construct( Piwik $api, $args ) {
 
 		if ( is_object( $api ) ) {
 			$this->piwik_api = $api;
@@ -57,14 +62,11 @@ class Piwik extends Polymorphism\DataAbstract {
 	}
 
 	/**
-	 * Returns the PiwikAPI object
-	 *
-	 * @return obj
+	 * @return Piwik
 	 */
 	public function getResponses() {
 		return $this->piwik_api;
 	}
-
 
 	/**
 	 * @param string $segment
