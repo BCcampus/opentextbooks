@@ -114,7 +114,7 @@ class BookReviews {
 				$group_keys = array_keys( $this->questionGroups );
 				$group_questions = array_values( $this->questionGroups );
 
-				$html .= "<ul class='nav nav-tabs'>";
+				$html .= "<ul class='nav nav-tabs reviews'>";
 				$active = 1;
 
 				// create the left nav sidebar

@@ -124,7 +124,7 @@ article.page ul.no-bullets, ul.no-bullets {
 }
 
 /***** LIMESURVEY REVIEWS MENU *****/
-ul.nav.nav-tabs {
+ul.nav.nav-tabs.reviews {
     display: block;
     border-bottom: 0;
     float: left;
@@ -135,11 +135,11 @@ ul.nav.nav-tabs {
     padding: 0px;
 }
 
-ul.nav.nav-tabs li {
+ul.nav.nav-tabs.reviews li {
     float: none;
 }
 
-ul.nav.nav-tabs li a {
+ul.nav.nav-tabs.reviews li a {
     min-width: 74px;
     margin-right: 0;
     margin-bottom: 3px;
@@ -150,14 +150,14 @@ ul.nav.nav-tabs li a {
     border-radius: 4px 0 0 4px;
 }
 
-ul.nav.nav-tabs li a:hover,
-ul.nav.nav-tabs li a:focus {
+ul.nav.nav-tabs.reviews li a:hover,
+ul.nav.nav-tabs.reviews li a:focus {
     border-color: #eeeeee #dddddd #eeeeee #eeeeee;
 }
 
-ul.nav.nav-tabs .active,
-ul.nav.nav-tabs .active > a:hover,
-ul.nav.nav-tabs .active > a:focus {
+ul.nav.nav-tabs.reviews .active,
+ul.nav.nav-tabs.reviews .active > a:hover,
+ul.nav.nav-tabs.reviews .active > a:focus {
     border-color: #ddd transparent #ddd #ddd;
     *border-right-color: #ffffff;
 }
