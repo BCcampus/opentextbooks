@@ -107,7 +107,7 @@ class Books {
 
 				$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
 						 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
-						 . "<a class='btn btn-default btn-sm' role='button'"
+						 . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
 						 . ' onclick="' . $tracking . '"'
 						 . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
 					{$logo_type['string']}</a> "
@@ -168,7 +168,7 @@ class Books {
 
 					$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
 							 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
-							 . "<a class='btn btn-default btn-sm' role='button'"
+							 . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
 							 . ' onclick="' . $tracking . '"'
 							 . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
 							" . $logo_type['string'] . '</a> '

@@ -82,7 +82,7 @@ class StatsBookReviews {
 		$html .= '<hgroup><h2>Summary</h2>';
 		$html .= "<h4>Number of completed reviews: {$num_reviews}</h4>";
 		$html .= "<h4>Number of textbooks reviewed: {$num_books} ";
-		$html .= "<a class='btn btn-default' type='button' tabindex='0' data-target='#book_titles' data-toggle='modal' title='Book Titles'>Which Books?</a></h4>";
+		$html .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#book_titles' data-toggle='modal' title='Book Titles'>Which Books?</a></h4>";
 		$html .= '<div class="modal fade" id="book_titles" tabindex="-1" role="dialog" aria-labelledby="book_titles_label">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -95,7 +95,7 @@ class StatsBookReviews {
               </div>
             </div>';
 		$html .= "<h4>Number of participating institutions: {$num_inst} </h4>";
-		//        $html .= "<a class='btn btn-default' type='button' tabindex='0' data-target='#inst' data-toggle='modal' title='Institution Names'>Which Institutions?</a></h4>";
+		//        $html .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#inst' data-toggle='modal' title='Institution Names'>Which Institutions?</a></h4>";
 		//        $html .= '<div class="modal fade" id="inst" tabindex="-1" role="dialog" aria-labelledby="inst_label">
 		//                  <div class="modal-dialog" role="document">
 		//                    <div class="modal-content">

@@ -6,8 +6,8 @@ if ( ! defined( 'WPINC' ) ) { ?>
     <script src="<?php echo OTB_URL; ?>dist/scripts/vendor.js"></script>
     <script async src="<?php echo OTB_URL; ?>dist/scripts/app.js"></script>
 <?php } else { ?>
+    <script src="<?php echo OTB_URL; ?>dist/scripts/popper.min.js"></script>
     <script src="<?php echo OTB_URL; ?>dist/scripts/bootstrap.min.js"></script>
-    <script async src="<?php echo OTB_URL; ?>dist/scripts/popper.min.js"></script>
     <script async src="<?php echo OTB_URL; ?>dist/scripts/jquery.tablesorter.min.js"></script>
     <script>
         jQuery(document).ready(function ($) {

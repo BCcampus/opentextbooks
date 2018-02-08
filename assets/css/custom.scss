@@ -11,135 +11,125 @@
  * in WordPress
  */
 
-@media (max-width: 320px) {
-    .tabs-left > .nav-tabs > li > a {
-        min-width: 100%;
-    }
-}
+/****************************************
+	colors
+*****************************************/
 
-@media (min-width: 981px) {
-    .solrContainer-fluid .btn-sm {
-        width: 20%;
-    }
-}
+$color-blue: #007bff;
 
-@media (min-width: 768px) {
-    .modal-dialog {
-        width: 800px;
-    }
-}
+/****************************************
+	Page Level
+*****************************************/
 
-/***** CONTAINER / PAGE LEVEL *****/
 h1.title {
-    padding-bottom: 5px;
+  padding-bottom: 5px;
 }
 
 #second-menu a {
-    font-weight: 200;
+  font-weight: 200;
 }
 
 #breadcrumbs {
-    display: none;
+  display: none;
 }
 
 span.menu_slide, span.main_text {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 
 article.page p {
-    padding-bottom: 0px;
+  padding-bottom: 0px;
 }
 
-.solrContainer-fluid h2:first-of-type {
+.solrContainer-fluid {
+  *zoom: 1;
+
+  h2:first-of-type {
     margin-top: 0px;
-}
-
-.solrContainer-fluid .tabs-left {
+  }
+  .tabs-left {
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     border: none;
-}
-
-.solrContainer-fluid .cover figcaption {
+  }
+  .cover figcaption {
     text-align: center;
     max-width: 151px;
-}
-
-.solrContainer-fluid .copyright-notice {
+  }
+  .copyright-notice {
     font-size: 69%;
     word-wrap: break-word;
-}
+  }
 
-.solrContainer-fluid {
-    *zoom: 1;
-    /*padding-left:0px;*/
-    /*padding-right:0px;*/
-}
-
-.solrContainer-fluid:after {
+  &:after {
     clear: both;
+  }
 }
 
-/***** LEFT MENU *****/
+/****************************************
+	Accordion
+*****************************************/
+
 article.page ul.no-bullets, ul.no-bullets {
-    list-style: none;
-    padding-left: 0px;
+  list-style: none;
+  padding-left: 0px;
 }
 
 .accordion {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .accordion-group {
-    margin-bottom: 2px;
-    border: 1px solid #e5e5e5;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+  margin-bottom: 2px;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 
 .accordion-heading {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 .accordion-heading .accordion-toggle {
-    display: block;
-    padding: 8px 15px;
+  display: block;
+  padding: 8px 15px;
 }
 
 .accordion-toggle {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #main-area a.accordion-toggle:active,
 #main-area .accordion-body > ul > li > a:active,
 #main-area div.span9 > ul > li > h4 > a:active {
-    background-color: #e5e5e5;
+  background-color: #e5e5e5;
 }
 
 .accordion-inner {
-    padding: 9px 15px;
-    border-top: 1px solid #e5e5e5;
+  padding: 9px 15px;
+  border-top: 1px solid #e5e5e5;
 }
 
-/***** LIMESURVEY REVIEWS MENU *****/
+/****************************************
+	Reviews
+*****************************************/
+
 ul.nav.nav-tabs.reviews {
-    display: block;
-    border-bottom: 0;
-    float: left;
-    margin-right: 5px;
-    margin-left: 0px;
-    border-right: 1px solid #ddd;
-    list-style-type: none;
-    padding: 0px;
-}
+  display: block;
+  border-bottom: 0;
+  float: left;
+  margin-right: 5px;
+  margin-left: 0px;
+  border-right: 1px solid #ddd;
+  list-style-type: none;
+  padding: 0px;
 
-ul.nav.nav-tabs.reviews li {
+  li {
     float: none;
-}
-
-ul.nav.nav-tabs.reviews li a {
+  }
+  li a {
     min-width: 74px;
     margin-right: 0;
     margin-bottom: 3px;
@@ -148,33 +138,56 @@ ul.nav.nav-tabs.reviews li a {
     -webkit-border-radius: 4px 0 0 4px;
     -moz-border-radius: 4px 0 0 4px;
     border-radius: 4px 0 0 4px;
-}
 
-ul.nav.nav-tabs.reviews li a:hover,
-ul.nav.nav-tabs.reviews li a:focus {
-    border-color: #eeeeee #dddddd #eeeeee #eeeeee;
-}
+    &:hover, &:focus {
+      border-color: #eeeeee #dddddd #eeeeee #eeeeee;
+    }
+    .active, .active > a:hover, .active > a:focus {
+      border-color: #ddd transparent #ddd #ddd;
+      *border-right-color: #ffffff;
+    }
+  }
 
-ul.nav.nav-tabs.reviews .active,
-ul.nav.nav-tabs.reviews .active > a:hover,
-ul.nav.nav-tabs.reviews .active > a:focus {
-    border-color: #ddd transparent #ddd #ddd;
-    *border-right-color: #ffffff;
 }
 
 details {
-    clear: both;
+  clear: both;
 }
 
-/***** TABLE SORTER *****/
+/****************************************
+	Tablesorter
+*****************************************/
+
 th.tablesorter-headerAsc, th.tablesorter-headerDesc {
-    color: #3399FF;
+  color: #3399FF;
 }
 
 .card-block {
-    padding: 15px;
+  padding: 15px;
 }
 
 div.card-footer.text-muted {
- border:none;
+  border: none;
+}
+
+/****************************************
+	Media Queries
+*****************************************/
+
+@media (max-width: 320px) {
+  .tabs-left > .nav-tabs > li > a {
+    min-width: 100%;
+  }
+}
+
+@media (min-width: 981px) {
+  .solrContainer-fluid .btn-sm {
+    width: 20%;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 800px;
+  }
 }

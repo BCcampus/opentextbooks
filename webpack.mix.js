@@ -22,8 +22,8 @@ mix.options({
 
 // javascript transpiling, minifying, extracting and concatenating
 mix.js(`${node}/jquery/dist/jquery.js`, `${dist}/scripts`)
-    .js(`${node}/bootstrap/dist/js/bootstrap.js`, `${dist}/scripts`)
     .js(`${node}/popper.js/dist/umd/popper.js`, `${dist}/scripts`)
+    .js(`${node}/bootstrap/dist/js/bootstrap.js`, `${dist}/scripts`)
     .js(`${node}/tablesorter/dist/js/jquery.tablesorter.js`, `${dist}/scripts`)
     .js(`${assets}/js/app.js`, `${dist}/scripts`)
     .extract(['jquery', 'bootstrap', 'popper.js', 'tablesorter']);
