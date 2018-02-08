@@ -37,7 +37,7 @@ class StatsBooks {
 		$html = "<table id='opentext' class='table table-striped tablesorter'>";
 		$html .= "<thead><tr>
         <th>Title&nbsp;<i class='fa fa-sort'></i></th>
-        <th>Download Stats&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Download Stats</th>
         </tr></thead><tbody>";
 		foreach ( $tmp as $uuid => $name ) {
 			$html .= '<tr>';

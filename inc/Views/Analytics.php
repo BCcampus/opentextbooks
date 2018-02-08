@@ -45,19 +45,16 @@ class Analytics {
 		$visits        = $this->data->getVisits();
 		$percentage    = round( 100 * ( $page_visits / $visits ) );
 		//image accepted values are: 'evolution', 'verticalBar', 'pie' and '3dPie'
-		$graphType   = 'verticalBar';
-		$apiModule   = 'UserCountry';
-		$apiAction   = 'getRegion';
-		$image_graph = $this->data->getImageGraph( $apiModule, $apiAction, $graphType );
+//		$graphType   = 'verticalBar';
+//		$apiModule   = 'UserCountry';
+//		$apiAction   = 'getRegion';
+//		$image_graph = $this->data->getImageGraph( $apiModule, $apiAction, $graphType );
 
 		$html = "
 		<h2>Summary</h2>
             <h4>Number of books in the collection: <b>{$num_of_books}</b></h4>
             <h4>Number of visits to the site in the last 4 months: <b>{$visits}</b></h4>
-            <h4>Number of visits to the page 'find-open-textbooks': <b>{$page_visits}</b>
-            
-                <a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#region' data-toggle='modal'
-                   title='Which Region'>Which regions?</a></h4>
+            <h4>Number of visits to the page 'find-open-textbooks': <b>{$page_visits}</b></h4>
                   <div class='modal fade' id='region' tabindex='-1' role='dialog' aria-labelledby='region'>
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>
@@ -67,10 +64,13 @@ class Analytics {
                                     aria-hidden='true'>&times;</span></button>
                         </div>
                         ";
-		$html .= "<div class='modal-body'>
-                           <img src='{$image_graph}'/>
-                        </div>
-                    </div>
+//		$html .= "<div class='modal-body'>
+//                           <img src='{$image_graph}'/>
+//                        </div>
+//                    </div>
+//                </div>
+//            </div>";
+		$html .= "</div>
                 </div>
             </div>";
 		$html .= "<hr><h3>Percentage of total visits to the page find-open-textbooks: </h3>

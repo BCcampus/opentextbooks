@@ -128,7 +128,7 @@ class StatsBookReviews {
 
 			if ( ! isset( $this->responseByUid[ $uid ]['num_reviews'] ) ) {
 				//continue;
-				$html .= "<tr class='warning'>";
+				$html .= "<tr class='table-warning'>";
 				$html .= "<td>{$book}</td>";
 				$html .= '<td>0</td>';
 				$html .= '<td>0</td>';
