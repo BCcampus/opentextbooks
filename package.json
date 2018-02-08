@@ -19,7 +19,8 @@
     "bootstrap": "^4.0.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
-    "popper.js": "^1.12.9"
+    "popper.js": "^1.12.9",
+    "tablesorter": "^2.29.5"
   },
   "devDependencies": {
     "cross-env": "^5.1.3",

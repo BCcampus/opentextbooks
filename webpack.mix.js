@@ -18,6 +18,7 @@ const node = 'node_modules'
 mix.js(`${node}/bootstrap/dist/js/bootstrap.min.js`, `${dist}/scripts`)
     .js(`${node}/popper.js/dist/popper.min.js`, `${dist}/scripts`)
     .js(`${node}/jquery/dist/jquery.min.js`, `${dist}/scripts`)
+    .js(`${node}/tablesorter/dist/js/jquery.tablesorter.min.js`, `${dist}/scripts`)
 
 // styles
 mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/css`)

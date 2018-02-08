@@ -3825,7 +3825,7 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-jquery@^3.3.1:
+jquery@>=3.2.1, jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -6614,6 +6614,12 @@ svgo@^1.0.0:
     stable "~0.1.6"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
+
+tablesorter@^2.29.5:
+  version "2.29.5"
+  resolved "https://registry.yarnpkg.com/tablesorter/-/tablesorter-2.29.5.tgz#b277fba5b3852779affc2e39e791d1e38f7a2a9e"
+  dependencies:
+    jquery ">=3.2.1"
 
 tapable@^0.2.7:
   version "0.2.8"
