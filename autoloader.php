@@ -54,7 +54,7 @@ if ( ! defined( 'OTB_DIR' ) ) {
 }
 
 if ( ! defined( 'OTB_VERSION' ) ) {
-	define( 'OTB_VERSION', '1.5.0' );
+	define( 'OTB_VERSION', '1.6.0' );
 }
 
 if ( ! defined( 'OTB_URL' ) ) {
@@ -79,12 +79,11 @@ if ( ! defined( 'OTB_URL' ) ) {
 
 /*
 |--------------------------------------------------------------------------
-| Includes
+| Application
 |--------------------------------------------------------------------------
 |
-| Generic utility functions
+| constants, includes, config
 |
 |
 */
-include( OTB_DIR . 'inc/otb-utility.php' );
-include( OTB_DIR . 'vendor/autoload.php' );
+include_once( __DIR__ . '/config/application.php' );

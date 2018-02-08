@@ -15,6 +15,7 @@
 namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
+use Pimple\Container;
 
 class EquellaApi implements Polymorphism\RestInterface {
 	private $apiBaseUrl = '';
