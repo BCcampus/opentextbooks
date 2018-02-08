@@ -26,7 +26,7 @@ mix.js(`${node}/jquery/dist/jquery.js`, `${dist}/scripts`)
     .js(`${node}/popper.js/dist/popper.js`, `${dist}/scripts`)
     .js(`${node}/tablesorter/dist/js/jquery.tablesorter.min.js`, `${dist}/scripts`)
     .js(`${assets}/js/app.js`, `${dist}/scripts`)
-    .extract(['jquery', 'bootstrap', 'popper.js']);
+    .extract(['jquery','bootstrap','popper.js','tablesorter']);
 
 // styles
 mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/styles`)

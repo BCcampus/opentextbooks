@@ -1,10 +1,10 @@
 {
     "/dist/scripts/vendor.js": "/dist/scripts/vendor.js",
-    "/dist/scripts/app.js": "/dist/scripts/app.js",
     "/dist/scripts/jquery.tablesorter.min.js": "/dist/scripts/jquery.tablesorter.min.js",
     "/dist/scripts/popper.js": "/dist/scripts/popper.js",
     "/dist/scripts/jquery.js": "/dist/scripts/jquery.js",
     "/dist/styles/custom.css": "/dist/styles/custom.css",
+    "/dist/scripts/app.js": "/dist/scripts/app.js",
     "/dist/scripts/bootstrap.js": "/dist/scripts/bootstrap.js",
     "/dist/scripts/manifest.js": "/dist/scripts/manifest.js",
     "/dist/styles/bootstrap.min.css": "/dist/styles/bootstrap.min.css",
