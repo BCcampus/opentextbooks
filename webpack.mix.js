@@ -14,16 +14,22 @@ const assets = 'assets';
 const dist = 'dist';
 const node = 'node_modules'
 
+mix.options({
+    purifyCss: true,
+    clearConsole: false
+});
+
 // scripts
-mix.js(`${node}/bootstrap/dist/js/bootstrap.min.js`, `${dist}/scripts`)
-    .js(`${node}/popper.js/dist/popper.min.js`, `${dist}/scripts`)
-    .js(`${node}/jquery/dist/jquery.min.js`, `${dist}/scripts`)
+mix.js(`${node}/jquery/dist/jquery.js`, `${dist}/scripts`)
+    .js(`${node}/bootstrap/dist/js/bootstrap.js`, `${dist}/scripts`)
+    .js(`${node}/popper.js/dist/popper.js`, `${dist}/scripts`)
     .js(`${assets}/js/app.js`, `${dist}/scripts`)
+    .extract(['jquery','bootstrap','popper.js']);
 
 // styles
-mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/css`)
-    .copy(`${node}/font-awesome/css/font-awesome.min.css`, `${dist}/css`)
-
+mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/styles`)
+    .copy(`${node}/font-awesome/css/font-awesome.min.css`, `${dist}/styles`)
+    .copy(`${assets}/css/custom.css`, `${dist}/styles`)
     // fonts
     .copy(`${node}/font-awesome/fonts/`, `${dist}/fonts`)
 

@@ -3,10 +3,10 @@
   "version": "1.5.0",
   "description": "The application is currently hosted on open.bccampus.ca and is built and maintained to support the [Open Textbook Project](https://open.bccampus.ca/2016/06/01/the-b-c-open-textbook-project-celebrates-another-milestone-151-open-textbooks/) by [BCcampus](https://bccampus.ca/) - [books](https://open.bccampus.ca/find-open-textbooks/) - [stats](https://open.bccampus.ca/open-textbook-stats) - [sitemap](https://open.bccampus.ca/wp-content/opensolr/opentextbooks/sitemap.php)",
   "scripts": {
-    "dev": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "build": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "production": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "build:production": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "repository": "git+https://github.com/BCcampus/opentextbooks.git",
   "author": "",
@@ -24,6 +24,8 @@
   },
   "devDependencies": {
     "cross-env": "^5.1.3",
-    "laravel-mix": "^2.0.0"
+    "laravel-mix": "^2.0.0",
+    "purify-css": "^1.2.5",
+    "purifycss-webpack": "^0.7.0"
   }
 }
