@@ -16,7 +16,6 @@ const node = 'node_modules'
 const resources = 'inc';
 
 mix.options({
-    purifyCss: false,
     clearConsole: false
 });
 
