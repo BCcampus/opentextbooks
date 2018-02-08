@@ -20,19 +20,21 @@ mix.options({
     clearConsole: false
 });
 
-// scripts
+// javascript transpiling, minifying, extracting and concatenating
 mix.js(`${node}/jquery/dist/jquery.js`, `${dist}/scripts`)
     .js(`${node}/bootstrap/dist/js/bootstrap.js`, `${dist}/scripts`)
-    .js(`${node}/popper.js/dist/popper.js`, `${dist}/scripts`)
-    .js(`${node}/tablesorter/dist/js/jquery.tablesorter.min.js`, `${dist}/scripts`)
+    .js(`${node}/popper.js/dist/umd/popper.js`, `${dist}/scripts`)
+    .js(`${node}/tablesorter/dist/js/jquery.tablesorter.js`, `${dist}/scripts`)
     .js(`${assets}/js/app.js`, `${dist}/scripts`)
-    .extract(['jquery','bootstrap','popper.js','tablesorter']);
+    .extract(['jquery', 'bootstrap', 'popper.js', 'tablesorter']);
 
-// styles
+// straight copy of files
 mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/styles`)
     .copy(`${node}/font-awesome/css/font-awesome.min.css`, `${dist}/styles`)
-    // fonts
     .copy(`${node}/font-awesome/fonts/`, `${dist}/fonts`)
+    .copy(`${node}/bootstrap/dist/js/bootstrap.min.js`, `${dist}/scripts`)
+    .copy(`${node}/popper.js/dist/umd/popper.min.js`, `${dist}/scripts`)
+    .copy(`${node}/tablesorter/dist/js/jquery.tablesorter.min.js`, `${dist}/scripts`)
 
 // BrowserSync
 mix.browserSync({
