@@ -13,6 +13,7 @@ let mix = require('laravel-mix');
 const assets = 'assets';
 const dist = 'dist';
 const node = 'node_modules'
+const resources = 'inc';
 
 mix.options({
     purifyCss: true,
@@ -24,14 +25,28 @@ mix.js(`${node}/jquery/dist/jquery.js`, `${dist}/scripts`)
     .js(`${node}/bootstrap/dist/js/bootstrap.js`, `${dist}/scripts`)
     .js(`${node}/popper.js/dist/popper.js`, `${dist}/scripts`)
     .js(`${assets}/js/app.js`, `${dist}/scripts`)
-    .extract(['jquery','bootstrap','popper.js']);
+    .extract(['jquery', 'bootstrap', 'popper.js']);
 
 // styles
 mix.copy(`${node}/bootstrap/dist/css/bootstrap.min.css`, `${dist}/styles`)
     .copy(`${node}/font-awesome/css/font-awesome.min.css`, `${dist}/styles`)
-    .copy(`${assets}/css/custom.css`, `${dist}/styles`)
     // fonts
     .copy(`${node}/font-awesome/fonts/`, `${dist}/fonts`)
+
+// BrowserSync
+mix.browserSync({
+    host: 'localhost',
+    proxy: 'http://localhost/opentextbooks',
+    port: 3000,
+    files: [
+        `${resources}/**/*.php`,
+        `${dist}/**/*.css`,
+        `${dist}/**/*.js`,
+    ],
+});
+
+// Sass
+mix.sass(`${assets}/css/custom.scss`, `${dist}/styles/custom.css`)
 
 // Full API
 // mix.js(src, output);
