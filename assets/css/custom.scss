@@ -37,12 +37,36 @@ span.menu_slide, span.main_text {
   padding-top: 10px;
 }
 
-article.page p {
-  padding-bottom: 0px;
+ul.no-bullets {
+  list-style: none;
+  padding-left: 0px;
+}
+
+ul.line-height-lg {
+  line-height: 38px;
+  padding-left: 0;
+  list-style: none;
+}
+
+article.page {
+  p {
+    padding-bottom: 0px;
+  }
+
+  ul.line-height-lg {
+    line-height: 39px;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  ul.no-bullets {
+    list-style: none;
+    padding-left: 0px;
+  }
+
 }
 
 .solrContainer-fluid {
-  *zoom: 1;
 
   h2:first-of-type {
     margin-top: 0px;
@@ -68,13 +92,8 @@ article.page p {
 }
 
 /****************************************
-	Accordion
+    Accordion
 *****************************************/
-
-article.page ul.no-bullets, ul.no-bullets {
-  list-style: none;
-  padding-left: 0px;
-}
 
 .accordion {
   margin-bottom: 0px;
@@ -113,7 +132,7 @@ article.page ul.no-bullets, ul.no-bullets {
 }
 
 /****************************************
-	Reviews
+    Reviews
 *****************************************/
 
 ul.nav.nav-tabs.reviews {
@@ -155,7 +174,7 @@ details {
 }
 
 /****************************************
-	Tablesorter
+    Tablesorter
 *****************************************/
 
 th.tablesorter-headerAsc, th.tablesorter-headerDesc {
@@ -171,7 +190,7 @@ div.card-footer.text-muted {
 }
 
 /****************************************
-	Media Queries
+    Media Queries
 *****************************************/
 
 @media (max-width: 320px) {

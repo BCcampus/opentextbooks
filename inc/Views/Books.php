@@ -97,7 +97,7 @@ class Books {
 			$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook <i class='fa fa-book'></i></a></p>";
 			$html .= "<p><strong>Need help? </strong>Visit our <a href='https://open.bccampus.ca/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
 			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist. <i class='fa fa-book'></i></a></p>";
-			$html .= '<h3>Open Textbook(s):</h3><ol>';
+			$html .= '<h3>Open Textbook(s):</h3><ul class="list-unstyled line-height-lg">';
 
 			$attachments = $this->reOrderAttachments( $data['attachments'] );
 			foreach ( $attachments as $attachment ) {
@@ -113,7 +113,7 @@ class Books {
 					{$logo_type['string']}</a> "
 						 . $attachment['description'] . ' ' . $file_size . '</li>';
 			}
-			$html .= '</ol>';
+			$html .= '</ul>';
 			//send it to the picker for evaluation
 			$substring = $this->licensePicker( $data['metadata'], $authors );
 			//include it, depending on what license it is
@@ -157,7 +157,7 @@ class Books {
 
 				$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
 				$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
-				$html .= '<h3>Open Textbook(s):</h3><ol>';
+				$html .= '<h3>Open Textbook(s):</h3><ul class="list-unstyled line-height-lg">';
 
 				$attachments = $this->reOrderAttachments( $value['attachments'] );
 
@@ -174,7 +174,7 @@ class Books {
 							" . $logo_type['string'] . '</a> '
 							 . $attachment['description'] . ' ' . $file_size . '</li>';
 				}
-				$html .= '</ol>';
+				$html .= '</ul>';
 				//send it to the picker for evaluation
 				$substring = $this->licensePicker( $value['metadata'], $authors );
 				//include it, depending on what license it is
