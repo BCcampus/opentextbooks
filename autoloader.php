@@ -64,6 +64,7 @@ if ( ! defined( 'OTB_URL' ) ) {
 		$ex     = explode( '/', OTB_DIR );
 		$key    = array_search( 'wp-content', $ex );
 		$slice  = array_slice( $ex, $key + 1 );
+		$file_path = '';
 
 		foreach ( $slice as $path ) {
 			if ( empty( $path ) ) {
