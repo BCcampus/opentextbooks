@@ -40,7 +40,7 @@ class Analytics {
 	 * @param $num_of_books
 	 */
 	public function displayOpenSummary( $num_of_books ) {
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$segment_title = \BCcampus\Utility\url_encode( 'pageTitle==Find Open Textbooks | BCcampus OpenEd Resources' );
 		$page_visits   = $this->data->getVisits( $segment_title );
 		$visits        = $this->data->getVisits();
@@ -262,7 +262,7 @@ class Analytics {
 	 * @param array $book_data
 	 */
 	public function displayOpenSingleBook( $range_start, array $book_data ) {
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$days                   = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
 		$event_actions_resource = array();
 		$segment                = 'eventAction==' . urlencode( $book_data['name'] );

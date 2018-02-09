@@ -27,7 +27,7 @@ class StatsBooks {
 	}
 
 	public function displayStatsTitles() {
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 
 		foreach ( $this->books->getPrunedResults() as $book ) {
 			$tmp[ $book['uuid'] ] = $book['name'];
@@ -68,7 +68,7 @@ class StatsBooks {
 	 *
 	 */
 	public function displaySubjectStats() {
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$html       = '';
 		$cumulative = 0;
 		$base_url   = "//{$env['domain']['host']}/{$env['domain']['app_path']}/?subject=";

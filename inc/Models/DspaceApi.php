@@ -34,7 +34,7 @@ class DspaceApi implements Polymorphism\RestInterface {
 	 * @return mixed
 	 */
 	function retrieve( $args ) {
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		/**
 		 * JSON response please
 		 */

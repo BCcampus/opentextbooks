@@ -30,7 +30,7 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 	 * @return string
 	 */
 	protected function getXmlItemBody() {
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$this->setCurrentTime();
 		$xmlbody = '';
 		$r       = $this->getResults();
@@ -58,8 +58,8 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 	 * @return array|string
 	 */
 	protected function getResults() {
-		$env                    = include( OTB_DIR . '.env.php' );
-		$args['collectionUuid'] = $env['solr']['uuid'];
+		$env                    = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$args['collectionUuid'] = $env['equella']['uuid'];
 		$rest_api               = new Models\EquellaApi();
 		$data                   = new Models\OtbBooks( $rest_api, $args );
 

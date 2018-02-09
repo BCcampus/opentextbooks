@@ -32,7 +32,7 @@ class Webform {
 	 *
 	 */
 	public function displayOtbStats() {
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		setlocale( LC_MONETARY, 'en_CA' );
 		$html     = '';
 		$savings  = $this->data->getStudentSavings();

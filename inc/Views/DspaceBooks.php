@@ -54,7 +54,7 @@ class DspaceBooks {
 	 * @return string $html
 	 */
 	public function displayOneTextbook() {
-		$env          = include( OTB_DIR . '.env.php' );
+		$env          = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$html        = '';
 		$data        = $this->books->getResponses();
 		$title       = $this->metadataToCsv( $data, 'dc.title' );
@@ -384,7 +384,7 @@ class DspaceBooks {
 		if ( ! is_array( $dspace_array ) || ! isset( $dspace_array['bitstreams'] ) ) {
 			return $html;
 		}
-		$env          = include( OTB_DIR . '.env.php' );
+		$env          = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$base_url     = parse_url( $env['dspace']['url'], PHP_URL_HOST );
 
 		$html .= '<ol>';

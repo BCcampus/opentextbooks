@@ -32,8 +32,6 @@
   },
   "require": {
     "weberhofer/jsonrpcphp": "^2.2",
-    "visualappeal/piwik-php-api": "^1.3",
-    "illuminate/container": "^5.4",
-    "illuminate/config": "^5.4"
+    "visualappeal/piwik-php-api": "^1.3"
   }
 }

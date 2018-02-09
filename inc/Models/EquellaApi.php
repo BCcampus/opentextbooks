@@ -15,7 +15,6 @@
 namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
-use Pimple\Container;
 
 class EquellaApi implements Polymorphism\RestInterface {
 	private $apiBaseUrl = '';
@@ -36,9 +35,9 @@ class EquellaApi implements Polymorphism\RestInterface {
 	 * @return mixed
 	 */
 	function retrieve( $args ) {
-		$env                  = include( OTB_DIR . '.env.php' );
-		$this->apiBaseUrl     = $env['solr']['url'];
-		$this->collectionUuid = $env['solr']['uuid'];
+		$env                  = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$this->apiBaseUrl     = $env['equella']['url'];
+		$this->collectionUuid = $env['equella']['uuid'];
 
 		// must be url encoded
 		$args['subject'] = \BCcampus\Utility\url_encode( $args['subject'] );

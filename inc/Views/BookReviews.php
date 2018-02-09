@@ -168,7 +168,7 @@ class BookReviews {
 		//$now = time();
 		//$then = mktime(0, 0, 0, 11, 12, 2013);
 		//$diff = date('d', $then - $now);
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$total = 0;
 		$min = 1;
 		$max = 4;

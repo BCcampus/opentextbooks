@@ -119,7 +119,7 @@ class DspaceController {
 			return;
 		}
 
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		// allow for collection to be overridden with a passed argument
 		// otherwise default collection uuid should be set in .env.php
 		if ( empty( $args['collectionUuid'] ) ) {

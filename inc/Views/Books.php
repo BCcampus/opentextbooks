@@ -48,7 +48,7 @@ class Books {
 	}
 
 	public function displayOneTextbook() {
-		$env     = include( OTB_DIR . '.env.php' );
+		$env     = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$html    = '';
 		$sources = '';
 		$data    = $this->books->getResponses();
@@ -496,7 +496,7 @@ class Books {
 	 */
 	protected function formatUrl( $source ) {
 		$formatted = '';
-		$env       = include( OTB_DIR . '.env.php' );
+		$env       = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 
 		// check if it's a url
 		if ( ! filter_var( $source, FILTER_VALIDATE_URL ) ) {
@@ -521,7 +521,7 @@ class Books {
 	 */
 	private function getCitationPdfUrl( array $attachments ) {
 		$redirect_url = '';
-		$env          = include( OTB_DIR . '.env.php' );
+		$env          = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$base         = "{$env['domain']['scheme']}{$env['domain']['host']}/wp-content/opensolr/opentextbooks/redirects.php";
 		//$base = 'http://localhost/opentextbooks/redirects.php';
 		foreach ( $attachments as $attachment ) {
@@ -1032,7 +1032,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	 */
 	private function displayShortURL( $url ) {
 		$urlEncode = urlencode( $url );
-		$env       = include( OTB_DIR . '.env.php' );
+		$env       = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$urls      = $env['yourls']['url'] . '?signature=' . $env['yourls']['uuid'] . '&action=shorturl&format=simple&url=';
 
 		//get the string result

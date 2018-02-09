@@ -148,7 +148,7 @@ class OtbController {
 
 				switch ( $this->args['lists'] ) {
 					case 'titles':
-//						$env        = include( OTB_DIR . '.env.php' );
+//						$env        = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 						$env = Container::getInstance();
 						$env->get('environment');
 						$rpc_client = new Models\LimeSurveyApi( $env['limesurvey']['url'] );
