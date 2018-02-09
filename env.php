@@ -10,9 +10,5 @@
  *
  */
 return [
-	'environment' => 'bccampus',
-	//'environment' => 'local.dev',
-	//'environment' => 'campusmanitoba',
-	//'environment' => 'ecampusontario',
-	//'environment' => 'localhost',
+	'environment' => 'bccampus'
 ];
