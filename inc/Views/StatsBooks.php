@@ -34,12 +34,15 @@ class StatsBooks {
 
 		array_multisort( $tmp, SORT_ASC | SORT_NATURAL );
 
-		$html = '<table class="table table-striped">';
-		$html .= '<thead><tr><th>Title</th><th>Download Stats</th></tr></thead><tbody>';
+		$html = "<table id='opentext' class='table table-striped tablesorter'>";
+		$html .= "<thead><tr>
+        <th>Title&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Download Stats</th>
+        </tr></thead><tbody>";
 		foreach ( $tmp as $uuid => $name ) {
 			$html .= '<tr>';
-			$html .= "<td><a href='https://open.bccampus.ca/find-open-textbooks/?uuid={$uuid}' target='_blank'><i class='glyphicon glyphicon-book'></i></a> — {$name}</td>";
-			$html .= "<td><a href='" . OTB_URL . "analytics.php?uuid={$uuid}&view=single'><i class='glyphicon glyphicon-stats'></i></a></td>";
+			$html .= "<td><a href='https://open.bccampus.ca/find-open-textbooks/?uuid={$uuid}' target='_blank'><i class='fa fa-book'></i></a> — {$name}</td>";
+			$html .= "<td><a href='" . OTB_URL . "analytics.php?uuid={$uuid}&view=single'><i class='fa fa-bar-chart-o'></i></a></td>";
 			$html .= '</tr>';
 
 		}
