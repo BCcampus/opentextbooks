@@ -82,7 +82,7 @@ class StatsBookReviews {
 		$html .= '<hgroup><h2>Summary</h2>';
 		$html .= "<h4>Number of completed reviews: {$num_reviews}</h4>";
 		$html .= "<h4>Number of textbooks reviewed: {$num_books} ";
-		$html .= "<a class='btn btn-default' type='button' tabindex='0' data-target='#book_titles' data-toggle='modal' title='Book Titles'>Which Books?</a></h4>";
+		$html .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#book_titles' data-toggle='modal' title='Book Titles'>Which Books?</a></h4>";
 		$html .= '<div class="modal fade" id="book_titles" tabindex="-1" role="dialog" aria-labelledby="book_titles_label">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -95,7 +95,7 @@ class StatsBookReviews {
               </div>
             </div>';
 		$html .= "<h4>Number of participating institutions: {$num_inst} </h4>";
-		//        $html .= "<a class='btn btn-default' type='button' tabindex='0' data-target='#inst' data-toggle='modal' title='Institution Names'>Which Institutions?</a></h4>";
+		//        $html .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#inst' data-toggle='modal' title='Institution Names'>Which Institutions?</a></h4>";
 		//        $html .= '<div class="modal fade" id="inst" tabindex="-1" role="dialog" aria-labelledby="inst_label">
 		//                  <div class="modal-dialog" role="document">
 		//                    <div class="modal-content">
@@ -116,19 +116,19 @@ class StatsBookReviews {
                      style='width:{$rev_perc}%;'>{$rev_perc}%</div>
                 </div>";
 
-		$html .= "<div id='table-responsive'>";
-		$html .= "<table id='reviews' class='table table-responsive table-striped table-hover table-condensed tablesorter'>";
+		$html .= "<div id='table'>";
+		$html .= "<table id='reviews' class='table table-striped tablesorter'>";
 		$html .= "<thead><tr>
-        <th>Title&nbsp;<i class='glyphicon glyphicon-sort'></i></th>
-        <th>Num of Reviews&nbsp;<i class='glyphicon glyphicon-sort'></i></th>
-        <th>Overall Score<br>(max 5)&nbsp;<i class='glyphicon glyphicon-sort'></i></th>
+        <th>Title&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Num of Reviews&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Overall Score<br>(max 5)&nbsp;<i class='fa fa-sort'></i></th>
         <th>Details</th>
         </tr></thead><tbody>";
 		foreach ( $this->data->getAvailableReviews() as $uid => $book ) {
 
 			if ( ! isset( $this->responseByUid[ $uid ]['num_reviews'] ) ) {
 				//continue;
-				$html .= "<tr class='warning'>";
+				$html .= "<tr class='table-warning'>";
 				$html .= "<td>{$book}</td>";
 				$html .= '<td>0</td>';
 				$html .= '<td>0</td>';

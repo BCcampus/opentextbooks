@@ -46,10 +46,10 @@ class Analytics {
 		$visits        = $this->data->getVisits();
 		$percentage    = round( 100 * ( $page_visits / $visits ) );
 		//image accepted values are: 'evolution', 'verticalBar', 'pie' and '3dPie'
-		$graphType   = 'verticalBar';
-		$apiModule   = 'UserCountry';
-		$apiAction   = 'getRegion';
-		$image_graph = $this->data->getImageGraph( $apiModule, $apiAction, $graphType );
+//		$graphType   = 'verticalBar';
+//		$apiModule   = 'UserCountry';
+//		$apiAction   = 'getRegion';
+//		$image_graph = $this->data->getImageGraph( $apiModule, $apiAction, $graphType );
 
 		$html = "
 		<h2>Summary</h2>
@@ -59,19 +59,23 @@ class Analytics {
             
                 <a class='btn btn-default' type='button' tabindex='0' data-target='#region' data-toggle='modal'
                    title='Which Region'>Which regions?</a></h4>
+            <h4>Number of visits to the page 'find-open-textbooks': <b>{$page_visits}</b></h4>
                   <div class='modal fade' id='region' tabindex='-1' role='dialog' aria-labelledby='region'>
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>
                         <div class='modal-header'>
+                            <h4 class='modal-title' id='myModalLabel'>Location of site visitors</h4>
                             <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
                                     aria-hidden='true'>&times;</span></button>
-                            <h4 class='modal-title' id='myModalLabel'>Location of site visitors</h4>
                         </div>
                         ";
-		$html .= "<div class='modal-body'>
-                           <img src='{$image_graph}'/>
-                        </div>
-                    </div>
+//		$html .= "<div class='modal-body'>
+//                           <img src='{$image_graph}'/>
+//                        </div>
+//                    </div>
+//                </div>
+//            </div>";
+		$html .= "</div>
                 </div>
             </div>";
 		$html .= "<hr><h3>Percentage of total visits to the page {$env['domain']['app_path']}: </h3>
@@ -115,22 +119,22 @@ class Analytics {
 		$low_prob_future  = ( 0 == $freq_of_visits ) ? 0 : 24 * ( round( 1500 / $freq_of_visits, 2 ) );
 		$high_prob_future = ( 0 == $freq_of_visits ) ? 0 : 24 * ( round( 500 / $freq_of_visits, 2 ) );
 
-		$html .= "<hr><h2>Likely adoptions</h2><h3>Based on visits <a class='btn btn-default' type='button' tabindex='0' data-target='#likely' data-toggle='modal'
+		$html .= "<hr><h2>Likely adoptions</h2><h3>Based on visits <a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#likely' data-toggle='modal'
                    title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><h5>Site: opentextbc.ca</h5><table class='table table-striped'><tbody>";
 		$html .= "<tr><td>Number of books in the collection</td><td>{$num_of_books}</td></tr>";
-		$html .= "<tr><td>Number of web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$total['count']}</td></tr>";
-		$html .= "<tr><td>Number of visits to all {$total['count']} web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$total['visits']}</td></tr>";
-		$html .= "<tr><td>Number of likely adoptions in the last 4 months <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$total['low']} - {$total['high']}</td></tr>";
-		$html .= "<tr><td>Predictions <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
+		$html .= "<tr><td>Number of web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class=fa fa-external-link-alt'></i></a></small></td><td>{$total['count']}</td></tr>";
+		$html .= "<tr><td>Number of visits to all {$total['count']} web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class=fa fa-external-link-alt'></i></a></small></td><td>{$total['visits']}</td></tr>";
+		$html .= "<tr><td>Number of likely adoptions in the last 4 months <small><a href='//opentextbc.ca'>opentextbc.ca <i class=fa fa-external-link-alt'></i></a></small></td><td>{$total['low']} - {$total['high']}</td></tr>";
+		$html .= "<tr><td>Predictions <small><a href='//opentextbc.ca'>opentextbc.ca <i class=fa fa-external-link-alt'></i></a></small></td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
 
 		$html .= '</tbody></table>';
 		$html .= "<div class='modal fade' id='likely' tabindex='-1' role='dialog' aria-labelledby='likely'>	
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>
                         <div class='modal-header'>
+                            <h4 class='modal-title' id='myModalLabel'>Likely adoptions based on visits</h4>
                             <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
                                     aria-hidden='true'>&times;</span></button>
-                            <h4 class='modal-title' id='myModalLabel'>Likely adoptions based on visits</h4>
                         </div>";
 		$html .= "<div class='modal-body'>
                            <dl><dt>Assumptions</dt><dd>Knowing that an adoption is not possible without first downloading a file or viewing a webpage, this analysis assumes a correlation 
@@ -169,22 +173,22 @@ class Analytics {
 		$low_prob_future    = ( 0 == $freq_of_downloads ) ? 0 : 24 * ( round( 50 / $freq_of_downloads, 2 ) );
 		$high_prob_future   = ( 0 == $freq_of_downloads ) ? 0 : 24 * ( round( 10 / $freq_of_downloads, 2 ) );
 
-		$html .= "<h3>Based on downloads <a class='btn btn-default' type='button' tabindex='0' data-target='#likely-downloads' data-toggle='modal'
+		$html .= "<h3>Based on downloads <a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#likely-downloads' data-toggle='modal'
                    title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><h5>Site: opentextbc.ca</h5><table class='table table-striped'><tbody>";
 		$html .= "<tr><td>Number of books in the collection</td><td>{$num_of_books}</td></tr>";
-		$html .= "<tr><td>Number of web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></i></a></small></td><td>{$num_books}</td></tr>";
-		$html .= "<tr><td>Number of downloads of all {$num_books} web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$cumulative}</td></tr>";
-		$html .= "<tr><td>Number of likely adoptions in the last 4 months <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>{$low_prob_adoption} - {$high_prob_adoption}</td></tr>";
-		$html .= "<tr><td>Predictions <small><a href='//opentextbc.ca'>opentextbc.ca <i class='glyphicon glyphicon-new-window small'></a></small></td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
+		$html .= "<tr><td>Number of web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class=fa fa-external-link-alt'></i></i></a></small></td><td>{$num_books}</td></tr>";
+		$html .= "<tr><td>Number of downloads of all {$num_books} web-based books <small><a href='//opentextbc.ca'>opentextbc.ca <i class=fa fa-external-link-alt'></i></a></small></td><td>{$cumulative}</td></tr>";
+		$html .= "<tr><td>Number of likely adoptions in the last 4 months <small><a href='//opentextbc.ca'>opentextbc.ca <i class=fa fa-external-link-alt'></i></a></small></td><td>{$low_prob_adoption} - {$high_prob_adoption}</td></tr>";
+		$html .= "<tr><td>Predictions <small><a href='//opentextbc.ca'>opentextbc.ca <i class=fa fa-external-link-alt'></i></a></small></td><td>1 adoption is likely to occur every {$high_prob_future} - {$low_prob_future} hours</td></tr>";
 
 		$html .= '</tbody></table>';
 		$html .= "<div class='modal fade' id='likely-downloads' tabindex='-1' role='dialog' aria-labelledby='likely-downloads'>
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>
                         <div class='modal-header'>
+                            <h4 class='modal-title' id='myModalLabel'>Likely adoptions based on downloads</h4>
                             <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
                                     aria-hidden='true'>&times;</span></button>
-                            <h4 class='modal-title' id='myModalLabel'>Likely adoptions based on downloads</h4>
                         </div>";
 		$html .= "<div class='modal-body'>
                            <dl><dt>Assumptions</dt><dd>Knowing that an adoption is not possible without first downloading a file or viewing a webpage, this analysis assumes a correlation 
@@ -215,13 +219,13 @@ class Analytics {
 		$range   = $this->data->getDateRange();
 
 		$html = "<div id='table-responsive'>";
-		$html .= "<table id='opentextbc' class='table table-responsive table-striped table-hover table-condensed tablesorter'>";
+		$html .= "<table id='opentextbc' class='table table-striped tablesorter'>";
 		$html .= "<caption>Stats below based on the date range: {$range['start']} to {$range['end']}</caption>";
 		$html .= "<thead><tr>
-        <th>Title&nbsp;<i class='glyphicon glyphicon-sort'></i></th>
-        <th>Num of Visits&nbsp;<i class='glyphicon glyphicon-sort'></i></th>
-        <th>Num Actions<i class='glyphicon glyphicon-sort'></i></th>
-        <th>Num Pageviews<i class='glyphicon glyphicon-sort'></i></th>
+        <th>Title&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Num of Visits&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Num Actions&nbsp;<i class='fa fa-sort'></i></th>
+        <th>Num Pageviews&nbsp;<i class='fa fa-sort'></i></th>
         <th>Download Stats</th>
         </tr></thead><tbody>";
 
@@ -230,11 +234,13 @@ class Analytics {
 			if ( array_key_exists( $site['path'], $flipped ) ) {
 				$otb_count ++;
 				$html .= '<tr>';
-				$html .= "<td><a href='https://opentextbc.ca/{$site['path']}' target='_blank'><i class='glyphicon glyphicon-book'></i></a> — {$site['label']}</td>";
+				$html .= "<td><a href='https://opentextbc.ca/{$site['path']}' target='_blank'><i class='fa fa-book'></i></a> — {$site['label']}</td>";
 				$html .= "<td>{$site['visits']}</td>";
 				$html .= "<td>{$site['actions']}</td>";
 				$html .= "<td>{$site['pageviews']}</td>";
-				$html .= "<td><a href='" . OTB_URL . "analytics.php?site_id={$site['id']}&view=single'><i class='glyphicon glyphicon-stats'></i></a></td>";
+				$html .= "<td><a href='" . OTB_URL . "analytics.php?site_id={$site['id']}&view=single'><i class='fa fa-bar-chart-o'></i>
+
+</i></a></td>";
 				$html .= '</tr>';
 			}
 		}
@@ -334,16 +340,14 @@ class Analytics {
 	 * @return string
 	 */
 	private function displayPredictions( $days, $num_downloads, $freq_of_downloads, $low_prob_adoption, $high_prob_adoption, $low_prob_future, $high_prob_future ) {
-		$html = '<div class="row">
-  <div class="col-sm-4 col-md-4">
-    <div class="thumbnail"><h3>Frequency</h3>';
+		$html = '<div class="row"><div class="col-sm-4 col-md-4"><div class="card"><h3 class="card-header">Frequency&colon;&nbsp;' . $freq_of_downloads . '</h3>';
 		$html .= "<div class='modal fade' id='frequency' tabindex='-1' role='dialog' aria-labelledby='frequency'>
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>
                         <div class='modal-header'>
+                            <h4 class='modal-title' id='myModalLabel'>Calculating Relative Frequency</h4>
                             <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
                                     aria-hidden='true'>&times;</span></button>
-                            <h4 class='modal-title' id='myModalLabel'>Calculating Relative Frequency</h4>
                         </div>";
 		$html .= "<div class='modal-body'>
                            <dl><dt>Relative frequency</dt><dd>Cumulative summation of  an action over time as a measurement of adoption or the likelihood of adoption favours books that were released 
@@ -355,26 +359,21 @@ class Analytics {
                     </div>
                 </div>
             </div>";
-		$html .= '<h4>' . $freq_of_downloads . '</h4>
-      <div class="caption">';
-		$html .= '<div class="panel panel-info">';
-		$html .= '<div class="panel-heading">Frequency of Downloads <a class="btn btn-default" type="button" tabindex="0" data-target="#frequency" data-toggle="modal"
-                   title="Relative Frequency Explained">What is this?</a></div><div class="panel-body">';
-		$html .= "<p>This book has been accessed at least <b>{$num_downloads}</b> times over the past <b>{$days}</b> days.</p>";
-		$html .= "<p>The frequency of downloads for this book is <b>{$freq_of_downloads}</b> per day.</p>";
-		$html .= '</div></div>';
-		$html .= '</div>
-    </div>
-  </div>';
-		$html .= '<div class="col-sm-4 col-md-4">
-    <div class="thumbnail"><h3>Adoptions</h3>';
+		$html .= '<div class="card-block">';
+		$html .= "<p class='card-text'>This book has been accessed at least <b>{$num_downloads}</b> times over the past <b>{$days}</b> days.</p>";
+		$html .= "<p class='card-text'>The frequency of downloads for this book is <b>{$freq_of_downloads}</b> per day.</p>";
+		$html .= ' <div class="card-footer text-muted">Frequency of Downloads <a class="btn btn btn-outline-primary" role="button" tabindex="0" data-target="#frequency" data-toggle="modal"
+                   title="Relative Frequency Explained">What is this?</a></div>';
+		$html .= '</div></div></div>';
+
+		$html .= '<div class="col-sm-4 col-md-4"><div class="card"><h3 class="card-header">Adoptions&colon;&nbsp;' . $low_prob_adoption . ' - ' . $high_prob_adoption . '</h3>';
 		$html .= "<div class='modal fade' id='adoptions' tabindex='-1' role='dialog' aria-labelledby='adoptions'>
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>
                         <div class='modal-header'>
+                            <h4 class='modal-title' id='myModalLabel'>Calculating Likely Adoptions</h4>
                             <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
                                     aria-hidden='true'>&times;</span></button>
-                            <h4 class='modal-title' id='myModalLabel'>Calculating Likely Adoptions</h4>
                         </div>";
 		$html .= "<div class='modal-body'>
                            <dl>
@@ -390,30 +389,21 @@ class Analytics {
                     </div>
                 </div>
             </div>";
-		$html .= '<h4>' . $low_prob_adoption . ' - ' . $high_prob_adoption . ' </h4>
-      <div class="caption">';
-		$html .= '<div class="panel panel-info">';
-		$html .= '<div class="panel-heading">Number of likely adoptions <a class="btn btn-default" type="button" tabindex="0" data-target="#adoptions" data-toggle="modal"
-                   title="Counting Likely Adoptions Explained">What is this?</a></div><div class="panel-body">';
-		$html .= "<p>If one in every 50 downloads is likely an adoption, then <b>{$low_prob_adoption}</b> 
-adoptions have occurred.</p><p>If one in every 10 downloads is likely an adoption, then <b>{$high_prob_adoption}</b> adoptions have occurred over the past <b>{$days}</b> days.</p>";
-		$html .= '</div></div>';
-		$html .= '</div>
-    </div>
-  </div>
-  </div>';
+		$html .= '<div class="card-block">';
+		$html .= '<p class="card-text">If one in every 50 downloads is likely an adoption, then <b>' . $low_prob_adoption . '</b> adoptions have occurred.</p><p>If one in every 10 downloads is likely an adoption, then <b>' . $high_prob_adoption . '</b> adoptions have occurred over the past <b>' . $days . '</b> days.</p>';
+		$html .= '<div class="card-footer text-muted">Number of likely adoptions  <a class="btn btn btn-outline-primary" role="button" tabindex="0" data-target="#adoptions" data-toggle="modal"
+                   title="Counting Likely Adoptions Explained">What is this?</a></div>';
+		$html .= '</div></div></div></div>';
 
-		$html .= '<h2>Predictions</h2>';
 		$html .= '<div class="row">';
-		$html .= '<div class="col-sm-4 col-md-4">
-    <div class="thumbnail"><h3>Future</h3>';
+		$html .= '<div class="col-sm-4 col-md-4"><div class="card"><h3 class="card-header">Predictions&colon;&nbsp;' . $high_prob_future . ' - ' . $low_prob_future . '</h3>';
 		$html .= "<div class='modal fade' id='future' tabindex='-1' role='dialog' aria-labelledby='future'>
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>
                         <div class='modal-header'>
+                            <h4 class='modal-title' id='myModalLabel'>Calculating Future Adoptions</h4>
                             <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
                                     aria-hidden='true'>&times;</span></button>
-                            <h4 class='modal-title' id='myModalLabel'>Calculating Future Adoptions</h4>
                         </div>";
 		$html .= "<div class='modal-body'>
                            <dl>
@@ -425,14 +415,10 @@ adoptions have occurred.</p><p>If one in every 10 downloads is likely an adoptio
                     </div>
                 </div>
             </div>";
-		$html .= '<h4>1 every ' . $high_prob_future . ' - ' . $low_prob_future . ' days</h4>
-      <div class="caption">';
-		$html .= '<div class="panel panel-info">';
-		$html .= '<div class="panel-heading">Future Adoptions <a class="btn btn-default" type="button" tabindex="0" data-target="#future" data-toggle="modal"
-                   title="Relative Frequency Explained">What is this?</a></div><div class="panel-body">';
-		$html .= "<p>If one in every 50 downloads is likely an adoption, then one adoption will occur every <b>{$low_prob_future}</b> days. 
-    </p><p>If one in every 10 downloads is likely an adoption, then one adoption will occur every <b>{$high_prob_future}</b> days.";
-		$html .= '</div></div>';
+		$html .= '<div class="card-block">';
+		$html .= '<p class="card-text">If one in every 50 downloads is likely an adoption, then one adoption will occur every <b>' . $low_prob_future . '</b> days. <p class="card-text">If one in every 10 downloads is likely an adoption, then one adoption will occur every <b>' . $high_prob_future . '</b> days.';
+		$html .= '<div class="card-footer text-muted">Future Adoptions <a class="btn btn btn-outline-primary" role="button" tabindex="0" data-target="#future" data-toggle="modal"title="Relative Frequency Explained">What is this?</a></div><div class="panel-body">';
+		$html .= '</div>';
 		$html .= '</div>
     </div>
   </div>
