@@ -55,10 +55,7 @@ class Analytics {
 		<h2>Summary</h2>
             <h4>Number of books in the collection: <b>{$num_of_books}</b></h4>
             <h4>Number of visits to the site in the last 4 months: <b>{$visits}</b></h4>
-            <h4>Number of visits to the page '{$env['domain']['app_path']}': <b>{$page_visits}</b>
-            
-                <a class='btn btn-default' type='button' tabindex='0' data-target='#region' data-toggle='modal'
-                   title='Which Region'>Which regions?</a></h4>
+            <h4>Number of visits to the page '{$env['domain']['app_path']}': <b>{$page_visits}</b></h4>
             <h4>Number of visits to the page 'find-open-textbooks': <b>{$page_visits}</b></h4>
                   <div class='modal fade' id='region' tabindex='-1' role='dialog' aria-labelledby='region'>
                 <div class='modal-dialog' role='document'>

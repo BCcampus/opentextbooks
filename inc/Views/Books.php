@@ -61,8 +61,8 @@ class Books {
 			$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
 			$cover            = preg_replace( '/^http:\/\//iU', '//', $metaXml->item->cover );
 
-			$img        = ( $metaXml->item->cover ) ? "<figure class='pull-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-			                                          . "<figcaption><small class='muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+			$img        = ( $metaXml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+			                                          . "<figcaption><small class='text-muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 			$revision   = ( $metaXml->item->daterevision && ! empty( $metaXml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $metaXml->item->daterevision[0] ) ) . '</h4>' : '';
 			$adaptation = ( true == $metaXml->item->adaptation[ @value ] ) ? $metaXml->item->adaptation->source : '';
 			$authors    = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
@@ -98,7 +98,7 @@ class Books {
 			$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
 			$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['host']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
 			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='fa fa-book'></i></a></p>";
-			$html .= '<h3>Open Textbook(s):</h3><ul class="list-unstyled line-height-lg">';
+			$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 			$attachments = $this->reOrderAttachments( $data['attachments'] );
 			foreach ( $attachments as $attachment ) {
@@ -125,8 +125,8 @@ class Books {
 				$citation_pdf_url = $this->getCitationPdfUrl( $value['attachments'] );
 				$metaXml          = simplexml_load_string( $value['metadata'] );
 				$cover            = preg_replace( '/^http:\/\//iU', '//', $metaXml->item->cover );
-				$img              = ( $metaXml->item->cover ) ? "<figure class='pull-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-				                                                . "<figcaption><small class='muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+				$img              = ( $metaXml->item->cover ) ? "<figure class='float-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+				                                                . "<figcaption><small class='text-muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 				$revision         = ( $metaXml->item->daterevision && ! empty( $metaXml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">This textbook is currently being revised and scheduled for release ' . date( 'F j, Y', strtotime( $metaXml->item->daterevision[0] ) ) . '</h4>' : '';
 				$adaptation       = ( true == $metaXml->item->adaptation[ @value ] ) ? $metaXml->item->adaptation->source : '';
 				$authors          = \BCcampus\Utility\array_to_csv( $value['drm']['options']['contentOwners'], 'name' );
@@ -158,7 +158,7 @@ class Books {
 
 				$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
 				$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
-				$html .= '<h3>Open Textbook(s):</h3><ul class="list-unstyled line-height-lg">';
+				$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 				$attachments = $this->reOrderAttachments( $value['attachments'] );
 
@@ -196,7 +196,7 @@ class Books {
 	public function displaySearchForm( $postValue = '' ) {
 
 		$html = "
-      <fieldset name='solr' class='pull-right'>
+      <fieldset name='solr' class='float-right'>
       <form class='form-search form-inline' action='' method='get'>
         <input type='text' class='input-small' name='search' id='solrSearchTerm' value='" . $postValue . "'/> 
         <button type='submit' formaction='' class='btn' name='solrSearchSubmit' id='solrSearchSubmit'>Search</button>
@@ -507,7 +507,16 @@ class Books {
 			if ( 0 == strcmp( $url['host'], 'open.bccampus.ca' ) && 0 !== strcmp( $env['domain']['host'], 'open.bccampus.ca' ) ) {
 				$url['host'] = $env['domain']['host'];
 			}
-			$formatted .= "<a itemprop='isBasedOnUrl' href='//" . $url['host'] . $url['path'] . '?' . $url['query'] . "'>" . $url['host'] . " </a>";
+			if ( is_array( $url ) ) {
+				$scheme = ( isset( $url['scheme'] ) ) ?  $url['scheme'] . '://' : '';
+				$host   = ( isset( $url['host'] ) ) ? $url['host'] : '';
+				$path   = ( isset( $url['path'] ) ) ? $url['path'] : '';
+				$query  = ( isset( $url['query'] ) ) ? '?' . $url['query'] : '';
+
+				$based_on = $scheme . $host . $path . $query;
+
+			}
+			$formatted .= "<a itemprop='isBasedOnUrl' href='" . $based_on . "'>" . $url['host'] . " </a>";
 
 		}
 
@@ -536,7 +545,9 @@ class Books {
 					$uuid = $uuid_parts[3];
 
 					// expecting attachment.uuid=70fa0825-d41b-4519-975b-71bc2ea1f704
-					$a_uuid = ltrim( strstr( $parts['query'], '=' ), '=' );
+					if ( isset( $parts['query'] ) ) {
+						$a_uuid = ltrim( strstr( $parts['query'], '=' ), '=' );
+					}
 
 					$redirect_url = $base . '?uuid=' . $uuid . '&attachment.uuid=' . $a_uuid;
 				}
@@ -1016,7 +1027,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			), array( '', '', '', '' ), $content ) );
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
-			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="muted" xmlns:dct="http://purl.org/dc/terms/">'
+			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
 			        . rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
 		}
 
