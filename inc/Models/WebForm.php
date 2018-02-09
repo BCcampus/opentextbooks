@@ -130,10 +130,10 @@ class WebForm extends Polymorphism\DataAbstract {
 	 */
 	private function connection() {
 		$db  = '';
-		$env = include( OTB_DIR . '.env.php' );
-		$dsn = "mysql:host={$env['webform']['DB_HOST']};dbname={$env['webform']['DB_NAME']};port={$env['webform']['DB_PORT']}";
-		$usr = $env['webform']['DB_USER'];
-		$pwd = $env['webform']['DB_PASSWORD'];
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$dsn = "mysql:host={$env['webform']['db_host']};dbname={$env['webform']['db_name']};port={$env['webform']['db_port']}";
+		$usr = $env['webform']['db_user'];
+		$pwd = $env['webform']['db_pswd'];
 
 		try {
 			$db = new \PDO( $dsn, $usr, $pwd );
@@ -257,8 +257,8 @@ class WebForm extends Polymorphism\DataAbstract {
 	public function getStudentSavings() {
 		$today = time();
 		$total = array(
-			'100'    => '',
-			'actual' => '',
+			'100'    => '0',
+			'actual' => '0',
 		);
 
 		foreach ( $this->responses as $response ) {
@@ -406,7 +406,7 @@ class WebForm extends Polymorphism\DataAbstract {
 
 			// present
 			if ( isset( $response['current_semester'] ) && 0 === strcmp( $response['current_semester'], 'Yes' ) ) {
-				$total = $total + $response['num_courses'];
+				$total = $total + intval($response['num_courses']);
 			}
 
 			// future
@@ -414,7 +414,7 @@ class WebForm extends Polymorphism\DataAbstract {
 				foreach ( $response['projected_adoptions'] as $key => $adoption ) {
 					// only get those in the past
 					if ( $today > $key ) {
-						$total = $total + $adoption;
+						$total = $total + intval($adoption);
 					}
 				}
 			}
@@ -432,7 +432,7 @@ class WebForm extends Polymorphism\DataAbstract {
 
 		// count the new ones only
 		foreach ( $this->responses as $response ) {
-			if ( ! empty( $response['institution_name'] ) ) {
+			if ( ! empty( $response['institution_name'] ) && array_key_exists( $response['institution_name'], $tmp ) ) {
 				$tmp[ $response['institution_name'] ] = $tmp[ $response['institution_name'] ] + 1;
 			}
 		}
@@ -510,7 +510,7 @@ class WebForm extends Polymorphism\DataAbstract {
 
 		// count the new ones only
 		foreach ( $this->responses as $response ) {
-			if ( ! empty( $response['institution_name'] ) ) {
+			if ( ! empty( $response['institution_name'] ) && array_key_exists( $response['institution_name'], $tmp ) ) {
 				$tmp[ $response['institution_name'] ] = $tmp[ $response['institution_name'] ] + 1;
 			}
 		}

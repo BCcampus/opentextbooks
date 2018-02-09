@@ -8,7 +8,6 @@ use BCcampus\OpenTextBooks\Controllers\Reviews;
 use BCcampus\OpenTextBooks\Controllers\Catalogue;
 use BCcampus\OpenTextBooks\Controllers\Analytics;
 use BCcampus\OpenTextBooks\Controllers\Webform;
-use BCcampus\OpenTextBooks\Models;
 
 include( OTB_DIR . 'assets/templates/partial/style.php' );
 ?>

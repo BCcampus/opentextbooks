@@ -48,6 +48,7 @@ class Books {
 	}
 
 	public function displayOneTextbook() {
+		$env     = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$html    = '';
 		$sources = '';
 		$data    = $this->books->getResponses();
@@ -60,8 +61,8 @@ class Books {
 			$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
 			$cover            = preg_replace( '/^http:\/\//iU', '//', $metaXml->item->cover );
 
-			$img        = ( $metaXml->item->cover ) ? "<figure class='pull-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-													  . "<figcaption><small class='muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+			$img        = ( $metaXml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+			                                          . "<figcaption><small class='text-muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 			$revision   = ( $metaXml->item->daterevision && ! empty( $metaXml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $metaXml->item->daterevision[0] ) ) . '</h4>' : '';
 			$adaptation = ( true == $metaXml->item->adaptation[ @value ] ) ? $metaXml->item->adaptation->source : '';
 			$authors    = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
@@ -93,11 +94,11 @@ class Books {
 				$html    .= $sources . '</p>';
 			}
 
-			$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
-			$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook <i class='fa fa-book'></i></a></p>";
-			$html .= "<p><strong>Need help? </strong>Visit our <a href='https://open.bccampus.ca/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
-			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist. <i class='fa fa-book'></i></a></p>";
-			$html .= '<h3>Open Textbook(s):</h3><ul class="list-unstyled line-height-lg">';
+			$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
+			$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
+			$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['host']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
+			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='fa fa-book'></i></a></p>";
+			$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 			$attachments = $this->reOrderAttachments( $data['attachments'] );
 			foreach ( $attachments as $attachment ) {
@@ -106,12 +107,12 @@ class Books {
 				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
 
 				$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
-						 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
-						 . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-						 . ' onclick="' . $tracking . '"'
-						 . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
+				         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
+				         . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+				         . ' onclick="' . $tracking . '"'
+				         . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
 					{$logo_type['string']}</a> "
-						 . $attachment['description'] . ' ' . $file_size . '</li>';
+				         . $attachment['description'] . ' ' . $file_size . '</li>';
 			}
 			$html .= '</ul>';
 			//send it to the picker for evaluation
@@ -124,8 +125,8 @@ class Books {
 				$citation_pdf_url = $this->getCitationPdfUrl( $value['attachments'] );
 				$metaXml          = simplexml_load_string( $value['metadata'] );
 				$cover            = preg_replace( '/^http:\/\//iU', '//', $metaXml->item->cover );
-				$img              = ( $metaXml->item->cover ) ? "<figure class='pull-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-																. "<figcaption><small class='muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+				$img              = ( $metaXml->item->cover ) ? "<figure class='float-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+				                                                . "<figcaption><small class='text-muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 				$revision         = ( $metaXml->item->daterevision && ! empty( $metaXml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">This textbook is currently being revised and scheduled for release ' . date( 'F j, Y', strtotime( $metaXml->item->daterevision[0] ) ) . '</h4>' : '';
 				$adaptation       = ( true == $metaXml->item->adaptation[ @value ] ) ? $metaXml->item->adaptation->source : '';
 				$authors          = \BCcampus\Utility\array_to_csv( $value['drm']['options']['contentOwners'], 'name' );
@@ -155,9 +156,9 @@ class Books {
 					$html    .= $sources . '</p>';
 				}
 
-				$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
-				$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
-				$html .= '<h3>Open Textbook(s):</h3><ul class="list-unstyled line-height-lg">';
+				$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
+				$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
+				$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 				$attachments = $this->reOrderAttachments( $value['attachments'] );
 
@@ -167,12 +168,12 @@ class Books {
 					$tracking  = "_paq.push(['trackEvent','exportFiles','{$value['name']}','{$logo_type['type']}']);";
 
 					$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
-							 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
-							 . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-							 . ' onclick="' . $tracking . '"'
-							 . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
+					         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
+					         . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+					         . ' onclick="' . $tracking . '"'
+					         . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
 							" . $logo_type['string'] . '</a> '
-							 . $attachment['description'] . ' ' . $file_size . '</li>';
+					         . $attachment['description'] . ' ' . $file_size . '</li>';
 				}
 				$html .= '</ul>';
 				//send it to the picker for evaluation
@@ -195,7 +196,7 @@ class Books {
 	public function displaySearchForm( $postValue = '' ) {
 
 		$html = "
-      <fieldset name='solr' class='pull-right'>
+      <fieldset name='solr' class='float-right'>
       <form class='form-search form-inline' action='' method='get'>
         <input type='text' class='input-small' name='search' id='solrSearchTerm' value='" . $postValue . "'/> 
         <button type='submit' formaction='' class='btn' name='solrSearchSubmit' id='solrSearchSubmit'>Search</button>
@@ -337,7 +338,7 @@ class Books {
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
 			$html     .= '<li>';
 			$html     .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4> '
-						 . '<h4>' . $metadata . ' </h4>';
+			             . '<h4>' . $metadata . ' </h4>';
 			$html     .= '<strong>Author(s):</strong> ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
 			$html     .= '<strong>Date:</strong> ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
 			$html     .= '<p><strong>Description:</strong> ' . $desc . '</p>';
@@ -495,12 +496,28 @@ class Books {
 	 */
 	protected function formatUrl( $source ) {
 		$formatted = '';
+		$env       = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+
 		// check if it's a url
 		if ( ! filter_var( $source, FILTER_VALIDATE_URL ) ) {
 			$formatted .= "<span itemprop='isBasedOnUrl'>" . $source . '</span>, ';
 		} else {
-			$url       = parse_url( $source );
-			$formatted .= "<a itemprop='isBasedOnUrl' href='" . $source . "'>" . $url['host'] . ' </a>';
+			$url = parse_url( $source );
+			// change the base domain if we're not in the base domain environment
+			if ( 0 == strcmp( $url['host'], 'open.bccampus.ca' ) && 0 !== strcmp( $env['domain']['host'], 'open.bccampus.ca' ) ) {
+				$url['host'] = $env['domain']['host'];
+			}
+			if ( is_array( $url ) ) {
+				$scheme = ( isset( $url['scheme'] ) ) ?  $url['scheme'] . '://' : '';
+				$host   = ( isset( $url['host'] ) ) ? $url['host'] : '';
+				$path   = ( isset( $url['path'] ) ) ? $url['path'] : '';
+				$query  = ( isset( $url['query'] ) ) ? '?' . $url['query'] : '';
+
+				$based_on = $scheme . $host . $path . $query;
+
+			}
+			$formatted .= "<a itemprop='isBasedOnUrl' href='" . $based_on . "'>" . $url['host'] . " </a>";
+
 		}
 
 		return $formatted;
@@ -513,7 +530,8 @@ class Books {
 	 */
 	private function getCitationPdfUrl( array $attachments ) {
 		$redirect_url = '';
-		$base         = 'https://open.bccampus.ca/wp-content/opensolr/opentextbooks/redirects.php';
+		$env          = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$base         = "{$env['domain']['scheme']}{$env['domain']['host']}/wp-content/opensolr/opentextbooks/redirects.php";
 		//$base = 'http://localhost/opentextbooks/redirects.php';
 		foreach ( $attachments as $attachment ) {
 			if ( 'file' == $attachment['type'] && isset( $attachment['filename'] ) ) {
@@ -527,7 +545,9 @@ class Books {
 					$uuid = $uuid_parts[3];
 
 					// expecting attachment.uuid=70fa0825-d41b-4519-975b-71bc2ea1f704
-					$a_uuid = ltrim( strstr( $parts['query'], '=' ), '=' );
+					if ( isset( $parts['query'] ) ) {
+						$a_uuid = ltrim( strstr( $parts['query'], '=' ), '=' );
+					}
 
 					$redirect_url = $base . '?uuid=' . $uuid . '&attachment.uuid=' . $a_uuid;
 				}
@@ -707,7 +727,7 @@ class Books {
 
 		// build the url
 		$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] .
-			   '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
+		       '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
 
 		// go and get it
 		$c = curl_init( $url );
@@ -956,8 +976,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		}
 
 		$return .= trim( $error->message ) .
-				   "  Line: $error->line" .
-				   "  Column: $error->column";
+		           "  Line: $error->line" .
+		           "  Column: $error->column";
 
 		if ( $error->file ) {
 			$return .= "  File: $error->file";
@@ -1007,8 +1027,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			), array( '', '', '', '' ), $content ) );
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
-			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="muted" xmlns:dct="http://purl.org/dc/terms/">'
-					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
+			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
+			        . rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
 		}
 
 		return html_entity_decode( $html, ENT_XHTML, 'UTF-8' );
@@ -1023,8 +1043,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	 */
 	private function displayShortURL( $url ) {
 		$urlEncode = urlencode( $url );
-		$env       = include( OTB_DIR . '.env.php' );
-		$urls      = $env['yourls']['SITE_URL'] . '?signature=' . $env['yourls']['UUID'] . '&action=shorturl&format=simple&url=';
+		$env       = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$urls      = $env['yourls']['url'] . '?signature=' . $env['yourls']['uuid'] . '&action=shorturl&format=simple&url=';
 
 		//get the string result
 		$result = '<p><strong>Short URL</strong>: ';

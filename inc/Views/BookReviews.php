@@ -168,6 +168,7 @@ class BookReviews {
 		//$now = time();
 		//$then = mktime(0, 0, 0, 11, 12, 2013);
 		//$diff = date('d', $then - $now);
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$total = 0;
 		$min = 1;
 		$max = 4;
@@ -190,15 +191,15 @@ class BookReviews {
 
 			if ( 0 == $total ) {
 				$html .= "<p class='text-success'>There are currently no reviews for this book.</p>"
-					. "<p>Be the first to <a href='https://open.bccampus.ca/call-for-reviewers/'>Review this book</a></p>";
+					. "<p>Be the first to <a href='//{$env['domain']['host']}/call-for-reviewers/'>Review this book</a></p>";
 			} // limit to books that have 4 or less
 			elseif ( $total < $max ) {
-				$html .= "<p><a href='https://open.bccampus.ca/call-for-reviewers/'>Review this book</a></p>";
+				$html .= "<p><a href='//{$env['domain']['host']}/call-for-reviewers/'>Review this book</a></p>";
 			}
 
 			// only want to send them to canadian version if there is one, and less than max reviews
 			if ( $adaptation && $total < $max ) {
-				$domain = '//open.bccampus.ca/find-open-textbooks/?uuid=';
+				$domain = "//{$env['domain']['host']}/{$env['domain']['app_path']}/?uuid=";
 				$html .= "<h4 class='alert alert-success'>Review the Canadian edition of this book ";
 				$html .= "<a href='{$domain}{$adaptation}'> here </a>";
 				$html .= '</h4>';
@@ -231,7 +232,7 @@ class BookReviews {
 	 */
 	private function getOverallAvg( array $array, $book_uuid = null ) {
 		if ( is_array( $array ) ) {
-			$sum = '';
+			$sum = '0';
 			$count = 0;
 			if ( ! isset( $book_uuid ) ) {
 				foreach ( $array as $val ) {

@@ -40,6 +40,7 @@ class Analytics {
 	 * @param $num_of_books
 	 */
 	public function displayOpenSummary( $num_of_books ) {
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$segment_title = \BCcampus\Utility\url_encode( 'pageTitle==Find Open Textbooks | BCcampus OpenEd Resources' );
 		$page_visits   = $this->data->getVisits( $segment_title );
 		$visits        = $this->data->getVisits();
@@ -54,6 +55,7 @@ class Analytics {
 		<h2>Summary</h2>
             <h4>Number of books in the collection: <b>{$num_of_books}</b></h4>
             <h4>Number of visits to the site in the last 4 months: <b>{$visits}</b></h4>
+            <h4>Number of visits to the page '{$env['domain']['app_path']}': <b>{$page_visits}</b></h4>
             <h4>Number of visits to the page 'find-open-textbooks': <b>{$page_visits}</b></h4>
                   <div class='modal fade' id='region' tabindex='-1' role='dialog' aria-labelledby='region'>
                 <div class='modal-dialog' role='document'>
@@ -73,7 +75,7 @@ class Analytics {
 		$html .= "</div>
                 </div>
             </div>";
-		$html .= "<hr><h3>Percentage of total visits to the page find-open-textbooks: </h3>
+		$html .= "<hr><h3>Percentage of total visits to the page {$env['domain']['app_path']}: </h3>
             <div class='progress'>
                 <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar'
                      aria-valuemin='0'
@@ -263,6 +265,7 @@ class Analytics {
 	 * @param array $book_data
 	 */
 	public function displayOpenSingleBook( $range_start, array $book_data ) {
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$days                   = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
 		$event_actions_resource = array();
 		$segment                = 'eventAction==' . urlencode( $book_data['name'] );
@@ -275,7 +278,7 @@ class Analytics {
 			}
 		}
 
-		$html          = '<h1>open.bccampus.ca</h1><table class="table table-striped">';
+		$html          = "<h1>{$env['domain']['host']}</h1><table class='table table-striped''>";
 		$html          .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
 		$num_downloads = 0;
 		foreach ( $event_actions_resource as $label => $num ) {

@@ -34,7 +34,7 @@ class DspaceApi implements Polymorphism\RestInterface {
 	 * @return mixed
 	 */
 	function retrieve( $args ) {
-		$env = include( OTB_DIR . '.env.php' );
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		/**
 		 * JSON response please
 		 */
@@ -57,8 +57,8 @@ class DspaceApi implements Polymorphism\RestInterface {
 		$limitations          = $start . $args['start'] . '&' . $limit . $args['limit'];
 		$regex                = '';
 		$context              = stream_context_create( $opts );
-		$this->apiBaseUrl     = $env['dspace']['SITE_URL'];
-		$this->collectionUuid = $env['dspace']['UUID'];
+		$this->apiBaseUrl     = $env['dspace']['url'];
+		$this->collectionUuid = $env['dspace']['uuid'];
 
 		// allow for collection to be overridden with a passed argument
 		// otherwise default collection uuid should be set in .env.php

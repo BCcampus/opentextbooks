@@ -27,6 +27,7 @@ class StatsBooks {
 	}
 
 	public function displayStatsTitles() {
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 
 		foreach ( $this->books->getPrunedResults() as $book ) {
 			$tmp[ $book['uuid'] ] = $book['name'];
@@ -41,7 +42,7 @@ class StatsBooks {
         </tr></thead><tbody>";
 		foreach ( $tmp as $uuid => $name ) {
 			$html .= '<tr>';
-			$html .= "<td><a href='https://open.bccampus.ca/find-open-textbooks/?uuid={$uuid}' target='_blank'><i class='fa fa-book'></i></a> — {$name}</td>";
+			$html .= "<td><a href='//{$env['domain']['host']}/{$env['domain']['app_path']}/?uuid={$uuid}' target='_blank'><i class='fa fa-book'></i></a> — {$name}</td>";
 			$html .= "<td><a href='" . OTB_URL . "analytics.php?uuid={$uuid}&view=single'><i class='fa fa-bar-chart-o'></i></a></td>";
 			$html .= '</tr>';
 
@@ -70,9 +71,10 @@ class StatsBooks {
 	 *
 	 */
 	public function displaySubjectStats() {
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$html       = '';
 		$cumulative = 0;
-		$base_url   = 'https://open.bccampus.ca/find-open-textbooks/?subject=';
+		$base_url   = "//{$env['domain']['host']}/{$env['domain']['app_path']}/?subject=";
 		$num_sub1   = count( $this->books->getSubjectAreas() );
 		$num_sub2   = 0;
 

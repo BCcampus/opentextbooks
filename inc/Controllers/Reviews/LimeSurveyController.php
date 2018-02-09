@@ -114,8 +114,8 @@ class LimeSurveyController {
 	 * @throws \Exception
 	 */
 	protected function decider() {
-		$env        = include( OTB_DIR . '.env.php' );
-		$rpc_client = new jsonrpcphp\JsonRPCClient( $env['limesurvey']['LS_URL'] );
+		$env        = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$rpc_client = new jsonrpcphp\JsonRPCClient( $env['limesurvey']['url'] );
 		$data       = new Models\OtbReviews( $rpc_client, $this->args );
 
 		switch ( $this->args['type_of'] ) {
