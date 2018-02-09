@@ -210,3 +210,11 @@ div.card-footer.text-muted {
     width: 800px;
   }
 }
+
+/****************************************
+	Bootstrap overrides
+*****************************************/
+
+nav#second-menu > ul.nav {
+  display: block;
+}
