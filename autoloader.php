@@ -54,7 +54,7 @@ if ( ! defined( 'OTB_DIR' ) ) {
 }
 
 if ( ! defined( 'OTB_VERSION' ) ) {
-	define( 'OTB_VERSION', '1.6.0' );
+	define( 'OTB_VERSION', '2.0.0' );
 }
 
 if ( ! defined( 'OTB_URL' ) ) {

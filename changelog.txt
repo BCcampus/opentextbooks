@@ -1,5 +1,8 @@
-v1.6.0 (06-02-2018)
+v2.0.0 (09-02-2018)
 - move to composer for dependency management
-- migrate customizations into environment variables
+- migrate customizations into environment variables (breaking change)
+- add development tools via laravel mix
+- upgrade to bootstrap 4
+
 v1.5.0 (06-09-2017)
 - adding support for consuming a DSpace API
