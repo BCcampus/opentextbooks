@@ -1,4 +1,15 @@
 {
+    "/dist/scripts/vendor.js": "/dist/scripts/vendor.js",
+    "/dist/scripts/jquery.tablesorter.js": "/dist/scripts/jquery.tablesorter.js",
+    "/dist/scripts/popper.js": "/dist/scripts/popper.js",
+    "/dist/scripts/jquery.js": "/dist/scripts/jquery.js",
+    "/dist/styles/custom.css": "/dist/styles/custom.css",
+    "/dist/scripts/app.js": "/dist/scripts/app.js",
+    "/dist/scripts/bootstrap.js": "/dist/scripts/bootstrap.js",
+    "/dist/scripts/manifest.js": "/dist/scripts/manifest.js",
+    "/dist/styles/bootstrap.min.css": "/dist/styles/bootstrap.min.css",
+    "/dist/styles/font-awesome.min.css": "/dist/styles/font-awesome.min.css",
     "/dist/scripts/bootstrap.min.js": "/dist/scripts/bootstrap.min.js",
-    "/dist/styles/bootstrap.min.css": "/dist/styles/bootstrap.min.css"
+    "/dist/scripts/popper.min.js": "/dist/scripts/popper.min.js",
+    "/dist/scripts/jquery.tablesorter.min.js": "/dist/scripts/jquery.tablesorter.min.js"
 }

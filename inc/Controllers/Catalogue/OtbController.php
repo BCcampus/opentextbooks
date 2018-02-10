@@ -148,8 +148,10 @@ class OtbController {
 
 				switch ( $this->args['lists'] ) {
 					case 'titles':
-						$env        = include( OTB_DIR . '.env.php' );
-						$rpc_client = new Models\LimeSurveyApi( $env['limesurvey']['LS_URL'] );
+//						$env        = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+						$env = Container::getInstance();
+						$env->get('environment');
+						$rpc_client = new Models\LimeSurveyApi( $env['limesurvey']['url'] );
 						$reviews    = new Models\OtbReviews( $rpc_client, $this->args );
 
 						$view->displayContactFormTitles( $reviews->getNumReviewsPerBook() );

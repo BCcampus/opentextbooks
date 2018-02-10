@@ -2,7 +2,7 @@
   "name": "bccampus/opentextbooks",
   "description": "Open Textbook Application exploits REST api",
   "type": "library",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "homepage": "https://github.com/bccampus/opentextbooks",
   "license": "GPL-3.0+",
   "authors": [

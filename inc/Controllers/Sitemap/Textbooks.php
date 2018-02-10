@@ -15,7 +15,6 @@
 namespace BCcampus\OpenTextBooks\Controllers\Sitemap;
 
 use BCcampus\OpenTextBooks\Polymorphism;
-use BCcampus\OpenTextBooks\Controllers\Catalogue;
 use BCcampus\OpenTextBooks\Models;
 
 /**
@@ -25,14 +24,13 @@ use BCcampus\OpenTextBooks\Models;
  */
 class Textbooks extends Polymorphism\SitemapAbstract {
 
-	protected $domain = 'https://open.bccampus.ca/';
-	protected $directory = 'find-open-textbooks/';
 	protected $now;
 
 	/**
 	 * @return string
 	 */
 	protected function getXmlItemBody() {
+		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$this->setCurrentTime();
 		$xmlbody = '';
 		$r       = $this->getResults();
@@ -43,7 +41,7 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 				$freq = $this->calcChangeFreq( $item['modifiedDate'], $this->now );
 
 				$xmlbody .= "\t<url>" . "\n";
-				$xmlbody .= "\t\t<loc>{$this->domain}{$this->directory}?uuid={$item['uuid']}</loc>" . "\n";
+				$xmlbody .= "\t\t<loc>{$env['domain']['scheme']}{$env['domain']['host']}/{$env['domain']['app_path']}/?uuid={$item['uuid']}</loc>" . "\n";
 				$xmlbody .= "\t\t<lastmod>{$item['modifiedDate']}</lastmod>" . "\n";
 				$xmlbody .= "\t\t<changefreq>{$freq}</changefreq>" . "\n";
 				$xmlbody .= "\t\t<priority>{$this->calcPriority( $freq )}</priority>" . "\n";
@@ -60,8 +58,8 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 	 * @return array|string
 	 */
 	protected function getResults() {
-		$env                    = include( OTB_DIR . '.env.php' );
-		$args['collectionUuid'] = $env['solr']['UUID'];
+		$env                    = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$args['collectionUuid'] = $env['equella']['uuid'];
 		$rest_api               = new Models\EquellaApi();
 		$data                   = new Models\OtbBooks( $rest_api, $args );
 

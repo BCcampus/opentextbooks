@@ -54,37 +54,55 @@ if ( ! defined( 'OTB_DIR' ) ) {
 }
 
 if ( ! defined( 'OTB_VERSION' ) ) {
-	define( 'OTB_VERSION', '1.5.0' );
+	define( 'OTB_VERSION', '2.0.0' );
 }
 
 if ( ! defined( 'OTB_URL' ) ) {
-	$path     = '';
-	$domain   = $_SERVER['HTTP_HOST'];
-	$doc_root = $_SERVER['DOCUMENT_ROOT'];
-	$d        = explode( '/', $doc_root );
-	$e        = explode( '/', OTB_DIR );
-	$s        = array_diff( $e, $d );
+	// check for a WordPress environment
+	if ( function_exists( 'get_site_url' ) ) {
+		$wp_uri = get_site_url( get_current_blog_id(), '/wp-content/' );
+		$ex     = explode( '/', OTB_DIR );
+		$key    = array_search( 'wp-content', $ex );
+		$slice  = array_slice( $ex, $key + 1 );
+		$file_path = '';
 
-	if ( is_array( $s ) ) {
-		foreach ( $s as $dir ) {
-			$path .= $dir . '/';
+		foreach ( $slice as $path ) {
+			if ( empty( $path ) ) {
+				continue;
+			}
+			$file_path .= '/' . $path;
 		}
+
+		$uri = $wp_uri . $file_path . '/';
+
 	} else {
-		$path = '';
+		$path     = '';
+		$domain   = $_SERVER['HTTP_HOST'];
+		$doc_root = $_SERVER['DOCUMENT_ROOT'];
+		$d        = explode( '/', $doc_root );
+		$e        = explode( '/', OTB_DIR );
+		$s        = array_diff( $e, $d );
+
+		if ( is_array( $s ) ) {
+			foreach ( $s as $dir ) {
+				$path .= $dir . '/';
+			}
+		} else {
+			$path = '';
+		}
+		$uri = '//' . $domain . '/' . $path;
 	}
-	$uri = '//' . $domain . '/' . $path;
 
 	define( 'OTB_URL', $uri );
 }
 
 /*
 |--------------------------------------------------------------------------
-| Includes
+| Application
 |--------------------------------------------------------------------------
 |
-| Generic utility functions
+| constants, includes, config
 |
 |
 */
-include( OTB_DIR . 'inc/otb-utility.php' );
-include( OTB_DIR . 'vendor/autoload.php' );
+include_once( __DIR__ . '/config/application.php' );

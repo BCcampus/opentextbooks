@@ -48,6 +48,7 @@ class Books {
 	}
 
 	public function displayOneTextbook() {
+		$env     = \BCcampus\OpenTextBooks\Config::getInstance()->get();
 		$html    = '';
 		$sources = '';
 		$data    = $this->books->getResponses();
@@ -60,8 +61,8 @@ class Books {
 			$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
 			$cover            = preg_replace( '/^http:\/\//iU', '//', $metaXml->item->cover );
 
-			$img        = ( $metaXml->item->cover ) ? "<figure class='pull-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-													  . "<figcaption><small class='muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+			$img        = ( $metaXml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+			                                          . "<figcaption><small class='text-muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 			$revision   = ( $metaXml->item->daterevision && ! empty( $metaXml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $metaXml->item->daterevision[0] ) ) . '</h4>' : '';
 			$adaptation = ( true == $metaXml->item->adaptation[ @value ] ) ? $metaXml->item->adaptation->source : '';
 			$authors    = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
@@ -93,11 +94,11 @@ class Books {
 				$html    .= $sources . '</p>';
 			}
 
-			$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
-			$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook<i class='glyphicon glyphicon-book'></i></a></p>";
-			$html .= "<p><strong>Need help? </strong>Visit our <a href='https://open.bccampus.ca/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
-			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='glyphicon glyphicon-book'></i></a></p>";
-			$html .= '<h3>Open Textbook(s):</h3><ol>';
+			$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
+			$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
+			$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['host']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
+			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='fa fa-book'></i></a></p>";
+			$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 			$attachments = $this->reOrderAttachments( $data['attachments'] );
 			foreach ( $attachments as $attachment ) {
@@ -106,14 +107,14 @@ class Books {
 				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
 
 				$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
-						 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
-						 . "<a class='btn btn-default btn-sm' role='button'"
-						 . ' onclick="' . $tracking . '"'
-						 . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
+				         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
+				         . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+				         . ' onclick="' . $tracking . '"'
+				         . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
 					{$logo_type['string']}</a> "
-						 . $attachment['description'] . ' ' . $file_size . '</li>';
+				         . $attachment['description'] . ' ' . $file_size . '</li>';
 			}
-			$html .= '</ol>';
+			$html .= '</ul>';
 			//send it to the picker for evaluation
 			$substring = $this->licensePicker( $data['metadata'], $authors );
 			//include it, depending on what license it is
@@ -124,8 +125,8 @@ class Books {
 				$citation_pdf_url = $this->getCitationPdfUrl( $value['attachments'] );
 				$metaXml          = simplexml_load_string( $value['metadata'] );
 				$cover            = preg_replace( '/^http:\/\//iU', '//', $metaXml->item->cover );
-				$img              = ( $metaXml->item->cover ) ? "<figure class='pull-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-																. "<figcaption><small class='muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+				$img              = ( $metaXml->item->cover ) ? "<figure class='float-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+				                                                . "<figcaption><small class='text-muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 				$revision         = ( $metaXml->item->daterevision && ! empty( $metaXml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">This textbook is currently being revised and scheduled for release ' . date( 'F j, Y', strtotime( $metaXml->item->daterevision[0] ) ) . '</h4>' : '';
 				$adaptation       = ( true == $metaXml->item->adaptation[ @value ] ) ? $metaXml->item->adaptation->source : '';
 				$authors          = \BCcampus\Utility\array_to_csv( $value['drm']['options']['contentOwners'], 'name' );
@@ -155,9 +156,9 @@ class Books {
 					$html    .= $sources . '</p>';
 				}
 
-				$html .= "<p><strong>Adoption (faculty): </strong><a href='/adoption-of-an-open-textbook/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
-				$html .= "<p><strong>Adaptations: </strong><a href='/open-textbook-101/adapting-an-open-textbook/'>Support for adapting an open textbook<i class='glyphicon glyphicon-book'></i></a></p>";
-				$html .= '<h3>Open Textbook(s):</h3><ol>';
+				$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
+				$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
+				$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 				$attachments = $this->reOrderAttachments( $value['attachments'] );
 
@@ -167,14 +168,14 @@ class Books {
 					$tracking  = "_paq.push(['trackEvent','exportFiles','{$value['name']}','{$logo_type['type']}']);";
 
 					$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
-							 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
-							 . "<a class='btn btn-default btn-sm' role='button'"
-							 . ' onclick="' . $tracking . '"'
-							 . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
+					         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
+					         . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+					         . ' onclick="' . $tracking . '"'
+					         . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
 							" . $logo_type['string'] . '</a> '
-							 . $attachment['description'] . ' ' . $file_size . '</li>';
+					         . $attachment['description'] . ' ' . $file_size . '</li>';
 				}
-				$html .= '</ol>';
+				$html .= '</ul>';
 				//send it to the picker for evaluation
 				$substring = $this->licensePicker( $value['metadata'], $authors );
 				//include it, depending on what license it is
@@ -195,7 +196,7 @@ class Books {
 	public function displaySearchForm( $postValue = '' ) {
 
 		$html = "
-      <fieldset name='solr' class='pull-right'>
+      <fieldset name='solr' class='float-right'>
       <form class='form-search form-inline' action='' method='get'>
         <input type='text' class='input-small' name='search' id='solrSearchTerm' value='" . $postValue . "'/> 
         <button type='submit' formaction='' class='btn' name='solrSearchSubmit' id='solrSearchSubmit'>Search</button>
@@ -205,9 +206,9 @@ class Books {
       </fieldset>";
 
 		if ( $this->size > 0 ) {
-			$html .= '<h5>Available results: ' . $this->size . '</h5>';
+			$html .= '<h5 class="clearfix">Available results: ' . $this->size . '</h5>';
 		} else {
-			$html .= "<h5>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
+			$html .= "<h5 class='clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
 		}
 		echo $html;
 	}
@@ -337,7 +338,7 @@ class Books {
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
 			$html     .= '<li>';
 			$html     .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4> '
-						 . '<h4>' . $metadata . ' </h4>';
+			             . '<h4>' . $metadata . ' </h4>';
 			$html     .= '<strong>Author(s):</strong> ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
 			$html     .= '<strong>Date:</strong> ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
 			$html     .= '<p><strong>Description:</strong> ' . $desc . '</p>';
@@ -468,19 +469,19 @@ class Books {
 		if ( is_object( $obj ) ) {
 			// check for existence of nodes
 			if ( false !== $obj->xpath( $reviewed_path ) ) {
-				$html .= ( 0 === strcmp( $this->reviewed, $obj->item->reviewed ) ) ? " <i class='glyphicon glyphicon-check'></i> <small><a href='?lists=reviewed'>Faculty reviewed</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->reviewed, $obj->item->reviewed ) ) ? " <i class='fa fa-check-square-o'></i> <small><a href='?lists=reviewed'>Faculty reviewed</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $adopt_path ) ) {
-				$html .= ( 0 === strcmp( $this->adopted, $obj->item->adopted ) ) ? " <i class='glyphicon glyphicon-check'></i> <small><a href='?lists=adopted'>Adopted</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->adopted, $obj->item->adopted ) ) ? " <i class='fa fa-check-square-o'></i> <small><a href='?lists=adopted'>Adopted</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $accessible_path ) ) {
-				$html .= ( 0 === strcmp( $this->accessible, $obj->item->accessibility ) ) ? " <i class='glyphicon glyphicon-check'></i> <small><a href='?lists=accessible'>Accessible</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->accessible, $obj->item->accessibility ) ) ? " <i class='fa fa-check-square-o'></i> <small><a href='?lists=accessible'>Accessible</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $ancillary_path ) ) {
-				$html .= ( 0 === strcmp( $this->ancillary, $obj->item->ancillary ) ) ? " <i class='glyphicon glyphicon-check'></i> <small><a href='?lists=ancillary'>Ancillary Resources</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->ancillary, $obj->item->ancillary ) ) ? " <i class='fa fa-check-square-o'></i> <small><a href='?lists=ancillary'>Ancillary Resources</a></small> " : '';
 			}
 		}
 
@@ -495,12 +496,28 @@ class Books {
 	 */
 	protected function formatUrl( $source ) {
 		$formatted = '';
+		$env       = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+
 		// check if it's a url
 		if ( ! filter_var( $source, FILTER_VALIDATE_URL ) ) {
 			$formatted .= "<span itemprop='isBasedOnUrl'>" . $source . '</span>, ';
 		} else {
-			$url       = parse_url( $source );
-			$formatted .= "<a itemprop='isBasedOnUrl' href='" . $source . "'>" . $url['host'] . ' </a>';
+			$url = parse_url( $source );
+			// change the base domain if we're not in the base domain environment
+			if ( 0 == strcmp( $url['host'], 'open.bccampus.ca' ) && 0 !== strcmp( $env['domain']['host'], 'open.bccampus.ca' ) ) {
+				$url['host'] = $env['domain']['host'];
+			}
+			if ( is_array( $url ) ) {
+				$scheme = ( isset( $url['scheme'] ) ) ?  $url['scheme'] . '://' : '';
+				$host   = ( isset( $url['host'] ) ) ? $url['host'] : '';
+				$path   = ( isset( $url['path'] ) ) ? $url['path'] : '';
+				$query  = ( isset( $url['query'] ) ) ? '?' . $url['query'] : '';
+
+				$based_on = $scheme . $host . $path . $query;
+
+			}
+			$formatted .= "<a itemprop='isBasedOnUrl' href='" . $based_on . "'>" . $url['host'] . " </a>";
+
 		}
 
 		return $formatted;
@@ -513,7 +530,8 @@ class Books {
 	 */
 	private function getCitationPdfUrl( array $attachments ) {
 		$redirect_url = '';
-		$base         = 'https://open.bccampus.ca/wp-content/opensolr/opentextbooks/redirects.php';
+		$env          = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$base         = "{$env['domain']['scheme']}{$env['domain']['host']}/wp-content/opensolr/opentextbooks/redirects.php";
 		//$base = 'http://localhost/opentextbooks/redirects.php';
 		foreach ( $attachments as $attachment ) {
 			if ( 'file' == $attachment['type'] && isset( $attachment['filename'] ) ) {
@@ -527,7 +545,9 @@ class Books {
 					$uuid = $uuid_parts[3];
 
 					// expecting attachment.uuid=70fa0825-d41b-4519-975b-71bc2ea1f704
-					$a_uuid = ltrim( strstr( $parts['query'], '=' ), '=' );
+					if ( isset( $parts['query'] ) ) {
+						$a_uuid = ltrim( strstr( $parts['query'], '=' ), '=' );
+					}
 
 					$redirect_url = $base . '?uuid=' . $uuid . '&attachment.uuid=' . $a_uuid;
 				}
@@ -707,7 +727,7 @@ class Books {
 
 		// build the url
 		$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] .
-			   '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
+		       '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
 
 		// go and get it
 		$c = curl_init( $url );
@@ -838,12 +858,12 @@ class Books {
 
 		if ( ! stristr( $string, 'print copy' ) == false ) {
 			$result = array(
-				'string' => "PRINT <i class='glyphicon glyphicon-print'></i>",
+				'string' => "PRINT <i class='fa fa-print'></i>",
 				'type'   => 'print',
 			);
 		} else {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-globe'></i> WEBSITE <img src='" . OTB_URL . "assets/images/document-code.png' alt='External website. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-globe'></i> WEBSITE <img src='" . OTB_URL . "assets/images/document-code.png' alt='External website. This icon is licensed under a Creative Commons
 		Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
 				'type'   => 'url',
 			);
@@ -852,7 +872,7 @@ class Books {
 		//if it's a zip
 		if ( ! stristr( $string, '.zip' ) == false || ! stristr( $string, '.tbz' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
 				'type'   => 'zip',
 			);
@@ -860,7 +880,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
 		//if it's a word file
 		if ( ! stristr( $string, '.doc' ) == false || ! stristr( $string, '.rtf' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 				'type'   => 'doc',
 			);
@@ -868,7 +888,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 		//if it's a pdf
 		if ( ! stristr( $string, '.pdf' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 				'type'   => 'pdf',
 			);
@@ -876,7 +896,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 		//if it's an epub
 		if ( ! stristr( $string, '.epub' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 				'type'   => 'epub',
 			);
@@ -884,7 +904,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 		//if it's a mobi
 		if ( ! stristr( $string, '.mobi' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 				'type'   => 'mobi',
 			);
@@ -892,7 +912,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 		// if it's a wxr
 		if ( ! stristr( $string, '.xml' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'xml',
 			);
@@ -900,21 +920,21 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		// if it's an odt
 		if ( ! stristr( $string, '.odt' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='ODT file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='ODT file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'odt',
 			);
 		}
 		if ( ! stristr( $string, '.hpub' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='HPUB file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='HPUB file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'hpub',
 			);
 		}
 		if ( ! stristr( $string, '.html' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-code.png' alt='XHTML file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-code.png' alt='XHTML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'html',
 			);
@@ -922,7 +942,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		// if it's a tex
 		if ( ! stristr( $string, '.tex' ) == false ) {
 			$result = array(
-				'string' => "<i class='glyphicon glyphicon-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEX file. This icon is licensed under a Creative Commons
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEX file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'tex',
 			);
@@ -956,8 +976,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		}
 
 		$return .= trim( $error->message ) .
-				   "  Line: $error->line" .
-				   "  Column: $error->column";
+		           "  Line: $error->line" .
+		           "  Column: $error->column";
 
 		if ( $error->file ) {
 			$return .= "  File: $error->file";
@@ -1007,8 +1027,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			), array( '', '', '', '' ), $content ) );
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
-			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="muted" xmlns:dct="http://purl.org/dc/terms/">'
-					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
+			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
+			        . rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
 		}
 
 		return html_entity_decode( $html, ENT_XHTML, 'UTF-8' );
@@ -1023,8 +1043,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	 */
 	private function displayShortURL( $url ) {
 		$urlEncode = urlencode( $url );
-		$env       = include( OTB_DIR . '.env.php' );
-		$urls      = $env['yourls']['SITE_URL'] . '?signature=' . $env['yourls']['UUID'] . '&action=shorturl&format=simple&url=';
+		$env       = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$urls      = $env['yourls']['url'] . '?signature=' . $env['yourls']['uuid'] . '&action=shorturl&format=simple&url=';
 
 		//get the string result
 		$result = '<p><strong>Short URL</strong>: ';
