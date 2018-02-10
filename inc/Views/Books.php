@@ -206,9 +206,9 @@ class Books {
       </fieldset>";
 
 		if ( $this->size > 0 ) {
-			$html .= '<h5>Available results: ' . $this->size . '</h5>';
+			$html .= '<h5 class="clearfix">Available results: ' . $this->size . '</h5>';
 		} else {
-			$html .= "<h5>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
+			$html .= "<h5 class='clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
 		}
 		echo $html;
 	}
