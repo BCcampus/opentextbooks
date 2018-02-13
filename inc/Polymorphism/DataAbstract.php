@@ -77,7 +77,7 @@ abstract class DataAbstract {
 		$storage = Storage\Cache::create( OTB_DIR . $location, $file_name, $file_type, $serialize );
 
 		// check if there is a stored version of the results
-		if ( $storage->fileExists() && $storage->getFileSize() > 10 ) {
+		if ( $storage->fileExists() && $storage->getFileSize() > 4 ) {
 			return $storage;
 		} else {
 			return false;
