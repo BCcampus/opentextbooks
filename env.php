@@ -10,5 +10,5 @@
  *
  */
 return [
-	'environment' => 'ecampuson'
+	'environment' => 'bccampus'
 ];
