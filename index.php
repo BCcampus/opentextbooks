@@ -24,7 +24,7 @@ include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 include( OTB_DIR . 'assets/templates/partial/menu.php' );
 ?>
 
-<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12" itemscope itemtype="http://schema.org/Book">
+<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12" itemscope itemtype="https://schema.org/Book">
 
 	<?php
 	$args = $_GET;
