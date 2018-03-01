@@ -47,8 +47,16 @@ class Config {
 		}
 	}
 
+	/**
+	 * @return array
+	 * @throws \Exception
+	 */
 	public function get() {
-		return self::$config;
+		if ( ! empty( self::$config ) ) {
+			return self::$config;
+		} else {
+			throw new \Exception( 'Could not find a config file at \BCcampus\OpenTextbooks\Config::get' );
+		}
 	}
 
 	/**
