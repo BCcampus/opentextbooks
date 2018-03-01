@@ -106,8 +106,8 @@ class Books {
 				$logo_type = $this->addLogo( $attachment['description'] );
 				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
 
-				$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
-				         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
+				$html .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+				         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
 				         . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
 				         . ' onclick="' . $tracking . '"'
 				         . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
@@ -167,8 +167,8 @@ class Books {
 					$logo_type = $this->addLogo( $attachment['description'] );
 					$tracking  = "_paq.push(['trackEvent','exportFiles','{$value['name']}','{$logo_type['type']}']);";
 
-					$html .= "<link itemprop='bookFormat' href='http://schema.org/EBook'><li itemprop='offers' itemscope itemtype='http://schema.org/Offer'>"
-					         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='http://schema.org/InStock'>"
+					$html .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+					         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
 					         . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
 					         . ' onclick="' . $tracking . '"'
 					         . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
