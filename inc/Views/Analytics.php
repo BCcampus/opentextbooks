@@ -47,10 +47,10 @@ class Analytics {
 		$visits        = $this->data->getVisits();
 		$percentage    = round( 100 * ( $page_visits / $visits ) );
 		//image accepted values are: 'evolution', 'verticalBar', 'pie' and '3dPie'
-//		$graphType   = 'verticalBar';
-//		$apiModule   = 'UserCountry';
-//		$apiAction   = 'getRegion';
-//		$image_graph = $this->data->getImageGraph( $apiModule, $apiAction, $graphType );
+		//      $graphType   = 'verticalBar';
+		//      $apiModule   = 'UserCountry';
+		//      $apiAction   = 'getRegion';
+		//      $image_graph = $this->data->getImageGraph( $apiModule, $apiAction, $graphType );
 
 		$html = "
 		<h2>Summary</h2>
@@ -66,15 +66,15 @@ class Analytics {
                                     aria-hidden='true'>&times;</span></button>
                         </div>
                         ";
-//		$html .= "<div class='modal-body'>
-//                           <img src='{$image_graph}'/>
-//                        </div>
-//                    </div>
-//                </div>
-//            </div>";
-		$html .= "</div>
+		//      $html .= "<div class='modal-body'>
+		//                           <img src='{$image_graph}'/>
+		//                        </div>
+		//                    </div>
+		//                </div>
+		//            </div>";
+		$html .= '</div>
                 </div>
-            </div>";
+            </div>';
 		$html .= "<hr><h3>Percentage of total visits to the page {$env['domain']['app_path']}: </h3>
             <div class='progress'>
                 <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar'

@@ -14,7 +14,6 @@
 
 namespace BCcampus\OpenTextBooks;
 
-
 class Config {
 	/**
 	 * @var Singleton

@@ -58,7 +58,7 @@ return [
 	*/
 	'equella'    => [
 		'url'  => '',
-		'uuid' => ''
+		'uuid' => '',
 	],
 
 	/*

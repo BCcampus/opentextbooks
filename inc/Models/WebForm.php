@@ -407,7 +407,7 @@ class WebForm extends Polymorphism\DataAbstract {
 
 			// present
 			if ( isset( $response['current_semester'] ) && 0 === strcmp( $response['current_semester'], 'Yes' ) ) {
-				$total = $total + intval($response['num_courses']);
+				$total = $total + intval( $response['num_courses'] );
 			}
 
 			// future
@@ -415,7 +415,7 @@ class WebForm extends Polymorphism\DataAbstract {
 				foreach ( $response['projected_adoptions'] as $key => $adoption ) {
 					// only get those in the past
 					if ( $today > $key ) {
-						$total = $total + intval($adoption);
+						$total = $total + intval( $adoption );
 					}
 				}
 			}

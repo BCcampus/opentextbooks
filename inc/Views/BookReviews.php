@@ -79,7 +79,6 @@ class BookReviews {
 
 		$html = $this->displaySummary();
 
-		$html .= "<div class='row'>";
 		$num = 1;
 
 		foreach ( $this->data->getResponses() as $response ) {
@@ -102,7 +101,7 @@ class BookReviews {
 				$overall_avg = $this->getOverallAvg( $q_and_a );
 				// ($open == 0) ? $html .= "<details open>" : $html .= "<details>";
 
-				$html .= "<details itemprop='review' itemscope itemtype='https://schema.org/Review'>
+				$html .= "<div class='row'><details itemprop='review' itemscope itemtype='https://schema.org/Review'>
                 <summary class='text-info'><strong>" . $num . ". Reviewed by:</strong> <span itemprop='author copyrightHolder'>" . $names . '</span></summary>
                 <ul>
                     <li><b>Institution:</b> ' . $institutions . '</li>
@@ -149,13 +148,13 @@ class BookReviews {
 						$i++;
 					}
 				}
-				$html .= '</section></div></details></span>';
+				$html .= '</section></div></details></div></span>';
 				$num++;
 			}
 
 			// $open++;
 		} // end foreach
-		$html .= '</div></div>';
+		$html .= '</div>';
 		echo $html;
 	}
 
