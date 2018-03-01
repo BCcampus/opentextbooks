@@ -275,7 +275,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 
 		for ( $i = 0; $i < $num; $i ++ ) {
 			// get rid of unwanted responses
-			if ( in_array( $data[ $i ]['id'], $this->omit_responses ) ) {
+			if ( isset( $data[ $i ]['id'] ) && in_array( $data[ $i ]['id'], $this->omit_responses ) ) {
 				unset( $data[ $i ] );
 			}
 			// strip personal information
