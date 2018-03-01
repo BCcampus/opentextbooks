@@ -26,6 +26,7 @@ namespace BCcampus\OpenTextBooks\Controllers\Reviews;
 use BCcampus\OpenTextBooks\Controllers;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Views;
+use BCcampus\OpenTextBooks\Config;
 use org\jsonrpcphp;
 
 ini_set( 'auto_detect_line_endings', 1 );
@@ -114,7 +115,7 @@ class LimeSurveyController {
 	 * @throws \Exception
 	 */
 	protected function decider() {
-		$env        = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env        = Config::getInstance()->get();
 		$rpc_client = new jsonrpcphp\JsonRPCClient( $env['limesurvey']['url'] );
 		$data       = new Models\OtbReviews( $rpc_client, $this->args );
 

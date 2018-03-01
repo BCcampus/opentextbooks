@@ -14,6 +14,7 @@
 
 namespace BCcampus\OpenTextBooks\Models;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 
 class DspaceApi implements Polymorphism\RestInterface {
@@ -34,7 +35,7 @@ class DspaceApi implements Polymorphism\RestInterface {
 	 * @return mixed
 	 */
 	function retrieve( $args ) {
-		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env = Config::getInstance()->get();
 		/**
 		 * JSON response please
 		 */

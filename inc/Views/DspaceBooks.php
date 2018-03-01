@@ -14,6 +14,7 @@
 
 namespace BCcampus\OpenTextBooks\Views;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Models;
 
 class DspaceBooks {
@@ -54,7 +55,7 @@ class DspaceBooks {
 	 * @return string $html
 	 */
 	public function displayOneTextbook() {
-		$env          = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env          = Config::getInstance()->get();
 		$html        = '';
 		$data        = $this->books->getResponses();
 		$title       = $this->metadataToCsv( $data, 'dc.title' );
@@ -384,7 +385,7 @@ class DspaceBooks {
 		if ( ! is_array( $dspace_array ) || ! isset( $dspace_array['bitstreams'] ) ) {
 			return $html;
 		}
-		$env          = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env          = Config::getInstance()->get();
 		$base_url     = parse_url( $env['dspace']['url'], PHP_URL_HOST );
 
 		$html .= '<ol>';

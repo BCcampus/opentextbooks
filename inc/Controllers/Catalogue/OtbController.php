@@ -16,6 +16,8 @@ namespace BCcampus\OpenTextBooks\Controllers\Catalogue;
 
 use BCcampus\OpenTextBooks\Views;
 use BCcampus\OpenTextBooks\Models;
+use BCcampus\OpenTextBooks\Config;
+use org\jsonrpcphp;
 
 class OtbController {
 	/**
@@ -148,10 +150,8 @@ class OtbController {
 
 				switch ( $this->args['lists'] ) {
 					case 'titles':
-//						$env        = \BCcampus\OpenTextBooks\Config::getInstance()->get();
-						$env = Container::getInstance();
-						$env->get('environment');
-						$rpc_client = new Models\LimeSurveyApi( $env['limesurvey']['url'] );
+						$env        = Config::getInstance()->get();
+						$rpc_client = new jsonrpcphp\JsonRPCClient( $env['limesurvey']['url'] );
 						$reviews    = new Models\OtbReviews( $rpc_client, $this->args );
 
 						$view->displayContactFormTitles( $reviews->getNumReviewsPerBook() );

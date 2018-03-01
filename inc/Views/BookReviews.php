@@ -17,6 +17,7 @@
 
 namespace BCcampus\OpenTextBooks\Views;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Models\OtbReviews;
 
 class BookReviews {
@@ -168,7 +169,7 @@ class BookReviews {
 		//$now = time();
 		//$then = mktime(0, 0, 0, 11, 12, 2013);
 		//$diff = date('d', $then - $now);
-		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env = Config::getInstance()->get();
 		$total = 0;
 		$min = 1;
 		$max = 4;

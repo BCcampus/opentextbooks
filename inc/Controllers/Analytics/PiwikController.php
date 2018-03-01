@@ -14,6 +14,7 @@
 
 namespace BCcampus\OpenTextBooks\Controllers\Analytics;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Views;
 use VisualAppeal\Piwik;
@@ -104,7 +105,7 @@ class PiwikController {
 	}
 
 	private function decider() {
-		$env      = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env      = Config::getInstance()->get();
 		$rest_api = new Piwik( $env['matomo']['url'], $env['matomo']['token'], 12, Piwik::FORMAT_JSON );
 		$rest_api->setPeriod( Piwik::PERIOD_RANGE );
 		$rest_api->setRange( $this->args['range_start'], $this->args['range_end'] );

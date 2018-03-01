@@ -14,6 +14,7 @@
 
 namespace BCcampus\OpenTextBooks\Controllers\Sitemap;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 use BCcampus\OpenTextBooks\Models;
 
@@ -30,7 +31,7 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 	 * @return string
 	 */
 	protected function getXmlItemBody() {
-		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env = Config::getInstance()->get();
 		$this->setCurrentTime();
 		$xmlbody = '';
 		$r       = $this->getResults();
@@ -58,7 +59,7 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 	 * @return array|string
 	 */
 	protected function getResults() {
-		$env                    = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env                    = Config::getInstance()->get();
 		$args['collectionUuid'] = $env['equella']['uuid'];
 		$rest_api               = new Models\EquellaApi();
 		$data                   = new Models\OtbBooks( $rest_api, $args );

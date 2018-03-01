@@ -20,8 +20,7 @@
 
 namespace BCcampus\OpenTextBooks\Models;
 
-use BCcampus\OpenTextBooks\Controllers\Reviews;
-use BCcampus\OpenTextBooks\Models;
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 use org\jsonrpcphp\JsonRPCClient;
 
@@ -190,7 +189,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 	 * @throws \Exception
 	 */
 	private function apiRequest() {
-		$env              = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env              = Config::getInstance()->get();
 		$this->sessionKey = $this->limeSurveyApi->get_session_key( $env['limesurvey']['user'], $env['limesurvey']['pswd'] );
 
 		// check for a string, array is returned if uname/pswd not valid

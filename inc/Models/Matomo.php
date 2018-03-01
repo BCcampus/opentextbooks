@@ -22,7 +22,6 @@
 namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
-use Exception;
 use VisualAppeal\Piwik;
 
 /**
@@ -118,7 +117,7 @@ class Matomo extends Polymorphism\DataAbstract {
 
 	/**
 	 * @return array
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function getMultiSites() {
 		$serialize   = true;

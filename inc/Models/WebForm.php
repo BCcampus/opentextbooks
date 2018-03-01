@@ -14,6 +14,7 @@
 
 namespace BCcampus\OpenTextBooks\Models;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 use BCcampus\OpenTextBooks\Views;
 
@@ -130,7 +131,7 @@ class WebForm extends Polymorphism\DataAbstract {
 	 */
 	private function connection() {
 		$db  = '';
-		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env = Config::getInstance()->get();
 		$dsn = "mysql:host={$env['webform']['db_host']};dbname={$env['webform']['db_name']};port={$env['webform']['db_port']}";
 		$usr = $env['webform']['db_user'];
 		$pwd = $env['webform']['db_pswd'];

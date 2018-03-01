@@ -15,6 +15,8 @@
 namespace BCcampus\OpenTextBooks\Views;
 
 use BCcampus\OpenTextBooks\Models\OtbBooks;
+use BCcampus\OpenTextBooks\Config;
+use BCcampus\Utility;
 
 class StatsBooks {
 	private $books;
@@ -27,7 +29,7 @@ class StatsBooks {
 	}
 
 	public function displayStatsTitles() {
-		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env = Config::getInstance()->get();
 
 		foreach ( $this->books->getPrunedResults() as $book ) {
 			$tmp[ $book['uuid'] ] = $book['name'];
@@ -71,7 +73,7 @@ class StatsBooks {
 	 *
 	 */
 	public function displaySubjectStats() {
-		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env        = Config::getInstance()->get();
 		$html       = '';
 		$cumulative = 0;
 		$base_url   = "//{$env['domain']['host']}/{$env['domain']['app_path']}/?subject=";
@@ -84,15 +86,15 @@ class StatsBooks {
 			$num_sub2 = $num_sub2 + count( $val );
 
 			foreach ( $val as $k => $sub2 ) {
-				$url = $base_url . \BCcampus\Utility\url_encode( $k );
+				$url    = $base_url . Utility\url_encode( $k );
 				$second .= "<li><a href='{$url}'>{$k}</a>: {$sub2}</li>";
-				$total = $total + intval( $sub2 );
+				$total  = $total + intval( $sub2 );
 
 			}
 			$cumulative = $cumulative + $total;
 
 			$first = "<h4>{$key} ({$total})</h4>";
-			$html .= $first . '<ul class="list-unstyled">' . $second . '</ul>';
+			$html  .= $first . '<ul class="list-unstyled">' . $second . '</ul>';
 
 		}
 

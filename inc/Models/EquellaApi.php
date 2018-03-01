@@ -14,6 +14,7 @@
 
 namespace BCcampus\OpenTextBooks\Models;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 
 class EquellaApi implements Polymorphism\RestInterface {
@@ -35,7 +36,7 @@ class EquellaApi implements Polymorphism\RestInterface {
 	 * @return mixed
 	 */
 	function retrieve( $args ) {
-		$env                  = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env                  = Config::getInstance()->get();
 		$this->apiBaseUrl     = $env['equella']['url'];
 		$this->collectionUuid = $env['equella']['uuid'];
 

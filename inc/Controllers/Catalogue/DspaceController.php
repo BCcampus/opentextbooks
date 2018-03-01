@@ -14,6 +14,7 @@
 
 namespace BCcampus\OpenTextBooks\Controllers\Catalogue;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Views;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\Utility;
@@ -119,7 +120,7 @@ class DspaceController {
 			return;
 		}
 
-		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env = Config::getInstance()->get();
 		// allow for collection to be overridden with a passed argument
 		// otherwise default collection uuid should be set in .env.php
 		if ( empty( $args['collectionUuid'] ) ) {

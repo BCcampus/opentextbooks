@@ -14,6 +14,7 @@
 
 namespace BCcampus\OpenTextBooks\Views;
 
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Models;
 
 class Webform {
@@ -32,7 +33,7 @@ class Webform {
 	 *
 	 */
 	public function displayOtbStats() {
-		$env = \BCcampus\OpenTextBooks\Config::getInstance()->get();
+		$env = Config::getInstance()->get();
 		setlocale( LC_MONETARY, 'en_CA' );
 		$html     = '';
 		$savings  = $this->data->getStudentSavings();
