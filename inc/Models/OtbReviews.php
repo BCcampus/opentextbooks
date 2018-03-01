@@ -248,7 +248,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 		$header = null;
 		$data   = array();
 		if ( ( $handle = fopen( $file, 'r' ) ) !== false ) {
-			while ( ( $row = fgetcsv( $handle, 10000 ) ) !== false ) {
+			while ( ( $row = fgetcsv( $handle, 10000, ';' ) ) !== false ) {
 				if ( ! $header ) {
 					$header = $row;
 				} elseif ( ! empty( $row ) && ( count( $header ) == count( $row ) ) ) {
