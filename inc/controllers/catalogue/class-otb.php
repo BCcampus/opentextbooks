@@ -19,7 +19,7 @@ use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Config;
 use org\jsonrpcphp;
 
-class OtbController {
+class Otb {
 	/**
 	 * Needs at least this, or nothing works
 	 * Some vars need to be defined to avoid warnings.

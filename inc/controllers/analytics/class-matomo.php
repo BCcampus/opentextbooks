@@ -19,7 +19,7 @@ use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Views;
 use VisualAppeal\Piwik;
 
-class PiwikController {
+class Matomo {
 
 	/**
 	 * Needs at least this, or nothing works

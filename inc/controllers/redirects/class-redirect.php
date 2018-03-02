@@ -17,7 +17,7 @@ namespace BCcampus\OpenTextBooks\Controllers\Redirects;
 use BCcampus\OpenTextBooks\Views;
 use BCcampus\OpenTextBooks\Models;
 
-class RedirectController {
+class Redirect {
 
 
 	/**

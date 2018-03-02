@@ -16,7 +16,7 @@ namespace BCcampus\OpenTextBooks\Controllers\Webform;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Views;
 
-class AdoptionController {
+class Adoption {
 	/**
 	 * Needs at least this, or nothing works
 	 *

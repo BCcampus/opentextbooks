@@ -20,7 +20,7 @@ if ( ! isset( $_GET['type_of'] ) ) {
 	$args['type_of'] = 'rest_stats';
 }
 
-new Webform\AdoptionController( $args );
+new Webform\Adoption( $args );
 
 header( 'Content-Type: text/json' );
 

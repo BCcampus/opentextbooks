@@ -243,7 +243,9 @@ class StatsBookReviews {
 				}
 			}
 			// set the reviewer's average
-			$this->responseByUid[ $val['info1'] ][ $val['id'] ]['avg_score'] = round( $sum / $count, 2 );
+			if ( isset( $this->responseByUid[ $val['info1'] ][ $val['id'] ] ) ) {
+				$this->responseByUid[ $val['info1'] ][ $val['id'] ]['avg_score'] = round( $sum / $count, 2 );
+			}
 		}
 
 		// set the average score and total reviews for each book

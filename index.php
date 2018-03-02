@@ -30,7 +30,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 	$args = $_GET;
 	$args['type_of'] = 'books';
 
-	new Catalogue\OtbController( $args );
+	new Catalogue\Otb( $args );
 
 	if ( isset( $args['uuid'] ) && $args['uuid'] != '' ) {
 
@@ -38,7 +38,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 		$args['type_of'] = 'reviews';
 
 		try {
-			new Reviews\LimeSurveyController( $args );
+			new Reviews\LimeSurvey( $args );
 		} catch (\Exception $exc) {
 			error_log( $exc->getMessage(), 0 );
 		}

@@ -15,7 +15,7 @@ include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 		<?php
 
 				$args = [ 'lists' => 'titles', 'type_of' => 'books' ];
-		new Catalogue\OtbController( $args );
+		new Catalogue\Otb( $args );
 
 				?>
 	</div>

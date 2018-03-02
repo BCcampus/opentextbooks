@@ -19,7 +19,7 @@ use BCcampus\OpenTextBooks\Views;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\Utility;
 
-class DspaceController {
+class Dspace {
 
 	/**
 	 * @var array

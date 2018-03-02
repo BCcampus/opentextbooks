@@ -31,7 +31,7 @@ use org\jsonrpcphp;
 
 ini_set( 'auto_detect_line_endings', 1 );
 
-class LimeSurveyController {
+class LimeSurvey {
 
 
 	/**

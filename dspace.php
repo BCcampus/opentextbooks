@@ -32,7 +32,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 	$args['type_of'] = 'books';
 
 
-	new Catalogue\DspaceController( $args );
+	new Catalogue\Dspace( $args );
 
 	unset( $_GET );
 	?>

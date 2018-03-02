@@ -27,14 +27,18 @@
 	// get the relative class name
 	$relative_class = \substr( $class, $len );
 
-	// replace the namespace prefix with the base directory, replace namespace
-	// separators with directory separators in the relative class name, append
-	// with .php
-	$file = $base_dir . \str_replace( '\\', '/', $relative_class ) . '.php';
+	if ( false !== ( $last_ns_pos = strripos( $relative_class, '\\' ) ) ) {
+		$namespace = substr( $relative_class, 0, $last_ns_pos );
+		$class     = substr( $relative_class, $last_ns_pos + 1 );
+		$file      = str_replace( '\\', DIRECTORY_SEPARATOR, $namespace ) . DIRECTORY_SEPARATOR;
+	}
+	$file .= 'class-' . str_replace( '_', '-', $class ) . '.php';
+
+	$path = $base_dir . strtolower( $file );
 
 	// if the file exists, require it
-	if ( \file_exists( $file ) ) {
-		require $file;
+	if ( \file_exists( $path ) ) {
+		require $path;
 	}
 } );
 
