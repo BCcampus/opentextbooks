@@ -142,20 +142,22 @@ class Matomo extends Polymorphism\DataAbstract {
 				throw new \Exception( '\BCcampus\OpenTextBooks\Models\Piwik\getMultiSites failed to retrieve books from opentextbc.ca API' );
 			}
 
-			foreach ( $multi as $site ) {
-				if ( false !== strpos( $site->main_url, 'opentextbc.ca' ) ) {
-					$path = trim( parse_url( $site->main_url, PHP_URL_PATH ), '/' );
+			if ( is_array( $multi ) ) {
+				foreach ( $multi as $site ) {
+					if ( false !== strpos( $site->main_url, 'opentextbc.ca' ) ) {
+						$path = trim( parse_url( $site->main_url, PHP_URL_PATH ), '/' );
 
-					// cross check that the book is marked as public
-					if ( array_key_exists( $path, $flipped ) ) {
-						$multi_array[] = array(
-							'label'     => $site->label,
-							'id'        => $site->idsite,
-							'path'      => $path,
-							'visits'    => $site->nb_visits,
-							'actions'   => $site->nb_actions,
-							'pageviews' => $site->nb_pageviews,
-						);
+						// cross check that the book is marked as public
+						if ( array_key_exists( $path, $flipped ) ) {
+							$multi_array[] = array(
+								'label'     => $site->label,
+								'id'        => $site->idsite,
+								'path'      => $path,
+								'visits'    => $site->nb_visits,
+								'actions'   => $site->nb_actions,
+								'pageviews' => $site->nb_pageviews,
+							);
+						}
 					}
 				}
 			}
@@ -169,7 +171,7 @@ class Matomo extends Polymorphism\DataAbstract {
 	 * fetches all download events from each site
 	 *
 	 * @return array
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function getNumDownloads() {
 		$results   = array();

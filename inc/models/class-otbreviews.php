@@ -247,13 +247,17 @@ class OtbReviews extends Polymorphism\DataAbstract {
 		$header = null;
 		$data   = array();
 		if ( ( $handle = fopen( $file, 'r' ) ) !== false ) {
+
 			while ( ( $row = fgetcsv( $handle, 10000, ';' ) ) !== false ) {
 				if ( ! $header ) {
+					// @see https://stackoverflow.com/questions/29828508/fgetcsv-wrongly-adds-double-quotes-to-first-element-of-first-line
+					$row[0] = str_replace( '"', '', $row[0] );
 					$header = $row;
 				} elseif ( ! empty( $row ) && ( count( $header ) == count( $row ) ) ) {
 					$data[] = array_combine( $header, $row );
 				}
 			}
+
 			fclose( $handle );
 		}
 

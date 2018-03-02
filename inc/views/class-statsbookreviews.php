@@ -50,6 +50,7 @@ class StatsBookReviews {
 
 	/**
 	 * Reports constructor.
+	 *
 	 * @param OtbReviews $data
 	 */
 	public function __construct( OtbReviews $data ) {
@@ -65,12 +66,12 @@ class StatsBookReviews {
 	 * @return string
 	 */
 	public function displayReports() {
-		$html = $not_reviewed = '';
+		$html        = $not_reviewed = '';
 		$num_reviews = count( $this->data->getAvailableReviews() );
-		$num_inst = count( $this->uniqueInstitutions );
-		$num_books = count( $this->uniqueBookTitles );
-		$name_inst = '';
-		$name_books = '';
+		$num_inst    = count( $this->uniqueInstitutions );
+		$num_books   = count( $this->uniqueBookTitles );
+		$name_inst   = '';
+		$name_books  = '';
 		foreach ( $this->uniqueInstitutions as $inst ) {
 			$name_inst .= "<li>{$inst}</li>";
 		}
@@ -107,9 +108,9 @@ class StatsBookReviews {
 		//                </div>
 		//              </div>
 		//            </div>';
-		$html .= '</hgroup>';
-		$rev_perc = round( 100 * ($num_books / $num_reviews) );
-		$html .= "<h3>Percentage of books in the collection that have been reviewed: </h3>
+		$html     .= '</hgroup>';
+		$rev_perc = round( 100 * ( $num_books / $num_reviews ) );
+		$html     .= "<h3>Percentage of books in the collection that have been reviewed: </h3>
                 <div class='progress'>
                 <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuemin='0'
                      aria-valuenow='{$num_reviews}' aria-valuemax='{$num_books}'
@@ -137,18 +138,18 @@ class StatsBookReviews {
 				$html .= '<tr>';
 				$html .= "<td>{$book}</td>";
 				$html .= "<td>{$this->responseByUid[$uid]['num_reviews']}</td>";
-				$avg = round( $this->responseByUid[ $uid ]['avg_score'] / $this->responseByUid[ $uid ]['num_reviews'], 2 );
+				$avg  = round( $this->responseByUid[ $uid ]['avg_score'] / $this->responseByUid[ $uid ]['num_reviews'], 2 );
 				$html .= "<td>{$avg}</td>";
 				$html .= '<td><details><summary>Details</summary>';
 				foreach ( $this->responseByUid[ $uid ] as $review ) {
 					if ( is_array( $review ) ) {
-						$html .= '<ul>';
-						$html .= "<li><b>Avg Score:</b> {$review['avg_score']}</li>";
-						$html .= "<li><b>Reviewers:</b> {$review['reviewers']}</li>";
-						$html .= "<li><b>Institutions:</b> {$review['institutions']}</li>";
+						$html           .= '<ul>';
+						$html           .= "<li><b>Avg Score:</b> {$review['avg_score']}</li>";
+						$html           .= "<li><b>Reviewers:</b> {$review['reviewers']}</li>";
+						$html           .= "<li><b>Institutions:</b> {$review['institutions']}</li>";
 						$human_readable = date( 'M d, Y', strtotime( $review['date'] ) );
-						$html .= "<li><b>Date Published:</b> {$human_readable}</li>";
-						$html .= '</ul>';
+						$html           .= "<li><b>Date Published:</b> {$human_readable}</li>";
+						$html           .= '</ul>';
 					}
 				}
 				$html .= '</details></td>';
@@ -162,7 +163,7 @@ class StatsBookReviews {
 	}
 
 	/**
-	 * @return int
+	 *
 	 */
 	private function setUniqueTextbooks() {
 		$book_titles = array();
@@ -209,10 +210,10 @@ class StatsBookReviews {
 
 			// set reviewers and institutions
 			if ( 'N' == $response['info7'] ) {
-				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['reviewers'] = $response['info2'];
+				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['reviewers']    = $response['info2'];
 				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['institutions'] = $institution_ids[ $response['info6'] ];
 			} else {
-				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['reviewers'] = $this->data->getNames( $response );
+				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['reviewers']    = $this->data->getNames( $response );
 				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['institutions'] = $this->data->getInstitutions( $response );
 			}
 
@@ -231,31 +232,35 @@ class StatsBookReviews {
 	private function setAvgAndTotal( $response ) {
 
 		foreach ( $response as $val ) {
-			$sum = 0;
+			$sum   = 0;
 			$count = 0;
 			// multiple reviews, one book
 			// need to lop off the first bit of array to get just Q&A
 			$q_and_a = array_slice( $val, $this->slice, null, false );
-			while ( list($key, $value) = each( $q_and_a ) ) {
+
+			foreach ( $q_and_a as $key => $value ) {
 				if ( is_numeric( $value ) ) {
 					$sum = $sum + intval( $value );
-					$count++;
+					$count ++;
 				}
 			}
+
 			// set the reviewer's average
-			if ( isset( $this->responseByUid[ $val['info1'] ][ $val['id'] ] ) ) {
-				$this->responseByUid[ $val['info1'] ][ $val['id'] ]['avg_score'] = round( $sum / $count, 2 );
-			}
+//			if ( isset( $this->responseByUid[ $val['info1'] ] ) && isset( $this->responseByUid[ $val['info1'] ][ $val['id'] ])) {
+			$this->responseByUid[ $val['info1'] ][ $val['id'] ]['avg_score'] = round( $sum / $count, 2 );
+//			}
 		}
 
 		// set the average score and total reviews for each book
-		foreach ( $this->responseByUid as $uid => $book ) {
-			$this->responseByUid[ $uid ]['num_reviews'] = count( $book );
-			$avg = 0;
-			foreach ( $book as $score ) {
-				$avg += $score['avg_score'];
+		if ( is_array( $this->responseByUid ) ) {
+			foreach ( $this->responseByUid as $uid => $book ) {
+				$this->responseByUid[ $uid ]['num_reviews'] = count( $book );
+				$avg                                        = 0;
+				foreach ( $book as $score ) {
+					$avg += $score['avg_score'];
+				}
+				$this->responseByUid[ $uid ]['avg_score'] = $avg;
 			}
-			$this->responseByUid[ $uid ]['avg_score'] = $avg;
 		}
 
 	}
