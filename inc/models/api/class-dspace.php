@@ -12,12 +12,12 @@
  * @copyright (c) 2012-2017, Brad Payne
  */
 
-namespace BCcampus\OpenTextBooks\Models;
+namespace BCcampus\OpenTextBooks\Models\Api;
 
 use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 
-class DspaceApi implements Polymorphism\RestInterface {
+class Dspace implements Polymorphism\RestInterface {
 	private $apiBaseUrl = '';
 	private $collectionUuid = '';
 	private $url = '';

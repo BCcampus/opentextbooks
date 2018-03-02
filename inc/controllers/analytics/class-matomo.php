@@ -16,6 +16,7 @@ namespace BCcampus\OpenTextBooks\Controllers\Analytics;
 
 use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Models;
+use BCcampus\OpenTextBooks\Models\Api;
 use BCcampus\OpenTextBooks\Views;
 use VisualAppeal\Piwik;
 
@@ -116,7 +117,7 @@ class Matomo {
 			// open downloads
 			case 12:
 				if ( ! empty( $this->args['uuid'] ) ) {
-					$books_rest_api = new Models\EquellaApi();
+					$books_rest_api = new Api\Equella();
 					$books_data     = new Models\OtbBooks( $books_rest_api, [
 						'type_of' => 'books',
 						'uuid'    => $this->args['uuid'],
@@ -125,7 +126,7 @@ class Matomo {
 					$view->displayOpenSingleBook( $this->args['range_start'], $d );
 				} else {
 					// need to grab the number of books in the collection
-					$books_rest_api = new Models\EquellaApi();
+					$books_rest_api = new Api\Equella();
 					$books_data     = new Models\OtbBooks( $books_rest_api, [ 'type_of' => 'books' ] );
 					$num_of_books   = count( $books_data->getResponses() );
 					$view->displayOpenSummary( $num_of_books );
@@ -135,7 +136,7 @@ class Matomo {
 			// opentext summary of all sites
 			case 8:
 				// need to grab the number of books in the collection
-				$books_rest_api = new Models\EquellaApi();
+				$books_rest_api = new Api\Equella();
 				$books_data     = new Models\OtbBooks( $books_rest_api, [ 'type_of' => 'books' ] );
 				$num_of_books   = count( $books_data->getResponses() );
 

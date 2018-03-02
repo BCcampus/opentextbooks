@@ -61,7 +61,7 @@ class Textbooks extends Polymorphism\SitemapAbstract {
 	protected function getResults() {
 		$env                    = Config::getInstance()->get();
 		$args['collectionUuid'] = $env['equella']['uuid'];
-		$rest_api               = new Models\EquellaApi();
+		$rest_api               = new Models\Api\Equella();
 		$data                   = new Models\OtbBooks( $rest_api, $args );
 
 		$results = $data->getPrunedResults();

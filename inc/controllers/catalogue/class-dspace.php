@@ -17,6 +17,7 @@ namespace BCcampus\OpenTextBooks\Controllers\Catalogue;
 use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Views;
 use BCcampus\OpenTextBooks\Models;
+use BCcampus\OpenTextBooks\Models\Api;
 use BCcampus\Utility;
 
 class Dspace {
@@ -147,7 +148,7 @@ class Dspace {
 	 *
 	 */
 	protected function decider() {
-		$rest_api = new Models\DspaceApi();
+		$rest_api = new Api\Dspace();
 		$data     = new Models\DspaceBooks( $rest_api, $this->args );
 
 		if ( $this->args['type_of'] == 'books' ) {

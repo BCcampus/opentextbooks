@@ -138,7 +138,7 @@ class Otb {
 	 */
 	protected function decider() {
 
-		$rest_api = new Models\EquellaApi();
+		$rest_api = new Models\Api\Equella();
 		$data     = new Models\OtbBooks( $rest_api, $this->args );
 
 		if ( $this->args['type_of'] == 'books' ) {

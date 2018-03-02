@@ -12,12 +12,12 @@
  * @copyright (c) 2012-2016, Brad Payne
  */
 
-namespace BCcampus\OpenTextBooks\Models;
+namespace BCcampus\OpenTextBooks\Models\Api;
 
 use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 
-class EquellaApi implements Polymorphism\RestInterface {
+class Equella implements Polymorphism\RestInterface {
 	private $apiBaseUrl = '';
 	private $collectionUuid = '';
 	private $subjectPath1 = '/xml/item/subject_class_level1';

@@ -17,7 +17,7 @@ namespace BCcampus\OpenTextBooks\Controllers\Redirects;
 use BCcampus\OpenTextBooks\Views;
 use BCcampus\OpenTextBooks\Models;
 
-class Redirect {
+class PdfRedirect {
 
 
 	/**
@@ -118,7 +118,7 @@ class Redirect {
 	 */
 	private function checkUuids() {
 		$result = false;
-		$rest_api = new Models\EquellaApi();
+		$rest_api = new Models\Api\Equella();
 		$data = new Models\OtbBooks( $rest_api, '' );
 
 		if ( in_array( $this->args['uuid'],$data->getUuids() ) ) {
