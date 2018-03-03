@@ -65,17 +65,17 @@ class Books {
 		// generating if the individual record. If the prior step was a search, or a list of subjects.
 		if ( ! array_key_exists( 0, $data ) ) {
 
-			$metaXml          = simplexml_load_string( $data['metadata'] );
+			$meta_xml         = simplexml_load_string( $data['metadata'] );
 			$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
-			$cover            = preg_replace( '/^http:\/\//iU', '//', $metaXml->item->cover );
+			$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
 
-			$img        = ( $metaXml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-													  . "<figcaption><small class='text-muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
-			$revision   = ( $metaXml->item->daterevision && ! empty( $metaXml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $metaXml->item->daterevision[0] ) ) . '</h4>' : '';
-			$adaptation = ( true == $metaXml->item->adaptation[ @value ] ) ? $metaXml->item->adaptation->source : '';
+			$img        = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+			                                           . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+			$revision   = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
+			$adaptation = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
 			$authors    = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
-			$html = $this->getSimpleXmlMicrodata( $metaXml, $citation_pdf_url );
+			$html = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
 			$html .= $this->getResultsMicrodata( $data );
 
 			$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
@@ -91,10 +91,10 @@ class Books {
 			$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $data['description'] . '</span></p>';
 			$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
 
-			if ( is_object( $metaXml->item->source ) && ! empty( $metaXml->item->source ) ) {
+			if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
 				$html .= '<p><strong>Original source:</strong> ';
 
-				foreach ( $metaXml->item->source as $source ) {
+				foreach ( $meta_xml->item->source as $source ) {
 					$sources .= $this->formatUrl( $source );
 				}
 
@@ -115,12 +115,12 @@ class Books {
 				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
 
 				$html .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-						 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-						 . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-						 . ' onclick="' . $tracking . '"'
-						 . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
+				         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+				         . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+				         . ' onclick="' . $tracking . '"'
+				         . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
 					{$logo_type['string']}</a> "
-						 . $attachment['description'] . ' ' . $file_size . '</li>';
+				         . $attachment['description'] . ' ' . $file_size . '</li>';
 			}
 			$html .= '</ul>';
 			//send it to the picker for evaluation
@@ -131,15 +131,15 @@ class Books {
 			foreach ( $data as $value ) {
 				//if ($value['uuid'] == $this->uuid) {  //needed to if we're iterating through a cache file.
 				$citation_pdf_url = $this->getCitationPdfUrl( $value['attachments'] );
-				$metaXml          = simplexml_load_string( $value['metadata'] );
-				$cover            = preg_replace( '/^http:\/\//iU', '//', $metaXml->item->cover );
-				$img              = ( $metaXml->item->cover ) ? "<figure class='float-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-																. "<figcaption><small class='text-muted copyright-notice'>" . $metaXml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
-				$revision         = ( $metaXml->item->daterevision && ! empty( $metaXml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">This textbook is currently being revised and scheduled for release ' . date( 'F j, Y', strtotime( $metaXml->item->daterevision[0] ) ) . '</h4>' : '';
-				$adaptation       = ( true == $metaXml->item->adaptation[ @value ] ) ? $metaXml->item->adaptation->source : '';
+				$meta_xml         = simplexml_load_string( $value['metadata'] );
+				$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
+				$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+				                                                 . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+				$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">This textbook is currently being revised and scheduled for release ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
+				$adaptation       = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
 				$authors          = \BCcampus\Utility\array_to_csv( $value['drm']['options']['contentOwners'], 'name' );
 
-				$html = $this->getSimpleXmlMicrodata( $metaXml, $citation_pdf_url );
+				$html = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
 				$html .= $this->getResultsMicrodata( $value );
 
 				$html .= "<h2 itemprop='name'>" . $value['name'] . '</h2>';
@@ -153,10 +153,10 @@ class Books {
 				$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $value['description'] . '</span></p>';
 				$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
 
-				if ( is_object( $metaXml->item->source ) && ! empty( $metaXml->item->source ) ) {
+				if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
 					$html .= '<p><strong>Original source:</strong> ';
 
-					foreach ( $metaXml->item->source as $source ) {
+					foreach ( $meta_xml->item->source as $source ) {
 						$sources .= $this->formatUrl( $source );
 					}
 
@@ -176,12 +176,12 @@ class Books {
 					$tracking  = "_paq.push(['trackEvent','exportFiles','{$value['name']}','{$logo_type['type']}']);";
 
 					$html .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-							 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-							 . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-							 . ' onclick="' . $tracking . '"'
-							 . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
+					         . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+					         . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+					         . ' onclick="' . $tracking . '"'
+					         . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
 							" . $logo_type['string'] . '</a> '
-							 . $attachment['description'] . ' ' . $file_size . '</li>';
+					         . $attachment['description'] . ' ' . $file_size . '</li>';
 				}
 				$html .= '</ul>';
 				//send it to the picker for evaluation
@@ -197,16 +197,16 @@ class Books {
 	/**
 	 * Returns a simple form
 	 *
-	 * @param string $postValue
+	 * @param string $post_value
 	 *
 	 * @return string html blob with the postValue in it
 	 */
-	public function displaySearchForm( $postValue = '' ) {
+	public function displaySearchForm( $post_value = '' ) {
 
 		$html = "
       <fieldset name='solr' class='float-right'>
       <form class='form-search form-inline' action='' method='get'>
-        <input type='text' class='input-small' name='search' id='solrSearchTerm' value='" . $postValue . "'/> 
+        <input type='text' class='input-small' name='search' id='solrSearchTerm' value='" . $post_value . "'/> 
         <button type='submit' formaction='' class='btn' name='solrSearchSubmit' id='solrSearchSubmit'>Search</button>
         <input type='hidden' name='contributor' value='" . $this->args['contributor'] . "'/>
         <input type='hidden' name='subject' value='" . urldecode( $this->args['subject'] ) . "'/>
@@ -227,28 +227,28 @@ class Books {
 	 * set this can display the records for one resource, a search form, an unordered, paginated list, or an ordered
 	 * list of resources.
 	 *
-	 * @param int $startHere - the first record to start from (not zero based)
+	 * @param int $start_here - the first record to start from (not zero based)
 	 *
 	 * @return String - an HTML blob of the results
 	 */
-	public function displayBooks( $startHere ) {
+	public function displayBooks( $start_here ) {
 		$limit = 10;
 		$html  = '';
 
-		$startHere = intval( $startHere );
-		if ( is_int( $startHere ) ) {
+		$start_here = intval( $start_here );
+		if ( is_int( $start_here ) ) {
 			//set the limit if there are less than 10 results based on where we start
-			if ( ( $this->size - $startHere ) < 10 ) {
+			if ( ( $this->size - $start_here ) < 10 ) {
 				//add a limit to the results, but avoid setting the limit to 0, since that'll give you more than you want
-				$limit = ( $this->size - $startHere ) == 0 ? $limit = 1 : $this->size - $startHere;
+				$limit = ( $this->size - $start_here ) == 0 ? $limit = 1 : $this->size - $start_here;
 			}
 
 			$html .= $this->displaySearchForm( $this->args['search'] );
 
 			//if the search term is empty, then set where it starts and limit it to ten
 			if ( empty( $this->args['search'] ) ) {
-				$html .= $this->displayLinks( $startHere, $this->args['search'] );
-				$html .= $this->displayBySubject( $startHere, $limit );
+				$html .= $this->displayLinks( $start_here, $this->args['search'] );
+				$html .= $this->displayBySubject( $start_here, $limit );
 			} //otherwise, display all the results starting at the first one (from a search form)
 			else {
 				$html .= $this->displayBySubject( 0, 0 );
@@ -346,7 +346,7 @@ class Books {
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
 			$html     .= '<li>';
 			$html     .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4> '
-						 . '<h4>' . $metadata . ' </h4>';
+			             . '<h4>' . $metadata . ' </h4>';
 			$html     .= '<strong>Author(s):</strong> ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
 			$html     .= '<strong>Date:</strong> ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
 			$html     .= '<p><strong>Description:</strong> ' . $desc . '</p>';
@@ -370,10 +370,10 @@ class Books {
 	 * @param array $num_reviews_per_book
 	 */
 	public function displayContactFormTitles( array $num_reviews_per_book ) {
-		$html           = array();
-		$do_not_display = array(
+		$html           = [];
+		$do_not_display = [
 			'a51191e6-45e4-4a57-af97-16f943b25d7e' => 'Open Modernisms Anthology Builder',
-		);
+		];
 		$titles         = '';
 		if ( ! empty( $num_reviews_per_book ) ) {
 			foreach ( $num_reviews_per_book as $uid => $book ) {
@@ -520,7 +520,7 @@ class Books {
 				$url['host'] = $env['domain']['host'];
 			}
 			if ( is_array( $url ) ) {
-				$scheme = ( isset( $url['scheme'] ) ) ?  $url['scheme'] . '://' : '';
+				$scheme = ( isset( $url['scheme'] ) ) ? $url['scheme'] . '://' : '';
 				$host   = ( isset( $url['host'] ) ) ? $url['host'] : '';
 				$path   = ( isset( $url['path'] ) ) ? $url['path'] : '';
 				$query  = ( isset( $url['query'] ) ) ? '?' . $url['query'] : '';
@@ -547,7 +547,7 @@ class Books {
 		} catch ( \Exception $e ) {
 			error_log( $e->getMessage() );
 		}
-		$base         = "{$env['domain']['scheme']}{$env['domain']['host']}/wp-content/opensolr/opentextbooks/redirects.php";
+		$base = "{$env['domain']['scheme']}{$env['domain']['host']}/wp-content/opensolr/opentextbooks/redirects.php";
 		//$base = 'http://localhost/opentextbooks/redirects.php';
 		foreach ( $attachments as $attachment ) {
 			if ( 'file' == $attachment['type'] && isset( $attachment['filename'] ) ) {
@@ -581,7 +581,7 @@ class Books {
 	 * @return array $new_order of attachments
 	 */
 	private function reOrderAttachments( array $attachments ) {
-		$new_order = array();
+		$new_order = [];
 
 		// string hunting
 		foreach ( $attachments as $key => $attachment ) {
@@ -676,43 +676,43 @@ class Books {
 	private function licensePicker( $string, $authors ) {
 		$v3       = false;
 		$endpoint = 'https://api.creativecommons.org/rest/1.5/';
-		$expected = array(
-			'cc0'         => array(
+		$expected = [
+			'cc0'         => [
 				'license'     => 'zero',
 				'commercial'  => 'y',
 				'derivatives' => 'y',
-			),
-			'cc-by'       => array(
+			],
+			'cc-by'       => [
 				'license'     => 'standard',
 				'commercial'  => 'y',
 				'derivatives' => 'y',
-			),
-			'cc-by-sa'    => array(
+			],
+			'cc-by-sa'    => [
 				'license'     => 'standard',
 				'commercial'  => 'y',
 				'derivatives' => 'sa',
-			),
-			'cc-by-nd'    => array(
+			],
+			'cc-by-nd'    => [
 				'license'     => 'standard',
 				'commercial'  => 'y',
 				'derivatives' => 'n',
-			),
-			'cc-by-nc'    => array(
+			],
+			'cc-by-nc'    => [
 				'license'     => 'standard',
 				'commercial'  => 'n',
 				'derivatives' => 'y',
-			),
-			'cc-by-nc-sa' => array(
+			],
+			'cc-by-nc-sa' => [
 				'license'     => 'standard',
 				'commercial'  => 'n',
 				'derivatives' => 'sa',
-			),
-			'cc-by-nc-nd' => array(
+			],
+			'cc-by-nc-nd' => [
 				'license'     => 'standard',
 				'commercial'  => 'n',
 				'derivatives' => 'n',
-			),
-		);
+			],
+		];
 		// interpret string as an object
 		$xml = \simplexml_load_string( $string );
 
@@ -743,7 +743,7 @@ class Books {
 
 		// build the url
 		$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] .
-			   '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
+		       '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
 
 		// go and get it
 		$c = curl_init( $url );
@@ -992,8 +992,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		}
 
 		$return .= trim( $error->message ) .
-				   "  Line: $error->line" .
-				   "  Column: $error->column";
+		           "  Line: $error->line" .
+		           "  Column: $error->column";
 
 		if ( $error->file ) {
 			$return .= "  File: $error->file";
@@ -1044,7 +1044,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
 			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
-					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
+			        . rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
 		}
 
 		return html_entity_decode( $html, ENT_XHTML, 'UTF-8' );
@@ -1058,18 +1058,18 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	 * @return string
 	 */
 	private function displayShortURL( $url ) {
-		$urlEncode = urlencode( $url );
+		$url_encode = urlencode( $url );
 		try {
 			$env = Config::getInstance()->get();
 		} catch ( \Exception $e ) {
 			error_log( $e->getMessage() );
 		}
-		$urls      = $env['yourls']['url'] . '?signature=' . $env['yourls']['uuid'] . '&action=shorturl&format=simple&url=';
+		$urls = $env['yourls']['url'] . '?signature=' . $env['yourls']['uuid'] . '&action=shorturl&format=simple&url=';
 
 		//get the string result
 		$result = '<p><strong>Short URL</strong>: ';
 		$result .= "<input type='text' name='yourl' id='yourl' value='";
-		$result .= file_get_contents( $urls . $urlEncode );
+		$result .= file_get_contents( $urls . $url_encode );
 		$result .= "' size='30''></p>";
 
 		return $result;
@@ -1084,8 +1084,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	 * @return type
 	 */
 	private function addAuthorLinks( $authors ) {
-		$result   = '';
-		$tmpArray = '';
+		$result    = '';
+		$tmp_array = '';
 		//if the string passed has only one value, or no commas
 		if ( ! strstr( $authors, ',' ) ) {
 			$result = "<a title='more from this author' href='" . $this->authorBaseURL . $this->authorSearch1 . $authors . $this->authorSearch2 . $authors . $this->authorSearch3 . $authors . $this->authorSearch4 . $this->authorSearch5 . "'>" . $authors . '</a>';
@@ -1093,9 +1093,9 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		else {
 			$result = explode( ',', $authors );
 			for ( $i = 0; $i < count( $result ); $i ++ ) {
-				$tmpArray[ $i ] = "<a title='more from this author' href='" . $this->authorBaseURL . $this->authorSearch1 . $result[ $i ] . $this->authorSearch2 . $result[ $i ] . $this->authorSearch3 . $result[ $i ] . $this->authorSearch4 . $this->authorSearch5 . "'>" . $result[ $i ] . '</a>';
+				$tmp_array[ $i ] = "<a title='more from this author' href='" . $this->authorBaseURL . $this->authorSearch1 . $result[ $i ] . $this->authorSearch2 . $result[ $i ] . $this->authorSearch3 . $result[ $i ] . $this->authorSearch4 . $this->authorSearch5 . "'>" . $result[ $i ] . '</a>';
 			}
-			$result = \BCcampus\Utility\array_to_csv( $tmpArray );
+			$result = \BCcampus\Utility\array_to_csv( $tmp_array );
 		}
 
 		return $result;
