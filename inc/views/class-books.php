@@ -209,7 +209,7 @@ class Books {
 		foreach ( $expected as $entry ) {
 			if ( isset( $env['domain'][ $entry ] ) && ! empty( $env['domain'][ $entry ] ) ) {
 				$font = "<i class='fa fa-{$env['domain'][$entry]['fa']}'></i>";
-				$html .= "<p><strong>{$env['domain'][$entry]['label']}</strong> <a href='/{$env['domain'][$entry]['path']}/'>{$env['domain'][$entry]['text']} {$font}</a></p>";
+				$html .= "<p><strong>{$env['domain'][$entry]['label']}</strong> <a href='{$env['domain'][$entry]['path']}'>{$env['domain'][$entry]['text']} {$font}</a></p>";
 
 			}
 		}
