@@ -98,10 +98,11 @@ return [
 	|
 	|
 	*/
-	'domain' => [
-		'scheme'     => '',
-		'host'       => '',
-		'app_path'   => '',
+	'domain'     => [
+		'scheme'        => '',
+		'host'          => '',
+		'app_path'      => '',
+		'reviews_path'  => '',
 		'adoption'      => [
 			'label' => '',
 			'text'  => '',
@@ -126,7 +127,7 @@ return [
 			'path'  => '',
 			'fa'    => '',
 		],
-		'other' => [
+		'other'         => [
 			'label' => '',
 			'text'  => '',
 			'path'  => '',
