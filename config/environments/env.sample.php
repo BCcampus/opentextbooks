@@ -102,15 +102,41 @@ return [
 		'scheme'     => '',
 		'host'       => '',
 		'app_path'   => '',
-		'adoption'   => [
+		'adoption'      => [
 			'label' => '',
 			'text'  => '',
-			'path'  => ''
+			'path'  => '',
+			'fa'    => ''
 		],
-		'adaptation' => [
+		'adaptation'    => [
 			'label' => '',
 			'text'  => '',
-			'path'  => ''
+			'path'  => '',
+			'fa'    => ''
+		],
+		'help'          => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => ''
+		],
+		'accessibility' => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => '',
+		],
+		'other' => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => '',
+		],
+		'notifications' => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => '',
 		],
 	],
 ];

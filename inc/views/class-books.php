@@ -104,8 +104,6 @@ class Books {
 
 			$html .= $this->renderBookInfo();
 
-			$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['host']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
-			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='fa fa-book'></i></a></p>";
 			$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 			$attachments = $this->reOrderAttachments( $data['attachments'] );
@@ -166,6 +164,7 @@ class Books {
 				}
 
 				$html .= $this->renderBookInfo();
+
 				$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 				$attachments = $this->reOrderAttachments( $value['attachments'] );
@@ -209,7 +208,8 @@ class Books {
 
 		foreach ( $expected as $entry ) {
 			if ( isset( $env['domain'][ $entry ] ) && ! empty( $env['domain'][ $entry ] ) ) {
-				$html .= "<p><strong>{$env['domain'][$entry]['label']}</strong> <a href='/{$env['domain'][$entry]['path']}/'>{$env['domain'][$entry]['text']} <i class='fa fa-book'></i></a></p>";
+				$font = "<i class='fa fa-{$env['domain'][$entry]['fa']}'></i>";
+				$html .= "<p><strong>{$env['domain'][$entry]['label']}</strong> <a href='/{$env['domain'][$entry]['path']}/'>{$env['domain'][$entry]['text']} {$font}</a></p>";
 
 			}
 		}
