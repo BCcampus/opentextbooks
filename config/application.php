@@ -36,6 +36,20 @@ if ( file_exists( OTB_DIR . 'env.php' ) && ! empty( $override['environment'] ) )
 if ( file_exists( OTB_DIR . 'config/environments/.env.' . $domain . '.php' ) ) {
 	$env = include( OTB_DIR . 'config/environments/.env.' . $domain . '.php' );
 	OpenTextBooks\Config::getInstance()->set( $env );
+} else {
+	$ignored = [ '.', '..', '.htaccess', 'env.sample.php' ];
+	$files   = [];
+
+	foreach ( scandir( OTB_DIR . 'config/environments' ) as $file ) {
+		if ( in_array( $file, $ignored, true ) ) {
+			continue;
+		}
+		$files[] = $file;
+	}
+
+	$env = include( OTB_DIR . 'config/environments/' . $files[0] );
+	OpenTextBooks\Config::getInstance()->set( $env );
+
 }
 
 
