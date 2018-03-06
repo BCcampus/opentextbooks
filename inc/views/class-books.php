@@ -102,8 +102,8 @@ class Books {
 				$html    .= $sources . '</p>';
 			}
 
-			$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
-			$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
+			$html .= $this->renderBookInfo();
+
 			$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['host']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
 			$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='fa fa-book'></i></a></p>";
 			$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
@@ -144,6 +144,7 @@ class Books {
 
 				$html .= "<h2 itemprop='name'>" . $value['name'] . '</h2>';
 				$html .= $revision;
+
 				if ( ! empty( $adaptation ) ) {
 					$html .= "<h4 class='alert alert-success'>Good news! This book has been updated and revised. An adaptation of this book can be found here: ";
 					$html .= $this->formatUrl( $adaptation );
@@ -164,8 +165,7 @@ class Books {
 					$html    .= $sources . '</p>';
 				}
 
-				$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='fa fa-book'></i></a></p>";
-				$html .= "<p><strong>Adaptations: </strong><a href='/{$env['domain']['adaptation_path']}/'>Support for adapting an open textbook<i class='fa fa-book'></i></a></p>";
+				$html .= $this->renderBookInfo();
 				$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
 				$attachments = $this->reOrderAttachments( $value['attachments'] );
@@ -192,6 +192,30 @@ class Books {
 			}
 		}
 		echo $html;
+	}
+
+	/**
+	 * @return string
+	 */
+	private function renderBookInfo() {
+		$expected = [ 'notifications', 'adoption', 'adaptation', 'help', 'accessibility', 'other' ];
+		$html     = '';
+
+		try {
+			$env = Config::getInstance()->get();
+		} catch ( \Exception $e ) {
+			error_log( $e->getMessage() );
+		}
+
+		foreach ( $expected as $entry ) {
+			if ( isset( $env['domain'][ $entry ] ) && ! empty( $env['domain'][ $entry ] ) ) {
+				$html .= "<p><strong>{$env['domain'][$entry]['label']}</strong> <a href='/{$env['domain'][$entry]['path']}/'>{$env['domain'][$entry]['text']} <i class='fa fa-book'></i></a></p>";
+
+			}
+		}
+
+		return $html;
+
 	}
 
 	/**

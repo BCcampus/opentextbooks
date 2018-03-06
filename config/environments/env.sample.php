@@ -98,11 +98,19 @@ return [
 	|
 	|
 	*/
-	'domain'     => [
-		'scheme'          => '',
-		'host'            => '',
-		'app_path'        => '',
-		'adoption_path'   => '',
-		'adaptation_path' => '',
+	'domain' => [
+		'scheme'     => '',
+		'host'       => '',
+		'app_path'   => '',
+		'adoption'   => [
+			'label' => '',
+			'text'  => '',
+			'path'  => ''
+		],
+		'adaptation' => [
+			'label' => '',
+			'text'  => '',
+			'path'  => ''
+		],
 	],
 ];

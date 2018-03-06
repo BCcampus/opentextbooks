@@ -55,7 +55,7 @@ class DspaceBooks {
 	 * @return string $html
 	 */
 	public function displayOneTextbook() {
-		$env          = Config::getInstance()->get();
+		$env         = Config::getInstance()->get();
 		$html        = '';
 		$data        = $this->books->getResponses();
 		$title       = $this->metadataToCsv( $data, 'dc.title' );
@@ -66,8 +66,8 @@ class DspaceBooks {
 		$html .= "<h2 itemprop='name'>" . $title . '</h2>';
 		$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $description . '</span></p>';
 		$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
-		$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption_path']}/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
-		$html .= "<p><strong>Adaptations: </strong><a href='{$env['domain']['adaptation_path']}'>Support for adapting an open textbook <i class='glyphicon glyphicon-book'></i></a></p>";
+		$html .= "<p><strong>Adoption (faculty): </strong><a href='/{$env['domain']['adoption']['path']}/'>Contact us if you are using this textbook in your course <i class='glyphicon glyphicon-book'></i></a></p>";
+		$html .= "<p><strong>Adaptations: </strong><a href='{$env['domain']['adaptation']['path']}'>Support for adapting an open textbook <i class='glyphicon glyphicon-book'></i></a></p>";
 		$html .= "<p><strong>Date Issued</strong>: <span itemprop='issued'>" . $date . '<br></span></p>';
 		$html .= "<p><strong>Need help? </strong>Visit our <a href='//{$env['domain']['host']}/help/'>Help page</a> for FAQ and helpdesk assistance.</p>";
 		$html .= "<p><strong>Accessibility: </strong>Textbooks flagged as accessible meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.<i class='glyphicon glyphicon-book'></i></a></p>";
@@ -294,14 +294,13 @@ class DspaceBooks {
 			// proceed if license is one of the expected
 			if ( isset( $license, $keys ) ) {
 				$title = $this->metadataToCsv( $dspace_array, 'dc.title' );
-				$lang  = $this->metadataToCsv( $dspace_array, 'dc.language' );
-				;
+				$lang  = $this->metadataToCsv( $dspace_array, 'dc.language' );;
 				$key = array_keys( $expected[ $license ] );
 				$val = array_values( $expected[ $license ] );
 
 				// build the url
 				$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] .
-					   '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
+				       '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
 
 				// go and get it
 				$c = curl_init( $url );
@@ -365,7 +364,7 @@ class DspaceBooks {
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
 			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="muted" xmlns:dct="http://purl.org/dc/terms/">'
-					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
+			        . rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
 		}
 
 		return html_entity_decode( $html, ENT_XHTML, 'UTF-8' );
@@ -385,8 +384,8 @@ class DspaceBooks {
 		if ( ! is_array( $dspace_array ) || ! isset( $dspace_array['bitstreams'] ) ) {
 			return $html;
 		}
-		$env          = Config::getInstance()->get();
-		$base_url     = parse_url( $env['dspace']['url'], PHP_URL_HOST );
+		$env      = Config::getInstance()->get();
+		$base_url = parse_url( $env['dspace']['url'], PHP_URL_HOST );
 
 		$html .= '<ol>';
 		// just deals with metadata
@@ -486,8 +485,8 @@ class DspaceBooks {
 		}
 
 		$return .= trim( $error->message ) .
-				   "  Line: $error->line" .
-				   "  Column: $error->column";
+		           "  Line: $error->line" .
+		           "  Column: $error->column";
 
 		if ( $error->file ) {
 			$return .= "  File: $error->file";
