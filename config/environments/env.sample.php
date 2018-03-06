@@ -58,7 +58,7 @@ return [
 	*/
 	'equella'    => [
 		'url'  => '',
-		'uuid' => ''
+		'uuid' => '',
 	],
 
 	/*
@@ -99,10 +99,45 @@ return [
 	|
 	*/
 	'domain'     => [
-		'scheme'          => '',
-		'host'            => '',
-		'app_path'        => '',
-		'adoption_path'   => '',
-		'adaptation_path' => '',
+		'scheme'        => '',
+		'host'          => '',
+		'app_path'      => '',
+		'reviews_path'  => '',
+		'adoption'      => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => ''
+		],
+		'adaptation'    => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => ''
+		],
+		'help'          => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => ''
+		],
+		'accessibility' => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => '',
+		],
+		'other'         => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => '',
+		],
+		'notifications' => [
+			'label' => '',
+			'text'  => '',
+			'path'  => '',
+			'fa'    => '',
+		],
 	],
 ];

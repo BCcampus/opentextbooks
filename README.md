@@ -1,6 +1,6 @@
 # Open Textbooks
 
-The application is currently hosted on open.bccampus.ca and is built and maintained to support the [Open Textbook Project](https://open.bccampus.ca/2016/06/01/the-b-c-open-textbook-project-celebrates-another-milestone-151-open-textbooks/) by [BCcampus](https://bccampus.ca/)
+The application is currently hosted on open.bccampus.ca, open.campusmanitoba.ca, openlibary.ecampusontario.ca and is built and maintained to support the [Open Textbook Project](https://open.bccampus.ca/2016/06/01/the-b-c-open-textbook-project-celebrates-another-milestone-151-open-textbooks/) by [BCcampus](https://bccampus.ca/)
 - [books](https://open.bccampus.ca/find-open-textbooks/)
 - [stats](https://open.bccampus.ca/open-textbook-stats)
 - [sitemap](https://open.bccampus.ca/wp-content/opensolr/opentextbooks/sitemap.php)
@@ -8,7 +8,7 @@ The application is currently hosted on open.bccampus.ca and is built and maintai
 The application is embedded in a WordPress environment, and while there are WP integrations, there are **zero** WordPress dependencies. It can be used as a standalone app.
 
 ## Requirements
-- PHP version > 5 (though has not been tested with PHP 7)
+- PHP version > 7
 
 ### Will be useful if you also have any instances of:
 - an instance of LimeSurvey
@@ -21,7 +21,7 @@ This application can consume API's from
  1. A soon-to-be-open-source book repository (Equella) to display books from a collection
  2. [DSpace](http://dspace.org/) to display books from a collection 
  2. [LimeSurvey](https://www.limesurvey.org/) to display book reviews
- 3. [Piwik Analytics](https://piwik.org/) to access book statistics
+ 3. [Matomo Analytics](https://matomo.org/) to access book statistics
 
 It also
  1. creates Google Scholar metadata for each book
@@ -32,19 +32,21 @@ It also
 ## Purpose
 Built to support the wide dissemination of open textbooks.
 
-## Quick Start
-- download the zip files to a web server
-- change `env.sample.php` to `.env.php`
-- ensure apache has write permissions to `cache` directory and all subdirectories (`cache/webform`, `cache/analytics`, etc)
-- modify values in `.env.php` to connect your instances of LimeSurvey, Wordpress, Equella and Piwik
+## Quick Start (developers)
+Uses [yarn](https://yarnpkg.com/en/) to build front end dependencies and [composer](https://getcomposer.org/) to build php dependencies. Once you've cloned the repo, you'll need to build:
+- `yarn && yarn build` 
+- `composer install`
+- rename `config/environments/env.sample.php` to `.env.mydomain.com.php` 
+- add more config files per domain (ie. `.env.localhost.php`, `.env.myotherdomain.com.php`)
+- modify config values to connect your instances of LimeSurvey, Wordpress, Equella and Piwik
+- to test how the app will behave with a configuration file that is different than the domain you're testing with, use the override in `env.php` at the root of the site.
+- ensure the web server user (apache, _www) has write permissions to `cache` directory and all subdirectories (`cache/webform`, `cache/analytics`, etc)
 
 ## Copyright and License
 Unless otherwise noted, this code is copyright (c) 2012-2016 Brad Payne, released under a [GPLv3 license](https://www.gnu.org/licenses/gpl.html), or any later version
 
 Otherwise noted:
 - PHP Class `Cache` licensed under BSD, (compatible with GPL)
-- PHP Class `PiwikApi` licensed under Apache, (compatible with GPL)
-- PHP Class `LimeSurveyApi` licensed under GPL, or any later version
 - PHP Class `SitemapAbstract` Licensed under GPLv3, or any later version
 - Bootstrap licensed under MIT, (compatible with GPL)
 - Table Sorter is dual licensed, MIT and GPL
