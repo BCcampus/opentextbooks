@@ -10,7 +10,7 @@ $wf_args = array(
 	'type_of' => 'webform_summary',
 );
 
-new Webform\AdoptionController( $wf_args );
+new Webform\Adoption( $wf_args );
 
 
 

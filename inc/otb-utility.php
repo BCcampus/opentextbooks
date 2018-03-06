@@ -24,10 +24,10 @@ namespace BCcampus\Utility;
  *
  * @return bool|mixed|string
  */
-function sanitize( $anyString ) {
+function sanitize( $any_string ) {
 	$result = '';
-	if ( ! empty( $anyString ) ) {
-		$result = trim( $anyString );
+	if ( ! empty( $any_string ) ) {
+		$result = trim( $any_string );
 		$result = str_replace( '"', '', $result );
 		$result = filter_var( $result, FILTER_SANITIZE_STRING ); //strip tags
 

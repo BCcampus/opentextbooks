@@ -56,20 +56,20 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 				'type_of' => 'webform_stats',
 			);
 
-			new Webform\AdoptionController( $wf_args );
+			new Webform\Adoption( $wf_args );
 
 			$adoptions_v = array(
 				'site_id' => 8,
 				'type_of' => 'adoptions-v',
 			);
-			new Analytics\PiwikController( $adoptions_v );
+			new Analytics\Matomo( $adoptions_v );
 
 			$adoptions_d = array(
 				'site_id' => 8,
 				'type_of' => 'adoptions-d',
 			);
 
-			new Analytics\PiwikController( $adoptions_d );
+			new Analytics\Matomo( $adoptions_d );
 
 			?>
 
@@ -85,7 +85,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			$opentext_args = array(
 				'site_id' => 8,
 			);
-			new Analytics\PiwikController( $opentext_args );
+			new Analytics\Matomo( $opentext_args );
 			?>
 
 		</div>
@@ -97,8 +97,8 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			$open_args = array(
 				'site_id' => 12,
 			);
-			new Analytics\PiwikController( $open_args );
-			new Catalogue\OtbController( $args );
+			new Analytics\Matomo( $open_args );
+			new Catalogue\Otb( $args );
 			?>
 
 		</div>
@@ -109,7 +109,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 			<?php
 			$ls_args['type_of'] = 'review_stats';
-			new Reviews\LimeSurveyController( $ls_args );
+			new Reviews\LimeSurvey( $ls_args );
 			?>
 
 		</div>
@@ -118,7 +118,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 			<?php
 			$subj_args['type_of'] = 'subject_stats';
-			new Catalogue\OtbController( $subj_args );
+			new Catalogue\Otb( $subj_args );
 			?>
 
 		</div>

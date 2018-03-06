@@ -21,18 +21,18 @@ include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 	if ( isset( $_GET['uuid'] ) ) {
 		$_GET['type_of'] = 'book_stats';
 
-		new Catalogue\OtbController( $_GET );
+		new Catalogue\Otb( $_GET );
 
 		$open_args = array(
 			'site_id' => 12,
 			'uuid'    => $_GET['uuid'],
 		);
 
-		new Analytics\PiwikController( $open_args );
+		new Analytics\Matomo( $open_args );
 
 	} elseif ( isset( $_GET['site_id'] ) ) {
 
-		new Analytics\PiwikController( $_GET );
+		new Analytics\Matomo( $_GET );
 
 	}
 	unset( $_GET );
