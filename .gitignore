@@ -11,4 +11,7 @@ vendor/*
 !vendor/weberhofer
 !vendor/visualappeal
 !vendor/voku
+!vendor/symfony
+!vendor/ircmaxell
+!vendor/paragonie
 node_modules/
