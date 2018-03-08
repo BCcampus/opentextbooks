@@ -1,0 +1,1 @@
+webpackJsonp([4],{11:function(e,t,o){e.exports=o(12)},12:function(e,t,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=o(0),s=o.n(r);window.$=window.jQuery=s.a,jQuery(document).ready(function(e){e("#reviews").tablesorter({sortList:[[0,0]]}),e("#opentextbc").tablesorter({sortList:[[0,0]]}),e("#opentext").tablesorter({sortList:[[0,0]]})})}},[11]);

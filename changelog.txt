@@ -1,4 +1,4 @@
-v2.0.0 (09-02-2018)
+v2.0.0 (03-08-2018)
 - move to composer for dependency management
 - migrate customizations into environment variables (breaking change)
 - add development tools via laravel mix

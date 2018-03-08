@@ -5,6 +5,10 @@ cache/analytics/*
 cache/catalogue/*
 cache/reviews/*
 cache/webform/*
-vendor/
+vendor/*
+!vendor/autoload.php
+!vendor/composer
+!vendor/weberhofer
+!vendor/visualappeal
+!vendor/voku
 node_modules/
-dist/
