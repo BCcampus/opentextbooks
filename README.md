@@ -12,13 +12,13 @@ The application is embedded in a WordPress environment, and while there are WP i
 
 ### Will be useful if you also have any instances of:
 - an instance of LimeSurvey
-- an instance of Piwik
+- an instance of Matomo
 - an instance of WordPress
 - an instance of Equella
 
 ## Functionality
 This application can consume API's from
- 1. A soon-to-be-open-source book repository (Equella) to display books from a collection
+ 1. [Equella](https://github.com/equella/Equella) to display books from a collection OR
  2. [DSpace](http://dspace.org/) to display books from a collection 
  2. [LimeSurvey](https://www.limesurvey.org/) to display book reviews
  3. [Matomo Analytics](https://matomo.org/) to access book statistics
@@ -36,9 +36,10 @@ Built to support the wide dissemination of open textbooks.
 Uses [yarn](https://yarnpkg.com/en/) to build front end dependencies and [composer](https://getcomposer.org/) to build php dependencies. Once you've cloned the repo, you'll need to build:
 - `yarn && yarn build` 
 - `composer install`
+#####*THEN*:
 - rename `config/environments/env.sample.php` to `.env.mydomain.com.php` 
-- add more config files per domain (ie. `.env.localhost.php`, `.env.myotherdomain.com.php`)
-- modify config values to connect your instances of LimeSurvey, Wordpress, Equella and Piwik
+- add config files per domain (ie. `.env.localhost.php`, `.env.myotherdomain.com.php`)
+- modify config values to connect your instances of LimeSurvey, Wordpress, Equella and Matomo
 - to test how the app will behave with a configuration file that is different than the domain you're testing with, use the override in `env.php` at the root of the site.
 - ensure the web server user (apache, _www) has write permissions to `cache` directory and all subdirectories (`cache/webform`, `cache/analytics`, etc)
 
