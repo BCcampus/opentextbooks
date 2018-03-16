@@ -11,6 +11,7 @@ use BCcampus\OpenTextBooks;
 |
 |
 */
+include( 'constants.php');
 include( OTB_DIR . 'inc/otb-utility.php' );
 include( OTB_DIR . 'vendor/autoload.php' );
 
@@ -25,8 +26,8 @@ include( OTB_DIR . 'vendor/autoload.php' );
 */
 
 //find the domain
-$override = include( OTB_DIR . 'env.php' );
-if ( file_exists( OTB_DIR . 'env.php' ) && ! empty( $override['environment'] ) ) {
+$override = include( 'env.php' );
+if ( file_exists( 'env.php' ) && ! empty( $override['environment'] ) ) {
 	$domain = $override['environment'];
 } else {
 	$domain = $_SERVER['HTTP_HOST'];

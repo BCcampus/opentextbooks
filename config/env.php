@@ -4,7 +4,7 @@
  * otherwise the default is to get the value from $_SERVER['HTTP_HOST']
  * leave this blank for default behaviour (ie environment => '')
  *
- * set the value of 'environment' equal to the domain of the application
+ * override: set the value of 'environment' equal to the domain of the application
  * create a corresponding .env.mydomain.com.php file in `config/environments`
  *
  * example:
