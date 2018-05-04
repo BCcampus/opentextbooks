@@ -76,7 +76,7 @@ class BookReviews {
 	 */
 	public function displayReviews() {
 		$institution_ids = $this->data->getInstitutionIDs();
-
+		$cut_off = 1521158399; // March 15, 2018
 		$html = $this->displaySummary();
 
 		$num = 1;
@@ -101,6 +101,9 @@ class BookReviews {
 				$overall_avg = $this->getOverallAvg( $q_and_a );
 				// ($open == 0) ? $html .= "<details open>" : $html .= "<details>";
 
+				// change license based on date (March 15, 2018)
+				$license = ( strtotime( $response['datestamp'] ) < $cut_off ) ? "<a rel='license' href='https://creativecommons.org/licenses/by-nd/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by-nd/3.0/80x15.png' /></a>" : "<a rel='license' href='https://creativecommons.org/licenses/by/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/3.0/80x15.png' /></a>";
+
 				$html .= "<div class='row'><details itemprop='review' itemscope itemtype='https://schema.org/Review'>
                 <summary class='text-info'><strong>" . $num . ". Reviewed by:</strong> <span itemprop='author copyrightHolder'>" . $names . '</span></summary>
                 <ul>
@@ -108,7 +111,7 @@ class BookReviews {
                     <li><b>Title/Position:</b> ' . $response['info5'] . "</li>
                     <li itemprop='reviewRating' itemscope itemtype='https://schema.org/Rating'><b>Overall Rating:</b> <meter min='0' low='0' high='5' max='5' value='" . $overall_avg . "'></meter> <span itemprop='ratingValue'>" . $overall_avg . "</span> out of <span itemprop='bestRating'>5</span></span></li>
 		            <li><b>Date:</b><time itemprop='datePublished'> " . date( 'M j, Y', strtotime( $response['datestamp'] ) ) . "</time></li>
-		            <li><b>License:</b> <a rel='license' href='https://creativecommons.org/licenses/by-nd/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by-nd/3.0/80x15.png' /></a> </li>
+		            <li><b>License:</b> " . $license . "</li>
                 </ul>
                 <div class='tabbable tabs-left'>";
 				$group_keys = array_keys( $this->questionGroups );
