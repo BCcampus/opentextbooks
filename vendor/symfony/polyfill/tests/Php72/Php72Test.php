@@ -79,6 +79,32 @@ class Php72Test extends TestCase
     }
 
     /**
+     * @covers Symfony\Polyfill\Php72\Php72::sapi_windows_vt100_support
+     */
+    public function testSapiWindowsVt100SupportWarnsOnInvalidInputType()
+    {
+        if ('\\' !== DIRECTORY_SEPARATOR) {
+            $this->markTestSkipped('Windows only test');
+        }
+
+        $this->setExpectedException('PHPUnit\Framework\Error\Warning', 'expects parameter 1 to be resource');
+        sapi_windows_vt100_support('foo', true);
+    }
+
+    /**
+     * @covers Symfony\Polyfill\Php72\Php72::sapi_windows_vt100_support
+     */
+    public function testSapiWindowsVt100SupportWarnsOnInvalidStream()
+    {
+        if ('\\' !== DIRECTORY_SEPARATOR) {
+            $this->markTestSkipped('Windows only test');
+        }
+
+        $this->setExpectedException('PHPUnit\Framework\Error\Warning', 'was not able to analyze the specified stream');
+        sapi_windows_vt100_support(fopen('php://memory', 'wb'), true);
+    }
+
+    /**
      * @covers Symfony\Polyfill\Php72\Php72::stream_isatty
      */
     public function testStreamIsatty()
@@ -86,5 +112,27 @@ class Php72Test extends TestCase
         $fp = fopen('php://temp', 'r+');
         $this->assertFalse(stream_isatty($fp));
         fclose($fp);
+    }
+
+    /**
+     * @covers Symfony\Polyfill\Php72\Php72::stream_isatty
+     */
+    public function testStreamIsattyWarnsOnInvalidInputType()
+    {
+        $this->setExpectedException('PHPUnit\Framework\Error\Warning', 'expects parameter 1 to be resource');
+        stream_isatty('foo');
+    }
+
+    public function setExpectedException($exception, $message = '', $code = null)
+    {
+        if (!class_exists('PHPUnit\Framework\Error\Notice')) {
+            $exception = str_replace('PHPUnit\\Framework\\Error\\', 'PHPUnit_Framework_Error_', $exception);
+        }
+        if (method_exists($this, 'expectException')) {
+            $this->expectException($exception);
+            $this->expectExceptionMessage($message);
+        } else {
+            parent::setExpectedException($exception, $message, $code);
+        }
     }
 }

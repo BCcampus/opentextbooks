@@ -7,6 +7,7 @@ used when portability across PHP versions and extensions is desired.
 
 Polyfills are provided for:
 - the `apcu` extension when the legacy `apc` extension is installed;
+- the `ctype` extension when PHP is compiled without ctype;
 - the `mbstring` and `iconv` extensions;
 - the `Normalizer` class and the `grapheme_*` functions;
 - the `utf8_encode` and `utf8_decode` functions from the `xml` extension or PHP-7.2 core;
@@ -32,7 +33,8 @@ Polyfills are provided for:
   `mbstring.func_overload` is required;
 - the `spl_object_id` and `stream_isatty` functions introduced in PHP 7.2;
 - the `sapi_windows_vt100_support` function (Windows only) introduced in PHP 7.2;
-- the `PHP_OS_FAMILY` constant introduced in PHP 7.2.
+- the `PHP_OS_FAMILY` constant introduced in PHP 7.2;
+- the `is_countable` function introduced in PHP 7.3.
 
 It is strongly recommended to upgrade your PHP version and/or install the missing
 extensions whenever possible. This polyfill should be used only when there is no
@@ -52,12 +54,14 @@ Usage
 When using [Composer](https://getcomposer.org/) to manage your dependencies, you
 should **not** `require` the `symfony/polyfill` package, but the standalone ones:
 - `symfony/polyfill-apcu` for using the `apcu_*` functions,
+- `symfony/polyfill-ctype` for using the ctype functions,
 - `symfony/polyfill-php54` for using the PHP 5.4 functions,
 - `symfony/polyfill-php55` for using the PHP 5.5 functions,
 - `symfony/polyfill-php56` for using the PHP 5.6 functions,
 - `symfony/polyfill-php70` for using the PHP 7.0 functions,
 - `symfony/polyfill-php71` for using the PHP 7.1 functions,
 - `symfony/polyfill-php72` for using the PHP 7.2 functions,
+- `symfony/polyfill-php73` for using the PHP 7.3 functions,
 - `symfony/polyfill-iconv` for using the iconv functions,
 - `symfony/polyfill-intl-grapheme` for using the `grapheme_*` functions,
 - `symfony/polyfill-intl-icu` for using the intl functions and classes,

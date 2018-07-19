@@ -110,8 +110,8 @@ class BookReviews {
                     <li><b>Institution:</b> ' . $institutions . '</li>
                     <li><b>Title/Position:</b> ' . $response['info5'] . "</li>
                     <li itemprop='reviewRating' itemscope itemtype='https://schema.org/Rating'><b>Overall Rating:</b> <meter min='0' low='0' high='5' max='5' value='" . $overall_avg . "'></meter> <span itemprop='ratingValue'>" . $overall_avg . "</span> out of <span itemprop='bestRating'>5</span></span></li>
-		            <li><b>Date:</b><time itemprop='datePublished'> " . date( 'M j, Y', strtotime( $response['datestamp'] ) ) . "</time></li>
-		            <li><b>License:</b> " . $license . "</li>
+		            <li><b>Date:</b><time itemprop='datePublished'> " . date( 'M j, Y', strtotime( $response['datestamp'] ) ) . '</time></li>
+                    <li><b>License:</b> ' . $license . "</li>
                 </ul>
                 <div class='tabbable tabs-left'>";
 				$group_keys = array_keys( $this->questionGroups );

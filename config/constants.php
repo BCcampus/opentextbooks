@@ -11,7 +11,7 @@
 */
 
 if ( ! defined( 'OTB_DIR' ) ) {
-	define( 'OTB_DIR', str_replace( '\\', '/', dirname( dirname(__FILE__) ) ) . '/' ); // Must have trailing slash!
+	define( 'OTB_DIR', str_replace( '\\', '/', dirname( dirname( __FILE__ ) ) ) . '/' ); // Must have trailing slash!
 }
 
 if ( ! defined( 'OTB_VERSION' ) ) {
@@ -19,7 +19,7 @@ if ( ! defined( 'OTB_VERSION' ) ) {
 }
 
 if ( ! defined( 'OTB_URL' ) ) {
-// check for a WordPress environment
+	// check for a WordPress environment
 	if ( function_exists( 'get_site_url' ) ) {
 		$wp_uri    = get_site_url( get_current_blog_id(), '/wp-content/' );
 		$ex        = explode( '/', OTB_DIR );

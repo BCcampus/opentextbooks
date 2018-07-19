@@ -11,7 +11,7 @@ use BCcampus\OpenTextBooks;
 |
 |
 */
-include( 'constants.php');
+include( 'constants.php' );
 include( OTB_DIR . 'inc/otb-utility.php' );
 include( OTB_DIR . 'vendor/autoload.php' );
 

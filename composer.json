@@ -16,6 +16,11 @@
       "BCcampus\\Opentextbooks\\": "inc/"
     }
   },
+  "config": {
+    "platform": {
+      "php": "7.0.30"
+    }
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require-dev": {

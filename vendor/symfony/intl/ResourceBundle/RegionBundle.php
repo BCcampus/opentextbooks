@@ -27,7 +27,14 @@ class RegionBundle extends RegionDataProvider implements RegionBundleInterface
 {
     private $localeProvider;
 
-    public function __construct(string $path, BundleEntryReaderInterface $reader, LocaleDataProvider $localeProvider)
+    /**
+     * Creates a new region bundle.
+     *
+     * @param string                     $path
+     * @param BundleEntryReaderInterface $reader
+     * @param LocaleDataProvider         $localeProvider
+     */
+    public function __construct($path, BundleEntryReaderInterface $reader, LocaleDataProvider $localeProvider)
     {
         parent::__construct($path, $reader);
 

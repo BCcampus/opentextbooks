@@ -29,10 +29,10 @@ abstract class AbstractDataGenerator
     private $compiler;
     private $dirName;
 
-    public function __construct(GenrbCompiler $compiler, string $dirName)
+    public function __construct(GenrbCompiler $compiler, $dirName)
     {
         $this->compiler = $compiler;
-        $this->dirName = $dirName;
+        $this->dirName = (string) $dirName;
     }
 
     public function generateData(GeneratorConfig $config)

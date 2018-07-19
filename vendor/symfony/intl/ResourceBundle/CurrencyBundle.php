@@ -27,7 +27,14 @@ class CurrencyBundle extends CurrencyDataProvider implements CurrencyBundleInter
 {
     private $localeProvider;
 
-    public function __construct(string $path, BundleEntryReaderInterface $reader, LocaleDataProvider $localeProvider)
+    /**
+     * Creates a new currency bundle.
+     *
+     * @param string                     $path
+     * @param BundleEntryReaderInterface $reader
+     * @param LocaleDataProvider         $localeProvider
+     */
+    public function __construct($path, BundleEntryReaderInterface $reader, LocaleDataProvider $localeProvider)
     {
         parent::__construct($path, $reader);
 

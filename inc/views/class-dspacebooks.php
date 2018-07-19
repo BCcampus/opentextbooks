@@ -294,13 +294,14 @@ class DspaceBooks {
 			// proceed if license is one of the expected
 			if ( isset( $license, $keys ) ) {
 				$title = $this->metadataToCsv( $dspace_array, 'dc.title' );
-				$lang  = $this->metadataToCsv( $dspace_array, 'dc.language' );;
+				$lang  = $this->metadataToCsv( $dspace_array, 'dc.language' );
+				;
 				$key = array_keys( $expected[ $license ] );
 				$val = array_values( $expected[ $license ] );
 
 				// build the url
 				$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] .
-				       '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
+					   '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
 
 				// go and get it
 				$c = curl_init( $url );
@@ -364,7 +365,7 @@ class DspaceBooks {
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
 			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="muted" xmlns:dct="http://purl.org/dc/terms/">'
-			        . rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
+					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
 		}
 
 		return html_entity_decode( $html, ENT_XHTML, 'UTF-8' );
@@ -485,8 +486,8 @@ class DspaceBooks {
 		}
 
 		$return .= trim( $error->message ) .
-		           "  Line: $error->line" .
-		           "  Column: $error->column";
+				   "  Line: $error->line" .
+				   "  Column: $error->column";
 
 		if ( $error->file ) {
 			$return .= "  File: $error->file";

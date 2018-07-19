@@ -30,7 +30,11 @@ class GeneratorConfig
      */
     private $bundleWriters = array();
 
-    public function __construct(string $sourceDir, string $icuVersion)
+    /**
+     * @param string $sourceDir
+     * @param string $icuVersion
+     */
+    public function __construct($sourceDir, $icuVersion)
     {
         $this->sourceDir = $sourceDir;
         $this->icuVersion = $icuVersion;

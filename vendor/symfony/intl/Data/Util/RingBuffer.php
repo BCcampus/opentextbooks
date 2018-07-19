@@ -34,7 +34,7 @@ class RingBuffer implements \ArrayAccess
 
     private $size;
 
-    public function __construct(int $size)
+    public function __construct($size)
     {
         $this->size = $size;
     }

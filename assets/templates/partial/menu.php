@@ -13,8 +13,12 @@
                     <li><a href="?subject=Communication">Communication</a></li>
                     <li><a href="?subject=English">English</a></li>
                     <li><a href="?subject=French">French</a></li>
+                    <li><a href="?subject=Greek">Greek</a></li>
                     <li><a href="?subject=History">History</a></li>
+                    <li><a href="?subject=Latin">Latin</a></li>
+                    <li><a href="?subject=Linguistics">Linguistics</a></li>
                     <li><a href="?subject=Philosophy">Philosophy</a></li>
+                    <li><a href="?subject=Punjabi">Punjabi</a></li>
                     <li><a href="?subject=Spanish">Spanish</a></li>
                 </ul>
             </div>
@@ -48,14 +52,26 @@
                                              href="#collapseHealth">Health Related</a></li>
             <div id="collapseHealth" class="accordion-body collapse">
                 <ul>
+                    <li><a href="?subject=Dental Related">Dental</a></li>
+                    <li><a href="?subject=Health Care Administration">Health Care Administration</a></li>
                     <li><a href="?subject=Health/Medical - General">Health/Medical - General</a></li>
                     <li><a href="?subject=Home Support/Resident Care Related">Home Support/Resident Care</a></li>
+                    <li><a href="?subject=Registered Nursing (RN) Related">Nursing</a></li>
+                    <li><a href="?subject=Nutrition and Dietary Related">Nutrition/Dietetics</a></li>
                     <li><a href="?subject=Pharmacy/Pharmacology Related">Pharmacy/Pharmacology</a></li>
                     <li><a href="?subject=Psychiatric/Mental Health Nursing">Psychiatric/Mental Health</a></li>
                 </ul>
             </div>
         </div>
         <div class="accordion-group">
+            <li class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
+                                             href="#collapseLaw">Law</a></li>
+            <div id="collapseLaw" class="accordion-body collapse">
+                <ul>
+                    <li><a href="?subject=Law - General">Law - General</a></li>
+                </ul>
+            </div>
+        </div>        <div class="accordion-group">
             <li class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2"
                                              href="#collapseRecreation">Recreation/Tourism</a></li>
             <div id="collapseRecreation" class="accordion-body collapse">
@@ -122,6 +138,7 @@
             <div id="collapseUpgrading" class="accordion-body collapse">
                 <ul>
                     <li><a href="?subject=Academic/Basic Upgrading">Academic/Basic Upgrading</a></li>
+                    <li><a href="?subject=Academic/Career Success">Academic/Career Success</a></li>
                     <li><a href="?subject=English Language Learning">English Language Learning</a></li>
                     <!-- <li><a href="?subject=Adult Special Education">Adult Special Education</a></li>
                          <li><a href="?subject=Employment Preparation">Employment Preparation</a></li>

@@ -176,7 +176,7 @@ class MbstringTest extends TestCase
      */
     public function testEncodeNumericEntityWarnsOnInvalidIsHexType()
     {
-        $this->setExpectedException('PHPUnit\Framework\Error\Warning', 'expects parameter 4 to be boolean');
+        $this->setExpectedException('PHPUnit\Framework\Error\Warning', 'expects parameter 4 to be bool');
         mb_encode_numericentity('déjà', array(0x0, 0x10ffff, 0x0, 0x1fffff), 'UTF-8', new \stdClass());
     }
 
@@ -187,10 +187,11 @@ class MbstringTest extends TestCase
      */
     public function testStrCase()
     {
-        $this->assertSame('déjà σσς iiıi', mb_strtolower('DÉJÀ Σσς İIıi'));
+        $this->assertSame(\PHP_VERSION_ID >= 70300 ? 'i̇' : 'i', \mb_strtolower('İ'));
+        $this->assertSame('déjà σσς iiıi', p::mb_strtolower('DÉJÀ Σσς İIıi'));
         $this->assertSame('DÉJÀ ΣΣΣ İIII', mb_strtoupper('Déjà Σσς İIıi'));
         if (PCRE_VERSION >= '8.10') {
-            $this->assertSame('Déjà Σσσ Iı Ii İi', mb_convert_case('DÉJÀ ΣΣΣ ıı iI İİ', MB_CASE_TITLE));
+            $this->assertSame('Déjà Σσσ Iı Ii İi', p::mb_convert_case('DÉJÀ ΣΣΣ ıı iI İİ', MB_CASE_TITLE));
         }
         if (PHP_VERSION_ID >= 70000) {
             // Native iconv() is buggy before PHP 7

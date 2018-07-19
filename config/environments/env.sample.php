@@ -107,19 +107,19 @@ return [
 			'label' => '',
 			'text'  => '',
 			'path'  => '',
-			'fa'    => ''
+			'fa'    => '',
 		],
 		'adaptation'    => [
 			'label' => '',
 			'text'  => '',
 			'path'  => '',
-			'fa'    => ''
+			'fa'    => '',
 		],
 		'help'          => [
 			'label' => '',
 			'text'  => '',
 			'path'  => '',
-			'fa'    => ''
+			'fa'    => '',
 		],
 		'accessibility' => [
 			'label' => '',
