@@ -1,4 +1,5 @@
 # Open Textbooks
+[![Build Status](https://travis-ci.com/BCcampus/opentextbooks.svg?branch=dev)](https://travis-ci.com/BCcampus/opentextbooks)
 
 The application is currently hosted on open.bccampus.ca, open.campusmanitoba.ca, openlibary.ecampusontario.ca and is built and maintained to support the [Open Textbook Project](https://open.bccampus.ca/2016/06/01/the-b-c-open-textbook-project-celebrates-another-milestone-151-open-textbooks/) by [BCcampus](https://bccampus.ca/)
 - [books](https://open.bccampus.ca/find-open-textbooks/)
@@ -36,7 +37,8 @@ Built to support the wide dissemination of open textbooks.
 Uses [yarn](https://yarnpkg.com/en/) to build front end dependencies and [composer](https://getcomposer.org/) to build php dependencies. Once you've cloned the repo, you'll need to build:
 - `yarn && yarn build` 
 - `composer install`
-#####*THEN*:
+
+###*THEN*:
 - rename `config/environments/env.sample.php` to `.env.mydomain.com.php` 
 - add config files per domain (ie. `.env.localhost.php`, `.env.myotherdomain.com.php`)
 - modify config values to connect your instances of LimeSurvey, Wordpress, Equella and Matomo

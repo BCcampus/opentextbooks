@@ -1,0 +1,55 @@
+language: php
+php:
+- 7.0
+- 7.1
+- 7.2
+sudo: required
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+branches:
+  only:
+  - dev
+  - "/\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
+env:
+- TRAVIS_NODE_VERSION="8"
+cache:
+  apt: true
+  directories:
+  - "$HOME/.composer/cache"
+  - node_modules
+  - vendor
+before_install:
+- sudo apt-get -qq update
+- source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION && nvm use $TRAVIS_NODE_VERSION
+install:
+- node -v
+- npm install -g yarn
+- yarn
+- composer install
+- ulimit -n 4096
+script:
+- yarn run build:production
+
+- vendor/bin/phpcs -standard=phpcs.ruleset.xml *.php inc/
+before_deploy:
+- export TRAVIS_PROJECT_SLUG="$(basename $TRAVIS_BUILD_DIR)"
+- curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+- chmod +x wp-cli.phar
+- sudo mv wp-cli.phar /usr/local/bin/wp
+- wp package install wp-cli/dist-archive-command
+- composer install --no-dev --optimize-autoloader
+- cd ../
+- wp dist-archive $TRAVIS_PROJECT_SLUG $TRAVIS_BUILD_DIR/$TRAVIS_PROJECT_SLUG-$TRAVIS_TAG.zip
+- cd $TRAVIS_BUILD_DIR
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: KsMsTkceWqjG/wUwTOdxXxURKvEWfZKV+9O/HytU9e/dkVbxH/UwVb0ZFPHAuAraUwglEu0rcsa1mvFvE5Tk3Dek82G/gPqnViT+YB/pL9/hnQH999eRaMnzqWox3A5X/cUN+J9h/AFmnlh+IAFXcpaKEWT0iUfHEPP3ftmMJT33Lw7QeOOD20cFwCgGd0S0G2wD6U3wtGKumTOtUqoV2ZNQO28iDkjr/CFF4mDiqzEaOWI6haUexsDCOZPoj0sIDBWA8gUEJEg+g/OP5vcVWMJAqW2L0hDSICUIEvaQqfWE5wU8LTBpjY+GGsY370VrMoO0T62NkjjJTWQmfSqMbRzbO040IW1gUlXouWJRJioN7JlJHN2tbsk9S6On2keK26RJV4PJY54ldz/BWpX2Sk/9Z6KuneGBWmThYnU3T9/s73tTDPAcfaIaIzq3RXIsv5MRUknO47k8vpcARUSPzOvSf2HsheunQ6CmCirCCDKbNUxdphgtj1fO1WW8Hjqwqbgo2NDJ2anxFsFGIt/N2Ucb8AadMO6ccE7P/+EDxqbWjDDA49tO9RSkkKo5nLthENReNmrCr3JzhK9doc2T8YWZfoeMctLmsfG1Cxv1FYEQJysvP2QNXbmPRQo5qBnHxQiOD4M6wLMvKksboWhMCU18hObpP5DdJXLgyZGwvgA=
+  file: opentextbooks-$TRAVIS_TAG.zip
+  on:
+    tags: true
+    repo: BCcampus/opentextbooks
+    branch: dev
