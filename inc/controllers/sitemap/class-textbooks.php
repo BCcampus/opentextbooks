@@ -15,8 +15,8 @@
 namespace BCcampus\OpenTextBooks\Controllers\Sitemap;
 
 use BCcampus\OpenTextBooks\Config;
-use BCcampus\OpenTextBooks\Polymorphism;
 use BCcampus\OpenTextBooks\Models;
+use BCcampus\OpenTextBooks\Polymorphism;
 
 /**
  * Description of Textbooks

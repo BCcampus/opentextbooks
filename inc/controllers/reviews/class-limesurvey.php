@@ -23,10 +23,9 @@
 
 namespace BCcampus\OpenTextBooks\Controllers\Reviews;
 
-use BCcampus\OpenTextBooks\Controllers;
+use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Views;
-use BCcampus\OpenTextBooks\Config;
 use org\jsonrpcphp;
 
 ini_set( 'auto_detect_line_endings', 1 );
@@ -39,9 +38,9 @@ class LimeSurvey {
 	 *
 	 * @var array
 	 */
-	protected $defaultArgs = array(
+	protected $defaultArgs = [
 		'type_of' => '',
-	);
+	];
 
 	/**
 	 * @var array
@@ -51,7 +50,7 @@ class LimeSurvey {
 	/**
 	 * @var array
 	 */
-	protected $args = array();
+	protected $args = [];
 
 	/**
 	 * Filter user input, limited to the variables we control
@@ -74,17 +73,17 @@ class LimeSurvey {
 		 * ?reviews=books&uuid=c6d0e9bd-ba6b-4548-82d6-afbd0f166b65
 		 * ?reviews=stats
 		 */
-		$args_get = array(
-			'uuid'    => array(
+		$args_get = [
+			'uuid'    => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
-			'type_of' => array(
+			],
+			'type_of' => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 
-		);
+		];
 
 		// filter get input, delete empty values
 		$get = ( false !== filter_input_array( INPUT_GET, $args_get, false ) ) ? filter_input_array( INPUT_GET, $args_get, false ) : '';

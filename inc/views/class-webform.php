@@ -35,13 +35,13 @@ class Webform {
 	public function displayOtbStats() {
 		$env = Config::getInstance()->get();
 		setlocale( LC_MONETARY, 'en_CA' );
-		$html     = '';
-		$savings  = $this->data->getStudentSavings();
-		$low      = money_format( '%n ', $savings['100'] );
-		$high     = money_format( '%n ', $savings['actual'] );
-		$limit    = 5;
-		$top_inst = $this->data->getTopInstitutions( $limit );
-		$top      = \BCcampus\Utility\array_to_csv( $top_inst );
+		$html      = '';
+		$savings   = $this->data->getStudentSavings();
+		$low       = money_format( '%n ', $savings['100'] );
+		$high      = money_format( '%n ', $savings['actual'] );
+		$limit     = 5;
+		$top_inst  = $this->data->getTopInstitutions( $limit );
+		$top       = \BCcampus\Utility\array_to_csv( $top_inst );
 		$this_year = date( 'Y', time() );
 
 		$html .= "<h2>Known adoptions in B.C.</h2><h4>Date range: 2012 - {$this_year}</h4><table class='table table-striped'><tbody>";
@@ -90,12 +90,12 @@ class Webform {
 	 */
 	public function restSummaryStats() {
 		$savings = $this->data->getStudentSavings();
-		$stats = array(
+		$stats   = [
 			'savings-min'  => $savings['100'],
 			'savings-max'  => $savings['actual'],
 			'adoptions'    => $this->data->getTotalAdoptions(),
 			'institutions' => $this->data->getNumInstitutions(),
-		);
+		];
 
 		echo json_encode( $stats, JSON_PRETTY_PRINT );
 	}

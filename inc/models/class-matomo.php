@@ -32,9 +32,9 @@ class Matomo extends Polymorphism\DataAbstract {
 
 	private $piwik_api;
 	private $location = 'cache/analytics';
-	private $type = 'txt';
-	private $uid = '';
-	private $args = array();
+	private $type     = 'txt';
+	private $uid      = '';
+	private $args     = [];
 
 	/**
 	 * Matomo constructor.
@@ -123,7 +123,7 @@ class Matomo extends Polymorphism\DataAbstract {
 		$serialize   = true;
 		$file_name   = $this->uid . 'multisite';
 		$file_type   = $this->type;
-		$multi_array = array();
+		$multi_array = [];
 
 		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );
 
@@ -149,14 +149,14 @@ class Matomo extends Polymorphism\DataAbstract {
 
 						// cross check that the book is marked as public
 						if ( array_key_exists( $path, $flipped ) ) {
-							$multi_array[] = array(
+							$multi_array[] = [
 								'label'     => $site->label,
 								'id'        => $site->idsite,
 								'path'      => $path,
 								'visits'    => $site->nb_visits,
 								'actions'   => $site->nb_actions,
 								'pageviews' => $site->nb_pageviews,
-							);
+							];
 						}
 					}
 				}
@@ -174,7 +174,7 @@ class Matomo extends Polymorphism\DataAbstract {
 	 * @throws \Exception
 	 */
 	public function getNumDownloads() {
-		$results   = array();
+		$results   = [];
 		$serialize = true;
 		$file_name = 'getnumdownloads';
 		$file_type = $this->type;
@@ -209,7 +209,7 @@ class Matomo extends Polymorphism\DataAbstract {
 		$serialize        = true;
 		$file_name        = 'opentextbc.ca';
 		$file_type        = $this->type;
-		$public_books_url = array();
+		$public_books_url = [];
 
 		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );
 
@@ -247,7 +247,12 @@ class Matomo extends Polymorphism\DataAbstract {
 			$actions = $persistent_data->load();
 
 		} else {
-			$actions = $this->piwik_api->getEventAction( $segment, 'eventName', [ 'expanded' => 1, 'flat' => 0 ] );
+			$actions = $this->piwik_api->getEventAction(
+				$segment, 'eventName', [
+					'expanded' => 1,
+					'flat' => 0,
+				]
+			);
 			$this->saveToStorage( $this->location, $file_name, $file_type, $actions, $serialize );
 		}
 

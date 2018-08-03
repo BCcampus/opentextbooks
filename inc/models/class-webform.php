@@ -25,10 +25,10 @@ class WebForm extends Polymorphism\DataAbstract {
 	 */
 	protected $db;
 
-	private $type = 'txt';
-	private $location = 'cache/webform';
-	private $responses = array();
-	private $faculty = array();
+	private $type      = 'txt';
+	private $location  = 'cache/webform';
+	private $responses = [];
+	private $faculty   = [];
 
 	/**
 	 *
@@ -36,7 +36,7 @@ class WebForm extends Polymorphism\DataAbstract {
 	 * for known private bc institutions.
 	 *
 	 */
-	private $other_bc_domains = array(
+	private $other_bc_domains = [
 		'acsenda.com',
 		'adler.edu',
 		'alexandercollege.ca',
@@ -51,7 +51,7 @@ class WebForm extends Polymorphism\DataAbstract {
 		'necvancouver.org',
 		'pcu-whs.ca',
 		'questu.ca',
-	);
+	];
 
 	private $baseline_date = 1463601425.1563; // may 18, 2016
 
@@ -59,7 +59,7 @@ class WebForm extends Polymorphism\DataAbstract {
 	 * as of may 18, 2016
 	 * @var array
 	 */
-	private $baseline_institutions = array(
+	private $baseline_institutions  = [
 		'Acsenda School of Management'                           => 0,
 		'Adler University'                                       => 0,
 		'Alexander College'                                      => 0,
@@ -102,13 +102,13 @@ class WebForm extends Polymorphism\DataAbstract {
 		'Vancouver Community College'                            => 10,
 		'Vancouver Island University'                            => 16,
 		'Other'                                                  => 6,
-	);
-	public $baseline_num_adoptions = 501; // as of nov 3 2017
-	public $baseline_num_students = 14603; // as of nov 3 2017
-	public $baseline_savings_100 = 1459800; // as of nov 3 2017
+	];
+	public $baseline_num_adoptions  = 501; // as of nov 3 2017
+	public $baseline_num_students   = 14603; // as of nov 3 2017
+	public $baseline_savings_100    = 1459800; // as of nov 3 2017
 	public $baseline_savings_actual = 1851366; // as of nov 3 2017
-	public $baseline_num_inst = 32; // as of nov 3 2017
-	public $baseline_num_faculty = 149; // as of nov 3 2017
+	public $baseline_num_inst       = 32; // as of nov 3 2017
+	public $baseline_num_faculty    = 149; // as of nov 3 2017
 
 	/**
 	 * WebForm constructor.
@@ -150,7 +150,7 @@ class WebForm extends Polymorphism\DataAbstract {
 		$file_name = 'allresponses';
 		$file_type = $this->type;
 
-		$results         = array();
+		$results         = [];
 		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );
 
 		if ( $persistent_data ) {
@@ -257,10 +257,10 @@ class WebForm extends Polymorphism\DataAbstract {
 	 */
 	public function getStudentSavings() {
 		$today = time();
-		$total = array(
+		$total = [
 			'100'    => '0',
 			'actual' => '0',
-		);
+		];
 
 		foreach ( $this->responses as $response ) {
 			// past
@@ -349,7 +349,7 @@ class WebForm extends Polymorphism\DataAbstract {
 	 * @return array
 	 */
 	private function setFutureSavings( $repeat, $savings, $submit_date ) {
-		$result       = array();
+		$result       = [];
 		$savings_unit = intval( $savings ) / intval( $repeat );
 		$interval     = 4;
 
@@ -370,7 +370,7 @@ class WebForm extends Polymorphism\DataAbstract {
 	 * @return array
 	 */
 	private function setProjections( $repeat, $num, $submit_date ) {
-		$result   = array();
+		$result   = [];
 		$interval = 4;
 
 		for ( $i = 0; $i < $repeat; $i ++ ) {
@@ -487,7 +487,7 @@ class WebForm extends Polymorphism\DataAbstract {
 	 * @return int
 	 */
 	public function getNumFaculty() {
-		$faculty = array();
+		$faculty = [];
 
 		foreach ( $this->responses as $response ) {
 			$faculty[ $response['email'] ] = 1;
@@ -507,7 +507,7 @@ class WebForm extends Polymorphism\DataAbstract {
 		$num   = intval( $num );
 		$tmp   = $this->baseline_institutions;
 		$limit = ( $num > 0 && $num < count( $tmp ) ) ? $num : 4;
-		$top = array();
+		$top   = [];
 
 		// count the new ones only
 		foreach ( $this->responses as $response ) {
@@ -533,7 +533,7 @@ class WebForm extends Polymorphism\DataAbstract {
 		$serialize       = true;
 		$file_name       = 'facultyinfo';
 		$file_type       = $this->type;
-		$results         = array();
+		$results         = [];
 		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );
 
 		if ( $persistent_data ) {
@@ -596,7 +596,7 @@ class WebForm extends Polymorphism\DataAbstract {
 	 * @return array
 	 */
 	public function getFacultyInfo() {
-		$results = $grouped = array();
+		$results = $grouped = [];
 
 		foreach ( $this->faculty as $member ) {
 			if ( ! empty( $member['institution_name'] ) ) {

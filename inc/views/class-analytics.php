@@ -41,7 +41,7 @@ class Analytics {
 	 * @param $num_of_books
 	 */
 	public function displayOpenSummary( $num_of_books ) {
-		$env = Config::getInstance()->get();
+		$env           = Config::getInstance()->get();
 		$segment_title = \BCcampus\Utility\url_encode( 'pageTitle==Find Open Textbooks | BCcampus OpenEd Resources' );
 		$page_visits   = $this->data->getVisits( $segment_title );
 		$visits        = $this->data->getVisits();
@@ -95,12 +95,12 @@ class Analytics {
 		$multi     = $this->data->getMultiSites();
 		$low_prob  = 0.0006; // 1 out of every 1500
 		$high_prob = 0.002; // 1 out of every 500
-		$total     = array(
+		$total     = [
 			'low'    => 0,
 			'high'   => 0,
 			'visits' => 0,
 			'count'  => count( $multi ),
-		);
+		];
 		$html      = '';
 		$range     = $this->data->getDateRange();
 		$days      = round( ( time() - strtotime( $range['start'] ) ) / 84600, 2 );
@@ -215,7 +215,7 @@ class Analytics {
 		$flipped = array_flip( $this->data->getPublicOpentextbc() );
 		$range   = $this->data->getDateRange();
 
-		$html = "<div id='table-responsive'>";
+		$html  = "<div id='table-responsive'>";
 		$html .= "<table id='opentextbc' class='table table-striped tablesorter'>";
 		$html .= "<caption>Stats below based on the date range: {$range['start']} to {$range['end']}</caption>";
 		$html .= "<thead><tr>
@@ -245,10 +245,10 @@ class Analytics {
 		$html .= '</tbody></table></div>';
 
 		$summary  = '<h2>Summary</h2>';
-		$summary  .= "<h4>Number of books in the collection: <b>{$num_of_books}</b></h4>";
-		$summary  .= "<h4>Number of books in Pressbooks: <b>{$otb_count}</b></h4>";
+		$summary .= "<h4>Number of books in the collection: <b>{$num_of_books}</b></h4>";
+		$summary .= "<h4>Number of books in Pressbooks: <b>{$otb_count}</b></h4>";
 		$otb_perc = round( 100 * ( $otb_count / $num_of_books ) );
-		$summary  .= "<hr><h3>Percentage of books in the collection that have been imported into Pressbooks:</h3>
+		$summary .= "<hr><h3>Percentage of books in the collection that have been imported into Pressbooks:</h3>
                 <div class='progress'>
                 <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuemin='0'
                      aria-valuenow='{$otb_count}' aria-valuemax='{$num_of_books}'
@@ -265,9 +265,9 @@ class Analytics {
 	 * @param array $book_data
 	 */
 	public function displayOpenSingleBook( $range_start, array $book_data ) {
-		$env = Config::getInstance()->get();
+		$env                    = Config::getInstance()->get();
 		$days                   = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
-		$event_actions_resource = array();
+		$event_actions_resource = [];
 		$segment                = 'eventAction==' . urlencode( $book_data['name'] );
 		$event_actions          = $this->data->getEventActions( $segment );
 
@@ -279,7 +279,7 @@ class Analytics {
 		}
 
 		$html          = "<h1>{$env['domain']['host']}</h1><table class='table table-striped''>";
-		$html          .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
+		$html         .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
 		$num_downloads = 0;
 		foreach ( $event_actions_resource as $label => $num ) {
 
@@ -305,11 +305,11 @@ class Analytics {
 
 		$downloads     = $this->data->getEventName();
 		$html          = '<h1>opentextbc.ca</h1><table class="table table-striped">';
-		$html          .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
+		$html         .= "<caption>How many times was each resource downloaded since {$range_start}?</caption>";
 		$num_downloads = 0;
 		foreach ( $downloads as $d ) {
 			$num_downloads = $num_downloads + $d->nb_events;
-			$html          .= "<tr><td>{$d->label}</td><td>{$d->nb_events}</td></tr>";
+			$html         .= "<tr><td>{$d->label}</td><td>{$d->nb_events}</td></tr>";
 		}
 		$html .= '</table>';
 
@@ -337,7 +337,7 @@ class Analytics {
 	 * @return string
 	 */
 	private function displayPredictions( $days, $num_downloads, $freq_of_downloads, $low_prob_adoption, $high_prob_adoption, $low_prob_future, $high_prob_future ) {
-		$html = '<div class="row"><div class="col-sm-4 col-md-4"><div class="card"><h3 class="card-header">Frequency&colon;&nbsp;' . $freq_of_downloads . '</h3>';
+		$html  = '<div class="row"><div class="col-sm-4 col-md-4"><div class="card"><h3 class="card-header">Frequency&colon;&nbsp;' . $freq_of_downloads . '</h3>';
 		$html .= "<div class='modal fade' id='frequency' tabindex='-1' role='dialog' aria-labelledby='frequency'>
                 <div class='modal-dialog' role='document'>
                     <div class='modal-content'>

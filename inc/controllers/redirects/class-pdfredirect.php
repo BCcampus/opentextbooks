@@ -14,8 +14,8 @@
 
 namespace BCcampus\OpenTextBooks\Controllers\Redirects;
 
-use BCcampus\OpenTextBooks\Views;
 use BCcampus\OpenTextBooks\Models;
+use BCcampus\OpenTextBooks\Views;
 
 class PdfRedirect {
 
@@ -25,16 +25,16 @@ class PdfRedirect {
 	 *
 	 * @var array
 	 */
-	private $defaultArgs = array(
+	private $defaultArgs = [
 		'type_of' => '',
 		'uuid' => '',
 		'attachment_uuid' => '',
-	);
+	];
 
 	/**
 	 * @var array
 	 */
-	private $args = array();
+	private $args = [];
 
 	/**
 	 * @var array
@@ -52,27 +52,27 @@ class PdfRedirect {
 			new Views\Errors( [ 'msg' => 'Sorry, this does not pass the smell test' ] );
 		}
 
-		$args_get = array(
+		$args_get = [
 			// Strips characters that have a numerical value >127.
-			'uuid' => array(
+			'uuid' => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags' => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 			// Strips characters that have a numerical value >127.
-			'type_of' => array(
+			'type_of' => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags' => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 			// Strips characters that have a numerical value >127.
-			'attachment_uuid' => array(
+			'attachment_uuid' => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags' => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 
-		);
+		];
 
 		// filter get input, delete empty values
-		$get = (false !== filter_input_array( INPUT_GET, $args_get, false )) ? filter_input_array( INPUT_GET, $args_get, false ) : '';
+		$get = ( false !== filter_input_array( INPUT_GET, $args_get, false ) ) ? filter_input_array( INPUT_GET, $args_get, false ) : '';
 
 		// let the filtered get variables override the default arguments
 		if ( is_array( $get ) ) {
@@ -117,11 +117,11 @@ class PdfRedirect {
 	 * @return bool
 	 */
 	private function checkUuids() {
-		$result = false;
+		$result   = false;
 		$rest_api = new Models\Api\Equella();
-		$data = new Models\OtbBooks( $rest_api, '' );
+		$data     = new Models\OtbBooks( $rest_api, '' );
 
-		if ( in_array( $this->args['uuid'],$data->getUuids() ) ) {
+		if ( in_array( $this->args['uuid'], $data->getUuids() ) ) {
 			$result = true;
 		}
 

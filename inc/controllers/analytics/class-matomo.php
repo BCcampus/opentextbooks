@@ -27,17 +27,17 @@ class Matomo {
 	 *
 	 * @var array
 	 */
-	private $defaultArgs = array(
+	private $defaultArgs = [
 		'type_of' => 'site',
 		'range'   => 4, // number of months
 		'site_id' => 12,
-	);
+	];
 
 
 	/**
 	 * @var array
 	 */
-	private $args = array();
+	private $args = [];
 
 	/**
 	 * RedirectController constructor.
@@ -52,25 +52,25 @@ class Matomo {
 			new Views\Errors( [ 'msg' => 'Sorry, this does not pass the smell test' ] );
 		}
 
-		$args_get = array(
+		$args_get = [
 
 			// Strips characters that have a numerical value > 127.
-			'type_of' => array(
+			'type_of' => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
-			'site_id' => array(
+			],
+			'site_id' => [
 				'filter' => FILTER_SANITIZE_NUMBER_INT,
-			),
-			'range'   => array(
+			],
+			'range'   => [
 				'filter' => FILTER_SANITIZE_NUMBER_INT,
-			),
-			'uuid'    => array(
+			],
+			'uuid'    => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 
-		);
+		];
 
 		// filter get input, delete empty values
 		$get = ( false !== filter_input_array( INPUT_GET, $args_get, false ) ) ? filter_input_array( INPUT_GET, $args_get, false ) : '';
@@ -118,10 +118,12 @@ class Matomo {
 			case 12:
 				if ( ! empty( $this->args['uuid'] ) ) {
 					$books_rest_api = new Api\Equella();
-					$books_data     = new Models\OtbBooks( $books_rest_api, [
-						'type_of' => 'books',
-						'uuid'    => $this->args['uuid'],
-					] );
+					$books_data     = new Models\OtbBooks(
+						$books_rest_api, [
+							'type_of' => 'books',
+							'uuid'    => $this->args['uuid'],
+						]
+					);
 					$d              = $books_data->getResponses();
 					$view->displayOpenSingleBook( $this->args['range_start'], $d );
 				} else {

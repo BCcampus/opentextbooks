@@ -24,7 +24,7 @@ namespace BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Polymorphism;
 
 class OtbBooks extends Polymorphism\DataAbstract {
-	private $defaultArgs = array(
+	private $defaultArgs = [
 		'subject'        => '',
 		'uuid'           => '',
 		'search'         => '',
@@ -34,11 +34,11 @@ class OtbBooks extends Polymorphism\DataAbstract {
 		'lists'          => '',
 		'stats'          => '',
 		'collectionUuid' => '',
-	);
-	protected $args = array();
+	];
+	protected $args      = [];
 	protected $api;
 	private $location = 'cache/catalogue';
-	private $type = 'txt';
+	private $type     = 'txt';
 	private $data;
 	const ALL_RECORDS = '_ALL';
 
@@ -144,7 +144,7 @@ class OtbBooks extends Polymorphism\DataAbstract {
 	 * @return array
 	 */
 	public function getPrunedResults() {
-		$pruned = array();
+		$pruned = [];
 
 		// if there are many
 		if ( array_key_exists( 0, $this->data ) ) {
@@ -169,7 +169,7 @@ class OtbBooks extends Polymorphism\DataAbstract {
 	 * @return array
 	 */
 	public function getUuids() {
-		$uuids = array();
+		$uuids = [];
 
 		// if there are many
 		if ( array_key_exists( 0, $this->data ) ) {
@@ -189,9 +189,9 @@ class OtbBooks extends Polymorphism\DataAbstract {
 	 * @return array
 	 */
 	public function getSubjectAreas() {
-		$subjects    = array();
-		$num_sub2    = array();
-		$unique_sub2 = array();
+		$subjects    = [];
+		$num_sub2    = [];
+		$unique_sub2 = [];
 
 		// collect all sub1 and sub2 elements from data
 		foreach ( $this->data as $book ) {

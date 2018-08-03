@@ -4,9 +4,8 @@
  */
 include_once 'autoloader.php';
 
-use BCcampus\OpenTextBooks\Controllers\Catalogue;
 use BCcampus\OpenTextBooks\Controllers\Analytics;
-use BCcampus\OpenTextBooks\Models;
+use BCcampus\OpenTextBooks\Controllers\Catalogue;
 
 include( OTB_DIR . 'assets/templates/partial/header.php' );
 include( OTB_DIR . 'assets/templates/partial/head.php' );
@@ -23,10 +22,10 @@ include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 
 		new Catalogue\Otb( $_GET );
 
-		$open_args = array(
+		$open_args = [
 			'site_id' => 12,
 			'uuid'    => $_GET['uuid'],
-		);
+		];
 
 		new Analytics\Matomo( $open_args );
 

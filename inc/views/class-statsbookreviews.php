@@ -108,9 +108,9 @@ class StatsBookReviews {
 		//                </div>
 		//              </div>
 		//            </div>';
-		$html     .= '</hgroup>';
+		$html    .= '</hgroup>';
 		$rev_perc = round( 100 * ( $num_books / $num_reviews ) );
-		$html     .= "<h3>Percentage of books in the collection that have been reviewed: </h3>
+		$html    .= "<h3>Percentage of books in the collection that have been reviewed: </h3>
                 <div class='progress'>
                 <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuemin='0'
                      aria-valuenow='{$num_reviews}' aria-valuemax='{$num_books}'
@@ -138,18 +138,18 @@ class StatsBookReviews {
 				$html .= '<tr>';
 				$html .= "<td>{$book}</td>";
 				$html .= "<td>{$this->responseByUid[$uid]['num_reviews']}</td>";
-				$avg  = round( $this->responseByUid[ $uid ]['avg_score'] / $this->responseByUid[ $uid ]['num_reviews'], 2 );
+				$avg   = round( $this->responseByUid[ $uid ]['avg_score'] / $this->responseByUid[ $uid ]['num_reviews'], 2 );
 				$html .= "<td>{$avg}</td>";
 				$html .= '<td><details><summary>Details</summary>';
 				foreach ( $this->responseByUid[ $uid ] as $review ) {
 					if ( is_array( $review ) ) {
-						$html           .= '<ul>';
-						$html           .= "<li><b>Avg Score:</b> {$review['avg_score']}</li>";
-						$html           .= "<li><b>Reviewers:</b> {$review['reviewers']}</li>";
-						$html           .= "<li><b>Institutions:</b> {$review['institutions']}</li>";
+						$html          .= '<ul>';
+						$html          .= "<li><b>Avg Score:</b> {$review['avg_score']}</li>";
+						$html          .= "<li><b>Reviewers:</b> {$review['reviewers']}</li>";
+						$html          .= "<li><b>Institutions:</b> {$review['institutions']}</li>";
 						$human_readable = date( 'M d, Y', strtotime( $review['date'] ) );
-						$html           .= "<li><b>Date Published:</b> {$human_readable}</li>";
-						$html           .= '</ul>';
+						$html          .= "<li><b>Date Published:</b> {$human_readable}</li>";
+						$html          .= '</ul>';
 					}
 				}
 				$html .= '</details></td>';
@@ -166,7 +166,7 @@ class StatsBookReviews {
 	 *
 	 */
 	private function setUniqueTextbooks() {
-		$book_titles = array();
+		$book_titles = [];
 
 		foreach ( $this->data->getAvailableReviews() as $uid => $book ) {
 			if ( ! isset( $this->responseByUid[ $uid ]['num_reviews'] ) ) {
@@ -183,7 +183,7 @@ class StatsBookReviews {
 	 *
 	 */
 	private function setUniqueInstitutions() {
-		$institutions = array();
+		$institutions = [];
 
 		foreach ( $this->responseByUid as $reviews ) {
 			foreach ( $reviews as $review ) {

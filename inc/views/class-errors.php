@@ -19,10 +19,10 @@ namespace BCcampus\OpenTextBooks\Views;
 
 class Errors {
 
-	protected $data = array();
+	protected $data = [];
 
 	public function __construct( $args ) {
-		if ( ! array( $args ) ) {
+		if ( ! [ $args ] ) {
 			return $this->displayDefault();
 		}
 		$this->data = $args;

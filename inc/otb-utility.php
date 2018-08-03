@@ -81,7 +81,7 @@ function raw_url_encode( $anyString ) {
  *
  * @return bool|string
  */
-function array_to_csv( $anyArray = array(), $key = '' ) {
+function array_to_csv( $anyArray = [], $key = '' ) {
 	$result = '';
 
 	if ( is_array( $anyArray ) ) {
@@ -96,7 +96,7 @@ function array_to_csv( $anyArray = array(), $key = '' ) {
 		} else {
 			foreach ( $anyArray as $value ) {
 				//names in db sometimes contain usernames [inbrackets], strip 'em out!
-				$tmp    = ( ! strpos( $value[ $key ], '[' ) ) ? $value[ $key ] : rtrim( strstr( $value[ $key ], '[', true ) );
+				$tmp     = ( ! strpos( $value[ $key ], '[' ) ) ? $value[ $key ] : rtrim( strstr( $value[ $key ], '[', true ) );
 				$result .= $tmp . ', ';
 			}
 		}
@@ -149,7 +149,7 @@ function determine_file_size( $number ) {
 		$result = ( $num / 1000000 );
 		//account for the fact that it might be less than 1MB
 		( $result <= 1 ) ? $result = round( $result, 2 ) : $result = intval( $result );
-		$result = '(' . $result . ' MB)';
+		$result                    = '(' . $result . ' MB)';
 	}
 
 	return $result;
@@ -165,17 +165,17 @@ function determine_file_size( $number ) {
  * @return mixed (bool/array)
  */
 function has_canadian_edition( $uuid ) {
-	$list = array(
-		'43cb3' => array( 'a2086095-a679-4e33-b0dd-f5b96192fba1', 'Concepts of Biology' ),
-		'13c92' => array( '8390d51e-0efe-493c-881c-cf86852a612f', 'Introduction to Psychology' ),
-		'43cd1' => array( 'debe8d05-dbdf-4cb8-80f9-87b547ea621c', 'Introduction to Sociology' ),
-		'b98db' => array( '2903c1ea-7e71-4db4-9c02-071616a65f1f', 'Introductory Business Statistics' ),
-		'2b774' => array( 'c7025f6b-f32b-4d0a-865e-f473d9f98fb6', 'Introductory Chemistry' ),
-		'807b5' => array( '91cdcf18-273d-44cc-8432-865d09005fda', 'Mastering Strategic Management' ),
-		'd0a98' => array( '66c0cf64-c485-442c-8183-de75151f13f5', 'Principles of Social Psychology' ),
-		'497a7' => array( 'b58ffd04-ca71-4365-95e1-916f2105bd55', 'Research Methods in Psychology' ),
-		'be97a' => array( '8d415c45-41da-4c9d-8c9d-ab66bbdd359c', 'Writing for Success' ),
-	);
+	$list = [
+		'43cb3' => [ 'a2086095-a679-4e33-b0dd-f5b96192fba1', 'Concepts of Biology' ],
+		'13c92' => [ '8390d51e-0efe-493c-881c-cf86852a612f', 'Introduction to Psychology' ],
+		'43cd1' => [ 'debe8d05-dbdf-4cb8-80f9-87b547ea621c', 'Introduction to Sociology' ],
+		'b98db' => [ '2903c1ea-7e71-4db4-9c02-071616a65f1f', 'Introductory Business Statistics' ],
+		'2b774' => [ 'c7025f6b-f32b-4d0a-865e-f473d9f98fb6', 'Introductory Chemistry' ],
+		'807b5' => [ '91cdcf18-273d-44cc-8432-865d09005fda', 'Mastering Strategic Management' ],
+		'd0a98' => [ '66c0cf64-c485-442c-8183-de75151f13f5', 'Principles of Social Psychology' ],
+		'497a7' => [ 'b58ffd04-ca71-4365-95e1-916f2105bd55', 'Research Methods in Psychology' ],
+		'be97a' => [ '8d415c45-41da-4c9d-8c9d-ab66bbdd359c', 'Writing for Success' ],
+	];
 	if ( array_key_exists( $uuid, $list ) ) {
 		return $list[ $uuid ][0];
 	} else {
@@ -193,20 +193,22 @@ function has_canadian_edition( $uuid ) {
 function ls_sanity_check( $book, $data ) {
 
 	if ( false == array_key_exists( $book, $data ) ) {
-		throw new \Exception( 'The bookUid entered is not one that we have listed
-        in our survey' );
+		throw new \Exception(
+			'The bookUid entered is not one that we have listed
+        in our survey'
+		);
 	};
 
 	return true;
 }
 
 function restrict_access() {
-	$expected = array(
+	$expected = [
 		OTB_DIR . 'cache/analytics/',
 		OTB_DIR . 'cache/catalogue/',
 		OTB_DIR . 'cache/reviews/',
 		OTB_DIR . 'cache/webform/',
-	);
+	];
 
 	foreach ( $expected as $path ) {
 		$path_to_htaccess = $path . '.htaccess';

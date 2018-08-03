@@ -14,21 +14,21 @@
 
 namespace BCcampus\OpenTextBooks\Views;
 
-use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Config;
+use BCcampus\OpenTextBooks\Models;
 
 class Books {
-	private $baseURL = ''; // no value will generate relative urls
+	private $baseURL       = ''; // no value will generate relative urls
 	private $authorBaseURL = 'http://solr.bccampus.ca:8001/bcc/access/searching.do?doc=';
 	private $authorSearch1 = '%3Cxml%3E%3Ccontributordetails%3E%3Cname%3E';
 	private $authorSearch2 = '%3C%2Fname%3E%3C%2Fcontributordetails%3E%3Clom%3E%3Clifecycle%3E%3Ccontribute%3E%3Ccentity%3E%3Cvcard%3E';
 	private $authorSearch3 = '%3C%2Fvcard%3E%3C%2Fcentity%3E%3C%2Fcontribute%3E%3C%2Flifecycle%3E%3Cgeneral%3E%3Ckeyword%2F%3E%3C%2Fgeneral%3E%3C%2Flom%3E%3Citem%3E%3Crights%3E%3Coffer%3E%3Cparty%3E%3Ccontext%3E%3Cname%3E';
 	private $authorSearch4 = '%3C%2Fname%3E%3C%2Fcontext%3E%3C%2Fparty%3E%3C%2Foffer%3E%3C%2Frights%3E%3Ckeywords%2F%3E%3Csubject_class_level1%2F%3E%3Csubject_class_level2%2F%3E%3Csubject_class_level1b%2F%3E%3Csubject_class_level2b%2F%3E';
 	private $authorSearch5 = '%3C%2Fitem%3E%3COPDF%3E%3CBC_Course_Name%2F%3E%3COPDF_Tracking%2F%3E%3C%2FOPDF%3E%3C%2Fxml%3E&#38;in=Pae0d5e05-41bb-ccea-a5fd-f68a0ce34629&#38;q=&#38;sort=rank&#38;dr=AFTER';
-	private $reviewed = 'REVIEWED149df27a3ba8b2ddeff0d7ed1e6e54e4';
-	private $ancillary = 'ANCILLARY952a557ef465997b3acfb73fa4b609c7e61182b9';
-	private $adopted = 'AdoptedYesa37e464dc2330136a2c7f1138cf3c7a1';
-	private $accessible = 'AccessYes743d2920dc2c91040a3e48d6a6e32cc3';
+	private $reviewed      = 'REVIEWED149df27a3ba8b2ddeff0d7ed1e6e54e4';
+	private $ancillary     = 'ANCILLARY952a557ef465997b3acfb73fa4b609c7e61182b9';
+	private $adopted       = 'AdoptedYesa37e464dc2330136a2c7f1138cf3c7a1';
+	private $accessible    = 'AccessYes743d2920dc2c91040a3e48d6a6e32cc3';
 	private $size;
 	private $args;
 	private $books;
@@ -75,7 +75,7 @@ class Books {
 			$adaptation = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
 			$authors    = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
-			$html = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
+			$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
 			$html .= $this->getResultsMicrodata( $data );
 
 			$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
@@ -99,7 +99,7 @@ class Books {
 				}
 
 				$sources = rtrim( $sources, ', ' );
-				$html    .= $sources . '</p>';
+				$html   .= $sources . '</p>';
 			}
 
 			$html .= $this->renderBookInfo();
@@ -137,7 +137,7 @@ class Books {
 				$adaptation       = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
 				$authors          = \BCcampus\Utility\array_to_csv( $value['drm']['options']['contentOwners'], 'name' );
 
-				$html = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
+				$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
 				$html .= $this->getResultsMicrodata( $value );
 
 				$html .= "<h2 itemprop='name'>" . $value['name'] . '</h2>';
@@ -160,7 +160,7 @@ class Books {
 					}
 
 					$sources = rtrim( $sources, ', ' );
-					$html    .= $sources . '</p>';
+					$html   .= $sources . '</p>';
 				}
 
 				$html .= $this->renderBookInfo();
@@ -208,7 +208,7 @@ class Books {
 
 		foreach ( $expected as $entry ) {
 			if ( isset( $env['domain'][ $entry ] ) && ! empty( $env['domain'][ $entry ] ) ) {
-				$font = "<i class='fa fa-{$env['domain'][$entry]['fa']}'></i>";
+				$font  = "<i class='fa fa-{$env['domain'][$entry]['fa']}'></i>";
 				$html .= "<p><strong>{$env['domain'][$entry]['label']}</strong> <a href='{$env['domain'][$entry]['path']}'>{$env['domain'][$entry]['text']} {$font}</a></p>";
 
 			}
@@ -360,7 +360,7 @@ class Books {
 		// if we're displaying all of the results (from a search form request)
 		if ( $limit == 0 ) {
 			$limit = $this->size;
-			$html  .= '<ol>';
+			$html .= '<ol>';
 		} else {
 			$html .= "<ul class='no-bullets'>";
 		}
@@ -368,13 +368,13 @@ class Books {
 		while ( $i < $limit ) {
 			$desc     = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . '<a href=' . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . '>...[more]</a>' : $data[ $start ]['description'];
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
-			$html     .= '<li>';
-			$html     .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4> '
+			$html    .= '<li>';
+			$html    .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4> '
 						 . '<h4>' . $metadata . ' </h4>';
-			$html     .= '<strong>Author(s):</strong> ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
-			$html     .= '<strong>Date:</strong> ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
-			$html     .= '<p><strong>Description:</strong> ' . $desc . '</p>';
-			$html     .= '</li>';
+			$html    .= '<strong>Author(s):</strong> ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
+			$html    .= '<strong>Date:</strong> ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
+			$html    .= '<p><strong>Description:</strong> ' . $desc . '</p>';
+			$html    .= '</li>';
 			$start ++;
 			$i ++;
 		}
@@ -852,9 +852,9 @@ class Books {
 
 		foreach ( $results['drm']['options']['contentOwners'] as $owner ) {
 			$author = ( false !== strstr( $owner['name'], ',', true ) ) ? strstr( $owner['name'], ',', true ) : $owner['name'];
-			$html   .= "<meta name='citation_author' content='{$author}'>\n";
+			$html  .= "<meta name='citation_author' content='{$author}'>\n";
 		}
-		$date = date( 'Y/m/d', strtotime( $results['createdDate'] ) );
+		$date  = date( 'Y/m/d', strtotime( $results['createdDate'] ) );
 		$html .= "<meta name='citation_online_date' content='{$date}'>\n";
 		$html .= "<meta name='citation_publication_date' content='{$date}'>\n";
 		$html .= "<meta itemprop='datePublished' content='{$results['createdDate']}'>\n";
@@ -897,95 +897,95 @@ class Books {
 	private function addLogo( $string ) {
 
 		if ( ! stristr( $string, 'print copy' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "PRINT <i class='fa fa-print'></i>",
 				'type'   => 'print',
-			);
+			];
 		} else {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-globe'></i> WEBSITE <img src='" . OTB_URL . "assets/images/document-code.png' alt='External website. This icon is licensed under a Creative Commons
 		Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
 				'type'   => 'url',
-			);
+			];
 		}
 
 		//if it's a zip
 		if ( ! stristr( $string, '.zip' ) == false || ! stristr( $string, '.tbz' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
 				'type'   => 'zip',
-			);
+			];
 		}
 		//if it's a word file
 		if ( ! stristr( $string, '.doc' ) == false || ! stristr( $string, '.rtf' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 				'type'   => 'doc',
-			);
+			];
 		}
 		//if it's a pdf
 		if ( ! stristr( $string, '.pdf' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 				'type'   => 'pdf',
-			);
+			];
 		}
 		//if it's an epub
 		if ( ! stristr( $string, '.epub' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 				'type'   => 'epub',
-			);
+			];
 		}
 		//if it's a mobi
 		if ( ! stristr( $string, '.mobi' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 				'type'   => 'mobi',
-			);
+			];
 		}
 		// if it's a wxr
 		if ( ! stristr( $string, '.xml' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'xml',
-			);
+			];
 		}
 		// if it's an odt
 		if ( ! stristr( $string, '.odt' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='ODT file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'odt',
-			);
+			];
 		}
 		if ( ! stristr( $string, '.hpub' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='HPUB file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'hpub',
-			);
+			];
 		}
 		if ( ! stristr( $string, '.html' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-code.png' alt='XHTML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'html',
-			);
+			];
 		}
 		// if it's a tex
 		if ( ! stristr( $string, '.tex' ) == false ) {
-			$result = array(
+			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEX file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'tex',
-			);
+			];
 		}
 
 		return $result;
@@ -1000,7 +1000,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	 * @return type
 	 */
 	protected function displayXmlError( $error, $xml ) {
-		$return = $xml[ $error->line - 1 ];
+		$return  = $xml[ $error->line - 1 ];
 		$return .= str_repeat( '-', $error->column );
 
 		switch ( $error->level ) {
@@ -1059,12 +1059,16 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 
 		if ( is_object( $response ) ) {
 			$content = $response->asXML();
-			$content = trim( str_replace( array(
-				'<p xmlns:dct="http://purl.org/dc/terms/">',
-				'</p>',
-				'<html>',
-				'</html>',
-			), array( '', '', '', '' ), $content ) );
+			$content = trim(
+				str_replace(
+					[
+						'<p xmlns:dct="http://purl.org/dc/terms/">',
+						'</p>',
+						'<html>',
+						'</html>',
+					], [ '', '', '', '' ], $content
+				)
+			);
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
 			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
@@ -1091,7 +1095,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		$urls = $env['yourls']['url'] . '?signature=' . $env['yourls']['uuid'] . '&action=shorturl&format=simple&url=';
 
 		//get the string result
-		$result = '<p><strong>Short URL</strong>: ';
+		$result  = '<p><strong>Short URL</strong>: ';
 		$result .= "<input type='text' name='yourl' id='yourl' value='";
 		$result .= file_get_contents( $urls . $url_encode );
 		$result .= "' size='30''></p>";

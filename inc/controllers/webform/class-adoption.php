@@ -22,14 +22,14 @@ class Adoption {
 	 *
 	 * @var array
 	 */
-	private $defaultArgs = array(
+	private $defaultArgs = [
 		'type_of' => 'webform_stats',
-	);
+	];
 
 	/**
 	 * @var array
 	 */
-	private $args = array();
+	private $args = [];
 
 	/**
 	 * RedirectController constructor.
@@ -43,15 +43,15 @@ class Adoption {
 			new Views\Errors( [ 'msg' => 'Sorry, this does not pass the smell test' ] );
 		}
 
-		$args_get = array(
+		$args_get = [
 
 			// Strips characters that have a numerical value >127.
-			'type_of' => array(
+			'type_of' => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 
-		);
+		];
 
 		// filter get input, delete empty values
 		$get = ( false !== filter_input_array( INPUT_GET, $args_get, false ) ) ? filter_input_array( INPUT_GET, $args_get, false ) : '';

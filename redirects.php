@@ -15,7 +15,7 @@ include( OTB_DIR . 'assets/templates/partial/container-start.php' );
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 		<?php
-		$args = $_GET;
+		$args            = $_GET;
 		$args['type_of'] = 'citation_pdf_url';
 
 		new Redirects\PdfRedirect( $args );

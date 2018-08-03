@@ -35,7 +35,7 @@ class BookReviews {
 	 *
 	 * @var array
 	 */
-	private $questionGroups = array(
+	private $questionGroups = [
 		'Comprehensiveness' => 'The text covers all areas and ideas of the subject appropriately and provides an effective index and/or glossary',
 		'Content Accuracy' => 'Content is accurate, error-free and unbiased',
 		'Relevance' => 'Content is up-to-date, but not in a way that will quickly make the text obsolete within a short period of time. The text is written and/or arranged in such a way that necessary updates will be relatively easy and straightforward to implement',
@@ -47,7 +47,7 @@ class BookReviews {
 		'Grammar' => 'The text contains no grammatical errors',
 		'Cultural Relevance' => 'The text is not culturally insensitive or offensive in any way. It should make use of examples that are inclusive of a variety of races, ethnicities, and backgrounds',
 		'Final Thoughts' => 'Are there any other comments you would like to make about this book, for example, its appropriateness in a Canadian context or specific updates you think need to be made?',
-	);
+	];
 
 	/**
 	 * questions and answers start at a specific place in
@@ -76,8 +76,8 @@ class BookReviews {
 	 */
 	public function displayReviews() {
 		$institution_ids = $this->data->getInstitutionIDs();
-		$cut_off = 1521158399; // March 15, 2018
-		$html = $this->displaySummary();
+		$cut_off         = 1521158399; // March 15, 2018
+		$html            = $this->displaySummary();
 
 		$num = 1;
 
@@ -90,10 +90,10 @@ class BookReviews {
 
 				// for collaboration projects
 				if ( 'N' == $response['info7'] ) {
-					$names = $response['info2'];
+					$names        = $response['info2'];
 					$institutions = $institution_ids[ $response['info6'] ];
 				} else {
-					$names = $this->data->getNames( $response );
+					$names        = $this->data->getNames( $response );
 					$institutions = $this->data->getInstitutions( $response );
 				}
 
@@ -104,7 +104,7 @@ class BookReviews {
 				// change license based on date (March 15, 2018)
 				$license = ( strtotime( $response['datestamp'] ) < $cut_off ) ? "<a rel='license' href='https://creativecommons.org/licenses/by-nd/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by-nd/3.0/80x15.png' /></a>" : "<a rel='license' href='https://creativecommons.org/licenses/by/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/3.0/80x15.png' /></a>";
 
-				$html .= "<div class='row'><details itemprop='review' itemscope itemtype='https://schema.org/Review'>
+				$html           .= "<div class='row'><details itemprop='review' itemscope itemtype='https://schema.org/Review'>
                 <summary class='text-info'><strong>" . $num . ". Reviewed by:</strong> <span itemprop='author copyrightHolder'>" . $names . '</span></summary>
                 <ul>
                     <li><b>Institution:</b> ' . $institutions . '</li>
@@ -114,25 +114,25 @@ class BookReviews {
                     <li><b>License:</b> ' . $license . "</li>
                 </ul>
                 <div class='tabbable tabs-left'>";
-				$group_keys = array_keys( $this->questionGroups );
+				$group_keys      = array_keys( $this->questionGroups );
 				$group_questions = array_values( $this->questionGroups );
 
-				$html .= "<ul class='nav nav-tabs reviews'>";
+				$html  .= "<ul class='nav nav-tabs reviews'>";
 				$active = 1;
 
 				// create the left nav sidebar
 				foreach ( $this->questionGroups as $group => $question ) {
-					($active == 1) ? $html .= "<li class=nav-item'>" : $html .= '<li>';
+					( $active == 1 ) ? $html .= "<li class=nav-item'>" : $html .= '<li>';
 
-					$html .= "<a class='nav-link' href='#" . substr( $group, 0, 5 ) . $num . "' data-toggle='tab'>" . $group . '</a></li>';
+					$html  .= "<a class='nav-link' href='#" . substr( $group, 0, 5 ) . $num . "' data-toggle='tab'>" . $group . '</a></li>';
 					$active = 0;
 				}
 				$active = '';
-				$html .= '</ul>';
+				$html  .= '</ul>';
 
 				// create the content
 				$html .= "<div class='tab-content' itemprop='reviewBody'>";
-				$i = 0;
+				$i     = 0;
 
 				while ( list($key, $val) = each( $q_and_a ) ) {
 
@@ -141,8 +141,8 @@ class BookReviews {
                         <p><strong>' . $group_keys[ $i - 1 ] . ' Rating:</strong> ' . $val . " out of 5<aside><meter min='0' low='0' high='5' max='5' value='" . $val . "'></meter><aside></p></section>";
 					}
 					if ( ! is_numeric( $val ) ) {
-						($i == 0) ? $active .= ' active' : $active = '';
-						$html .= "
+						( $i == 0 ) ? $active .= ' active' : $active = '';
+						$html                 .= "
                         <section class='tab-pane " . $active . "' id='" . substr( $group_keys[ $i ], 0, 5 ) . $num . "'>";
 
 						$html .= '
@@ -171,11 +171,11 @@ class BookReviews {
 		//$now = time();
 		//$then = mktime(0, 0, 0, 11, 12, 2013);
 		//$diff = date('d', $then - $now);
-		$env = Config::getInstance()->get();
-		$total = 0;
-		$min = 1;
-		$max = 4;
-		$adaptation = \BCcampus\Utility\has_canadian_edition( $this->data->getUuid() );
+		$env            = Config::getInstance()->get();
+		$total          = 0;
+		$min            = 1;
+		$max            = 4;
+		$adaptation     = \BCcampus\Utility\has_canadian_edition( $this->data->getUuid() );
 		$availableBooks = $this->data->getAvailableReviews();
 
 		if ( is_array( $this->data->getResponses() ) ) {
@@ -203,9 +203,9 @@ class BookReviews {
 			// only want to send them to canadian version if there is one, and less than max reviews
 			if ( $adaptation && $total < $max ) {
 				$domain = "//{$env['domain']['host']}/{$env['domain']['app_path']}/?uuid=";
-				$html .= "<h4 class='alert alert-success'>Review the Canadian edition of this book ";
-				$html .= "<a href='{$domain}{$adaptation}'> here </a>";
-				$html .= '</h4>';
+				$html  .= "<h4 class='alert alert-success'>Review the Canadian edition of this book ";
+				$html  .= "<a href='{$domain}{$adaptation}'> here </a>";
+				$html  .= '</h4>';
 			}
 
 			// only print if there is a review to print
@@ -235,7 +235,7 @@ class BookReviews {
 	 */
 	private function getOverallAvg( array $array, $book_uuid = null ) {
 		if ( is_array( $array ) ) {
-			$sum = '0';
+			$sum   = '0';
 			$count = 0;
 			if ( ! isset( $book_uuid ) ) {
 				foreach ( $array as $val ) {
@@ -245,7 +245,7 @@ class BookReviews {
 					}
 				}
 				$result = round( $sum / $count, 2 );
-				return ($result);
+				return ( $result );
 			} else {
 				foreach ( $array as $val ) {
 					if ( is_array( $val ) && in_array( $book_uuid, $val ) ) {
@@ -263,7 +263,7 @@ class BookReviews {
 					return $count;
 				} else {
 					$result = round( $sum / $count, 2 );
-					return ($result);
+					return ( $result );
 				}
 			}
 		}

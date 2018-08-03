@@ -18,9 +18,9 @@ use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 
 class Dspace implements Polymorphism\RestInterface {
-	private $apiBaseUrl = '';
+	private $apiBaseUrl     = '';
 	private $collectionUuid = '';
-	private $url = '';
+	private $url            = '';
 
 	/**
 	 * Builds URLs based on arguments passed to hit endpoints for data
@@ -39,12 +39,12 @@ class Dspace implements Polymorphism\RestInterface {
 		/**
 		 * JSON response please
 		 */
-		$opts                 = array(
-			'http' => array(
+		$opts                 = [
+			'http' => [
 				'method' => 'GET',
 				'header' => 'Accept: application/json',
-			),
-		);
+			],
+		];
 		$expand               = 'expand=metadata,bitstreams';
 		$query_field          = 'query_field[]=';
 		$query_op             = 'query_op[]=';

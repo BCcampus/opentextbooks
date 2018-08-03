@@ -46,7 +46,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 	 *
 	 * @var array
 	 */
-	private $filteredResponsesArray = array();
+	private $filteredResponsesArray = [];
 
 	/**
 	 * maps a bookid to its human readable name
@@ -75,7 +75,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 	 *
 	 * @var array
 	 */
-	private $questionPropOptions = array( 'answeroptions' );
+	private $questionPropOptions = [ 'answeroptions' ];
 
 	/**
 	 * Instance connection object, to interact with the API
@@ -97,7 +97,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 	 *
 	 * @var array
 	 */
-	private $omit_responses = array( '108', '62', '105', '104', '195' );
+	private $omit_responses = [ '108', '62', '105', '104', '195' ];
 
 	/**
 	 * CSV file needs to be created and then destroyed.
@@ -245,7 +245,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 		}
 
 		$header = null;
-		$data   = array();
+		$data   = [];
 		if ( ( $handle = fopen( $file, 'r' ) ) !== false ) {
 
 			while ( ( $row = fgetcsv( $handle, 10000, ';' ) ) !== false ) {
@@ -311,7 +311,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 			}
 			$qid    = 735;
 			$result = $this->getQuestionProperties( $qid, $this->questionPropOptions );
-			$data   = array();
+			$data   = [];
 
 			foreach ( $result['answeroptions'] as $key => $val ) {
 				$data[ $key ] = $val['answer'];
@@ -342,7 +342,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 			}
 			$qid    = 736;
 			$result = $this->getQuestionProperties( $qid, $this->questionPropOptions );
-			$data   = array();
+			$data   = [];
 
 			foreach ( $result['answeroptions'] as $key => $val ) {
 				$data[ $key ] = $val['answer'];
@@ -368,7 +368,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 	}
 
 	public function getNumReviewsPerBook() {
-		$books = array();
+		$books = [];
 
 		foreach ( $this->filteredResponsesArray as $response ) {
 			$prev_val                    = ( isset( $books[ $response['info1'] ] ) ? intval( $books[ $response['info1'] ] ) : 0 );

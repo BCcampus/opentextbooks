@@ -27,7 +27,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12" itemscope itemtype="https://schema.org/Book">
 
 	<?php
-	$args = $_GET;
+	$args            = $_GET;
 	$args['type_of'] = 'books';
 
 	new Catalogue\Otb( $args );
@@ -39,7 +39,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 
 		try {
 			new Reviews\LimeSurvey( $args );
-		} catch (\Exception $exc) {
+		} catch ( \Exception $exc ) {
 			error_log( $exc->getMessage(), 0 );
 		}
 	}

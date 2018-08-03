@@ -15,9 +15,9 @@
 namespace BCcampus\OpenTextBooks\Controllers\Catalogue;
 
 use BCcampus\OpenTextBooks\Config;
-use BCcampus\OpenTextBooks\Views;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Models\Api;
+use BCcampus\OpenTextBooks\Views;
 use BCcampus\Utility;
 
 class Dspace {
@@ -25,19 +25,19 @@ class Dspace {
 	/**
 	 * @var array
 	 */
-	protected $defaultArgs = array(
+	protected $defaultArgs = [
 		'collectionUuid' => '',
 		'uuid'           => '',
 		'search'         => '',
 		'subject'        => '',
 		'start'          => 0,
 		'limit'          => '',
-	);
+	];
 
 	/**
 	 * @var array
 	 */
-	private $args = array();
+	private $args = [];
 
 	/**
 	 * @var array
@@ -56,36 +56,36 @@ class Dspace {
 			new Views\Errors( [ 'msg' => 'Sorry, this does not pass the smell test' ] );
 		}
 
-		$args_get = array(
+		$args_get = [
 			// Strips characters that have a numerical value >127.
-			'uuid'           => array(
+			'uuid'           => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 			// Strips characters that have a numerical value >127.
-			'collectionUuid' => array(
+			'collectionUuid' => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 			// Strips characters that have a numerical value >127.
-			'subject'        => array(
+			'subject'        => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
+			],
 			// Remove all characters except digits, plus and minus sign.
-			'start'          => array(
+			'start'          => [
 				'filter' => FILTER_SANITIZE_NUMBER_INT,
-			),
+			],
 			// Remove all characters except digits, plus and minus sign.
-			'limit'          => array(
+			'limit'          => [
 				'filter' => FILTER_SANITIZE_NUMBER_INT,
-			),
+			],
 			// Strips characters that have a numerical value >127.
-			'search'         => array(
+			'search'         => [
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
-			),
-		);
+			],
+		];
 
 		// filter get input, delete empty values
 		$get = ( false !== filter_input_array( INPUT_GET, $args_get, false ) ) ? filter_input_array( INPUT_GET, $args_get, false ) : '';

@@ -25,7 +25,7 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 	/**
 	 * @var array
 	 */
-	protected $args = array();
+	protected $args = [];
 
 	/**
 	 * @var int

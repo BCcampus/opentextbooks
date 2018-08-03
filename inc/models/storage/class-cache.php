@@ -121,7 +121,7 @@ class Cache implements StorageInterface {
 				$data = serialize( $data );
 			}
 
-			return ( bool ) file_put_contents( $this->name, $data );
+			return (bool) file_put_contents( $this->name, $data );
 
 		} else {
 			$this->mkFile();
@@ -129,7 +129,7 @@ class Cache implements StorageInterface {
 				$data = serialize( $data );
 			}
 
-			return ( bool ) file_put_contents( $this->name, $data );
+			return (bool) file_put_contents( $this->name, $data );
 		}
 
 		return false;

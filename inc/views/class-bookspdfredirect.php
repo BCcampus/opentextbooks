@@ -24,7 +24,7 @@ class BooksPdfRedirect {
 	private $base_redirect_pdf_url = 'http://solr.bccampus.ca:8001/bcc/items/';
 
 	public function __construct( $args ) {
-		if ( ! array( $args ) ) {
+		if ( ! [ $args ] ) {
 			new Views\Errors( [ 'msg' => 'Sorry, I don not have any arguments I can work with' ] );
 		}
 
@@ -35,7 +35,7 @@ class BooksPdfRedirect {
 
 		$url = $this->base_redirect_pdf_url . $args['uuid'] . '/1/?attachment.uuid=' . $args['attachment_uuid'];
 
-		header( 'Location:' . $url,true,302 );
+		header( 'Location:' . $url, true, 302 );
 		exit();
 
 	}

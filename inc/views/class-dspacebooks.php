@@ -242,43 +242,43 @@ class DspaceBooks {
 
 		$license  = $this->metadataToCsv( $dspace_array, 'dc.rights.uri' );
 		$endpoint = 'https://api.creativecommons.org/rest/1.5/';
-		$expected = array(
-			'zero'     => array(
+		$expected = [
+			'zero'     => [
 				'license'     => 'zero',
 				'commercial'  => 'y',
 				'derivatives' => 'y',
-			),
-			'by'       => array(
+			],
+			'by'       => [
 				'license'     => 'standard',
 				'commercial'  => 'y',
 				'derivatives' => 'y',
-			),
-			'by-sa'    => array(
+			],
+			'by-sa'    => [
 				'license'     => 'standard',
 				'commercial'  => 'y',
 				'derivatives' => 'sa',
-			),
-			'by-nd'    => array(
+			],
+			'by-nd'    => [
 				'license'     => 'standard',
 				'commercial'  => 'y',
 				'derivatives' => 'n',
-			),
-			'by-nc'    => array(
+			],
+			'by-nc'    => [
 				'license'     => 'standard',
 				'commercial'  => 'n',
 				'derivatives' => 'y',
-			),
-			'by-nc-sa' => array(
+			],
+			'by-nc-sa' => [
 				'license'     => 'standard',
 				'commercial'  => 'n',
 				'derivatives' => 'sa',
-			),
-			'by-nc-nd' => array(
+			],
+			'by-nc-nd' => [
 				'license'     => 'standard',
 				'commercial'  => 'n',
 				'derivatives' => 'n',
-			),
-		);
+			],
+		];
 
 		if ( $dspace_array && $license ) {
 			$license = strtolower( $license );
@@ -356,12 +356,16 @@ class DspaceBooks {
 
 		if ( is_object( $response ) ) {
 			$content = $response->asXML();
-			$content = trim( str_replace( array(
-				'<p xmlns:dct="http://purl.org/dc/terms/">',
-				'</p>',
-				'<html>',
-				'</html>',
-			), array( '', '', '', '' ), $content ) );
+			$content = trim(
+				str_replace(
+					[
+						'<p xmlns:dct="http://purl.org/dc/terms/">',
+						'</p>',
+						'<html>',
+						'</html>',
+					], [ '', '', '', '' ], $content
+				)
+			);
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
 			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="muted" xmlns:dct="http://purl.org/dc/terms/">'
@@ -470,7 +474,7 @@ class DspaceBooks {
 	 * @return type
 	 */
 	protected function displayXmlError( $error, $xml ) {
-		$return = $xml[ $error->line - 1 ];
+		$return  = $xml[ $error->line - 1 ];
 		$return .= str_repeat( '-', $error->column );
 
 		switch ( $error->level ) {
@@ -506,7 +510,7 @@ class DspaceBooks {
 	 * @return string $list
 	 */
 	private function metadataToCsv( $dspace_array, $dc_type ) {
-		$expected = array(
+		$expected = [
 			'dc.contributor.advisor',
 			'dc.contributor.author',
 			'dc.contributor.editor',
@@ -639,7 +643,7 @@ class DspaceBooks {
 			'eperson.language',
 			'eperson.lastname',
 			'eperson.phone',
-		);
+		];
 		$list     = '';
 		// return empty, return early
 		if ( ! is_array( $dspace_array ) || ! in_array( $dc_type, $expected ) ) {

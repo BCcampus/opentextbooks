@@ -18,16 +18,16 @@ use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Polymorphism;
 
 class Equella implements Polymorphism\RestInterface {
-	private $apiBaseUrl = '';
-	private $collectionUuid = '';
-	private $subjectPath1 = '/xml/item/subject_class_level1';
-	private $subjectPath2 = '/xml/item/subject_class_level2';
+	private $apiBaseUrl      = '';
+	private $collectionUuid  = '';
+	private $subjectPath1    = '/xml/item/subject_class_level1';
+	private $subjectPath2    = '/xml/item/subject_class_level2';
 	private $contributorPath = '/xml/contributordetails/institution';
-	private $keywordPath = '/xml/item/keywords';
-	private $url = '';
+	private $keywordPath     = '/xml/item/keywords';
+	private $url             = '';
 
-	const OPR_IS = ' is ';
-	const OPR_OR = ' OR ';
+	const OPR_IS      = ' is ';
+	const OPR_OR      = ' OR ';
 	const ALL_RECORDS = '_ALL';
 
 	/**
@@ -45,7 +45,7 @@ class Equella implements Polymorphism\RestInterface {
 		$anyQuery        = $args['search'];
 		$order           = 'modified';
 		$start           = 0;
-		$info            = array( 'basic', 'metadata', 'detail', 'attachment', 'drm' );
+		$info            = [ 'basic', 'metadata', 'detail', 'attachment', 'drm' ];
 		$limit           = 0;
 		// provide a default collection, yet allow for override
 		if ( empty( $args['collectionUuid'] ) ) {

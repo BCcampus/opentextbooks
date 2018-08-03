@@ -26,5 +26,6 @@
 
     <!-- Disable Namespaced Functions for vendors -->
     <exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/cache/*</exclude-pattern>
 
 </ruleset>

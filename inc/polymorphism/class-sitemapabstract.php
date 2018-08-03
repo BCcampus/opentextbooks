@@ -34,7 +34,7 @@ abstract class SitemapAbstract {
 	/**
 	 * @var array
 	 */
-	protected $freq_to_pri = array(
+	protected $freq_to_pri = [
 		'always' => 1.0,
 		'hourly' => 0.8,
 		'daily' => 0.7,
@@ -42,7 +42,7 @@ abstract class SitemapAbstract {
 		'monthly' => 0.4,
 		'yearly' => 0.3,
 		'never' => 0.2,
-	);
+	];
 
 	/**
 	 * @var float
@@ -54,11 +54,11 @@ abstract class SitemapAbstract {
 	 *
 	 * @var array
 	 */
-	protected $xml_headers = array(
+	protected $xml_headers = [
 		'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
 		'xsi:schemaLocation' => 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd',
 		'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9',
-	);
+	];
 
 	/**
 	 * @var
@@ -94,11 +94,11 @@ abstract class SitemapAbstract {
 		$time = $this->now - strtotime( $lastmod );
 
 		$freq = $time <= 30000000
-			? ($time > 2592000 ? 'monthly'
-				: ($time > 604800 ? 'weekly'
-				: ($time > 86400 ? 'daily'
-				: ($time > 43200 ? 'hourly'
-				: 'always'))))
+			? ( $time > 2592000 ? 'monthly'
+				: ( $time > 604800 ? 'weekly'
+				: ( $time > 86400 ? 'daily'
+				: ( $time > 43200 ? 'hourly'
+				: 'always' ) ) ) )
 			: 'yearly';
 
 		return $freq;

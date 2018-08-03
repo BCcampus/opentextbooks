@@ -4,9 +4,9 @@
  */
 include_once 'autoloader.php';
 
-use BCcampus\OpenTextBooks\Controllers\Reviews;
-use BCcampus\OpenTextBooks\Controllers\Catalogue;
 use BCcampus\OpenTextBooks\Controllers\Analytics;
+use BCcampus\OpenTextBooks\Controllers\Catalogue;
+use BCcampus\OpenTextBooks\Controllers\Reviews;
 use BCcampus\OpenTextBooks\Controllers\Webform;
 
 include( OTB_DIR . 'assets/templates/partial/style.php' );
@@ -52,22 +52,22 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 			<?php
 
-			$wf_args = array(
+			$wf_args = [
 				'type_of' => 'webform_stats',
-			);
+			];
 
 			new Webform\Adoption( $wf_args );
 
-			$adoptions_v = array(
+			$adoptions_v = [
 				'site_id' => 8,
 				'type_of' => 'adoptions-v',
-			);
+			];
 			new Analytics\Matomo( $adoptions_v );
 
-			$adoptions_d = array(
+			$adoptions_d = [
 				'site_id' => 8,
 				'type_of' => 'adoptions-d',
-			);
+			];
 
 			new Analytics\Matomo( $adoptions_d );
 
@@ -82,9 +82,9 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 
 			<?php
 
-			$opentext_args = array(
+			$opentext_args = [
 				'site_id' => 8,
-			);
+			];
 			new Analytics\Matomo( $opentext_args );
 			?>
 
@@ -94,9 +94,9 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			<img src="<?php echo OTB_URL ?>assets/images/open.png" class="pull-right img-responsive img-rounded"
 				 alt="open site"/>
 			<?php
-			$open_args = array(
+			$open_args = [
 				'site_id' => 12,
-			);
+			];
 			new Analytics\Matomo( $open_args );
 			new Catalogue\Otb( $args );
 			?>

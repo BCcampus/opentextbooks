@@ -14,8 +14,8 @@
 
 namespace BCcampus\OpenTextBooks\Views;
 
-use BCcampus\OpenTextBooks\Models\OtbBooks;
 use BCcampus\OpenTextBooks\Config;
+use BCcampus\OpenTextBooks\Models\OtbBooks;
 use BCcampus\Utility;
 
 class StatsBooks {
@@ -37,7 +37,7 @@ class StatsBooks {
 
 		array_multisort( $tmp, SORT_ASC | SORT_NATURAL );
 
-		$html = "<table id='opentext' class='table table-striped tablesorter'>";
+		$html  = "<table id='opentext' class='table table-striped tablesorter'>";
 		$html .= "<thead><tr>
         <th>Title&nbsp;<i class='fa fa-sort'></i></th>
         <th>Download Stats</th>
@@ -63,7 +63,7 @@ class StatsBooks {
 		$difference  = $today - $then;
 		$days_online = round( $difference / 86400 );
 
-		$html = "<h2>{$book['name']}</h2>";
+		$html  = "<h2>{$book['name']}</h2>";
 		$html .= "<h6>Days online: {$days_online}</h6>";
 
 		echo $html;
@@ -86,15 +86,15 @@ class StatsBooks {
 			$num_sub2 = $num_sub2 + count( $val );
 
 			foreach ( $val as $k => $sub2 ) {
-				$url    = $base_url . Utility\url_encode( $k );
+				$url     = $base_url . Utility\url_encode( $k );
 				$second .= "<li><a href='{$url}'>{$k}</a>: {$sub2}</li>";
-				$total  = $total + intval( $sub2 );
+				$total   = $total + intval( $sub2 );
 
 			}
 			$cumulative = $cumulative + $total;
 
 			$first = "<h4>{$key} ({$total})</h4>";
-			$html  .= $first . '<ul class="list-unstyled">' . $second . '</ul>';
+			$html .= $first . '<ul class="list-unstyled">' . $second . '</ul>';
 
 		}
 
