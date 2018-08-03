@@ -38,7 +38,7 @@ Uses [yarn](https://yarnpkg.com/en/) to build front end dependencies and [compos
 - `yarn && yarn build` 
 - `composer install`
 
-###*THEN*:
+### THEN:
 - rename `config/environments/env.sample.php` to `.env.mydomain.com.php` 
 - add config files per domain (ie. `.env.localhost.php`, `.env.myotherdomain.com.php`)
 - modify config values to connect your instances of LimeSurvey, Wordpress, Equella and Matomo
