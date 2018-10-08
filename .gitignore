@@ -3,10 +3,11 @@
 .DS_Store
 .map
 .sass-cache
-.idea/
+.idea
 cache/analytics/*
 cache/catalogue/*
 cache/reviews/*
 cache/webform/*
 vendor
-node_modules/
+node_modules
+dist

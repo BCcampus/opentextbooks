@@ -20,16 +20,16 @@ use BCcampus\OpenTextBooks\Models;
 class Analytics {
 
 	/**
-	 * @var Models\Matomo
+	 * @var Models\Analytics
 	 */
 	private $data;
 
 	/**
 	 * Analytics constructor.
 	 *
-	 * @param Models\Matomo $data
+	 * @param Models\Analytics $data
 	 */
-	public function __construct( Models\Matomo $data ) {
+	public function __construct( Models\Analytics $data ) {
 
 		if ( is_object( $data ) ) {
 			$this->data = $data;

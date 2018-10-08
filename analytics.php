@@ -27,11 +27,11 @@ include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 			'uuid'    => $_GET['uuid'],
 		];
 
-		new Analytics\Matomo( $open_args );
+		new Analytics\Analytics( $open_args );
 
 	} elseif ( isset( $_GET['site_id'] ) ) {
 
-		new Analytics\Matomo( $_GET );
+		new Analytics\Analytics( $_GET );
 
 	}
 	unset( $_GET );

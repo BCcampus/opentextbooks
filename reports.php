@@ -62,14 +62,14 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 				'site_id' => 8,
 				'type_of' => 'adoptions-v',
 			];
-			new Analytics\Matomo( $adoptions_v );
+			new Analytics\Analytics( $adoptions_v );
 
 			$adoptions_d = [
 				'site_id' => 8,
 				'type_of' => 'adoptions-d',
 			];
 
-			new Analytics\Matomo( $adoptions_d );
+			new Analytics\Analytics( $adoptions_d );
 
 			?>
 
@@ -85,7 +85,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			$opentext_args = [
 				'site_id' => 8,
 			];
-			new Analytics\Matomo( $opentext_args );
+			new Analytics\Analytics( $opentext_args );
 			?>
 
 		</div>
@@ -97,7 +97,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 			$open_args = [
 				'site_id' => 12,
 			];
-			new Analytics\Matomo( $open_args );
+			new Analytics\Analytics( $open_args );
 			new Catalogue\Otb( $args );
 			?>
 

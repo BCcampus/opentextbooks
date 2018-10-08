@@ -18,9 +18,9 @@ use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Models\Api;
 use BCcampus\OpenTextBooks\Views;
-use VisualAppeal\Piwik;
+use VisualAppeal\Matomo;
 
-class Matomo {
+class Analytics {
 
 	/**
 	 * Needs at least this, or nothing works
@@ -107,10 +107,10 @@ class Matomo {
 
 	private function decider() {
 		$env      = Config::getInstance()->get();
-		$rest_api = new Piwik( $env['matomo']['url'], $env['matomo']['token'], 12, Piwik::FORMAT_JSON );
-		$rest_api->setPeriod( Piwik::PERIOD_RANGE );
+		$rest_api = new Matomo( $env['matomo']['url'], $env['matomo']['token'], 12, Matomo::FORMAT_JSON );
+		$rest_api->setPeriod( Matomo::PERIOD_RANGE );
 		$rest_api->setRange( $this->args['range_start'], $this->args['range_end'] );
-		$data = new Models\Matomo( $rest_api, $this->args );
+		$data = new Models\Analytics( $rest_api, $this->args );
 		$view = new Views\Analytics( $data );
 
 		switch ( $this->args['site_id'] ) {

@@ -12,25 +12,25 @@
  * @copyright (c) 2012-2016, Brad Payne
  *
  * This gets and stores data and is designed to work
- * with how Models/PiwikAPI was constructed. It makes one request to either
- * the PiwikAPI or persistent storage to get each piece of analytics.
- * Calling `getResponses()` will return the entire PiwikAPI Object, whereas calling public functions
+ * with how Models/MatomoAPI was constructed. It makes one request to either
+ * the MatomoAPI or persistent storage to get each piece of analytics.
+ * Calling `getResponses()` will return the entire MatomoAPI Object, whereas calling public functions
  * of this class will return either a stored version of the results, or make a
- * request to PiwikAPI to get updated results
+ * request to MatomoAPI to get updated results
  */
 
 namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
-use VisualAppeal\Piwik;
+use VisualAppeal\Matomo;
 
 /**
- * Class Matomo
+ * Class Analytics
  * @package BCcampus\OpenTextBooks\Models
  */
-class Matomo extends Polymorphism\DataAbstract {
+class Analytics extends Polymorphism\DataAbstract {
 
-	private $piwik_api;
+	private $matomo_api;
 	private $location = 'cache/analytics';
 	private $type     = 'txt';
 	private $uid      = '';
@@ -39,13 +39,13 @@ class Matomo extends Polymorphism\DataAbstract {
 	/**
 	 * Matomo constructor.
 	 *
-	 * @param Piwik $api
+	 * @param Matomo $api
 	 * @param $args
 	 */
-	public function __construct( Piwik $api, $args ) {
+	public function __construct( Matomo $api, $args ) {
 
 		if ( is_object( $api ) ) {
-			$this->piwik_api = $api;
+			$this->matomo_api = $api;
 		}
 		// needs a unique id, based on unique set of parameters passed to it
 		if ( is_array( $args ) ) {
@@ -61,10 +61,10 @@ class Matomo extends Polymorphism\DataAbstract {
 	}
 
 	/**
-	 * @return Piwik
+	 * @return Matomo
 	 */
 	public function getResponses() {
-		return $this->piwik_api;
+		return $this->matomo_api;
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Matomo extends Polymorphism\DataAbstract {
 			$visits = $persistent_data->load();
 
 		} else {
-			$visits = $this->piwik_api->getVisits( $segment );
+			$visits = $this->matomo_api->getVisits( $segment );
 			$this->saveToStorage( $this->location, $file_name, $file_type, $visits, $serialize );
 		}
 
@@ -108,7 +108,7 @@ class Matomo extends Polymorphism\DataAbstract {
 			$image = $persistent_data->load();
 
 		} else {
-			$image = $this->piwik_api->getImageGraph( $apiModule, $apiAction, $graphType, $outputType = '0', $columns = '', $labels = '', $showLegend = '1', $width = '780', $height = '', $fontSize = '9', $legendFontSize = '', $aliasedGraph = '1', $idGoal = '', $colors = '' );
+			$image = $this->matomo_api->getImageGraph( $apiModule, $apiAction, $graphType, $outputType = '0', $columns = '', $labels = '', $showLegend = '1', $width = '780', $height = '', $fontSize = '9', $legendFontSize = '', $aliasedGraph = '1', $idGoal = '', $colors = '' );
 			$this->saveToStorage( $this->location, $file_name, $file_type, $image, $serialize );
 		}
 
@@ -132,14 +132,14 @@ class Matomo extends Polymorphism\DataAbstract {
 
 		} else {
 			// get all sites from piwik
-			$multi = $this->piwik_api->getMultiSites();
+			$multi = $this->matomo_api->getMultiSites();
 			// get all public sites from opentextbc
 			$results = $this->getPublicOpentextbc();
 
 			if ( ! empty( $results ) ) {
 				$flipped = array_flip( $results );
 			} else {
-				throw new \Exception( '\BCcampus\OpenTextBooks\Models\Piwik\getMultiSites failed to retrieve books from opentextbc.ca API' );
+				throw new \Exception( '\BCcampus\OpenTextBooks\Models\Matomo\getMultiSites failed to retrieve books from opentextbc.ca API' );
 			}
 
 			if ( is_array( $multi ) ) {
@@ -188,7 +188,7 @@ class Matomo extends Polymorphism\DataAbstract {
 			// this works, but takes time to process
 			foreach ( $this->getMultiSites() as $site ) {
 				$total = 0;
-				$this->piwik_api->setSiteId( $site['id'] );
+				$this->matomo_api->setSiteId( $site['id'] );
 				$tmp = $this->getEventName( $site['id'] );
 
 				foreach ( $tmp as $obj ) {
@@ -247,7 +247,7 @@ class Matomo extends Polymorphism\DataAbstract {
 			$actions = $persistent_data->load();
 
 		} else {
-			$actions = $this->piwik_api->getEventAction(
+			$actions = $this->matomo_api->getEventAction(
 				$segment, 'eventName', [
 					'expanded' => 1,
 					'flat' => 0,
@@ -275,7 +275,7 @@ class Matomo extends Polymorphism\DataAbstract {
 			$events = $persistent_data->load();
 
 		} else {
-			$events = $this->piwik_api->getEventName();
+			$events = $this->matomo_api->getEventName();
 			$this->saveToStorage( $this->location, $file_name, $file_type, $events, $serialize );
 		}
 
