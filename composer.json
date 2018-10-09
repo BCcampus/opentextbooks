@@ -38,6 +38,9 @@
   "require": {
     "weberhofer/jsonrpcphp": "^2.2.1",
     "visualappeal/matomo-php-api": "^1.4.2",
-    "ext-json": "*"
+    "php-ai/php-ml": "^0.6.2",
+    "guzzlehttp/guzzle": "^6.3",
+    "ext-json": "*",
+    "ext-simplexml": "*"
   }
 }

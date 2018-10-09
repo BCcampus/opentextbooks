@@ -20,6 +20,7 @@ use BCcampus\OpenTextBooks\Views;
 use org\jsonrpcphp;
 
 class Otb {
+
 	/**
 	 * Needs at least this, or nothing works
 	 * Some vars need to be defined to avoid warnings.
@@ -43,7 +44,12 @@ class Otb {
 	/**
 	 * @var array
 	 */
-	private $expected = [ 'books', 'book_stats', 'subject_stats' ];
+	private $expected = [
+		'books',
+		'book_stats',
+		'subject_stats',
+		'classify',
+	];
 
 	/**
 	 * OtbController constructor.
@@ -141,9 +147,15 @@ class Otb {
 		$rest_api = new Models\Api\Equella();
 		$data     = new Models\OtbBooks( $rest_api, $this->args );
 
-		if ( $this->args['type_of'] == 'books' ) {
+		if ( $this->args['type_of'] === 'books' ) {
 			$view           = new Views\Books( $data );
-			$expected_lists = [ 'adopted', 'ancillary', 'reviewed', 'accessible', 'titles' ];
+			$expected_lists = [
+				'adopted',
+				'ancillary',
+				'reviewed',
+				'accessible',
+				'titles',
+			];
 
 			// for lists of books matching certain criteria
 			if ( ! empty( $this->args['lists'] ) && in_array( $this->args['lists'], $expected_lists ) ) {
@@ -168,7 +180,7 @@ class Otb {
 			}
 		}
 
-		if ( $this->args['type_of'] == 'book_stats' ) {
+		if ( $this->args['type_of'] === 'book_stats' ) {
 			$view = new Views\StatsBooks( $data );
 
 			switch ( $this->args['view'] ) {
@@ -185,9 +197,23 @@ class Otb {
 			}
 		}
 
-		if ( $this->args['type_of'] == 'subject_stats' ) {
+		if ( $this->args['type_of'] === 'subject_stats' ) {
 			$view = new Views\StatsBooks( $data );
 			$view->displaySubjectStats();
+		}
+
+		if ( $this->args['type_of'] === 'classify' ) {
+			$training_data = new Models\Recommend\TrainingData( $data );
+			$training_data->prepareData();
+			$training_data->setTrainingAndReportData();
+
+			$training_targets  = $training_data->getTargets( $training_data->getTraining() );
+			$reporting_targets = $training_data->getTargets( $training_data->getReporting() );
+			$reporting_samples = $training_data->getDataArray( $training_data->getReporting() );
+			$training_samples  = $training_data->getDataArray( $training_data->getTraining() );
+
+			$predict = new Models\Recommend\Predicting( $training_samples, $training_targets, $reporting_samples, $reporting_targets );
+			$predict->runPipeline();
 		}
 
 		$c = new Models\Storage\CleanUp();

@@ -19,11 +19,13 @@
  * at some point in the future.
  *
  */
+
 namespace BCcampus\OpenTextBooks\Models;
 
 use BCcampus\OpenTextBooks\Polymorphism;
 
 class OtbBooks extends Polymorphism\DataAbstract {
+
 	private $defaultArgs = [
 		'subject'        => '',
 		'uuid'           => '',
@@ -35,11 +37,12 @@ class OtbBooks extends Polymorphism\DataAbstract {
 		'stats'          => '',
 		'collectionUuid' => '',
 	];
-	protected $args      = [];
+	protected $args = [];
 	protected $api;
 	private $location = 'cache/catalogue';
-	private $type     = 'txt';
+	private $type = 'txt';
 	private $data;
+
 	const ALL_RECORDS = '_ALL';
 
 	/**
