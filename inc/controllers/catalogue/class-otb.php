@@ -212,7 +212,11 @@ class Otb {
 			$reporting_samples = $training_data->getDataArray( $training_data->getReporting() );
 			$training_samples  = $training_data->getDataArray( $training_data->getTraining() );
 
-			$predict = new Models\Recommend\Predicting( $training_samples, $training_targets, $reporting_samples, $reporting_targets );
+			$bigram_training_samples = $training_data->getBigram( $training_samples );
+			$bigram_reporting_samples = $training_data->getBigram( $reporting_samples );
+
+//			$predict = new Models\Recommend\Predicting( $training_samples, $training_targets, $reporting_samples, $reporting_targets );
+			$predict = new Models\Recommend\Predicting( $bigram_training_samples, $training_targets, $bigram_reporting_samples, $reporting_targets );
 			$predict->runPipeline();
 		}
 

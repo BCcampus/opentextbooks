@@ -47,9 +47,9 @@ class Predicting {
 			new Imputer( NULL, new MedianStrategy() ),
 			new TfIdfTransformer(),
 		];
-		$estimator    = new SVC();
-		//$estimator = new \Phpml\Classification\NaiveBayes();
-		//$estimator = new \Phpml\Classification\KNearestNeighbors();
+		$estimator = new SVC();
+//		$estimator = new NaiveBayes();
+//		$estimator = new KNearestNeighbors();
 
 		$training_pipeline = new Pipeline( $transformers, $estimator );
 		$training_pipeline->train( $this->training_samples, $this->training_targets );
@@ -77,7 +77,13 @@ class Predicting {
 		*/
 		$report = new ClassificationReport( $this->reporting_targets, $predicted );
 
-		$html = "<h2>Precision</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Precision</th></tr>";
+		$html = "<h2>Average</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Average</th></tr>";
+		foreach ( $report->getAverage() as $k => $v ) {
+			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
+		};
+		$html .= '</table>';
+
+		$html .= "<h2>Precision</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Precision</th></tr>";
 		foreach ( $report->getPrecision() as $k => $v ) {
 			$html .= sprintf( '<tr><td class="border">%1$s</td><td class="border">%2$s</td></tr>', $k, $v );
 		}
@@ -95,18 +101,11 @@ class Predicting {
 		};
 		$html .= '</table>';
 
-		$html .= "<h2>Support</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Support</th></tr>";
-		foreach ( $report->getSupport() as $k => $v ) {
-			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
-		};
-		$html .= '</table>';
-
-		$html .= "<h2>Average</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Average</th></tr>";
-		foreach ( $report->getAverage() as $k => $v ) {
-			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
-		};
-
-		$html .= '</table>';
+		//		$html .= "<h2>Support</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Support</th></tr>";
+		//		foreach ( $report->getSupport() as $k => $v ) {
+		//			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
+		//		};
+		//		$html .= '</table>';
 
 		echo $html;
 
