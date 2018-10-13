@@ -31,7 +31,6 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 
 	new Catalogue\Otb( $args );
 
-
 	unset( $_GET );
 	?>
 </div>

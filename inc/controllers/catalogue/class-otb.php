@@ -217,7 +217,8 @@ class Otb {
 
 			$predict = new Models\Recommend\Predicting( $training_samples, $training_targets, $reporting_samples, $reporting_targets );
 //			$predict = new Models\Recommend\Predicting( $bigram_training_samples, $training_targets, $bigram_reporting_samples, $reporting_targets );
-			$predict->runPipeline();
+//			$predict->runPipeline();
+			$predict->runProbability();
 		}
 
 		$c = new Models\Storage\CleanUp();

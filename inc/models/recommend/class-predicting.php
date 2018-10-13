@@ -17,6 +17,7 @@ namespace BCcampus\Opentextbooks\Models\Recommend;
 use Phpml\Classification\SVC;
 use Phpml\Classification\NaiveBayes;
 use Phpml\Classification\KNearestNeighbors;
+use Phpml\Exception\LibsvmCommandException;
 use Phpml\Metric\ClassificationReport;
 use Phpml\Pipeline;
 use Phpml\Preprocessing\Imputer;
@@ -25,6 +26,8 @@ use Phpml\FeatureExtraction\TokenCountVectorizer;
 use Phpml\Tokenization\WordTokenizer;
 use Phpml\FeatureExtraction\TfIdfTransformer;
 use Phpml\FeatureExtraction\StopWords\English;
+use Phpml\SupportVectorMachine\Kernel;
+
 
 class Predicting {
 
@@ -40,6 +43,9 @@ class Predicting {
 		$this->reporting_samples = $reporting_samples;
 	}
 
+	/**
+	 * @throws \Phpml\Exception\InvalidArgumentException
+	 */
 	public function runPipeline() {
 
 		$transformers = [
@@ -47,9 +53,21 @@ class Predicting {
 			new Imputer( NULL, new MedianStrategy() ),
 			new TfIdfTransformer(),
 		];
-		$estimator = new SVC();
-//		$estimator = new NaiveBayes();
-//		$estimator = new KNearestNeighbors();
+
+		$estimator = new SVC(
+			Kernel::LINEAR,
+			1.0, //cost
+			3, //degree
+			NULL, //gamma
+			0.0, //coef0
+			0.001, //tolerance
+			100, //cacheSize
+			true, //shrinking
+			false //probabilityEstimates
+		);
+
+		//		$estimator = new NaiveBayes();
+		//		$estimator = new KNearestNeighbors();
 
 		$training_pipeline = new Pipeline( $transformers, $estimator );
 		$training_pipeline->train( $this->training_samples, $this->training_targets );
@@ -101,15 +119,65 @@ class Predicting {
 		};
 		$html .= '</table>';
 
-		//		$html .= "<h2>Support</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Support</th></tr>";
-		//		foreach ( $report->getSupport() as $k => $v ) {
-		//			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
-		//		};
-		//		$html .= '</table>';
+		$html .= "<h2>Support</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Support</th></tr>";
+		foreach ( $report->getSupport() as $k => $v ) {
+			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
+		};
+		$html .= '</table>';
 
 		echo $html;
 
 	}
 
+	/**
+	 * @throws \Phpml\Exception\LibsvmCommandException
+	 */
+	public function runProbability() {
+		$transformers = [
+			new TokenCountVectorizer( new WordTokenizer(), new English() ),
+			new Imputer( NULL, new MedianStrategy() ),
+			new TfIdfTransformer(),
+		];
 
+		$estimator = new SVC(
+			Kernel::LINEAR,
+			1.0, //cost
+			3, //degree
+			NULL, //gamma
+			0.0, //coef0
+			0.001, //tolerance
+			100, //cacheSize
+			true, //shrinking
+			true //probabilityEstimates
+		);
+
+		/*
+		|--------------------------------------------------------------------------
+		| No Pipeline
+		|--------------------------------------------------------------------------
+		|
+		| manually recreating pipeline process
+		|
+		|
+		*/
+		// Transform training data
+		foreach ( $transformers as $transformer ) {
+			$transformer->fit( $this->training_samples, $this->training_targets );
+			$transformer->transform( $this->training_samples );
+		}
+
+		$estimator->train( $this->training_samples, $this->training_targets );
+
+		// Transform the samples
+		foreach ( $transformers as $transformer ) {
+			$transformer->transform( $this->reporting_samples );
+		}
+
+		$yay = $estimator->predictProbability( $this->reporting_samples );
+
+		echo "<pre>";
+		print_r( $yay );
+		echo "</pre>";
+
+	}
 }
