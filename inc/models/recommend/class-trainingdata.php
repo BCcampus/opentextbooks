@@ -345,9 +345,9 @@ class TrainingData {
 	public function getTargets( $data ) {
 		$targets = [];
 		foreach ( $data as $sub1 => $sub2 ) {
-			foreach ( $sub2 as $class_name => $values ) {
-				foreach ( $values as $v ) {
-					$targets[] = $class_name;
+			foreach ( $sub2 as $sub_name => $textbook ) {
+				foreach ( $textbook as $v ) {
+					$targets[] = $sub1;
 				}
 			}
 		}
