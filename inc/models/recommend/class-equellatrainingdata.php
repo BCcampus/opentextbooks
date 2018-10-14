@@ -16,7 +16,7 @@ namespace BCcampus\Opentextbooks\Models\Recommend;
 
 use BCcampus\OpenTextBooks\Models\OtbBooks;
 
-class TrainingData {
+class EquellaTrainingData {
 
 	private $data;
 	private $training_data;

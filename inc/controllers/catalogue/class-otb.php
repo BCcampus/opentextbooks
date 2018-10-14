@@ -203,7 +203,16 @@ class Otb {
 		}
 
 		if ( $this->args['type_of'] === 'classify' ) {
-			$training_data = new Models\Recommend\TrainingData( $data );
+			$training_data = new Models\Recommend\EquellaTrainingData( $data );
+			/*
+			|--------------------------------------------------------------------------
+			| Data pre-processing
+			|--------------------------------------------------------------------------
+			|
+			| @TODO - move to storage instead of processing everytime
+			|
+			|
+			*/
 			$training_data->prepareData();
 			$training_data->setTrainingAndReportData();
 
@@ -212,20 +221,38 @@ class Otb {
 			$reporting_samples = $training_data->getDataArray( $training_data->getReporting() );
 			$training_samples  = $training_data->getDataArray( $training_data->getTraining() );
 
-//						$training_samples  = $training_data->getBigram( $training_samples );
-//						$reporting_samples = $training_data->getBigram( $reporting_samples );
+			//						$training_samples  = $training_data->getBigram( $training_samples );
+			//						$reporting_samples = $training_data->getBigram( $reporting_samples );
 
-			$predict = new Models\Recommend\Predicting( $training_samples, $training_targets, $reporting_samples, $reporting_targets );
+			/*
+			|--------------------------------------------------------------------------
+			| Train
+			|--------------------------------------------------------------------------
+			|
+			| @TODO - shouldn't need to train every time.
+			|
+			|
+			*/
+			$predict    = new Models\Recommend\Predicting( $training_samples, $training_targets, $reporting_samples, $reporting_targets );
+			$classifier = $predict->trainTheClassifier();
+			$view       = new Views\Recommender();
 
 			switch ( $this->args['view'] ) {
 				case 'report':
-					$predict->runPipeline();
+					$predicted = $classifier->predict( $reporting_samples );
+					$report    = $predict->runReport( $reporting_targets, $predicted );
+					$view->displayReport( $report );
 					break;
 				case 'probability':
 					$predict->runProbability();
 					break;
+				case 'one':
+					echo "<pre>";
+					print_r( $classifier->predict( $reporting_samples ) );
+					echo "</pre>";
+					break;
 				default:
-					$predict->runPipeline();
+					$predict->runReportPipeline();
 			}
 
 

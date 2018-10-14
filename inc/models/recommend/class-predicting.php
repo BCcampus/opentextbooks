@@ -17,6 +17,8 @@ namespace BCcampus\Opentextbooks\Models\Recommend;
 use Phpml\Classification\SVC;
 use Phpml\Classification\NaiveBayes;
 use Phpml\Classification\KNearestNeighbors;
+use Phpml\Exception\InvalidArgumentException;
+use Phpml\FeatureExtraction\TfIdfTransformer;
 use Phpml\Metric\ClassificationReport;
 use Phpml\Pipeline;
 use Phpml\FeatureExtraction\TokenCountVectorizer;
@@ -39,13 +41,10 @@ class Predicting {
 		$this->reporting_samples = $reporting_samples;
 	}
 
-	/**
-	 * @throws \Phpml\Exception\InvalidArgumentException
-	 */
-	public function runPipeline() {
-
+	public function trainTheClassifier( $probability = false ) {
 		$transformers = [
 			new TokenCountVectorizer( new WordTokenizer(), new English() ),
+			new TfIdfTransformer(),
 		];
 
 		$estimator = new SVC(
@@ -57,69 +56,34 @@ class Predicting {
 			0.001, //tolerance
 			100, //cacheSize
 			true, //shrinking
-			false //probabilityEstimates
+			$probability //probabilityEstimates
 		);
 
-//				$estimator = new NaiveBayes();
-//				$estimator = new KNearestNeighbors();
+		//				$estimator = new NaiveBayes();
+		//				$estimator = new KNearestNeighbors();
 
 		$training_pipeline = new Pipeline( $transformers, $estimator );
 		$training_pipeline->train( $this->training_samples, $this->training_targets );
 
-		/*
-		|--------------------------------------------------------------------------
-		| Predict
-		|--------------------------------------------------------------------------
-		|
-		|
-		|
-		|
-		*/
+		return $training_pipeline;
+	}
 
-		$predicted = $training_pipeline->predict( $this->reporting_samples );
-
-		/*
-		|--------------------------------------------------------------------------
-		| Report
-		|--------------------------------------------------------------------------
-		|
-		|
-		|
-		|
-		*/
-		$report = new ClassificationReport( $this->reporting_targets, $predicted );
-
-		$html = "<h2>Average</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Average</th></tr>";
-		foreach ( $report->getAverage() as $k => $v ) {
-			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
-		};
-		$html .= '</table>';
-
-		$html .= "<h2>Precision</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Precision</th></tr>";
-		foreach ( $report->getPrecision() as $k => $v ) {
-			$html .= sprintf( '<tr><td class="border">%1$s</td><td class="border">%2$s</td></tr>', $k, $v );
+	/**
+	 * @param $reporting_targets
+	 * @param $predicted
+	 *
+	 * @return \Phpml\Metric\ClassificationReport
+	 * @throws \Phpml\Exception\InvalidArgumentException
+	 */
+	public function runReport( $reporting_targets, $predicted ) {
+		$report = '';
+		try {
+			$report = new ClassificationReport( $reporting_targets, $predicted );
+		} catch ( InvalidArgumentException $e ) {
+			error_log( $e->getMessage() );
 		}
-		$html .= '</table>';
 
-		$html .= "<h2>Recall</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Recall</th></tr>";
-		foreach ( $report->getRecall() as $k => $v ) {
-			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
-		};
-		$html .= '</table>';
-
-		$html .= "<h2>F1 Score</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>F1 Score</th></tr>";
-		foreach ( $report->getF1score() as $k => $v ) {
-			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
-		};
-		$html .= '</table>';
-
-		$html .= "<h2>Support</h2><table class='table table-responsive-lg'><tr><th>Subject</th><th>Support</th></tr>";
-		foreach ( $report->getSupport() as $k => $v ) {
-			$html .= sprintf( '<tr><td class="border">%s</td><td class="border">%s</td></tr>', $k, $v );
-		};
-		$html .= '</table>';
-
-		echo $html;
+		return $report;
 
 	}
 
