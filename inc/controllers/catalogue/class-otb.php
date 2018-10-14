@@ -212,13 +212,23 @@ class Otb {
 			$reporting_samples = $training_data->getDataArray( $training_data->getReporting() );
 			$training_samples  = $training_data->getDataArray( $training_data->getTraining() );
 
-			$bigram_training_samples = $training_data->getBigram( $training_samples );
-			$bigram_reporting_samples = $training_data->getBigram( $reporting_samples );
+//						$training_samples  = $training_data->getBigram( $training_samples );
+//						$reporting_samples = $training_data->getBigram( $reporting_samples );
 
 			$predict = new Models\Recommend\Predicting( $training_samples, $training_targets, $reporting_samples, $reporting_targets );
-//			$predict = new Models\Recommend\Predicting( $bigram_training_samples, $training_targets, $bigram_reporting_samples, $reporting_targets );
-//			$predict->runPipeline();
-			$predict->runProbability();
+
+			switch ( $this->args['view'] ) {
+				case 'report':
+					$predict->runPipeline();
+					break;
+				case 'probability':
+					$predict->runProbability();
+					break;
+				default:
+					$predict->runPipeline();
+			}
+
+
 		}
 
 		$c = new Models\Storage\CleanUp();

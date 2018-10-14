@@ -275,7 +275,7 @@ class TrainingData {
 		foreach ( $data as $sub1 => $sub2 ) {
 			foreach ( $sub2 as $class_name => $values ) {
 				foreach ( $values as $v ) {
-					$samples[] = sprintf( '%s %s %s %s', strtolower( $sub1 ), strtolower( $class_name ), strtolower( $v['title'] ), strtolower( $v['description'] ) );
+					$samples[] = sprintf( '%s %s %s %s', $sub1, $class_name, $v['title'], $v['description'] );
 				}
 			}
 		}
@@ -309,7 +309,7 @@ class TrainingData {
 	public function stripStopWords( $words ) {
 		$new = [];
 		foreach ( $words as $maybe_add ) {
-			if ( array_key_exists( strtolower( $maybe_add ), $this->stop_words ) ) {
+			if ( array_key_exists( $maybe_add, $this->stop_words ) ) {
 				continue;
 			} else {
 				$new[] = $maybe_add;

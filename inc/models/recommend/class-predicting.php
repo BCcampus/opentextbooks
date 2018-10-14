@@ -17,14 +17,10 @@ namespace BCcampus\Opentextbooks\Models\Recommend;
 use Phpml\Classification\SVC;
 use Phpml\Classification\NaiveBayes;
 use Phpml\Classification\KNearestNeighbors;
-use Phpml\Exception\LibsvmCommandException;
 use Phpml\Metric\ClassificationReport;
 use Phpml\Pipeline;
-use Phpml\Preprocessing\Imputer;
-use Phpml\Preprocessing\Imputer\Strategy\MedianStrategy;
 use Phpml\FeatureExtraction\TokenCountVectorizer;
 use Phpml\Tokenization\WordTokenizer;
-use Phpml\FeatureExtraction\TfIdfTransformer;
 use Phpml\FeatureExtraction\StopWords\English;
 use Phpml\SupportVectorMachine\Kernel;
 
@@ -50,8 +46,6 @@ class Predicting {
 
 		$transformers = [
 			new TokenCountVectorizer( new WordTokenizer(), new English() ),
-			new Imputer( NULL, new MedianStrategy() ),
-			new TfIdfTransformer(),
 		];
 
 		$estimator = new SVC(
@@ -66,8 +60,8 @@ class Predicting {
 			false //probabilityEstimates
 		);
 
-		//		$estimator = new NaiveBayes();
-		//		$estimator = new KNearestNeighbors();
+//				$estimator = new NaiveBayes();
+//				$estimator = new KNearestNeighbors();
 
 		$training_pipeline = new Pipeline( $transformers, $estimator );
 		$training_pipeline->train( $this->training_samples, $this->training_targets );
@@ -135,8 +129,6 @@ class Predicting {
 	public function runProbability() {
 		$transformers = [
 			new TokenCountVectorizer( new WordTokenizer(), new English() ),
-			new Imputer( NULL, new MedianStrategy() ),
-			new TfIdfTransformer(),
 		];
 
 		$estimator = new SVC(
