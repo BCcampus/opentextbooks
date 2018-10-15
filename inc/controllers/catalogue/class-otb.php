@@ -214,6 +214,7 @@ class Otb {
 			|
 			*/
 			$preprocess->prepareData();
+			$preprocess->separateReportDataFromTraining();
 
 			$equella_training_targets = $preprocess->getTargets( $preprocess->getTraining() );
 			$equella_training_samples = $preprocess->getDataArray( $preprocess->getTraining() );
@@ -236,7 +237,6 @@ class Otb {
 
 			switch ( $this->args['view'] ) {
 				case 'equella-report':
-					$preprocess->separateReportDataFromTraining();
 					$equella_reporting_targets = $preprocess->getTargets( $preprocess->getReporting() );
 					$equella_reporting_samples = $preprocess->getDataArray( $preprocess->getReporting() );
 					$predicted                 = $classifier->predict( $equella_reporting_samples );
@@ -244,7 +244,6 @@ class Otb {
 					$view->displayReport( $report );
 					break;
 				case 'equella-probability':
-					$preprocess->separateReportDataFromTraining();
 					$equella_reporting_samples = $preprocess->getDataArray( $preprocess->getReporting() );
 					$predict->runProbability( $equella_reporting_samples );
 					break;

@@ -247,9 +247,8 @@ class EquellaTrainingData {
 		foreach ( $this->subjects as $k1 => $sub ) {
 			foreach ( $sub as $k2 => $s ) {
 				if ( count( $s ) > 2 ) {
-					$classification_report[ $k1 ][ $k2 ][] = $s[0];
-					// remove data from training sample
-					unset( $this->subjects[ $k1 ][ $k2 ][0] );
+					$classification_report[ $k1 ][ $k2 ][] =  array_pop($this->subjects[ $k1 ][ $k2 ]);
+					continue;
 				}
 			}
 		}

@@ -20,7 +20,7 @@ include( OTB_DIR . 'assets/templates/partial/style.php' );
 <?php
 include( OTB_DIR . 'assets/templates/partial/error-level.php' );
 include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
-include( OTB_DIR . 'assets/templates/partial/menu.php' );
+//include( OTB_DIR . 'assets/templates/partial/menu.php' );
 ?>
 
 <div class="col-md-9" itemscope itemtype="https://schema.org/WebPage">
