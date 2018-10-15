@@ -231,13 +231,14 @@ class EquellaTrainingData {
 		// arrange from most books per subject to least
 		array_multisort( $subjects, SORT_DESC );
 
-		$this->subjects = $subjects;
+		$this->subjects      = $subjects;
+		$this->training_data = $subjects;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function setReportDataFromTraining() {
+	public function separateReportDataFromTraining() {
 		$classification_report = [];
 		if ( empty ( $this->subjects ) ) {
 			return $classification_report;
@@ -375,6 +376,8 @@ class EquellaTrainingData {
 				$keywords  = isset( $a['metadata']['keywords'] ) ? $a['metadata']['keywords'] : '';
 				$name      = isset( $a['metadata']['name'] ) ? $a['metadata']['name'] : '';
 				$desc      = isset( $a['metadata']['description'] ) ? $a['metadata']['description'] : '';
+				// backup
+				$desc      = ( empty( $desc ) && isset( $a['metadata']['disambiguatingDescription'] ) ) ? $a['metadata']['disambiguatingDescription'] : $desc;
 				$keywords2 = isset( $identifier ) ? $identifier : '';
 
 				$results[] = sprintf( '%s %s %s %s', $keywords, $keywords2, $name, strip_tags( $desc ) );

@@ -18,6 +18,7 @@ use Phpml\Classification\SVC;
 use Phpml\Classification\NaiveBayes;
 use Phpml\Classification\KNearestNeighbors;
 use Phpml\Exception\InvalidArgumentException;
+use Phpml\Exception\LibsvmCommandException;
 use Phpml\FeatureExtraction\TfIdfTransformer;
 use Phpml\Metric\ClassificationReport;
 use Phpml\Pipeline;
@@ -32,12 +33,10 @@ class Predicting {
 	private $training_samples;
 	private $training_targets;
 	private $reporting_samples;
-	private $reporting_targets;
 
-	public function __construct( $samples, $targets, $reporting_samples, $reporting_targets ) {
+	public function __construct( $samples, $targets, $reporting_samples = [] ) {
 		$this->training_samples  = $samples;
 		$this->training_targets  = $targets;
-		$this->reporting_targets = $reporting_targets;
 		$this->reporting_samples = $reporting_samples;
 	}
 
@@ -87,9 +86,11 @@ class Predicting {
 	}
 
 	/**
+	 * @param $reporting_samples
+	 *
 	 * @throws \Phpml\Exception\LibsvmCommandException
 	 */
-	public function runProbability() {
+	public function runProbability( $reporting_samples ) {
 		$transformers = [
 			new TokenCountVectorizer( new WordTokenizer(), new English() ),
 		];
@@ -125,10 +126,14 @@ class Predicting {
 
 		// Transform the samples
 		foreach ( $transformers as $transformer ) {
-			$transformer->transform( $this->reporting_samples );
+			$transformer->transform( $reporting_samples );
 		}
 
-		$yay = $estimator->predictProbability( $this->reporting_samples );
+		try {
+			$yay = $estimator->predictProbability( $reporting_samples );
+		} catch ( LibsvmCommandException $e ) {
+			error_log( $e->getMessage() );
+		}
 
 		echo "<pre>";
 		print_r( $yay );
