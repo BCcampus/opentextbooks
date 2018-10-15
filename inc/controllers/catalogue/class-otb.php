@@ -268,7 +268,7 @@ class Otb {
 					$view->displayReport( $report );
 					break;
 				case 'remote-pressbooks':
-					// pre-process the otb samples
+					// pre-process the pb samples
 					$pb_samples           = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/pb.json' );
 					$pb_reporting_targets = [
 						'Business and Management',
@@ -286,7 +286,22 @@ class Otb {
 					$report               = $predict->runReport( $pb_reporting_targets, $predicted );
 					$view->displayReport( $report );
 					break;
-				default:
+				case 'remote-oregon':
+					// pre-process the oregon samples
+					$oregon_samples           = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/oregon.json' );
+					$oregon_reporting_targets = [
+						'Liberal Arts and Humanities',
+						'Upgrading Programs',
+						'Business and Management',
+						'Sciences',
+						'Sciences',
+						'Sciences',
+
+					];
+					$predicted                = $classifier->predict( $oregon_samples );
+					$report                   = $predict->runReport( $oregon_reporting_targets, $predicted );
+					$view->displayReport( $report );
+					break;
 					echo 'hello';
 			}
 
