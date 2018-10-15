@@ -203,7 +203,7 @@ class Otb {
 		}
 
 		if ( $this->args['type_of'] === 'classify' ) {
-			$training_data = new Models\Recommend\EquellaTrainingData( $data );
+			$preprocess = new Models\Recommend\EquellaTrainingData( $data );
 			/*
 			|--------------------------------------------------------------------------
 			| Data pre-processing
@@ -213,16 +213,16 @@ class Otb {
 			|
 			|
 			*/
-			$training_data->prepareData();
-			$training_data->setTrainingAndReportData();
+			$preprocess->prepareData();
+			$preprocess->setReportDataFromTraining();
 
-			$training_targets  = $training_data->getTargets( $training_data->getTraining() );
-			$reporting_targets = $training_data->getTargets( $training_data->getReporting() );
-			$reporting_samples = $training_data->getDataArray( $training_data->getReporting() );
-			$training_samples  = $training_data->getDataArray( $training_data->getTraining() );
+			$equella_training_targets  = $preprocess->getTargets( $preprocess->getTraining() );
+			$equella_reporting_targets = $preprocess->getTargets( $preprocess->getReporting() );
+			$equella_reporting_samples = $preprocess->getDataArray( $preprocess->getReporting() );
+			$equella_training_samples  = $preprocess->getDataArray( $preprocess->getTraining() );
 
-			//						$training_samples  = $training_data->getBigram( $training_samples );
-			//						$reporting_samples = $training_data->getBigram( $reporting_samples );
+			//	$training_samples  = $training_data->getBigram( $training_samples );
+			//	$reporting_samples = $training_data->getBigram( $reporting_samples );
 
 			/*
 			|--------------------------------------------------------------------------
@@ -233,14 +233,14 @@ class Otb {
 			|
 			|
 			*/
-			$predict    = new Models\Recommend\Predicting( $training_samples, $training_targets, $reporting_samples, $reporting_targets );
+			$predict    = new Models\Recommend\Predicting( $equella_training_samples, $equella_training_targets, $equella_reporting_samples, $equella_reporting_targets );
 			$classifier = $predict->trainTheClassifier();
 			$view       = new Views\Recommender();
 
 			switch ( $this->args['view'] ) {
 				case 'report':
-					$predicted = $classifier->predict( $reporting_samples );
-					$report    = $predict->runReport( $reporting_targets, $predicted );
+					$predicted = $classifier->predict( $equella_reporting_samples );
+					$report    = $predict->runReport( $equella_reporting_targets, $predicted );
 					$view->displayReport( $report );
 					break;
 				case 'probability':
@@ -248,8 +248,27 @@ class Otb {
 					break;
 				case 'one':
 					echo "<pre>";
-					print_r( $classifier->predict( $reporting_samples ) );
+					print_r( $classifier->predict( $equella_reporting_samples ) );
 					echo "</pre>";
+					break;
+				case 'opentextbc':
+					// pre-process the otb samples
+					$otb_samples           = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/otb.json' );
+					$otb_reporting_targets = [
+						'Business and Management',
+						'Business and Management',
+						'Liberal Arts and Humanities',
+						'Social Sciences',
+						'Sciences',
+						'Social Sciences',
+						'Business and Management',
+						'Sciences',
+						'Sciences',
+						'Liberal Arts and Humanities',
+					];
+					$predicted             = $classifier->predict( $otb_samples );
+					$report                = $predict->runReport( $otb_reporting_targets, $predicted );
+					$view->displayReport( $report );
 					break;
 				default:
 					$predict->runReportPipeline();

@@ -20,8 +20,8 @@ class EquellaTrainingData {
 
 	private $data;
 	private $training_data;
-	private $report_data;
-	private $subjects;
+	private $report_data = [];
+	private $subjects = [];
 	protected $english = [
 		'a',
 		'about',
@@ -237,7 +237,7 @@ class EquellaTrainingData {
 	/**
 	 * @return array
 	 */
-	public function setTrainingAndReportData() {
+	public function setReportDataFromTraining() {
 		$classification_report = [];
 		if ( empty ( $this->subjects ) ) {
 			return $classification_report;
@@ -353,5 +353,36 @@ class EquellaTrainingData {
 		}
 
 		return $targets;
+	}
+
+	/**
+	 * @param $file_path
+	 *
+	 * @return array
+	 */
+	public function getPbJson( $file_path ) {
+		$results = [];
+		if ( file_exists( $file_path ) ) {
+			$json = file_get_contents( $file_path );
+			$arr  = json_decode( $json, true );
+			foreach ( $arr as $a ) {
+				if ( isset( $a['metadata']['about'] ) && is_array( $a['metadata']['about'] ) ) {
+					$identifier = '';
+					foreach ( $a['metadata']['about'] as $id ) {
+						$identifier .= $id['identifier'] . ' ';
+					}
+				}
+				$keywords  = isset( $a['metadata']['keywords'] ) ? $a['metadata']['keywords'] : '';
+				$name      = isset( $a['metadata']['name'] ) ? $a['metadata']['name'] : '';
+				$desc      = isset( $a['metadata']['description'] ) ? $a['metadata']['description'] : '';
+				$keywords2 = isset( $identifier ) ? $identifier : '';
+
+				$results[] = sprintf( '%s %s %s %s', $keywords, $keywords2, $name, strip_tags( $desc ) );
+			}
+		}
+
+		return $results;
+
+
 	}
 }

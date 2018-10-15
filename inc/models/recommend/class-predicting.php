@@ -72,8 +72,7 @@ class Predicting {
 	 * @param $reporting_targets
 	 * @param $predicted
 	 *
-	 * @return \Phpml\Metric\ClassificationReport
-	 * @throws \Phpml\Exception\InvalidArgumentException
+	 * @return \Phpml\Metric\ClassificationReport|string
 	 */
 	public function runReport( $reporting_targets, $predicted ) {
 		$report = '';
