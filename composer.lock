@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "abefb14a1bc09c0bb026b7000f1b5c3a",
+    "content-hash": "a294fdbb3f46ba453e5cd1122fdf7e5a",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -679,16 +679,16 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "5.2.9",
+            "version": "5.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "4b90697c7fa8a0a265fcac9aefedcc538e9413e3"
+                "reference": "3e5c551d33f1c6c9730872c21349f783d92dbbfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/4b90697c7fa8a0a265fcac9aefedcc538e9413e3",
-                "reference": "4b90697c7fa8a0a265fcac9aefedcc538e9413e3",
+                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/3e5c551d33f1c6c9730872c21349f783d92dbbfa",
+                "reference": "3e5c551d33f1c6c9730872c21349f783d92dbbfa",
                 "shasum": ""
             },
             "require": {
@@ -747,7 +747,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2018-10-01T19:31:50+00:00"
+            "time": "2018-10-19T20:36:08+00:00"
         },
         {
             "name": "weberhofer/jsonrpcphp",
@@ -2434,7 +2434,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-simplexml": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
