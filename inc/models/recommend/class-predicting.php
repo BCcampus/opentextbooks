@@ -58,8 +58,8 @@ class Predicting {
 			$probability //probabilityEstimates
 		);
 
-		//				$estimator = new NaiveBayes();
-		//				$estimator = new KNearestNeighbors();
+//						$estimator = new NaiveBayes();
+//						$estimator = new KNearestNeighbors();
 
 		$training_pipeline = new Pipeline( $transformers, $estimator );
 		$training_pipeline->train( $this->training_samples, $this->training_targets );

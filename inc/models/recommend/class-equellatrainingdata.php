@@ -207,9 +207,7 @@ class EquellaTrainingData {
 	}
 
 	/**
-	 * returns a bag-of-words based on title, subject(keywords) and description
-	 *
-	 * @return array
+	 * sets instance variables for targets and training data
 	 */
 	public function prepareData() {
 
@@ -247,7 +245,7 @@ class EquellaTrainingData {
 		foreach ( $this->subjects as $k1 => $sub ) {
 			foreach ( $sub as $k2 => $s ) {
 				if ( count( $s ) > 2 ) {
-					$classification_report[ $k1 ][ $k2 ][] =  array_pop($this->subjects[ $k1 ][ $k2 ]);
+					$classification_report[ $k1 ][ $k2 ][] = array_pop( $this->subjects[ $k1 ][ $k2 ] );
 					continue;
 				}
 			}
@@ -268,9 +266,11 @@ class EquellaTrainingData {
 	/**
 	 * @param $data
 	 *
+	 * @param bool $bi_gram
+	 *
 	 * @return array
 	 */
-	public function getDataArray( $data ) {
+	public function getBagOfWords( $data, $bi_gram = false ) {
 		$samples = [];
 		foreach ( $data as $sub1 => $sub2 ) {
 			foreach ( $sub2 as $class_name => $values ) {
@@ -278,6 +278,9 @@ class EquellaTrainingData {
 					$samples[] = sprintf( '%s %s %s %s', $sub1, $class_name, $v['title'], $v['description'] );
 				}
 			}
+		}
+		if ( true === $bi_gram ) {
+			$samples = $this->getBigram( $samples );
 		}
 
 		return $samples;
@@ -288,17 +291,16 @@ class EquellaTrainingData {
 	 *
 	 * @return array
 	 */
-	public function getBigram( $data ) {
-		$bigram = [];
+	private function getBigram( $data ) {
+		$bi_gram = [];
 		foreach ( $data as $datum ) {
 			$words = [];
 			preg_match_all( '/\w\w+/u', $datum, $words );
-			$clean    = $this->stripStopWords( $words[0] );
-			$bigram[] = $this->makeBigram( $clean );
+			$bi_gram[] = $this->makeBigram( $words[0] );
 
 		}
 
-		return $bigram;
+		return $bi_gram;
 	}
 
 	/**
@@ -306,7 +308,7 @@ class EquellaTrainingData {
 	 *
 	 * @return array
 	 */
-	public function stripStopWords( $words ) {
+	private function stripStopWords( $words ) {
 		$new = [];
 		foreach ( $words as $maybe_add ) {
 			if ( array_key_exists( $maybe_add, $this->stop_words ) ) {
@@ -324,17 +326,17 @@ class EquellaTrainingData {
 	 *
 	 * @return string
 	 */
-	protected function makeBigram( $words ) {
-		$bigrams = '';
-		$length  = count( $words );
+	private function makeBigram( $words ) {
+		$bi_grams = '';
+		$length   = count( $words );
 		for ( $i = 0; $i < $length; $i ++ ) {
 			if ( ! isset( $words[ $i ] ) || ! isset( $words[ $i + 1 ] ) ) {
 				continue;
 			}
-			$bigrams .= sprintf( '%1$s-%2$s ', $words[ $i ], $words[ $i + 1 ] );
+			$bi_grams .= sprintf( '%1$s %2$s', $words[ $i ], $words[ $i + 1 ] );
 		}
 
-		return $bigrams;
+		return $bi_grams;
 	}
 
 	/**
@@ -358,9 +360,11 @@ class EquellaTrainingData {
 	/**
 	 * @param $file_path
 	 *
+	 * @param bool $bi_gram
+	 *
 	 * @return array
 	 */
-	public function getPbJson( $file_path ) {
+	public function getPbJson( $file_path, $bi_gram = false ) {
 		$results = [];
 		if ( file_exists( $file_path ) ) {
 			$json = file_get_contents( $file_path );
@@ -372,14 +376,17 @@ class EquellaTrainingData {
 						$identifier .= $id['identifier'] . ' ';
 					}
 				}
-				$keywords  = isset( $a['metadata']['keywords'] ) ? $a['metadata']['keywords'] : '';
-				$name      = isset( $a['metadata']['name'] ) ? $a['metadata']['name'] : '';
-				$desc      = isset( $a['metadata']['description'] ) ? $a['metadata']['description'] : '';
+				$keywords = isset( $a['metadata']['keywords'] ) ? $a['metadata']['keywords'] : '';
+				$name     = isset( $a['metadata']['name'] ) ? $a['metadata']['name'] : '';
+				$desc     = isset( $a['metadata']['description'] ) ? $a['metadata']['description'] : '';
 				// backup
 				$desc      = ( empty( $desc ) && isset( $a['metadata']['disambiguatingDescription'] ) ) ? $a['metadata']['disambiguatingDescription'] : $desc;
 				$keywords2 = isset( $identifier ) ? $identifier : '';
 
 				$results[] = sprintf( '%s %s %s %s', $keywords, $keywords2, $name, strip_tags( $desc ) );
+			}
+			if ( true === $bi_gram ) {
+				$results = $this->getBigram( $results );
 			}
 		}
 

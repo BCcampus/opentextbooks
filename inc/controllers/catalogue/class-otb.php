@@ -217,10 +217,8 @@ class Otb {
 			$preprocess->separateReportDataFromTraining();
 
 			$equella_training_targets = $preprocess->getTargets( $preprocess->getTraining() );
-			$equella_training_samples = $preprocess->getDataArray( $preprocess->getTraining() );
+			$equella_training_samples = $preprocess->getBagOfWords( $preprocess->getTraining() );
 
-			//	$equella_training_samples  = $training_data->getBigram( $training_samples );
-			//	$equella_reporting_samples = $training_data->getBigram( $reporting_samples );
 
 			/*
 			|--------------------------------------------------------------------------
@@ -238,13 +236,13 @@ class Otb {
 			switch ( $this->args['view'] ) {
 				case 'equella-report':
 					$equella_reporting_targets = $preprocess->getTargets( $preprocess->getReporting() );
-					$equella_reporting_samples = $preprocess->getDataArray( $preprocess->getReporting() );
+					$equella_reporting_samples = $preprocess->getBagOfWords( $preprocess->getReporting() );
 					$predicted                 = $classifier->predict( $equella_reporting_samples );
 					$report                    = $predict->runReport( $equella_reporting_targets, $predicted );
 					$view->displayReport( $report );
 					break;
 				case 'equella-probability':
-					$equella_reporting_samples = $preprocess->getDataArray( $preprocess->getReporting() );
+					$equella_reporting_samples = $preprocess->getBagOfWords( $preprocess->getReporting() );
 					$predict->runProbability( $equella_reporting_samples );
 					break;
 				case 'remote-opentextbc':
@@ -301,7 +299,44 @@ class Otb {
 					$report                   = $predict->runReport( $oregon_reporting_targets, $predicted );
 					$view->displayReport( $report );
 					break;
-					echo 'hello';
+				case 'all-remote':
+					$otb_samples    = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/otb.json' );
+					$pb_samples     = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/pb.json' );
+					$oregon_samples = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/oregon.json' );
+					$two = array_merge($otb_samples, $pb_samples);
+					$all = array_merge($two,$oregon_samples);
+					$targets = [
+						'Business and Management',
+						'Business and Management',
+						'Liberal Arts and Humanities',
+						'Social Sciences',
+						'Sciences',
+						'Social Sciences',
+						'Business and Management',
+						'Sciences',
+						'Sciences',
+						'Liberal Arts and Humanities',
+						'Business and Management',
+						'Recreation, Tourism, Hospitality and Service',
+						'Support Resources',
+						'Sciences',
+						'Sciences',
+						'Sciences',
+						'Sciences',
+						'Social Sciences',
+						'Social Sciences',
+						'Health Related',
+						'Liberal Arts and Humanities',
+						'Upgrading Programs',
+						'Business and Management',
+						'Sciences',
+						'Sciences',
+						'Sciences',
+					];
+					$predicted                = $classifier->predict( $all );
+					$report                   = $predict->runReport( $targets, $predicted );
+					$view->displayReport( $report );
+
 			}
 
 
