@@ -19,11 +19,11 @@ include( OTB_DIR . 'assets/templates/partial/style.php' );
 </style>
 <?php
 include( OTB_DIR . 'assets/templates/partial/error-level.php' );
-include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
+//include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 //include( OTB_DIR . 'assets/templates/partial/menu.php' );
 ?>
-
-<div class="col-md-9" itemscope itemtype="https://schema.org/WebPage">
+<div class="container">
+<div class="col-12" itemscope itemtype="https://schema.org/WebPage">
 
 	<?php
 	$args            = $_GET;
@@ -34,6 +34,7 @@ include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 	unset( $_GET );
 	?>
 </div>
+</div>
 <?php
-include( OTB_DIR . 'assets/templates/partial/container-end.php' );
+//include( OTB_DIR . 'assets/templates/partial/container-end.php' );
 include( OTB_DIR . 'assets/templates/partial/scripts.php' );

@@ -336,6 +336,50 @@ class Otb {
 					$predicted                = $classifier->predict( $all );
 					$report                   = $predict->runReport( $targets, $predicted );
 					$view->displayReport( $report );
+					break;
+				case 'all':
+					$otb_samples    = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/otb.json' );
+					$pb_samples     = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/pb.json' );
+					$oregon_samples = $preprocess->getPbJson( OTB_DIR . 'inc/models/recommend/data/oregon.json' );
+					$equella_reporting_samples = $preprocess->getBagOfWords( $preprocess->getReporting() );
+					$two = array_merge($otb_samples, $pb_samples);
+					$three = array_merge($two,$oregon_samples);
+					$all = array_merge($three,$equella_reporting_samples);
+
+					$equella_reporting_targets = $preprocess->getTargets( $preprocess->getReporting() );
+					$targets = [
+						'Business and Management',
+						'Business and Management',
+						'Liberal Arts and Humanities',
+						'Social Sciences',
+						'Sciences',
+						'Social Sciences',
+						'Business and Management',
+						'Sciences',
+						'Sciences',
+						'Liberal Arts and Humanities',
+						'Business and Management',
+						'Recreation, Tourism, Hospitality and Service',
+						'Support Resources',
+						'Sciences',
+						'Sciences',
+						'Sciences',
+						'Sciences',
+						'Social Sciences',
+						'Social Sciences',
+						'Health Related',
+						'Liberal Arts and Humanities',
+						'Upgrading Programs',
+						'Business and Management',
+						'Sciences',
+						'Sciences',
+						'Sciences',
+					];
+					$all_targets = array_merge($targets, $equella_reporting_targets );
+					$predicted                = $classifier->predict( $all );
+					$report                   = $predict->runReport( $all_targets, $predicted );
+					$view->displayReport( $report );
+					break;
 
 			}
 
