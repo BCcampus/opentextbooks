@@ -147,14 +147,16 @@ class EquellaTrainingData {
 	/**
 	 * @param $data
 	 *
+	 * @param bool $subcategory
+	 *
 	 * @return array
 	 */
-	public function getTargets( $data ) {
+	public function getTargets( $data, $subcategory = false ) {
 		$targets = [];
 		foreach ( $data as $sub1 => $sub2 ) {
 			foreach ( $sub2 as $sub_name => $textbook ) {
 				foreach ( $textbook as $v ) {
-					$targets[] = $sub1;
+					$targets[] = ( false === $subcategory ) ? $sub1 : $sub_name;
 				}
 			}
 		}

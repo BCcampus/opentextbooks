@@ -380,10 +380,20 @@ class Otb {
 					$report                   = $predict->runReport( $all_targets, $predicted );
 					$view->displayReport( $report );
 					break;
-
+				default:
+					echo "<div class='bg-warning'>
+<h1 class='bg-warning'>Pass a url parameter in order to classify something</h1>
+<ul>
+<li>?view=equella-report</li>
+<li>?view=equella-probability</li>
+<li>?view=remote-opentextbc</li>
+<li>?view=remote-oregon</li>
+<li>?view=remote-pressbooks</li>
+<li>?view=all-remote</li>
+<li>?view=all</li>
+</ul>
+</div>";
 			}
-
-
 		}
 
 		$c = new Models\Storage\CleanUp();
