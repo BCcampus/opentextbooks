@@ -14,9 +14,10 @@
  * This gets and stores data and is designed to work
  * with how Models/MatomoAPI was constructed. It makes one request to either
  * the MatomoAPI or persistent storage to get each piece of analytics.
- * Calling `getResponses()` will return the entire MatomoAPI Object, whereas calling public functions
- * of this class will return either a stored version of the results, or make a
- * request to MatomoAPI to get updated results
+ * Calling `getResponses()` will return the entire MatomoAPI Object, whereas
+ *     calling public functions of this class will return either a stored
+ *     version of the results, or make a request to MatomoAPI to get updated
+ *     results
  */
 
 namespace BCcampus\OpenTextBooks\Models;
@@ -26,6 +27,7 @@ use VisualAppeal\Matomo;
 
 /**
  * Class Analytics
+ *
  * @package BCcampus\OpenTextBooks\Models
  */
 class Analytics extends Polymorphism\DataAbstract {
@@ -91,15 +93,15 @@ class Analytics extends Polymorphism\DataAbstract {
 	}
 
 	/**
-	 * @param $apiModule
-	 * @param $apiAction
-	 * @param $graphType
+	 * @param $api_module
+	 * @param $api_action
+	 * @param $graph_type
 	 *
 	 * @return string $image
 	 */
-	public function getImageGraph( $apiModule, $apiAction, $graphType ) {
+	public function getImageGraph( $api_module, $api_action, $graph_type ) {
 		$serialize = true;
-		$file_name = $this->uid . 'imageGraph' . $apiModule . $apiAction . $graphType;
+		$file_name = $this->uid . 'imageGraph' . $api_module . $api_action . $graph_type;
 		$file_type = $this->type;
 
 		$persistent_data = $this->checkStorage( $this->location, $file_name, $file_type, $serialize );
@@ -108,7 +110,7 @@ class Analytics extends Polymorphism\DataAbstract {
 			$image = $persistent_data->load();
 
 		} else {
-			$image = $this->matomo_api->getImageGraph( $apiModule, $apiAction, $graphType, $outputType = '0', $columns = '', $labels = '', $showLegend = '1', $width = '780', $height = '', $fontSize = '9', $legendFontSize = '', $aliasedGraph = '1', $idGoal = '', $colors = '' );
+			$image = $this->matomo_api->getImageGraph( $api_module, $api_action, $graph_type, $output_type = '0', $columns = '', $labels = '', $show_legend = '1', $width = '780', $height = '', $font_size = '9', $legend_font_size = '', $aliased_graph = '1', $id_goal = '', $colors = '' );
 			$this->saveToStorage( $this->location, $file_name, $file_type, $image, $serialize );
 		}
 
@@ -250,7 +252,7 @@ class Analytics extends Polymorphism\DataAbstract {
 			$actions = $this->matomo_api->getEventAction(
 				$segment, 'eventName', [
 					'expanded' => 1,
-					'flat' => 0,
+					'flat'     => 0,
 				]
 			);
 			$this->saveToStorage( $this->location, $file_name, $file_type, $actions, $serialize );
@@ -275,6 +277,9 @@ class Analytics extends Polymorphism\DataAbstract {
 			$events = $persistent_data->load();
 
 		} else {
+			if ( intval( $this->uid ) !== intval( $this->args['site_id'] ) ) {
+				$this->matomo_api->setSiteId( $this->args['site_id'] );
+			}
 			$events = $this->matomo_api->getEventName();
 			$this->saveToStorage( $this->location, $file_name, $file_type, $events, $serialize );
 		}
