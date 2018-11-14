@@ -277,7 +277,7 @@ class Analytics extends Polymorphism\DataAbstract {
 			$events = $persistent_data->load();
 
 		} else {
-			if ( intval( $this->uid ) !== intval( $this->args['site_id'] ) ) {
+			if ( intval( $this->uid ) !== intval( $this->args['site_id'] ) && empty( $uid ) ) {
 				$this->matomo_api->setSiteId( $this->args['site_id'] );
 			}
 			$events = $this->matomo_api->getEventName();
