@@ -66,7 +66,7 @@ class StatsBookReviews {
 	 * @return string
 	 */
 	public function displayReports() {
-		$html        = $not_reviewed = '';
+		$html        = '';
 		$num_reviews = count( $this->data->getAvailableReviews() );
 		$num_inst    = count( $this->uniqueInstitutions );
 		$num_books   = count( $this->uniqueBookTitles );
@@ -207,18 +207,20 @@ class StatsBookReviews {
 		$this->setAvgAndTotal( $this->data->getResponses() );
 
 		foreach ( $this->data->getResponses() as $response ) {
+			// something is throwing a space in the key when it gets here, so 'id' presents as ' id'
+			$sid = ( isset( $response['id'] ) ) ? intval( $response['id'] ) : array_shift( $response );
 
 			// set reviewers and institutions
-			if ( 'N' == $response['info7'] ) {
-				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['reviewers']    = $response['info2'];
-				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['institutions'] = $institution_ids[ $response['info6'] ];
+			if ( 0 === strcmp( 'N', $response['info7'] ) ) {
+				$this->responseByUid[ $response['info1'] ][ $sid ]['reviewers']    = $response['info2'];
+				$this->responseByUid[ $response['info1'] ][ $sid ]['institutions'] = $institution_ids[ $response['info6'] ];
 			} else {
-				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['reviewers']    = $this->data->getNames( $response );
-				$this->responseByUid[ $response['info1'] ][ $response['id'] ]['institutions'] = $this->data->getInstitutions( $response );
+				$this->responseByUid[ $response['info1'] ][ $sid ]['reviewers']    = $this->data->getNames( $response );
+				$this->responseByUid[ $response['info1'] ][ $sid ]['institutions'] = $this->data->getInstitutions( $response );
 			}
 
 			// set date
-			$this->responseByUid[ $response['info1'] ][ $response['id'] ]['date'] = $response['datestamp'];
+			$this->responseByUid[ $response['info1'] ][ $sid ]['date'] = $response['datestamp'];
 
 		}
 
@@ -245,8 +247,10 @@ class StatsBookReviews {
 				}
 			}
 
+			// something is throwing a space in the key when it gets here, so 'id' presents as ' id'
+			$s = ( isset( $val['id'] ) ) ? intval( $val['id'] ) : array_shift( $val );
 			// set the reviewer's average
-			$this->responseByUid[ $val['info1'] ][ $val['id'] ]['avg_score'] = round( $sum / $count, 2 );
+			$this->responseByUid[ $val['info1'] ][ $s ]['avg_score'] = round( $sum / $count, 2 );
 		}
 
 		// set the average score and total reviews for each book
