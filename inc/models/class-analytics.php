@@ -264,7 +264,7 @@ class Analytics extends Polymorphism\DataAbstract {
 	/**
 	 * @param string $uid
 	 *
-	 * @return array|obj|bool|string|void
+	 * @return array|bool|object
 	 */
 	public function getEventName( $uid = '' ) {
 		$serialize = true;

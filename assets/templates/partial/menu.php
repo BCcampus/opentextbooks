@@ -32,7 +32,8 @@
                     <li><a href="?subject=Business Technology">Business Tech</a></li>
                     <li><a href="?subject=Commerce">Commerce</a></li>
                     <li><a href="?subject=Economics">Economics</a></li>
-                    <li><a href="?subject=Human Resources and Organizational Behaviour">Human Resources</a></li>
+	                <li><a href="?subject=Finance">Finance</a></li>
+	                <li><a href="?subject=Human Resources and Organizational Behaviour">Human Resources</a></li>
                     <li><a href="?subject=Management">Management</a></li>
                     <li><a href="?subject=Marketing">Marketing</a></li>
                 </ul>
@@ -116,6 +117,7 @@
                                              href="#collapseSupportResources">Support Resources</a></li>
             <div id="collapseSupportResources" class="accordion-body collapse">
                 <ul>
+	                <li><a href="?subject=Directories">Directories</a></li>
                     <li><a href="?subject=Guides">Guides</a></li>
                     <li><a href="?subject=Toolkits">Toolkits</a></li>
                 </ul>
