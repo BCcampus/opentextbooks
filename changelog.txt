@@ -1,8 +1,22 @@
-v2.0.0 (03-08-2018)
+v3.1.0 (2018/11/23)
+- [enhancement] rm dist directory from vcs
+- [bug] fix individual download stats
+- [bug] fix review stats
+- coding standards applied
+- add menu items
+
+v3.0.0 (2018/08/03)
+- configuration refactoring
+- review license update
+- coding standards applied
+- update dependencies
+- travis for continuous integration
+
+v2.0.0 (2018/03/08)
 - move to composer for dependency management
 - migrate customizations into environment variables (breaking change)
 - add development tools via laravel mix
 - upgrade to bootstrap 4
 
-v1.5.0 (06-09-2017)
+v1.5.0 (2017/06/09)
 - adding support for consuming a DSpace API
