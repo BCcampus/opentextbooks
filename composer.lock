@@ -304,19 +304,20 @@
         },
         {
             "name": "visualappeal/matomo-php-api",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/VisualAppeal/Matomo-PHP-API.git",
-                "reference": "8d7f2664e4cf749f369ab6a79bbd584a87302867"
+                "reference": "1ec48ed40fe07d9cef3673f0e268ed7fc8c60571"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/VisualAppeal/Matomo-PHP-API/zipball/8d7f2664e4cf749f369ab6a79bbd584a87302867",
-                "reference": "8d7f2664e4cf749f369ab6a79bbd584a87302867",
+                "url": "https://api.github.com/repos/VisualAppeal/Matomo-PHP-API/zipball/1ec48ed40fe07d9cef3673f0e268ed7fc8c60571",
+                "reference": "1ec48ed40fe07d9cef3673f0e268ed7fc8c60571",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": ">=7",
                 "voku/httpful": "0.4.*"
             },
@@ -334,7 +335,7 @@
                 "MIT"
             ],
             "description": "API wrapper for matomo",
-            "time": "2018-10-05T13:29:10+00:00"
+            "time": "2018-11-26T13:01:59+00:00"
         },
         {
             "name": "voku/httpful",
@@ -394,16 +395,16 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "5.2.11",
+            "version": "5.2.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "3e5c551d33f1c6c9730872c21349f783d92dbbfa"
+                "reference": "ff7e2b26da1ddf78bc73011ce26a884442b4778b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/3e5c551d33f1c6c9730872c21349f783d92dbbfa",
-                "reference": "3e5c551d33f1c6c9730872c21349f783d92dbbfa",
+                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/ff7e2b26da1ddf78bc73011ce26a884442b4778b",
+                "reference": "ff7e2b26da1ddf78bc73011ce26a884442b4778b",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +463,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2018-10-19T20:36:08+00:00"
+            "time": "2018-11-29T15:31:06+00:00"
         },
         {
             "name": "weberhofer/jsonrpcphp",
