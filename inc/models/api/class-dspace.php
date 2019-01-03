@@ -78,14 +78,12 @@ class Dspace implements Polymorphism\RestInterface {
 			// rest/collections/:ID/items[?expand={metadata,bitstreams}]
 			if ( empty( $args['search'] ) && empty( $args['subject'] ) ) {
 				$this->url = $this->apiBaseUrl . 'collections/' . $this->collectionUuid . '/items?' . $expand . '&' . $limitations;
-			} // filter by subject area, contain the search by the collection handle
-			elseif ( ! empty( $args['subject'] ) ) {
+			} elseif ( ! empty( $args['subject'] ) ) { // filter by subject area, contain the search by the collection handle
 				$filtered_query   = $query_field . 'dc.subject.*&' . $query_op . 'matches&' . $query_val . $case_insensitive . $args['subject'];
 				$collection_query = $coll_sel . $this->collectionUuid;
 				$filter_query     = 'filters=' . $filters;
 				$this->url        = $this->apiBaseUrl . 'filtered-items?' . $filtered_query . '&' . $collection_query . '&' . $filter_query . '&' . $expand . '&' . $limitations;
-			} // filter by search term
-			elseif ( ! empty( $args['search'] ) && is_array( $args['search'] ) ) {
+			} elseif ( ! empty( $args['search'] ) && is_array( $args['search'] ) ) { // filter by search term
 				foreach ( $args['search'] as $term ) {
 					$regex .= $wild_card . $term;
 				}

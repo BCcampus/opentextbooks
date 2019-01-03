@@ -79,8 +79,9 @@ class CleanUp {
 	 * @param string $ext
 	 */
 	protected function clean( $dir, $ext ) {
+		$handle = opendir( $this->path . $dir );
 
-		if ( $handle = opendir( $this->path . $dir ) ) {
+		if ( $handle ) {
 
 			while ( false !== ( $file = readdir( $handle ) ) ) {
 				// check the file extension

@@ -117,7 +117,7 @@ class Cache implements StorageInterface {
 		\BCcampus\Utility\restrict_access();
 
 		if ( file_exists( $this->name ) && is_writeable( $this->name ) || file_exists( $this->location ) && is_writeable( $this->location ) ) {
-			if ( true == $this->serialize ) {
+			if ( true === $this->serialize ) {
 				$data = serialize( $data );
 			}
 
@@ -125,7 +125,7 @@ class Cache implements StorageInterface {
 
 		} else {
 			$this->mkFile();
-			if ( true == $this->serialize ) {
+			if ( true === $this->serialize ) {
 				$data = serialize( $data );
 			}
 
@@ -142,7 +142,7 @@ class Cache implements StorageInterface {
 	 */
 	public function load() {
 		if ( file_exists( $this->name ) && is_readable( $this->name ) ) {
-			( true == $this->serialize ? $data = unserialize( file_get_contents( $this->name ) ) : $data = file_get_contents( $this->name ) );
+			( true === $this->serialize ? $data = unserialize( file_get_contents( $this->name ) ) : $data = file_get_contents( $this->name ) );
 
 			return $data;
 		}

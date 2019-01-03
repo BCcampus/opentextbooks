@@ -1,8 +1,9 @@
 <?php
-include_once 'autoloader.php';
 
 use BCcampus\OpenTextBooks\Controllers\Catalogue;
 use BCcampus\OpenTextBooks\Controllers\Reviews;
+
+include_once 'autoloader.php';
 
 include( OTB_DIR . 'assets/templates/partial/style.php' );
 ?>
@@ -32,7 +33,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 
 	new Catalogue\Otb( $args );
 
-	if ( isset( $args['uuid'] ) && $args['uuid'] != '' ) {
+	if ( isset( $args['uuid'] ) && $args['uuid'] !== '' ) {
 
 		// overwrite variable
 		$args['type_of'] = 'reviews';
@@ -40,7 +41,7 @@ include( OTB_DIR . 'assets/templates/partial/menu.php' );
 		try {
 			new Reviews\LimeSurvey( $args );
 		} catch ( \Exception $exc ) {
-			error_log( $exc->getMessage(), 0 );
+			error_log( $exc->getMessage(), 0 ); //@codingStandardsIgnoreLine
 		}
 	}
 	unset( $_GET );

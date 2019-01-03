@@ -234,7 +234,7 @@ class WebForm extends Polymorphism\DataAbstract {
 				$part = strstr( $response['email'], '@' );
 				// return everything but the @
 				$domain = substr( $part, 1 );
-				if ( ! in_array( $domain, $this->other_bc_domains ) ) {
+				if ( ! in_array( $domain, $this->other_bc_domains, true ) ) {
 					// @TODO - deal with non bc responses
 					// set the variable
 					// $this->non_bc_responses[ $key ] = $this->responses[ $key ];
@@ -334,7 +334,7 @@ class WebForm extends Polymorphism\DataAbstract {
 				$this->responses[ $key ]['past_repeat_savings'] = 0;
 			}
 			// if a request has been made to not publish their name
-			if ( 0 == strcmp( $this->responses[ $key ]['publish_name'], 'No' ) ) {
+			if ( 0 === strcmp( $this->responses[ $key ]['publish_name'], 'No' ) ) {
 				unset( $this->responses[ $key ]['first_name'] );
 				unset( $this->responses[ $key ]['last_name'] );
 			}
@@ -596,7 +596,8 @@ class WebForm extends Polymorphism\DataAbstract {
 	 * @return array
 	 */
 	public function getFacultyInfo() {
-		$results = $grouped = [];
+		$results = [];
+		$grouped = [];
 
 		foreach ( $this->faculty as $member ) {
 			if ( ! empty( $member['institution_name'] ) ) {

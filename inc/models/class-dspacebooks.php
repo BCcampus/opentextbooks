@@ -102,17 +102,13 @@ class DspaceBooks extends Polymorphism\DataAbstract {
 		// name file after the collection
 		if ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) ) {
 			$name = $this->args['collectionUuid'];
-		} // individual record
-		elseif ( ! empty( $this->args['uuid'] ) ) {
+		} elseif ( ! empty( $this->args['uuid'] ) ) { // individual record
 			$name = $this->args['collectionUuid'] . $this->args['uuid'];
-		} // search term
-		elseif ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && ! empty( $this->args['search'] ) ) {
+		} elseif ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && ! empty( $this->args['search'] ) ) { // search term
 			$name = $this->args['collectionUuid'] . \BCcampus\Utility\array_to_string( $this->args['search'] );
-		} // subject area
-		elseif ( ! empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) ) {
+		} elseif ( ! empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) ) { // subject area
 			$name = $this->args['collectionUuid'] . $this->args['subject'];
-		} // subject area and search term
-		elseif ( ! empty( $this->args['subject'] ) && ! empty( $this->args['search'] ) ) {
+		} elseif ( ! empty( $this->args['subject'] ) && ! empty( $this->args['search'] ) ) { // subject area and search term
 			$name = $this->args['collectionUuid'] . $this->args['subject'] . \BCcampus\Utility\array_to_string( $this->args['search'] );
 		}
 

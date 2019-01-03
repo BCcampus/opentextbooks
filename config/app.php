@@ -12,7 +12,7 @@ use BCcampus\OpenTextBooks;
 |
 */
 include( 'constants.php' );
-include( OTB_DIR . 'inc/otb-utility.php' );
+include( OTB_DIR . 'inc/utility/namespace.php' );
 include( OTB_DIR . 'vendor/autoload.php' );
 
 /*

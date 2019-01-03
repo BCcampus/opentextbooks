@@ -110,7 +110,7 @@ class Analytics extends Polymorphism\DataAbstract {
 			$image = $persistent_data->load();
 
 		} else {
-			$image = $this->matomo_api->getImageGraph( $api_module, $api_action, $graph_type, $output_type = '0', $columns = '', $labels = '', $show_legend = '1', $width = '780', $height = '', $font_size = '9', $legend_font_size = '', $aliased_graph = '1', $id_goal = '', $colors = '' );
+			$image = $this->matomo_api->getImageGraph( $api_module, $api_action, $graph_type, $output_type = '0', $columns = '', $labels = '', $show_legend = '1', $width = '780', $height = '', $font_size = '9', $legend_font_size = '', $aliased_graph = '1', $id_goal = '', $colors = '' ); //@codingStandardsIgnoreLine
 			$this->saveToStorage( $this->location, $file_name, $file_type, $image, $serialize );
 		}
 

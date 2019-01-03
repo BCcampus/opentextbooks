@@ -42,7 +42,7 @@ class Equella implements Polymorphism\RestInterface {
 
 		// must be url encoded
 		$args['subject'] = \BCcampus\Utility\url_encode( $args['subject'] );
-		$anyQuery        = $args['search'];
+		$any_query       = $args['search'];
 		$order           = 'modified';
 		$start           = 0;
 		$info            = [ 'basic', 'metadata', 'detail', 'attachment', 'drm' ];
@@ -58,86 +58,79 @@ class Equella implements Polymorphism\RestInterface {
 			$result    = json_decode( file_get_contents( $this->url ), true );
 
 			return $result;
-		} // MANY ITEMS
-		else {
+		} else { // MANY ITEMS
 
 			//the limit for the API is 50 items, so we need 50 or less. 0 is 'limitless' so we need to set
 			//it to the max and loop until we reach all available results, 50 at a time.
-			$limit = ( $limit == 0 || $limit > 50 ? $limit = 50 : $limit = $limit );
+			$limit = ( $limit === 0 || $limit > 50 ? $limit = 50 : $limit = $limit );
 
-			$firstSubjectPath  = '';
-			$secondSubjectPath = '';
-			$is                = \BCcampus\Utility\raw_url_encode( self::OPR_IS );
-			$or                = \BCcampus\Utility\raw_url_encode( self::OPR_OR );
-			$optionalParam     = '&info=' . \BCcampus\Utility\array_to_csv( $info ) . '';
+			$first_subject_path  = '';
+			$second_subject_path = '';
+			$is                  = \BCcampus\Utility\raw_url_encode( self::OPR_IS );
+			$or                  = \BCcampus\Utility\raw_url_encode( self::OPR_OR );
+			$optional_param      = '&info=' . \BCcampus\Utility\array_to_csv( $info ) . '';
 
 			// if there's a specified user query, deal with it, change the order
 			// to relevance as opposed to 'modified' (default)
-			if ( $anyQuery != '' ) {
-				$order    = 'relevance';
-				$anyQuery = \BCcampus\Utility\raw_url_encode( $anyQuery );
-				$anyQuery = 'q=' . $anyQuery . '&';
+			if ( $any_query !== '' ) {
+				$order     = 'relevance';
+				$any_query = \BCcampus\Utility\raw_url_encode( $any_query );
+				$any_query = 'q=' . $any_query . '&';
 			}
 
 			// start building the URL
-			$searchWhere = 'search?' . $anyQuery . '&collections=' . $args['collectionUuid'] . '&start=' . $start . '&length=' . $limit . '&order=' . $order . '&where=';   //limit 50 is the max results allowed by the API
+			$search_where = 'search?' . $any_query . '&collections=' . $args['collectionUuid'] . '&start=' . $start . '&length=' . $limit . '&order=' . $order . '&where=';   //limit 50 is the max results allowed by the API
 			//switch the API url, depending on whether you are searching for a keyword or a subject.
 			if ( empty( $args['subject'] ) ) {
-				$this->url = $this->apiBaseUrl . $searchWhere . $optionalParam;
-			} // SCENARIOS, require three distinct request urls depending...
-			// 1
-			elseif ( $args['keyword'] == true ) {
-				$firstSubjectPath = \BCcampus\Utility\url_encode( $this->keywordPath );
+				$this->url = $this->apiBaseUrl . $search_where . $optional_param;
+			} elseif ( $args['keyword'] === true ) { // SCENARIOS, require three distinct request urls depending...
+				$first_subject_path = \BCcampus\Utility\url_encode( $this->keywordPath );
 				//oh, the API is case sensitive so this broadens our results, which we want
-				$secondWhere = strtolower( $args['subject'] );
-				$firstWhere  = ucwords( $args['subject'] );
-				$this->url   = $this->apiBaseUrl . $searchWhere . $firstSubjectPath . $is . "'" . $firstWhere . "'" . $or . $firstSubjectPath . $is . "'" . $secondWhere . "'" . $optionalParam;  //add the base url, put it all together
-			} // 2
-			elseif ( $args['contributor'] == true ) {
-				$firstSubjectPath = \BCcampus\Utility\url_encode( $this->contributorPath );
-				$this->url        = $this->apiBaseUrl . $searchWhere . $firstSubjectPath . $is . "'" . $args['subject'] . "'" . $optionalParam;
-			} // 3
-			else {
-				$firstSubjectPath  = \BCcampus\Utility\url_encode( $this->subjectPath1 );
-				$secondSubjectPath = \BCcampus\Utility\url_encode( $this->subjectPath2 );
-				$this->url         = $this->apiBaseUrl . $searchWhere . $firstSubjectPath . $is . "'" . $args['subject'] . "'" . $or . $secondSubjectPath . $is . "'" . $args['subject'] . "'" . $optionalParam;  //add the base url, put it all together
+				$second_where = strtolower( $args['subject'] );
+				$first_where  = ucwords( $args['subject'] );
+				$this->url    = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $first_where . "'" . $or . $first_subject_path . $is . "'" . $second_where . "'" . $optional_param;  //add the base url, put it all together
+			} elseif ( $args['contributor'] === true ) {
+				$first_subject_path = \BCcampus\Utility\url_encode( $this->contributorPath );
+				$this->url          = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $args['subject'] . "'" . $optional_param;
+			} else {
+				$first_subject_path  = \BCcampus\Utility\url_encode( $this->subjectPath1 );
+				$second_subject_path = \BCcampus\Utility\url_encode( $this->subjectPath2 );
+				$this->url           = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $args['subject'] . "'" . $or . $second_subject_path . $is . "'" . $args['subject'] . "'" . $optional_param;  //add the base url, put it all together
 			}
 
 			//get the array back from the API call
 			$result = json_decode( file_get_contents( $this->url ), true );
 
 			//if the # of results we get back is less than the max we asked for
-			if ( $result['length'] != 50 ) {
+			if ( $result['length'] !== 50 ) {
 				return $result['results'];
 			} else {
 
 				// is the available amount greater than the what was returned? Get more!
-				$availableResults = $result['available'];
-				$start            = $result['start'];
-				$limit            = $result['length'];
+				$available_results = $result['available'];
+				$start             = $result['start'];
+				$limit             = $result['length'];
 
-				if ( $availableResults > $limit ) {
-					$loop = intval( $availableResults / $limit );
+				if ( $available_results > $limit ) {
+					$loop = intval( $available_results / $limit );
 
 					for ( $i = 0; $i < $loop; $i ++ ) {
-						$start       = $start + 50;
-						$searchWhere = 'search?' . $anyQuery . '&collections=' . $args['collectionUuid'] . '&start=' . $start . '&length=' . $limit . '&order=' . $order . '&where=';   //length 50 is the max results allowed by the API
+						$start        = $start + 50;
+						$search_where = 'search?' . $any_query . '&collections=' . $args['collectionUuid'] . '&start=' . $start . '&length=' . $limit . '&order=' . $order . '&where=';   //length 50 is the max results allowed by the API
 						//Three different scenarios here, depending..
 						//1
-						if ( ! empty( $args['subject'] ) && $args['contributor'] == true ) {
-							$this->url = $this->apiBaseUrl . $searchWhere . $firstSubjectPath . $is . "'" . $args['subject'] . "'" . $optionalParam;
-						} //2
-						elseif ( ! empty( $args['subject'] ) ) {
-							$this->url = $this->apiBaseUrl . $searchWhere . $firstSubjectPath . $is . "'" . $args['subject'] . "'" . $or . $secondSubjectPath . $is . "'" . $args['subject'] . "'" . $optionalParam;  //add the base url, put it all together
-						} //3
-						else {
-							$this->url = $this->apiBaseUrl . $searchWhere . $optionalParam;
+						if ( ! empty( $args['subject'] ) && $args['contributor'] === true ) {
+							$this->url = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $args['subject'] . "'" . $optional_param;
+						} elseif ( ! empty( $args['subject'] ) ) {
+							$this->url = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $args['subject'] . "'" . $or . $second_subject_path . $is . "'" . $args['subject'] . "'" . $optional_param;  //add the base url, put it all together
+						} else {
+							$this->url = $this->apiBaseUrl . $search_where . $optional_param;
 						}
-						$nextResult = json_decode( file_get_contents( $this->url ), true );
+						$next_result = json_decode( file_get_contents( $this->url ), true );
 
 						// push each new result onto the existing array
-						$partOfNextResult = $nextResult['results'];
-						foreach ( $partOfNextResult as $val ) {
+						$part_of_next_result = $next_result['results'];
+						foreach ( $part_of_next_result as $val ) {
 							array_push( $result['results'], $val );
 						}
 					}

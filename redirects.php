@@ -2,9 +2,10 @@
 /**
  * copy and paste master template for new pages
  */
-include_once 'autoloader.php';
 
 use BCcampus\OpenTextBooks\Controllers\Redirects;
+
+include_once 'autoloader.php';
 
 include( OTB_DIR . 'assets/templates/partial/header.php' );
 include( OTB_DIR . 'assets/templates/partial/head.php' );

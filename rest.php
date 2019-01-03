@@ -11,8 +11,9 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.txt
  * @copyright (c) 2012-2017, Brad Payne
  */
-include_once 'autoloader.php';
 use BCcampus\OpenTextBooks\Controllers\Webform;
+
+include_once 'autoloader.php';
 
 $args = $_GET;
 

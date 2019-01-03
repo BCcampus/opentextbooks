@@ -28,7 +28,7 @@ use BCcampus\OpenTextBooks\Models;
 use BCcampus\OpenTextBooks\Views;
 use org\jsonrpcphp;
 
-ini_set( 'auto_detect_line_endings', 1 );
+ini_set( 'auto_detect_line_endings', 1 ); //@codingStandardsIgnoreLine
 
 class LimeSurvey {
 
@@ -100,7 +100,7 @@ class LimeSurvey {
 			$this->args = array_merge( $this->defaultArgs, $args );
 		}
 
-		if ( in_array( $this->args['type_of'], $this->expected ) ) {
+		if ( in_array( $this->args['type_of'], $this->expected, true ) ) {
 			$this->decider();
 		} else {
 			return '';
@@ -138,11 +138,10 @@ class LimeSurvey {
 				break;
 
 			default:
-				//new Views\Errors(['msg' => 'Sorry, there is no view associated with that parameter']);
+				//new Views\Errors(['msg' => 'Sorry, there is no view associated with that parameter']); //@codingStandardsIgnoreLine
 		}
 
 		$c = new Models\Storage\CleanUp();
-		//      $c->maybeRun( 'reviews', 'txt' );
 		$c->maybeRun( 'reviews', 'csv' );
 	}
 

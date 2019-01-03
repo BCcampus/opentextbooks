@@ -2,13 +2,13 @@
 /**
  * displays adoption reports from piwik, limesurvey and solr
  */
-include_once 'autoloader.php';
 
 use BCcampus\OpenTextBooks\Controllers\Analytics;
 use BCcampus\OpenTextBooks\Controllers\Catalogue;
 use BCcampus\OpenTextBooks\Controllers\Reviews;
 use BCcampus\OpenTextBooks\Controllers\Webform;
 
+include_once 'autoloader.php';
 include( OTB_DIR . 'assets/templates/partial/style.php' );
 ?>
 <style type="text/css">
@@ -47,8 +47,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 	<div class="tab-content">
 
 		<div role="tabpanel" id="webform_stats" class="tab-pane active">
-			<img src="<?php echo OTB_URL ?>assets/images/webform.png" class="pull-right img-responsive img-rounded"
-				 alt="webform"/>
+			<img src="<?php echo OTB_URL ?>assets/images/webform.png" class="pull-right img-responsive img-rounded" alt="webform"/>
 
 			<?php
 
@@ -77,8 +76,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 		</div>
 
 		<div role="tabpanel" id="opentext_stats" class="tab-pane">
-			<img src="<?php echo OTB_URL ?>assets/images/opentext.png" class="pull-right img-responsive img-rounded"
-				 alt="open text bc site"/>
+			<img src="<?php echo OTB_URL ?>assets/images/opentext.png" class="pull-right img-responsive img-rounded" alt="open text bc site"/>
 
 			<?php
 
@@ -91,8 +89,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 		</div>
 
 		<div role="tabpanel" id="open_stats" class="tab-pane">
-			<img src="<?php echo OTB_URL ?>assets/images/open.png" class="pull-right img-responsive img-rounded"
-				 alt="open site"/>
+			<img src="<?php echo OTB_URL ?>assets/images/open.png" class="pull-right img-responsive img-rounded" alt="open site"/>
 			<?php
 			$open_args = [
 				'site_id' => 12,
@@ -104,8 +101,7 @@ include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 		</div>
 
 		<div role="tabpanel" id="review_stats" class="tab-pane">
-			<img src="<?php echo OTB_URL ?>assets/images/reviews.png" class="pull-right img-responsive img-rounded"
-				 alt="lime survey site"/>
+			<img src="<?php echo OTB_URL ?>assets/images/reviews.png" class="pull-right img-responsive img-rounded" alt="lime survey site"/>
 
 			<?php
 			$ls_args['type_of'] = 'review_stats';

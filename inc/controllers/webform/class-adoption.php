@@ -83,7 +83,7 @@ class Adoption {
 		switch ( $this->args['type_of'] ) {
 			case 'webform_stats':
 				$view->displayOtbStats();
-				//$view->displayFacultyNames();
+				//$view->displayFacultyNames(); //@codingStandardsIgnoreLine
 				break;
 			case 'webform_summary':
 				$view->displaySummaryStats();

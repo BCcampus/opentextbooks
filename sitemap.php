@@ -2,8 +2,9 @@
 /*
  * Create a sitemap for the open textbook catalogue
  */
-include_once 'autoloader.php';
 use BCcampus\OpenTextBooks\Controllers\Sitemap;
+
+include_once 'autoloader.php';
 
 $r = new Sitemap\Textbooks();
 

@@ -246,14 +246,16 @@ class OtbReviews extends Polymorphism\DataAbstract {
 
 		$header = null;
 		$data   = [];
-		if ( ( $handle = fopen( $file, 'r' ) ) !== false ) {
+		$handle = fopen( $file, 'r' );
+
+		if ( ( $handle ) !== false ) {
 
 			while ( ( $row = fgetcsv( $handle, 10000, ';' ) ) !== false ) {
 				if ( ! $header ) {
 					// @see https://stackoverflow.com/questions/29828508/fgetcsv-wrongly-adds-double-quotes-to-first-element-of-first-line
 					$row[0] = str_replace( '"', '', $row[0] );
 					$header = $row;
-				} elseif ( ! empty( $row ) && ( count( $header ) == count( $row ) ) ) {
+				} elseif ( ! empty( $row ) && ( count( $header ) === count( $row ) ) ) {
 					$data[] = array_combine( $header, $row );
 				}
 			}
@@ -278,7 +280,7 @@ class OtbReviews extends Polymorphism\DataAbstract {
 
 		for ( $i = 0; $i < $num; $i ++ ) {
 			// get rid of unwanted responses
-			if ( isset( $data[ $i ]['id'] ) && in_array( $data[ $i ]['id'], $this->omit_responses ) ) {
+			if ( isset( $data[ $i ]['id'] ) && in_array( $data[ $i ]['id'], $this->omit_responses, true ) ) {
 				unset( $data[ $i ] );
 			}
 			// strip personal information

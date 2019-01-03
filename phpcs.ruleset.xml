@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <ruleset>
-	<!-- Scan only PHP files -->
-	<arg name="extensions" value="php"/>
-	<!-- Show colors in console -->
-	<arg value="-colors"/>
-	<!-- Show progress -->
-	<arg value="p"/>
-	<!-- Be quiet -->
-	<arg value="q"/>
-	<!-- Include source codes in the report -->
-	<arg value="s"/>
+    <!-- Scan only PHP files -->
+    <arg name="extensions" value="php"/>
+    <!-- Show colors in console -->
+    <arg value="-colors"/>
+    <!-- Show progress -->
+    <arg value="p"/>
+    <!-- Be quiet -->
+    <arg value="q"/>
+    <!-- Include source codes in the report -->
+    <arg value="s"/>
     <!-- Use HM Coding Standards -->
     <rule ref="vendor/humanmade/coding-standards">
         <!-- Disable all ESLint checks -->
@@ -19,7 +19,8 @@
         <exclude name="WordPress.NamingConventions.ValidVariableName.MemberNotSnakeCase"/>
         <exclude name="WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar"/>
         <!-- though it can live in a WP environment, it is not a WP application -->
-		<exclude name="WordPress.WP.AlternativeFunctions"/>
+        <exclude name="WordPress.WP.AlternativeFunctions"/>
+        <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification"/>
     </rule>
 
     <!-- Re-enable rules we agree with -->
@@ -27,6 +28,11 @@
 
     <!-- Disable Namespaced Functions for vendors -->
     <exclude-pattern>/vendor/*</exclude-pattern>
-	<exclude-pattern>/cache/*</exclude-pattern>
+    <exclude-pattern>/cache/*</exclude-pattern>
+
+    <!-- would like to maintain WP independence -->
+    <rule ref="WordPress.DB.RestrictedClasses.mysql__PDO">
+        <exclude-pattern>/inc/models/class-webform.php</exclude-pattern>
+    </rule>
 
 </ruleset>
