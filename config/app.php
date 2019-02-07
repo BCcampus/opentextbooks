@@ -27,7 +27,7 @@ include( OTB_DIR . 'vendor/autoload.php' );
 
 //find the domain
 $override = include( 'env.php' );
-if ( file_exists( 'env.php' ) && ! empty( $override['environment'] ) ) {
+if ( empty( OpenTextBooks\Config::getInstance()->get ) && file_exists( 'env.php' ) && ! empty( $override['environment'] ) ) {
 	$domain = $override['environment'];
 } else {
 	$domain = $_SERVER['HTTP_HOST'];
@@ -37,7 +37,7 @@ if ( file_exists( 'env.php' ) && ! empty( $override['environment'] ) ) {
 if ( file_exists( OTB_DIR . 'config/environments/.env.' . $domain . '.php' ) ) {
 	$env = include( OTB_DIR . 'config/environments/.env.' . $domain . '.php' );
 	OpenTextBooks\Config::getInstance()->set( $env );
-} else {
+} elseif ( empty( OpenTextBooks\Config::getInstance()->get ) ) {
 	$ignored = [ '.', '..', '.htaccess', 'env.sample.php' ];
 	$files   = [];
 
