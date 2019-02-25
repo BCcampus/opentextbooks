@@ -395,16 +395,16 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "5.4.0",
+            "version": "5.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "6eb2544c5b991463095b34ec137b0433d710afb9"
+                "reference": "ad7fde82f25627af9e127ffb4ed5fe121e869e0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/6eb2544c5b991463095b34ec137b0433d710afb9",
-                "reference": "6eb2544c5b991463095b34ec137b0433d710afb9",
+                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/ad7fde82f25627af9e127ffb4ed5fe121e869e0b",
+                "reference": "ad7fde82f25627af9e127ffb4ed5fe121e869e0b",
                 "shasum": ""
             },
             "require": {
@@ -464,7 +464,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2019-01-22T12:44:56+00:00"
+            "time": "2019-02-10T23:35:54+00:00"
         },
         {
             "name": "weberhofer/jsonrpcphp",
@@ -1402,6 +1402,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2018-08-09T05:50:03+00:00"
         },
         {
