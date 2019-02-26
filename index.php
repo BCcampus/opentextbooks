@@ -21,14 +21,38 @@ include( OTB_DIR . 'assets/templates/partial/style.php' );
 </style>
 <?php
 include( OTB_DIR . 'assets/templates/partial/error-level.php' );
-$args= [];
-$default = [
-	'type_of' => 'books',
-	'lists' => 'latest_additions',
-	'subject_class_level_2' => 'Guides,Toolkits',
-	'limit' => 4
-];
+include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
+include( OTB_DIR . 'assets/templates/partial/menu.php' );
+?>
 
-$merged = array_merge($default, $args );
-new Catalogue\Otb( $merged );
+<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12" itemscope itemtype="https://schema.org/Book">
 
+	<?php
+	$args            = $_GET;
+	$args['type_of'] = 'books';
+
+	new Catalogue\Otb( $args );
+
+	if ( isset( $args['uuid'] ) && $args['uuid'] !== '' ) {
+
+		// overwrite variable
+		$args['type_of'] = 'reviews';
+
+		try {
+			new Reviews\LimeSurvey( $args );
+		} catch ( \Exception $exc ) {
+			error_log( $exc->getMessage(), 0 ); //@codingStandardsIgnoreLine
+		}
+	}
+	unset( $_GET );
+	?>
+</div>
+<?php
+include( OTB_DIR . 'assets/templates/partial/container-end.php' );
+include( OTB_DIR . 'assets/templates/partial/scripts.php' );
+?>
+
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
