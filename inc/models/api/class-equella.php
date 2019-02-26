@@ -64,8 +64,10 @@ class Equella implements Polymorphism\RestInterface {
 			//it to the max and loop until we reach all available results, 50 at a time.
 			$limit = ( $limit === 0 || $limit > 50 ? $limit = 50 : $limit = $limit );
 
-			$first_subject_path  = '';
-			$second_subject_path = '';
+			$first_subject_path  = \BCcampus\Utility\url_encode( $this->subjectPath1 );
+			$second_subject_path = \BCcampus\Utility\url_encode( $this->subjectPath2 );
+			$sec_subj            = [];
+			$combined            = '';
 			$is                  = \BCcampus\Utility\raw_url_encode( self::OPR_IS );
 			$or                  = \BCcampus\Utility\raw_url_encode( self::OPR_OR );
 			$optional_param      = '&info=' . \BCcampus\Utility\array_to_csv( $info ) . '';
@@ -81,7 +83,7 @@ class Equella implements Polymorphism\RestInterface {
 			// start building the URL
 			$search_where = 'search?' . $any_query . '&collections=' . $args['collectionUuid'] . '&start=' . $start . '&length=' . $limit . '&order=' . $order . '&where=';   //limit 50 is the max results allowed by the API
 			//switch the API url, depending on whether you are searching for a keyword or a subject.
-			if ( empty( $args['subject'] ) ) {
+			if ( empty( $args['subject'] ) && empty( $args['subject_class_level_2'] ) ) {
 				$this->url = $this->apiBaseUrl . $search_where . $optional_param;
 			} elseif ( $args['keyword'] === true ) { // SCENARIOS, require three distinct request urls depending...
 				$first_subject_path = \BCcampus\Utility\url_encode( $this->keywordPath );
@@ -92,10 +94,19 @@ class Equella implements Polymorphism\RestInterface {
 			} elseif ( $args['contributor'] === true ) {
 				$first_subject_path = \BCcampus\Utility\url_encode( $this->contributorPath );
 				$this->url          = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $args['subject'] . "'" . $optional_param;
+			} elseif ( isset( $args['subject_class_level_2'] ) && ! empty( $args['subject_class_level_2'] ) ) { // to handle multiple secondary subjects
+				$sec_subj   = explode( ',', $args['subject_class_level_2'] );
+				$c_sec_subj = count( $sec_subj );
+				$i          = 1;
+
+				foreach ( $sec_subj as $s ) {
+					$sec_subj_opr = ( $i === $c_sec_subj ) ? '' : $or;
+					$combined    .= $second_subject_path . $is . "'" . $s . "'" . $sec_subj_opr;
+					$i ++;
+				}
+				$this->url = sprintf( '%1$s%2$s%3$s%4$s', $this->apiBaseUrl, $search_where, $combined, $optional_param );
 			} else {
-				$first_subject_path  = \BCcampus\Utility\url_encode( $this->subjectPath1 );
-				$second_subject_path = \BCcampus\Utility\url_encode( $this->subjectPath2 );
-				$this->url           = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $args['subject'] . "'" . $or . $second_subject_path . $is . "'" . $args['subject'] . "'" . $optional_param;  //add the base url, put it all together
+				$this->url = sprintf( '%1$s%2$s%3$s%4$s%5$s%6$s%7$s%4$s%5$s%8$s', $this->apiBaseUrl, $search_where, $first_subject_path, $is, $args['subject'], $or, $second_subject_path, $optional_param );
 			}
 
 			//get the array back from the API call
