@@ -302,7 +302,7 @@ class Books {
 			$i ++;
 			$meta_xml = simplexml_load_string( $datum['metadata'] );
 			$cover    = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
-			$html .= ( $meta_xml->item->cover ) ? sprintf( '<a href="/%1$s/?uuid=%2$s"><img itemprop="image" class="img-polaroid" src="%3$s" alt="image of %4$s" width="151px" height="196px" /></a><p>%4$s</p>', $env['domain']['app_path'], $datum['uuid'], $cover, $datum['name']) : sprintf( '<p>%1$s</p>', $datum['name'] );
+			$html    .= ( $meta_xml->item->cover ) ? sprintf( '<a href="/%1$s/?uuid=%2$s"><img itemprop="image" class="img-polaroid" src="%3$s" alt="image of %4$s" width="151px" height="196px" /></a><p>%4$s</p>', $env['domain']['app_path'], $datum['uuid'], $cover, $datum['name'] ) : sprintf( '<p>%1$s</p>', $datum['name'] );
 			if ( $i === $limit ) {
 				break;
 			}

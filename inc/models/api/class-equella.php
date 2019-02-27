@@ -106,7 +106,7 @@ class Equella implements Polymorphism\RestInterface {
 				}
 				$this->url = sprintf( '%1$s%2$s%3$s%4$s', $this->apiBaseUrl, $search_where, $combined, $optional_param );
 			} else {
-				$this->url = sprintf( '%1$s%2$s%3$s%4$s%5$s%6$s%7$s%4$s%5$s%8$s', $this->apiBaseUrl, $search_where, $first_subject_path, $is, $args['subject'], $or, $second_subject_path, $optional_param );
+				$this->url = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $args['subject'] . "'" . $or . $second_subject_path . $is . "'" . $args['subject'] . "'" . $optional_param;  //add the base url, put it all together
 			}
 
 			//get the array back from the API call
