@@ -109,6 +109,11 @@ class Otb {
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
 			],
+			// Strips characters that have a numerical value >127.
+			'subject_class_level_2'     => [
+				'filter' => FILTER_SANITIZE_STRING,
+				'flags'  => FILTER_FLAG_STRIP_HIGH,
+			],
 		];
 
 		// filter get input, delete empty values
@@ -143,7 +148,7 @@ class Otb {
 
 		if ( $this->args['type_of'] == 'books' ) {
 			$view           = new Views\Books( $data );
-			$expected_lists = [ 'adopted', 'ancillary', 'reviewed', 'accessible', 'titles' ];
+			$expected_lists = [ 'adopted', 'ancillary', 'reviewed', 'accessible', 'titles', 'latest_additions' ];
 
 			// for lists of books matching certain criteria
 			if ( ! empty( $this->args['lists'] ) && in_array( $this->args['lists'], $expected_lists ) ) {
@@ -156,7 +161,9 @@ class Otb {
 
 						$view->displayContactFormTitles( $reviews->getNumReviewsPerBook() );
 						break;
-
+					case 'latest_additions':
+						$view->displayLatestAdditions( $this->args['limit'] );
+						break;
 					default:
 						$view->displayTitlesByType( $this->args['lists'] );
 				}

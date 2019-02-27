@@ -41,6 +41,8 @@
   "require": {
     "weberhofer/jsonrpcphp": "^2.2.1",
     "visualappeal/matomo-php-api": "^1.4.2",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "ext-libxml": "*"
   }
 }

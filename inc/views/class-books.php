@@ -282,6 +282,36 @@ class Books {
 	}
 
 	/**
+	 *
+	 * @param $limit
+	 *
+	 * @return string
+	 */
+	public function displayLatestAdditions( $limit ) {
+		try {
+			$env = Config::getInstance()->get();
+		} catch ( \Exception $e ) {
+			error_log( $e->getMessage() );
+		}
+
+		$data = $this->books->sortByCreatedDate();
+		$html = '';
+		$i    = 0;
+
+		foreach ( $data as $datum ) {
+			$i ++;
+			$meta_xml = simplexml_load_string( $datum['metadata'] );
+			$cover    = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
+			$html    .= ( $meta_xml->item->cover ) ? sprintf( '<a href="/%1$s/?uuid=%2$s"><img itemprop="image" class="img-polaroid" src="%3$s" alt="image of %4$s" width="151px" height="196px" /></a><p>%4$s</p>', $env['domain']['app_path'], $datum['uuid'], $cover, $datum['name'] ) : sprintf( '<p>%1$s</p>', $datum['name'] );
+			if ( $i === $limit ) {
+				break;
+			}
+		}
+
+		echo $html;
+	}
+
+	/**
 	 * @param $type
 	 */
 	public function displayTitlesByType( $type ) {
