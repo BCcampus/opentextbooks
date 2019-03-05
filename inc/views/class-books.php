@@ -399,11 +399,11 @@ class Books {
 			$desc     = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . '<a href=' . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . '>...[more]</a>' : $data[ $start ]['description'];
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
 			$html    .= '<li>';
-			$html    .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4> '
-						 . '<h4>' . $metadata . ' </h4>';
-			$html    .= '<strong>Author(s):</strong> ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
-			$html    .= '<strong>Date:</strong> ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
-			$html    .= '<p><strong>Description:</strong> ' . $desc . '</p>';
+			$html    .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4>';
+			$html    .= '<strong>Author(s):</strong>' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
+			$html    .= '<strong>Date:</strong>' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
+			$html    .= '<p><strong>Description:</strong>' . $desc . '</p>';
+			$html	 .= '<h4>' . $metadata . '</h4>';
 			$html    .= '</li>';
 			$start ++;
 			$i ++;
