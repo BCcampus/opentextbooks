@@ -238,9 +238,9 @@ class Books {
       </fieldset>";
 
 		if ( $this->size > 0 ) {
-			$html .= '<h5 class="clearfix">Available results: ' . $this->size . '</h5>';
+			$html .= '<h5 class="bkgd-grey-light p-3 clearfix"><span class="font-weight-light">Results:</span> ' . $this->size . ' Open Textbooks</h5>';
 		} else {
-			$html .= "<h5 class='clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
+			$html .= "<h5 class='bkgd-grey-light clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
 		}
 		echo $html;
 	}
@@ -271,8 +271,8 @@ class Books {
 
 			//if the search term is empty, then set where it starts and limit it to ten
 			if ( empty( $this->args['search'] ) ) {
-				$html .= $this->displayLinks( $start_here, $this->args['search'] );
 				$html .= $this->displayBySubject( $start_here, $limit );
+				$html .= $this->displayLinks( $start_here, $this->args['search'] );
 			} //otherwise, display all the results starting at the first one (from a search form)
 			else {
 				$html .= $this->displayBySubject( 0, 0 );
@@ -392,16 +392,16 @@ class Books {
 			$limit = $this->size;
 			$html .= '<ol>';
 		} else {
-			$html .= "<ul class='no-bullets'>";
+			$html .= "<ul class='list-group list-group-flush'>";
 		}
 		// check if it's been reviewed
 		while ( $i < $limit ) {
 			$desc     = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . '<a href=' . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . '>...[more]</a>' : $data[ $start ]['description'];
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
-			$html    .= '<li>';
+			$html    .= '<li class="list-group-item">';
 			$html    .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4>';
-			$html    .= '<strong>Author(s):</strong>' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
-			$html    .= '<strong>Date:</strong>' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
+			$html    .= '<p>Author(s):' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '</p>';
+			$html    .= '<p>Date:' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) ) . '</p>';
 			$html    .= '<p><strong>Description:</strong>' . $desc . '</p>';
 			$html	 .= '<h4>' . $metadata . '</h4>';
 			$html    .= '</li>';
