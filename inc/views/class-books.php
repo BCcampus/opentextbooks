@@ -399,11 +399,11 @@ class Books {
 			$desc     = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . '<a href=' . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . '>...[more]</a>' : $data[ $start ]['description'];
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
 			$html    .= '<li>';
-			$html    .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4> '
-						 . '<h4>' . $metadata . ' </h4>';
-			$html    .= '<strong>Author(s):</strong> ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
-			$html    .= '<strong>Date:</strong> ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
-			$html    .= '<p><strong>Description:</strong> ' . $desc . '</p>';
+			$html    .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4>';
+			$html    .= '<strong>Author(s):</strong>' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
+			$html    .= '<strong>Date:</strong>' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
+			$html    .= '<p><strong>Description:</strong>' . $desc . '</p>';
+			$html	 .= '<h4>' . $metadata . '</h4>';
 			$html    .= '</li>';
 			$start ++;
 			$i ++;
@@ -531,19 +531,19 @@ class Books {
 		if ( is_object( $obj ) ) {
 			// check for existence of nodes
 			if ( false !== $obj->xpath( $reviewed_path ) ) {
-				$html .= ( 0 === strcmp( $this->reviewed, $obj->item->reviewed ) ) ? " <i class='fa fa-check-square-o'></i> <small><a href='?lists=reviewed'>Faculty reviewed</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->reviewed, $obj->item->reviewed ) ) ? " <small><a class='badge badge-success' href='?lists=reviewed'>Faculty reviewed</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $adopt_path ) ) {
-				$html .= ( 0 === strcmp( $this->adopted, $obj->item->adopted ) ) ? " <i class='fa fa-check-square-o'></i> <small><a href='?lists=adopted'>Adopted</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->adopted, $obj->item->adopted ) ) ? " <small><a class='badge badge-success' href='?lists=adopted'>Adopted</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $accessible_path ) ) {
-				$html .= ( 0 === strcmp( $this->accessible, $obj->item->accessibility ) ) ? " <i class='fa fa-check-square-o'></i> <small><a href='?lists=accessible'>Accessible</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->accessible, $obj->item->accessibility ) ) ? " <small><a class='badge badge-success' href='?lists=accessible'>Accessible</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $ancillary_path ) ) {
-				$html .= ( 0 === strcmp( $this->ancillary, $obj->item->ancillary ) ) ? " <i class='fa fa-check-square-o'></i> <small><a href='?lists=ancillary'>Ancillary Resources</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->ancillary, $obj->item->ancillary ) ) ? " <small><a class='badge badge-success' href='?lists=ancillary'>Ancillary Resources</a></small> " : '';
 			}
 		}
 
