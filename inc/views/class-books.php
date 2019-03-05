@@ -531,19 +531,19 @@ class Books {
 		if ( is_object( $obj ) ) {
 			// check for existence of nodes
 			if ( false !== $obj->xpath( $reviewed_path ) ) {
-				$html .= ( 0 === strcmp( $this->reviewed, $obj->item->reviewed ) ) ? " <small><a class='green-label' href='?lists=reviewed'>Faculty reviewed</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->reviewed, $obj->item->reviewed ) ) ? " <small><a class='badge badge-success' href='?lists=reviewed'>Faculty reviewed</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $adopt_path ) ) {
-				$html .= ( 0 === strcmp( $this->adopted, $obj->item->adopted ) ) ? " <small><a class='green-label' href='?lists=adopted'>Adopted</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->adopted, $obj->item->adopted ) ) ? " <small><a class='badge badge-success' href='?lists=adopted'>Adopted</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $accessible_path ) ) {
-				$html .= ( 0 === strcmp( $this->accessible, $obj->item->accessibility ) ) ? " <small><a class='green-label' href='?lists=accessible'>Accessible</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->accessible, $obj->item->accessibility ) ) ? " <small><a class='badge badge-success' href='?lists=accessible'>Accessible</a></small> " : '';
 			}
 
 			if ( false !== $obj->xpath( $ancillary_path ) ) {
-				$html .= ( 0 === strcmp( $this->ancillary, $obj->item->ancillary ) ) ? " <small><a class='green-label' href='?lists=ancillary'>Ancillary Resources</a></small> " : '';
+				$html .= ( 0 === strcmp( $this->ancillary, $obj->item->ancillary ) ) ? " <small><a class='badge badge-success' href='?lists=ancillary'>Ancillary Resources</a></small> " : '';
 			}
 		}
 
