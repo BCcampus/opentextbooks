@@ -227,20 +227,23 @@ class Books {
 	 */
 	public function displaySearchForm( $post_value = '' ) {
 
-		$html = "
-      <fieldset name='solr' class='float-right'>
-      <form class='form-search form-inline' action='' method='get'>
-        <input type='text' class='input-small' name='search' id='solrSearchTerm' value='" . $post_value . "'/> 
-        <button type='submit' formaction='' class='btn' name='solrSearchSubmit' id='solrSearchSubmit'>Search</button>
-        <input type='hidden' name='contributor' value='" . $this->args['contributor'] . "'/>
-        <input type='hidden' name='subject' value='" . urldecode( $this->args['subject'] ) . "'/>
-      </form>
-      </fieldset>";
+		$html = '<section class="bkgd-blue-navy full-width py-4 px-5 mb-3">
+        <form class="form-group input-group mb-0" action="" method="get" role="search">
+			<label for="find-oer-1" class="sr-only">Search the BC Open Textbook Collection</label>
+			<input type="text" class="form-control" placeholder="Search..." name="search" id="find-oer-1" aria-label="search terms" aria-describedby="find-oer-2"/>
+			<div class="input-group-append">
+			    <button type="submit" class="btn btn-primary" id="find-oer-2">Search</button>
+			</div>
+			<input type="hidden" name="contributor" value="' . $this->args['contributor'] . '"/>
+			<input type="hidden" name="subject" value="' . urldecode( $this->args['subject'] ) . '"/>
+    	</form>
+		</section>';
 
 		if ( $this->size > 0 ) {
-			$html .= '<h5 class="clearfix">Available results: ' . $this->size . '</h5>';
+			$search_term = ( ! empty( $post_value ) ) ? '<i>for ' . htmlentities( $post_value ) . '</i> ' : '';
+			$html       .= '<h5 class="bkgd-grey-light p-3 clearfix"><span class="font-weight-light">Results:</span> ' . $this->size . ' Open Textbooks ' . $search_term . '</h5>';
 		} else {
-			$html .= "<h5 class='clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
+			$html .= "<h5 class='bkgd-grey-light clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
 		}
 		echo $html;
 	}
@@ -271,8 +274,8 @@ class Books {
 
 			//if the search term is empty, then set where it starts and limit it to ten
 			if ( empty( $this->args['search'] ) ) {
-				$html .= $this->displayLinks( $start_here, $this->args['search'] );
 				$html .= $this->displayBySubject( $start_here, $limit );
+				$html .= $this->displayLinks( $start_here, $this->args['search'] );
 			} //otherwise, display all the results starting at the first one (from a search form)
 			else {
 				$html .= $this->displayBySubject( 0, 0 );
@@ -392,18 +395,18 @@ class Books {
 			$limit = $this->size;
 			$html .= '<ol>';
 		} else {
-			$html .= "<ul class='no-bullets'>";
+			$html .= "<ul class='list-group'>";
 		}
 		// check if it's been reviewed
 		while ( $i < $limit ) {
 			$desc     = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . '<a href=' . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . '>...[more]</a>' : $data[ $start ]['description'];
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
-			$html    .= '<li>';
+			$html    .= '<li class="list-group-item">';
 			$html    .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4>';
-			$html    .= '<strong>Author(s):</strong>' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
-			$html    .= '<strong>Date:</strong>' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
-			$html    .= '<p><strong>Description:</strong>' . $desc . '</p>';
-			$html	 .= '<h4>' . $metadata . '</h4>';
+			$html    .= '<p>Author(s): ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '</p>';
+			$html    .= '<p>Date: ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) ) . '</p>';
+			$html    .= '<p><strong>Description:</strong> ' . $desc . '</p>';
+			$html    .= '<h4>' . $metadata . '</h4>';
 			$html    .= '</li>';
 			$start ++;
 			$i ++;
@@ -475,7 +478,7 @@ class Books {
 		if ( $limit == 0 || $this->size == 10 ) {
 			return;
 		}
-		$html = '<p>';
+		$html = '<section class="p-3"><p>';
 		//otherwise, produce as many links as there are results divided by 10
 		while ( $limit >= 0 ) {
 			if ( $startHere == $by_ten ) {
@@ -486,7 +489,7 @@ class Books {
 			$by_ten = $by_ten + 10;
 			$limit --;
 		}
-		$html .= ' <em>' . $this->size . ' available results</em></p>';
+		$html .= ' <em>' . $this->size . ' available results</em></p></section>';
 
 		//return html blob
 		echo $html;
