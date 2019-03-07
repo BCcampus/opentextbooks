@@ -640,31 +640,39 @@ class Books {
 		$files     = [];
 		$readable  = [ '.pdf', '.epub', '.mobi', '.hpub', '.url' ];
 		$editable  = [ '.xml', '.html', '.odt', '.docx', '.doc', '._vanilla.xml', '.rtf', '.tex', '.zip', '.gh' ];
-		$ancillary = ['.ancillary'];
+		$ancillary = [ '.ancillary' ];
 		$buy       = [ '.print' ];
 
 
 		foreach ( $attachments as $key => $attachment ) {
 
-			if ( isset( $attachment['filename'] ) ) {
-				if ( strpos( $attachment['filename'], 'ancillary resource' ) !== false ) {
+				// find the sfu url to return the buy link, and group github urls into editable
+				if ( isset( $attachment['url'] ) ) {
+					$url = parse_url( $attachment['url'] );
+					if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) ) {
+						$filetype = '.print';
+					} else if ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
+						$filetype = '.gh';
+					} else {
+						$filetype = '.url';
+					}
+				}
+
+			// find ancillary resources based on a string in the description, they can be any file type
+			if ( isset( $attachment['description']) && $filetype !== '.print' ) {
+				if ( strpos( $attachment['description'], 'Ancillary Resources' ) !== false ) {
 					$filetype = '.ancillary';
 				}
-			} elseif ( isset( $attachment['filename'] ) ) {
-				$filetype = strrchr( $attachment['filename'], '.' );
-			} else {
-				$filetype = '';
 			}
 
-			if ( isset( $attachment['url'] ) ) {
-				$url = parse_url( $attachment['url'] );
-				if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) ) {
-					$filetype = '.print';
-				} else if ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
-					$filetype = '.gh';
-				} else {
-					$filetype = '.url';
+			// If it's not an ancillary file, then set the file type from the filename
+			if ( $filetype !== '.ancillary' ) {
+				if ( isset( $attachment['filename'] ) ) {
+					$filetype = strrchr( $attachment['filename'], '.' );
 				}
+
+			} else {
+				$filetype = '';
 			}
 
 			// build the requested file type array
@@ -683,8 +691,7 @@ class Books {
 				if ( ! empty( $val ) ) {
 					$files[ $key ] = $val;
 				}
-			}
-			elseif ( $type == 'buy' ) {
+			} elseif ( $type == 'buy' ) {
 				( in_array( $filetype, $buy ) ) ? $val = 'buy' : $val = '';
 				if ( ! empty( $val ) ) {
 					$files[ $key ] = $val;
