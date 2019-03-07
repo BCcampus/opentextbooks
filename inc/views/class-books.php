@@ -68,17 +68,19 @@ class Books {
 			$meta_xml         = simplexml_load_string( $data['metadata'] );
 			$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
 			$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
-
-			$img        = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+			$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
+			$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
+			$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
 													   . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
-			$revision   = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
-			$adaptation = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
-			$authors    = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
+			$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
+			$adaptation       = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
+			$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
 			$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
 			$html .= $this->getResultsMicrodata( $data );
 
 			$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
+			$html .= "<b itemprop='datePublished'>Posted on:</b> {$created_date} <b>Updated on:</b> {$modified_date}";
 			$html .= $revision;
 
 			if ( ! empty( $adaptation ) ) {
@@ -131,6 +133,8 @@ class Books {
 				$citation_pdf_url = $this->getCitationPdfUrl( $value['attachments'] );
 				$meta_xml         = simplexml_load_string( $value['metadata'] );
 				$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
+				$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
+				$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
 				$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
 																 . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 				$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">This textbook is currently being revised and scheduled for release ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
@@ -141,6 +145,8 @@ class Books {
 				$html .= $this->getResultsMicrodata( $value );
 
 				$html .= "<h2 itemprop='name'>" . $value['name'] . '</h2>';
+				$html .= "<b itemprop='datePublished'>Posted on:</b> {$created_date} <b>Updated on:</b> {$modified_date}";
+
 				$html .= $revision;
 
 				if ( ! empty( $adaptation ) ) {
