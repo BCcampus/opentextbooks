@@ -34,6 +34,7 @@ class OtbBooks extends Polymorphism\DataAbstract {
 		'lists'          => '',
 		'stats'          => '',
 		'collectionUuid' => '',
+		'filter'         => '',
 	];
 	protected $args      = [];
 	protected $api;
