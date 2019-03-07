@@ -233,28 +233,17 @@ class Books {
 			<label for="find-oer-1" class="sr-only">Search the BC Open Textbook Collection</label>
 			<input type="text" class="form-control" placeholder="Search..." name="search" id="find-oer-1" aria-label="search terms" aria-describedby="find-oer-2"/>
 			<div class="input-group-append">
+				<select class="form-control" id="filter" name="filter">
+			    	<option value="">-- Filter --</option>
+			    	<option value="reviewed">Reviewed</option>
+			    	<option value="adopted">Adopted</option>
+			    	<option value="ancillary">Ancillary</option>
+			    	<option value="accessible">Accessible</option>
+				</select>
 			    <button type="submit" class="btn btn-primary" id="find-oer-2">Search</button>
 			</div>
 			<input type="hidden" name="contributor" value="' . $this->args['contributor'] . '"/>
 			<input type="hidden" name="subject" value="' . urldecode( $this->args['subject'] ) . '"/>
-			</div>
-			<div class="form-group input-group">
-			<div class="form-check form-check-inline">
-			  <input class="form-check-input" type="radio" name="filter" id="inlineRadio1" value="ancillary">
-			  <label class="form-check-label" for="inlineRadio1">Ancillary</label>
-			</div>
-			<div class="form-check form-check-inline">
-			  <input class="form-check-input" type="radio" name="filter" id="inlineRadio2" value="reviewed">
-			  <label class="form-check-label" for="inlineRadio2">Reviewed</label>
-			</div>
-			<div class="form-check form-check-inline">
-			  <input class="form-check-input" type="radio" name="filter" id="inlineRadio2" value="accessible">
-			  <label class="form-check-label" for="inlineRadio2">Accessible</label>
-			</div>
-			<div class="form-check form-check-inline">
-			  <input class="form-check-input" type="radio" name="filter" id="inlineRadio2" value="adopted">
-			  <label class="form-check-label" for="inlineRadio2">Adopted</label>
-			</div>
 			</div>
     	</form>
 		</section>';
