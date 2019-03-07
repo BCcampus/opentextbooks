@@ -89,6 +89,7 @@ class Books {
 
 			$html .= $img;
 			$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $data['description'] . '</span></p>';
+			$html .= "<p><strong>Subject Areas</strong>: <a href='?subject={$meta_xml->item->subject_class_level1}' itemprop='about'>{$meta_xml->item->subject_class_level1}</a>, <a href='?subject={$meta_xml->item->subject_class_level2}'>{$meta_xml->item->subject_class_level2}</a></p>";
 			$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
 
 			if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
@@ -150,6 +151,7 @@ class Books {
 				}
 				$html .= $img;
 				$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $value['description'] . '</span></p>';
+				$html .= "<p><strong>Subject Areas</strong>: <a href='?subject={$meta_xml->item->subject_class_level1}' itemprop='about'>{$meta_xml->item->subject_class_level1}</a>, <a href='?subject={$meta_xml->item->subject_class_level2}'>{$meta_xml->item->subject_class_level2}</a></p>";
 				$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
 
 				if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
