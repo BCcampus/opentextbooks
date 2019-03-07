@@ -638,9 +638,11 @@ class Books {
 	private function getAttachmentsByType( array $attachments, $type ) {
 		$new_files = [];
 		$files = [];
-		$readable  = [ '.pdf', '.epub', '.mobi', '.hpub' ];
-		$editable  = [ '.xml', '.html', '.odt', '.docx', '.doc', '._vanilla.xml', '.rtf', '.tex', '.zip' ];
-		$ancillary = [];
+		$readable  = [ '.pdf', '.epub', '.mobi', '.hpub', '.url' ];
+		$editable  = [ '.xml', '.html', '.odt', '.docx', '.doc', '._vanilla.xml', '.rtf', '.tex', '.zip', '.gh' ];
+		$ancillary  = [];
+		$buy  = ['.print'];
+
 
 		foreach ( $attachments as $key => $attachment ) {
 
@@ -652,9 +654,13 @@ class Books {
 			}
 
 			if ( isset( $attachment['url'] ) ) {
-				$sfu = parse_url( $attachment['url'] );
-				if ( isset( $sfu['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $sfu['host'] ) ) {
+				$url = parse_url( $attachment['url'] );
+				if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) ) {
 					$filetype = '.print';
+				} else if ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
+					$filetype = '.gh';
+				} else {
+					$filetype = '.url';
 				}
 			}
 
@@ -666,6 +672,11 @@ class Books {
 				}
 			} elseif ( $type == 'editable' ) {
 				( in_array( $filetype, $editable ) ) ? $val = 'editable' : $val = '';
+				if ( ! empty( $val ) ) {
+					$files[ $key ] = $val;
+				}
+			}  elseif ( $type == 'buy' ) {
+				( in_array( $filetype, $buy ) ) ? $val = 'buy' : $val = '';
 				if ( ! empty( $val ) ) {
 					$files[ $key ] = $val;
 				}
