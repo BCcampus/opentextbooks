@@ -106,7 +106,7 @@ class Books {
 
 			$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
-			$attachments = $this->reOrderAttachments( $data['attachments'] );
+			$attachments = $this->getAttachmentsByType( $data['attachments'], 'readable' );
 			foreach ( $attachments as $attachment ) {
 				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
 				$logo_type = $this->addLogo( $attachment['description'] );
@@ -167,7 +167,7 @@ class Books {
 
 				$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
 
-				$attachments = $this->reOrderAttachments( $value['attachments'] );
+				$attachments = $this->getAttachmentsByType( $value['attachments'], "readable" );
 
 				foreach ( $attachments as $attachment ) {
 					( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
@@ -628,18 +628,23 @@ class Books {
 	}
 
 	/**
-	 * Reorders an array of attachments based on an arbitrary hierarchy
+	 * Returns array of attachments of the requested type
 	 *
 	 * @param array $attachments
+	 * @param string $type
 	 *
-	 * @return array $new_order of attachments
+	 * @return array
 	 */
-	private function reOrderAttachments( array $attachments ) {
-		$new_order = [];
+	private function getAttachmentsByType( array $attachments, $type ) {
+		$new_files = [];
+		$files = [];
+		$readable  = [ '.pdf', '.epub', '.mobi', '.hpub' ];
+		$editable  = [ '.xml', '.html', '.odt', '.docx', '.doc', '._vanilla.xml', '.rtf', '.tex', '.zip' ];
+		$ancillary = [];
 
-		// string hunting
 		foreach ( $attachments as $key => $attachment ) {
 
+			// set the file type value
 			if ( isset( $attachment['filename'] ) ) {
 				$filetype = strstr( $attachment['filename'], '.' );
 			} else {
@@ -653,71 +658,25 @@ class Books {
 				}
 			}
 
-			switch ( $filetype ) {
-
-				case '.pdf':
-					$val = 'b';
-					break;
-				case '.epub':
-					$val = 'c';
-					break;
-				case '.mobi':
-					$val = 'd';
-					break;
-				case '.print':
-					$val = 'e';
-					break;
-				case '.xml':
-					$val = 'f';
-					break;
-				case '._vanilla.xml':
-					$val = 'g';
-					break;
-				case '.html':
-					$val = 'h';
-					break;
-				case '.tex':
-					$val = 'i';
-					break;
-				case '.odt':
-					$val = 'j';
-					break;
-				case '.docx':
-					$val = 'k';
-					break;
-				case '.doc':
-					$val = 'l';
-					break;
-				case '.rtf':
-					$val = 'm';
-					break;
-				case '._3.epub':
-					$val = 'n';
-					break;
-				case '.hpub':
-					$val = 'o';
-					break;
-				case '.zip':
-					$val = 'p';
-					break;
-				default:
-					$val = 'a';
-					break;
+			// build the requested file type array
+			if ( $type == 'readable' ) {
+				( in_array( $filetype, $readable ) ) ? $val = 'readable' : $val = '';
+				if ( ! empty( $val ) ) {
+					$files[ $key ] = $val;
+				}
+			} elseif ( $type == 'editable' ) {
+				( in_array( $filetype, $editable ) ) ? $val = 'editable' : $val = '';
+				if ( ! empty( $val ) ) {
+					$files[ $key ] = $val;
+				}
 			}
-
-			$sort[ $key ] = $val;
 		}
-		// sort it alphabetically
-		asort( $sort );
-
-		// rebuild the array
-		foreach ( $sort as $k => $v ) {
-			$new_order[] = $attachments[ $k ];
+		foreach ( $files as $k => $v ) {
+			$new_files[] = $attachments[$k];
 		}
 
-		return $new_order;
+		return $new_files;
 	}
-
 
 	/**
 	 * Hits the creative commons api, gets an xml response.
