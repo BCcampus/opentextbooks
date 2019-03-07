@@ -646,7 +646,7 @@ class Books {
 
 			// set the file type value
 			if ( isset( $attachment['filename'] ) ) {
-				$filetype = strstr( $attachment['filename'], '.' );
+				$filetype = strrchr( $attachment['filename'], '.' );
 			} else {
 				$filetype = '';
 			}
