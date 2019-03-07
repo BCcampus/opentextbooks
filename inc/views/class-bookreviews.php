@@ -104,7 +104,7 @@ class BookReviews {
 				// change license based on date (March 15, 2018)
 				$license = ( strtotime( $response['datestamp'] ) < $cut_off ) ? "<a rel='license' href='https://creativecommons.org/licenses/by-nd/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by-nd/3.0/80x15.png' /></a>" : "<a rel='license' href='https://creativecommons.org/licenses/by/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/3.0/80x15.png' /></a>";
 
-				$html           .= "<div class='row'><details itemprop='review' itemscope itemtype='https://schema.org/Review'>
+				$html           .= "<details itemprop='review' itemscope itemtype='https://schema.org/Review'>
                 <summary class='text-info'><strong>" . $num . ". Reviewed by:</strong> <span itemprop='author copyrightHolder'>" . $names . '</span></summary>
                 <ul>
                     <li><b>Institution:</b> ' . $institutions . '</li>
@@ -134,7 +134,7 @@ class BookReviews {
 				$html .= "<div class='tab-content' itemprop='reviewBody'>";
 				$i     = 0;
 
-				while ( list($key, $val) = each( $q_and_a ) ) {
+				foreach ( $q_and_a as $key => $val ) {
 
 					if ( is_numeric( $val ) ) {
 						$html .= '
@@ -151,7 +151,7 @@ class BookReviews {
 						$i++;
 					}
 				}
-				$html .= '</section></div></details></div></span>';
+				$html .= '</section></div></details></span>';
 				$num++;
 			}
 
@@ -189,8 +189,8 @@ class BookReviews {
 			$bookAvg = $this->getOverallAvg( $this->data->getResponses(), $this->data->getUuid() );
 
 			// $open = 0;
-			$html = "<hr/><div class='row'>
-            <hgroup>";
+			$html = '<hr/>
+            <hgroup>';
 
 			if ( 0 == $total ) {
 				$html .= "<p class='text-success'>There are currently no reviews for this book.</p>"
@@ -217,8 +217,7 @@ class BookReviews {
 			}
 
 			$html .= '</hgroup>
-            <hr/>
-            </div>';
+            <hr/>';
 
 			return $html;
 		}
@@ -251,7 +250,7 @@ class BookReviews {
 					if ( is_array( $val ) && in_array( $book_uuid, $val ) ) {
 						// need to lop off the first bit of array to get just Q&A
 						$q_and_a = array_slice( $val, $this->slice, null, false );
-						while ( list($key, $value) = each( $q_and_a ) ) {
+						foreach ( $q_and_a as $key => $value ) {
 							if ( is_numeric( $value ) ) {
 								$sum = $sum + intval( $value );
 								$count++;
