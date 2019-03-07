@@ -637,17 +637,20 @@ class Books {
 	 */
 	private function getAttachmentsByType( array $attachments, $type ) {
 		$new_files = [];
-		$files = [];
+		$files     = [];
 		$readable  = [ '.pdf', '.epub', '.mobi', '.hpub', '.url' ];
 		$editable  = [ '.xml', '.html', '.odt', '.docx', '.doc', '._vanilla.xml', '.rtf', '.tex', '.zip', '.gh' ];
-		$ancillary  = [];
-		$buy  = ['.print'];
+		$ancillary = ['.ancillary'];
+		$buy       = [ '.print' ];
 
 
 		foreach ( $attachments as $key => $attachment ) {
 
-			// set the file type value
 			if ( isset( $attachment['filename'] ) ) {
+				if ( strpos( $attachment['filename'], 'EDITABLE' ) !== false ) {
+					$filetype = '.ancillary';
+				}
+			} elseif ( isset( $attachment['filename'] ) ) {
 				$filetype = strrchr( $attachment['filename'], '.' );
 			} else {
 				$filetype = '';
@@ -675,7 +678,13 @@ class Books {
 				if ( ! empty( $val ) ) {
 					$files[ $key ] = $val;
 				}
-			}  elseif ( $type == 'buy' ) {
+			} elseif ( $type == 'ancillary' ) {
+				( in_array( $filetype, $ancillary ) ) ? $val = 'ancillary' : $val = '';
+				if ( ! empty( $val ) ) {
+					$files[ $key ] = $val;
+				}
+			}
+			elseif ( $type == 'buy' ) {
 				( in_array( $filetype, $buy ) ) ? $val = 'buy' : $val = '';
 				if ( ! empty( $val ) ) {
 					$files[ $key ] = $val;
@@ -683,7 +692,7 @@ class Books {
 			}
 		}
 		foreach ( $files as $k => $v ) {
-			$new_files[] = $attachments[$k];
+			$new_files[] = $attachments[ $k ];
 		}
 
 		return $new_files;
