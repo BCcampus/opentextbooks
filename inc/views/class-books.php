@@ -646,27 +646,33 @@ class Books {
 
 		foreach ( $attachments as $key => $attachment ) {
 
-				// find the sfu url to return the buy link, and group github urls into editable
-				if ( isset( $attachment['url'] ) ) {
-					$url = parse_url( $attachment['url'] );
-					if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) ) {
-						$filetype = '.print';
-					} else if ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
-						$filetype = '.gh';
-					} else {
-						$filetype = '.url';
-					}
+			// find the sfu url to return the buy link, and group github urls into editable
+			if ( isset( $attachment['url'] ) ) {
+				$url = parse_url( $attachment['url'] );
+				if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) ) {
+					$filetype = '.print';
+				} else if ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
+					$filetype = '.gh';
+				} else {
+					$filetype = '';
 				}
+			}
+
+			if ( isset( $attachment['description'] ) ) {
+				if ( strpos( $attachment['description'], 'print copy' ) !== false ) {
+					$filetype = '.print';
+				}
+			}
 
 			// find ancillary resources based on a string in the description, they can be any file type
-			if ( isset( $attachment['description']) && $filetype !== '.print' ) {
+			if ( isset( $attachment['description'] ) && $filetype !== '.print' ) {
 				if ( strpos( $attachment['description'], 'Ancillary Resources' ) !== false ) {
 					$filetype = '.ancillary';
 				}
 			}
 
-			// If it's not an ancillary file, then set the file type from the filename
-			if ( $filetype !== '.ancillary' ) {
+			// If it's not an ancillary file or print file, then set the file type from the filename
+			if ( $filetype !== '.ancillary' || $filetype !== '.print' ) {
 				if ( isset( $attachment['filename'] ) ) {
 					$filetype = strrchr( $attachment['filename'], '.' );
 				}
