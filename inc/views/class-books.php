@@ -647,7 +647,7 @@ class Books {
 		foreach ( $attachments as $key => $attachment ) {
 
 			if ( isset( $attachment['filename'] ) ) {
-				if ( strpos( $attachment['filename'], 'EDITABLE' ) !== false ) {
+				if ( strpos( $attachment['filename'], 'ancillary resource' ) !== false ) {
 					$filetype = '.ancillary';
 				}
 			} elseif ( isset( $attachment['filename'] ) ) {
