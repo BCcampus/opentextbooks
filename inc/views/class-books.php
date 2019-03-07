@@ -132,9 +132,9 @@ class Books {
 				//if ($value['uuid'] == $this->uuid) {  //needed to if we're iterating through a cache file.
 				$citation_pdf_url = $this->getCitationPdfUrl( $value['attachments'] );
 				$meta_xml         = simplexml_load_string( $value['metadata'] );
+				$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
 				$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
 				$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
-				$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
 				$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
 																 . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 				$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">This textbook is currently being revised and scheduled for release ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
