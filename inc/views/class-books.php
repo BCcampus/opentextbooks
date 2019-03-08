@@ -61,10 +61,6 @@ class Books {
 		$sources = '';
 		$data    = $this->books->getResponses();
 
-		// conditional statement is necessary. The difference in results data depends on the action prior to
-		// generating if the individual record. If the prior step was a search, or a list of subjects.
-		if ( ! array_key_exists( 0, $data ) ) {
-
 			$meta_xml         = simplexml_load_string( $data['metadata'] );
 			$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
 			$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
@@ -221,71 +217,6 @@ class Books {
 			$substring = $this->licensePicker( $data['metadata'], $authors );
 			//include it, depending on what license it is
 			$html .= $substring;
-		} else {
-			foreach ( $data as $value ) {
-				//if ($value['uuid'] == $this->uuid) {  //needed to if we're iterating through a cache file.
-				$citation_pdf_url = $this->getCitationPdfUrl( $value['attachments'] );
-				$meta_xml         = simplexml_load_string( $value['metadata'] );
-				$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
-				$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-																 . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
-				$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">This textbook is currently being revised and scheduled for release ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
-				$adaptation       = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
-				$authors          = \BCcampus\Utility\array_to_csv( $value['drm']['options']['contentOwners'], 'name' );
-
-				$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
-				$html .= $this->getResultsMicrodata( $value );
-
-				$html .= "<h2 itemprop='name'>" . $value['name'] . '</h2>';
-				$html .= $revision;
-
-				if ( ! empty( $adaptation ) ) {
-					$html .= "<h4 class='alert alert-success'>Good news! This book has been updated and revised. An adaptation of this book can be found here: ";
-					$html .= $this->formatUrl( $adaptation );
-					$html .= '</h4>';
-				}
-				$html .= $img;
-				$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $value['description'] . '</span></p>';
-				$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
-
-				if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
-					$html .= '<p><strong>Original source:</strong> ';
-
-					foreach ( $meta_xml->item->source as $source ) {
-						$sources .= $this->formatUrl( $source );
-					}
-
-					$sources = rtrim( $sources, ', ' );
-					$html   .= $sources . '</p>';
-				}
-
-				$html .= $this->renderBookInfo();
-
-				$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
-
-				$attachments = $this->getAttachmentsByType( $value['attachments'], "readable" );
-
-				foreach ( $attachments as $attachment ) {
-					( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-					$logo_type = $this->addLogo( $attachment['description'] );
-					$tracking  = "_paq.push(['trackEvent','exportFiles','{$value['name']}','{$logo_type['type']}']);";
-
-					$html .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-							 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-							 . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-							 . ' onclick="' . $tracking . '"'
-							 . " href='" . $attachment['links']['view'] . "' title='" . $attachment['description'] . "'>
-							" . $logo_type['string'] . '</a> '
-							 . $attachment['description'] . ' ' . $file_size . '</li>';
-				}
-				$html .= '</ul>';
-				//send it to the picker for evaluation
-				$substring = $this->licensePicker( $value['metadata'], $authors );
-				//include it, depending on what license it is
-				$html .= $substring;
-				//}
-			}
-		}
 		echo $html;
 	}
 
