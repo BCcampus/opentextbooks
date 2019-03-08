@@ -772,7 +772,7 @@ class Books {
 				if ( isset( $attachment['filename'] ) ) {
 					$filetype = strrchr( $attachment['filename'], '.' );
 				}
-				// If file type could not be determined, treat it as a .pdf so it makes it into readable array
+				// treat any other file format as .pdf so it makes it into readable group
 			} else {
 				$filetype = '.pdf';
 			}
