@@ -99,20 +99,20 @@ class BookReviews {
 
 				// get the book average
 				$overall_avg = $this->getOverallAvg( $q_and_a );
-				// ($open == 0) ? $html .= "<details open>" : $html .= "<details>";
 
 				// change license based on date (March 15, 2018)
 				$license = ( strtotime( $response['datestamp'] ) < $cut_off ) ? "<a rel='license' href='https://creativecommons.org/licenses/by-nd/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by-nd/3.0/80x15.png' /></a>" : "<a rel='license' href='https://creativecommons.org/licenses/by/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/3.0/80x15.png' /></a>";
 
 				$html           .= "<details itemprop='review' itemscope itemtype='https://schema.org/Review'>
-                <summary class='text-info'><strong>" . $num . ". Reviewed by:</strong> <span itemprop='author copyrightHolder'>" . $names . '</span></summary>
-                <ul>
-                    <li><b>Institution:</b> ' . $institutions . '</li>
-                    <li><b>Title/Position:</b> ' . $response['info5'] . "</li>
-                    <li itemprop='reviewRating' itemscope itemtype='https://schema.org/Rating'><b>Overall Rating:</b> <meter min='0' low='0' high='5' max='5' value='" . $overall_avg . "'></meter> <span itemprop='ratingValue'>" . $overall_avg . "</span> out of <span itemprop='bestRating'>5</span></span></li>
-		            <li><b>Date:</b><time itemprop='datePublished'> " . date( 'M j, Y', strtotime( $response['datestamp'] ) ) . '</time></li>
-                    <li><b>License:</b> ' . $license . "</li>
-                </ul>
+                <summary class='text-info mb-1'>
+                <span itemprop='reviewRating' itemscope itemtype='https://schema.org/Rating'>
+                <meter class='mr-4' itemprop='ratingValue' min='0' low='0' high='5' max='5' value='{$overall_avg}'></meter>
+                <span itemprop='author copyrightHolder'>{$names}</span>
+                <time class='float-right' itemprop='datePublished'> " . date( 'M j, Y', strtotime( $response['datestamp'] ) ) . "</time>
+                </summary>
+                <p>
+                <b>Institution:</b>{$institutions}<b class='ml-3'>Title/Position:</b> {$response['info5']}<b class='ml-3'></b>{$license}
+                </p>
                 <div class='tabbable tabs-left'>";
 				$group_keys      = array_keys( $this->questionGroups );
 				$group_questions = array_values( $this->questionGroups );
@@ -128,7 +128,7 @@ class BookReviews {
 					$active = 0;
 				}
 				$active = '';
-				$html  .= '</ul>';
+				$html  .= '</ul></div>';
 
 				// create the content
 				$html .= "<div class='tab-content' itemprop='reviewBody'>";
@@ -154,10 +154,8 @@ class BookReviews {
 				$html .= '</section></div></details></span>';
 				$num++;
 			}
-
-			// $open++;
 		} // end foreach
-		$html .= '</div>';
+		$html .= '';
 		echo $html;
 	}
 
@@ -168,15 +166,11 @@ class BookReviews {
 	 * @internal param $data
 	 */
 	function displaySummary() {
-		//$now = time();
-		//$then = mktime(0, 0, 0, 11, 12, 2013);
-		//$diff = date('d', $then - $now);
-		$env            = Config::getInstance()->get();
-		$total          = 0;
-		$min            = 1;
-		$max            = 4;
-		$adaptation     = \BCcampus\Utility\has_canadian_edition( $this->data->getUuid() );
-		$availableBooks = $this->data->getAvailableReviews();
+		$env        = Config::getInstance()->get();
+		$total      = 0;
+		$min        = 1;
+		$max        = 4;
+		$adaptation = \BCcampus\Utility\has_canadian_edition( $this->data->getUuid() );
 
 		if ( is_array( $this->data->getResponses() ) ) {
 
@@ -188,36 +182,32 @@ class BookReviews {
 
 			$bookAvg = $this->getOverallAvg( $this->data->getResponses(), $this->data->getUuid() );
 
-			// $open = 0;
-			$html = '<hr/>
-            <hgroup>';
+			$html = '<hr/>';
 
 			if ( 0 == $total ) {
 				$html .= "<p class='text-success'>There are currently no reviews for this book.</p>"
-					. "<p>Be the first to <a href='/{$env['domain']['reviews_path']}/'>Review this book</a></p>";
+					. "<p>Be the first to <a href='/{$env['domain']['reviews_path']}/'>request to review this textbook</a></p>";
 			} // limit to books that have 4 or less
 			elseif ( $total < $max ) {
-				$html .= "<p><a href='/{$env['domain']['reviews_path']}/'>Review this book</a></p>";
+				$html .= "<p><a href='/{$env['domain']['reviews_path']}/'>Request to review this textbook</a></p>";
 			}
 
 			// only want to send them to canadian version if there is one, and less than max reviews
 			if ( $adaptation && $total < $max ) {
 				$domain = "//{$env['domain']['host']}/{$env['domain']['app_path']}/?uuid=";
-				$html  .= "<h4 class='alert alert-success'>Review the Canadian edition of this book ";
+				$html  .= "<h4 class='alert alert-success'>Request to review the Canadian edition of this textbook ";
 				$html  .= "<a href='{$domain}{$adaptation}'> here </a>";
 				$html  .= '</h4>';
 			}
 
 			// only print if there is a review to print
-			if ( $total > $min ) {
+			if ( $total >= $min ) {
 				$html .= "<span itemprop='aggregateRating' itemscope itemtype='https://schema.org/AggregateRating'>
-                <h4>Reviews for '" . htmlentities( $availableBooks[ $this->data->getUuid() ], ENT_COMPAT | ENT_HTML5, 'UTF-8' ) . "'</h4>
-                <h5>Number of reviews: <span itemprop='reviewCount'>" . $total . "</span></h5>
-                <h6>Average Rating: <meter min='0' low='0' high='5' max='5' value='" . $bookAvg . "'></meter> <span itemprop='ratingValue'>" . $bookAvg . '</span> out of 5</h6>';
+                <h5>Reviews (<span itemprop='reviewCount'>{$total}</span>) 
+                <span class='float-right'>Avg: <meter min='0' low='0' high='5' max='5' value='{$bookAvg}'></meter> <span itemprop='ratingValue'>{$bookAvg}</span> / 5</span></h5>";
 			}
 
-			$html .= '</hgroup>
-            <hr/>';
+			$html .= '<hr/>';
 
 			return $html;
 		}
