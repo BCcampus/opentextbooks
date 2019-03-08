@@ -186,16 +186,16 @@ class BookReviews {
 
 			if ( 0 == $total ) {
 				$html .= "<p class='text-success'>There are currently no reviews for this book.</p>"
-					. "<p>Be the first to <a href='/{$env['domain']['reviews_path']}/'>Review this book</a></p>";
+					. "<p>Be the first to <a href='/{$env['domain']['reviews_path']}/'>request to review this textbook</a></p>";
 			} // limit to books that have 4 or less
 			elseif ( $total < $max ) {
-				$html .= "<p><a href='/{$env['domain']['reviews_path']}/'>Review this book</a></p>";
+				$html .= "<p><a href='/{$env['domain']['reviews_path']}/'>Request to review this textbook</a></p>";
 			}
 
 			// only want to send them to canadian version if there is one, and less than max reviews
 			if ( $adaptation && $total < $max ) {
 				$domain = "//{$env['domain']['host']}/{$env['domain']['app_path']}/?uuid=";
-				$html  .= "<h4 class='alert alert-success'>Review the Canadian edition of this book ";
+				$html  .= "<h4 class='alert alert-success'>Request to review the Canadian edition of this textbook ";
 				$html  .= "<a href='{$domain}{$adaptation}'> here </a>";
 				$html  .= '</h4>';
 			}
