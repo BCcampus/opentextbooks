@@ -109,29 +109,31 @@ class BookReviews {
                 <meter class='mr-4' itemprop='ratingValue' min='0' low='0' high='5' max='5' value='{$overall_avg}'></meter>
                 <span itemprop='author copyrightHolder'>{$names}</span>
                 <time class='float-right' itemprop='datePublished'> " . date( 'M j, Y', strtotime( $response['datestamp'] ) ) . "</time>
+                </span>
                 </summary>
                 <p>
                 <b>Institution:</b>{$institutions}<b class='ml-3'>Title/Position:</b> {$response['info5']}<b class='ml-3'></b>{$license}
                 </p>
-                <div class='tabbable tabs-left'>";
+                <div class='row'>
+                <div class='col-3'>
+                <div class='nav flex-column nav-pills' role='tablist' aria-orientation='vertical'>";
 				$group_keys      = array_keys( $this->questionGroups );
 				$group_questions = array_values( $this->questionGroups );
 
-				$html  .= "<ul class='nav nav-tabs reviews'>";
 				$active = 1;
 
 				// create the left nav sidebar
 				foreach ( $this->questionGroups as $group => $question ) {
-					( $active == 1 ) ? $html .= "<li class=nav-item'>" : $html .= '<li>';
+					$show = ( $active === 1 ) ? 'active' : '';
 
-					$html  .= "<a class='nav-link' href='#" . substr( $group, 0, 5 ) . $num . "' data-toggle='tab'>" . $group . '</a></li>';
+					$html  .= "<a class='nav-link {$show}' role='tab' href='#" . substr( $group, 0, 5 ) . $num . "' data-toggle='pill'>" . $group . '</a>';
 					$active = 0;
 				}
 				$active = '';
-				$html  .= '</ul></div>';
+				$html  .= '</div></div>';
 
 				// create the content
-				$html .= "<div class='tab-content' itemprop='reviewBody'>";
+				$html .= "<div class='col-9'><div class='tab-content' itemprop='reviewBody'>";
 				$i     = 0;
 
 				foreach ( $q_and_a as $key => $val ) {
@@ -143,15 +145,15 @@ class BookReviews {
 					if ( ! is_numeric( $val ) ) {
 						( $i == 0 ) ? $active .= ' active' : $active = '';
 						$html                 .= "
-                        <section class='tab-pane " . $active . "' id='" . substr( $group_keys[ $i ], 0, 5 ) . $num . "'>";
+                        <section class='tab-pane " . $active . "' role='tabpanel' id='" . substr( $group_keys[ $i ], 0, 5 ) . $num . "'>";
 
 						$html .= '
-                        <h4>Q: ' . $group_questions[ $i ] . '</h4>
+                        <h5>Q: ' . $group_questions[ $i ] . '</h5>
                         <p>' . nl2br( $val ) . '</p>';
 						$i++;
 					}
 				}
-				$html .= '</section></div></details></span>';
+				$html .= '</section></div></div></div></details>';
 				$num++;
 			}
 		} // end foreach
@@ -204,7 +206,7 @@ class BookReviews {
 			if ( $total >= $min ) {
 				$html .= "<span itemprop='aggregateRating' itemscope itemtype='https://schema.org/AggregateRating'>
                 <h5>Reviews (<span itemprop='reviewCount'>{$total}</span>) 
-                <span class='float-right'>Avg: <meter min='0' low='0' high='5' max='5' value='{$bookAvg}'></meter> <span itemprop='ratingValue'>{$bookAvg}</span> / 5</span></h5>";
+                <span class='float-right'>Avg: <meter min='0' low='0' high='5' max='5' value='{$bookAvg}'></meter> <span itemprop='ratingValue'>{$bookAvg}</span> / 5</span></h5></span>";
 			}
 
 			$html .= '<hr/>';
