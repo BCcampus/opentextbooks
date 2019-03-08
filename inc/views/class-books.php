@@ -109,9 +109,9 @@ class Books {
 			$print = $this->getAttachmentsByType( $data['attachments'], 'buy' );
 
 			$html .= '<div id="accordion">'
-			         . '  <div class="card-header">'
+			         . ' <div class="card-header">'
 			         . '<h4>Get This Book</h4><span class="text-muted">Select a file format</span>'
-			         . '</div></div>'
+			         . '</div>'
 			         . '<div class="card border-0">'
 			         . '<div class="card-header p-1" id="headingOne">'
 			         . '<h5 class="mb-0">'
