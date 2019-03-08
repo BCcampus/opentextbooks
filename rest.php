@@ -11,7 +11,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.txt
  * @copyright (c) 2012-2017, Brad Payne
  */
-use BCcampus\OpenTextBooks\Controllers\Webform;
+use BCcampus\OpenTextBooks\Controllers\Webform\Adoption;
 
 include_once 'autoloader.php';
 
@@ -21,7 +21,7 @@ if ( ! isset( $_GET['type_of'] ) ) {
 	$args['type_of'] = 'rest_stats';
 }
 
-new Webform\Adoption( $args );
+new Adoption( $args );
 
 header( 'Content-Type: text/json' );
 

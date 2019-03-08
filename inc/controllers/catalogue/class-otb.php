@@ -114,6 +114,11 @@ class Otb {
 				'filter' => FILTER_SANITIZE_STRING,
 				'flags'  => FILTER_FLAG_STRIP_HIGH,
 			],
+			// Strips characters that have a numerical value >127.
+			'filter'      => [
+				'filter' => FILTER_SANITIZE_STRING,
+				'flags'  => FILTER_FLAG_STRIP_HIGH,
+			],
 		];
 
 		// filter get input, delete empty values

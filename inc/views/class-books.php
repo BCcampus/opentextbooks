@@ -64,17 +64,19 @@ class Books {
 			$meta_xml         = simplexml_load_string( $data['metadata'] );
 			$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
 			$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
+			$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
+			$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
+			$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+													   . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+			$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
+			$adaptation       = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
+			$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
-			$img        = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-			                                           . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
-			$revision   = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
-			$adaptation = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
-			$authors    = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
-
-			$html = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
+			$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
 			$html .= $this->getResultsMicrodata( $data );
 
 			$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
+			$html .= "<b itemprop='datePublished'>Posted on:</b> {$created_date} <b>Updated on:</b> {$modified_date}";
 			$html .= $revision;
 
 			if ( ! empty( $adaptation ) ) {
@@ -85,6 +87,7 @@ class Books {
 
 			$html .= $img;
 			$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $data['description'] . '</span></p>';
+			$html .= "<p><strong>Subject Areas</strong>: <a href='?subject={$meta_xml->item->subject_class_level1}' itemprop='about'>{$meta_xml->item->subject_class_level1}</a>, <a href='?subject={$meta_xml->item->subject_class_level2}'>{$meta_xml->item->subject_class_level2}</a></p>";
 			$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
 
 			if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
@@ -95,7 +98,7 @@ class Books {
 				}
 
 				$sources = rtrim( $sources, ', ' );
-				$html    .= $sources . '</p>';
+				$html   .= $sources . '</p>';
 			}
 
 			$html .= $this->renderBookInfo();
@@ -254,21 +257,27 @@ class Books {
 	 */
 	public function displaySearchForm( $post_value = '' ) {
 
-		$html = "
-      <fieldset name='solr' class='float-right'>
-      <form class='form-search form-inline' action='' method='get'>
-        <input type='text' class='input-small' name='search' id='solrSearchTerm' value='" . $post_value . "'/> 
-        <button type='submit' formaction='' class='btn' name='solrSearchSubmit' id='solrSearchSubmit'>Search</button>
-        <input type='hidden' name='contributor' value='" . $this->args['contributor'] . "'/>
-        <input type='hidden' name='subject' value='" . urldecode( $this->args['subject'] ) . "'/>
-      </form>
-      </fieldset>";
+		$html = '<section class="bkgd-blue-navy full-width py-4 px-5 mb-3">
+        <form class="mb-0" action="" method="get" role="search">
+        <div class="form-group input-group">
+			<label for="find-oer-1" class="sr-only">Search the BC Open Textbook Collection</label>
+			<input type="text" class="form-control" placeholder="Search..." name="search" id="find-oer-1" aria-label="search terms" aria-describedby="find-oer-2"/>
+			<div class="input-group-append">
+				<select class="form-control" id="filter" name="filter">
+			    	<option value="">-- Filter --</option>
+			    	<option value="accessible">Accessible</option>
+			    	<option value="adopted">Adopted</option>
+			    	<option value="ancillary">Ancillary</option>
+			    	<option value="reviewed">Reviewed</option>
+				</select>
+			    <button type="submit" class="btn btn-primary" id="find-oer-2">Search</button>
+			</div>
+			<input type="hidden" name="contributor" value="' . $this->args['contributor'] . '"/>
+			<input type="hidden" name="subject" value="' . urldecode( $this->args['subject'] ) . '"/>
+			</div>
+    	</form>
+		</section>';
 
-		if ( $this->size > 0 ) {
-			$html .= '<h5 class="clearfix">Available results: ' . $this->size . '</h5>';
-		} else {
-			$html .= "<h5 class='clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
-		}
 		echo $html;
 	}
 
@@ -298,11 +307,11 @@ class Books {
 
 			//if the search term is empty, then set where it starts and limit it to ten
 			if ( empty( $this->args['search'] ) ) {
-				$html .= $this->displayLinks( $start_here, $this->args['search'] );
 				$html .= $this->displayBySubject( $start_here, $limit );
+				$html .= $this->displayLinks( $start_here, $this->args['search'] );
 			} //otherwise, display all the results starting at the first one (from a search form)
 			else {
-				$html .= $this->displayBySubject( 0, 0 );
+				$html .= $this->displayBySubject( 0, 0, $this->args );
 			}
 			echo $html;
 		}
@@ -396,13 +405,16 @@ class Books {
 	 *
 	 * @param int $start
 	 * @param int $limit
+	 * @param array $args filter arbitrary metadata
 	 *
 	 * @return string
 	 */
-	public function displayBySubject( $start = 0, $limit = 0 ) {
-		$html = '';
-		$i    = 0;
-		$data = $this->books->getResponses();
+	public function displayBySubject( $start = 0, $limit = 0, $args = [] ) {
+		$html             = '';
+		$results          = '';
+		$i                = 0;
+		$expected_filters = [ 'reviewed', 'adopted', 'ancillary', 'accessible' ];
+		$data             = $this->books->getResponses();
 
 		//just in case a start value is passed that is greater than what is available
 		if ( $start > $this->size ) {
@@ -417,21 +429,29 @@ class Books {
 		// if we're displaying all of the results (from a search form request)
 		if ( $limit == 0 ) {
 			$limit = $this->size;
-			$html .= '<ol>';
+			$html .= '<ol class="list-group">';
 		} else {
-			$html .= "<ul class='no-bullets'>";
+			$html .= "<ul class='list-group'>";
 		}
-		// check if it's been reviewed
+
 		while ( $i < $limit ) {
-			$desc     = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . '<a href=' . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . '>...[more]</a>' : $data[ $start ]['description'];
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
-			$html    .= '<li>';
-			$html    .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4>';
-			$html    .= '<strong>Author(s):</strong>' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '<br>';
-			$html    .= '<strong>Date:</strong>' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) );
-			$html    .= '<p><strong>Description:</strong>' . $desc . '</p>';
-			$html	 .= '<h4>' . $metadata . '</h4>';
-			$html    .= '</li>';
+			if ( isset( $args['filter'] ) && in_array( $args['filter'], $expected_filters ) ) { // check if it's been reviewed,adopted,ancillary,accessible
+				if ( 0 === preg_match( "/{$args['filter']}/", $metadata ) ) {
+					$this->size--;
+					$start ++;
+					$i ++;
+					continue;
+				}
+			}
+			$desc  = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . '<a href=' . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . '>...[more]</a>' : $data[ $start ]['description'];
+			$html .= '<li class="list-group-item">';
+			$html .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4>';
+			$html .= '<p>Author(s): ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '</p>';
+			$html .= '<p>Date: ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) ) . '</p>';
+			$html .= '<p><strong>Description:</strong> ' . $desc . '</p>';
+			$html .= '<h4>' . $metadata . '</h4>';
+			$html .= '</li>';
 			$start ++;
 			$i ++;
 		}
@@ -440,8 +460,12 @@ class Books {
 		} else {
 			$html .= '</ul>';
 		}
-
-		echo $html;
+		if ( $this->size > 0 ) {
+			$results .= '<h5 class="bkgd-grey-light p-3 clearfix"><span class="font-weight-light">Results:</span> ' . $this->size . ' Open Textbooks</h5>';
+		} else {
+			$results .= "<h5 class='bkgd-grey-light clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
+		}
+		echo $results . $html;
 	}
 
 	/**
@@ -502,7 +526,7 @@ class Books {
 		if ( $limit == 0 || $this->size == 10 ) {
 			return;
 		}
-		$html = '<p>';
+		$html = '<section class="p-3"><p>';
 		//otherwise, produce as many links as there are results divided by 10
 		while ( $limit >= 0 ) {
 			if ( $startHere == $by_ten ) {
@@ -513,7 +537,7 @@ class Books {
 			$by_ten = $by_ten + 10;
 			$limit --;
 		}
-		$html .= ' <em>' . $this->size . ' available results</em></p>';
+		$html .= ' <em>' . $this->size . ' available results</em></p></section>';
 
 		//return html blob
 		echo $html;
