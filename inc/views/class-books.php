@@ -70,12 +70,12 @@ class Books {
 			$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
 
 			$img        = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-													   . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+			                                           . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
 			$revision   = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
 			$adaptation = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
 			$authors    = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
-			$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
+			$html = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
 			$html .= $this->getResultsMicrodata( $data );
 
 			$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
@@ -99,28 +99,124 @@ class Books {
 				}
 
 				$sources = rtrim( $sources, ', ' );
-				$html   .= $sources . '</p>';
+				$html    .= $sources . '</p>';
 			}
 
 			$html .= $this->renderBookInfo();
 
-			$html .= '<h3>Open Textbooks:</h3><ul class="list-unstyled line-height-lg">';
+			$readable = $this->getAttachmentsByType( $data['attachments'], 'readable' );
+			$editable = $this->getAttachmentsByType( $data['attachments'], 'editable' );
+			$ancillary = $this->getAttachmentsByType( $data['attachments'], 'ancillary' );
+			$print = $this->getAttachmentsByType( $data['attachments'], 'buy' );
 
-			$attachments = $this->getAttachmentsByType( $data['attachments'], 'readable' );
-			foreach ( $attachments as $attachment ) {
+			$html .= '<div id="accordion">'
+			         . '  <div class="card-header">'
+			         . '<h4>Get This Book</h4><span class="text-muted">Select a file format</span>'
+			         . '</div></div>'
+			         . '<div class="card border-0">'
+			         . '<div class="card-header p-1" id="headingOne">'
+			         . '<h5 class="mb-0">'
+			         . '<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">'
+			         . ' Readable <span class="badge badge-secondary">' . count($readable) . '</span>'
+			         . ' </button>'
+			         . '</h5>'
+			         . '</div>'
+			         . '<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">'
+			         . ' <div class="card-body">'
+			         . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
+			// get readable attachments
+			foreach ( $readable as $attachment ) {
 				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
 				$logo_type = $this->addLogo( $attachment['description'] );
 				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-
-				$html .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-						 . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-						 . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-						 . ' onclick="' . $tracking . '"'
-						 . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>
-					{$logo_type['string']}</a> "
-						 . $attachment['description'] . ' ' . $file_size . '</li>';
+				$html      .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+				              . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+				              . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+				              . ' onclick="' . $tracking . '"'
+				              . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
+				              . $attachment['description'] . ' ' . $file_size . '</li>';
 			}
-			$html .= '</ul>';
+			$html .= '</ul></div>'
+			         . '</div>'
+			         . '</div>'
+			         . '<div class="card border-0">'
+			         . '<div class="card-header p-1" id="headingTwo">'
+			         . '<h5 class="mb-0">'
+			         . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">'
+			         . ' Editable <span class="badge badge-secondary">' . count($editable) . '</span>'
+			         . '</button>'
+			         . '</h5>'
+			         . '</div>'
+			         . '<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">'
+			         . '<div class="card-body">'
+			         . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
+			// get editable attachments
+			foreach ( $editable as $attachment ) {
+				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+				$logo_type = $this->addLogo( $attachment['description'] );
+				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
+				$html      .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+				              . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+				              . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+				              . ' onclick="' . $tracking . '"'
+				              . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
+				              . $attachment['description'] . ' ' . $file_size . '</li>';
+			}
+			$html .= '</ul></div>'
+			         . '</div>'
+			         . '</div>'
+			         . '<div class="card border-0">'
+			         . '<div class="card-header p-1" id="headingThree">'
+			         . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">'
+			         . ' Ancillary <span class="badge badge-secondary">' . count($ancillary) . '</span>'
+			         . '</button>'
+			         . '</h5>'
+			         . '</div>'
+			         . '<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">'
+			         . '<div class="card-body">'
+			         . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
+			// get ancillary attachments
+			foreach ( $ancillary as $attachment ) {
+				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+				$logo_type = $this->addLogo( $attachment['description'] );
+				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
+				$html      .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+				              . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+				              . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+				              . ' onclick="' . $tracking . '"'
+				              . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
+				              . $attachment['description'] . ' ' . $file_size . '</li>';
+			}
+			$html .= '</ul></div>'
+			         . '</div>'
+			         . '</div>'
+			         . '<div class="card border-0">'
+			         . '<div class="card-header p-1" id="headingFour">'
+			         . '<h5 class="mb-0">'
+			         . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">'
+			         . ' Buy print copy <span class="badge badge-secondary">' . count($print) . '</span>'
+			         . '</button>'
+			         . ' </h5>'
+			         . '</div>'
+			         . '<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">'
+			         . '<div class="card-body">'
+			         . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
+			// get buy print attachments
+			foreach ( $print as $attachment ) {
+				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+				$logo_type = $this->addLogo( $attachment['description'] );
+				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
+				$html      .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+				              . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+				              . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+				              . ' onclick="' . $tracking . '"'
+				              . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
+				              . $attachment['description'] . ' ' . $file_size . '</li>';
+			}
+			$html .= '</ul></div>'
+			         . ' </div>'
+			         . '</div></div>';
+
 			//send it to the picker for evaluation
 			$substring = $this->licensePicker( $data['metadata'], $authors );
 			//include it, depending on what license it is
