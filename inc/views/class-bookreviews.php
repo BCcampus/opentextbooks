@@ -99,7 +99,6 @@ class BookReviews {
 
 				// get the book average
 				$overall_avg = $this->getOverallAvg( $q_and_a );
-				// ($open == 0) ? $html .= "<details open>" : $html .= "<details>";
 
 				// change license based on date (March 15, 2018)
 				$license = ( strtotime( $response['datestamp'] ) < $cut_off ) ? "<a rel='license' href='https://creativecommons.org/licenses/by-nd/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by-nd/3.0/80x15.png' /></a>" : "<a rel='license' href='https://creativecommons.org/licenses/by/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/3.0/80x15.png' /></a>";
@@ -128,7 +127,7 @@ class BookReviews {
 					$active = 0;
 				}
 				$active = '';
-				$html  .= '</ul>';
+				$html  .= '</ul></div>';
 
 				// create the content
 				$html .= "<div class='tab-content' itemprop='reviewBody'>";
@@ -155,9 +154,8 @@ class BookReviews {
 				$num++;
 			}
 
-			// $open++;
 		} // end foreach
-		$html .= '</div>';
+		$html .= '';
 		echo $html;
 	}
 
@@ -168,15 +166,11 @@ class BookReviews {
 	 * @internal param $data
 	 */
 	function displaySummary() {
-		//$now = time();
-		//$then = mktime(0, 0, 0, 11, 12, 2013);
-		//$diff = date('d', $then - $now);
 		$env            = Config::getInstance()->get();
 		$total          = 0;
 		$min            = 1;
 		$max            = 4;
 		$adaptation     = \BCcampus\Utility\has_canadian_edition( $this->data->getUuid() );
-		$availableBooks = $this->data->getAvailableReviews();
 
 		if ( is_array( $this->data->getResponses() ) ) {
 
@@ -188,9 +182,7 @@ class BookReviews {
 
 			$bookAvg = $this->getOverallAvg( $this->data->getResponses(), $this->data->getUuid() );
 
-			// $open = 0;
-			$html = '<hr/>
-            <hgroup>';
+			$html = '<hr/>';
 
 			if ( 0 == $total ) {
 				$html .= "<p class='text-success'>There are currently no reviews for this book.</p>"
@@ -209,15 +201,13 @@ class BookReviews {
 			}
 
 			// only print if there is a review to print
-			if ( $total > $min ) {
+			if ( $total >= $min ) {
 				$html .= "<span itemprop='aggregateRating' itemscope itemtype='https://schema.org/AggregateRating'>
-                <h4>Reviews for '" . htmlentities( $availableBooks[ $this->data->getUuid() ], ENT_COMPAT | ENT_HTML5, 'UTF-8' ) . "'</h4>
-                <h5>Number of reviews: <span itemprop='reviewCount'>" . $total . "</span></h5>
-                <h6>Average Rating: <meter min='0' low='0' high='5' max='5' value='" . $bookAvg . "'></meter> <span itemprop='ratingValue'>" . $bookAvg . '</span> out of 5</h6>';
+                <h5>Reviews (<span itemprop='reviewCount'>{$total}</span>) 
+                <span class='float-right'>Avg: <meter min='0' low='0' high='5' max='5' value='{$bookAvg}'></meter> <span itemprop='ratingValue'>{$bookAvg}</span> / 5</span></h5>";
 			}
 
-			$html .= '</hgroup>
-            <hr/>';
+			$html .= '<hr/>';
 
 			return $html;
 		}
