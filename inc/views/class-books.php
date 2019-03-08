@@ -780,24 +780,15 @@ class Books {
 			// build the requested file type array
 			if ( $type == 'readable' ) {
 				( in_array( $filetype, $readable ) ) ? $val = 'readable' : $val = '';
-				if ( ! empty( $val ) ) {
-					$files[ $key ] = $val;
-				}
 			} elseif ( $type == 'editable' ) {
 				( in_array( $filetype, $editable ) ) ? $val = 'editable' : $val = '';
-				if ( ! empty( $val ) ) {
-					$files[ $key ] = $val;
-				}
 			} elseif ( $type == 'ancillary' ) {
 				( in_array( $filetype, $ancillary ) ) ? $val = 'ancillary' : $val = '';
-				if ( ! empty( $val ) ) {
-					$files[ $key ] = $val;
-				}
 			} elseif ( $type == 'buy' ) {
 				( in_array( $filetype, $buy ) ) ? $val = 'buy' : $val = '';
-				if ( ! empty( $val ) ) {
-					$files[ $key ] = $val;
-				}
+			}
+			if ( ! empty( $val ) ) {
+				$files[ $key ] = $val;
 			}
 		}
 
