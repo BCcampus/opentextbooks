@@ -742,37 +742,37 @@ class Books {
 
 		foreach ( $attachments as $key => $attachment ) {
 
-			// find the sfu url to return the buy link, and group github urls into editable
+			// deal with url attachments
 			if ( isset( $attachment['url'] ) ) {
 				$url = parse_url( $attachment['url'] );
-				if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) ) {
+				// give it a print filetype if it's coming from sfu domain, or has the string "print copy"
+				if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) || strpos( $attachment['description'], 'print copy' ) !== false ) {
 					$filetype = '.print';
+				}// check if it's in ancillary resource URL
+				else if ( ( isset( $attachment['description'] ) ) && strpos( $attachment['description'], 'Ancillary Resource' ) !== false ) {
+					$filetype = '.ancillary';
+					// if its a github url, give it a .gh value, which is in the editable array
 				} else if ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
 					$filetype = '.gh';
-				} else {
-					$filetype = '';
+				} // otherwise it's just a regular url
+				else {
+					$filetype = '.url';
 				}
 			}
 
-			if ( isset( $attachment['description'] ) ) {
-				if ( strpos( $attachment['description'], 'print copy' ) !== false ) {
-					$filetype = '.print';
-				}
-			}
-
-			// find ancillary resources based on a string in the description, they can be any file type
-			if ( isset( $attachment['description'] ) && $filetype !== '.print' ) {
-				if ( strpos( $attachment['description'], 'Ancillary Resources' ) !== false ) {
+			// check if it's in ancillary resource
+			if ( isset( $attachment['description'] ) && $filetype !== '.ancillary' ) {
+				if ( strpos( $attachment['description'], 'Ancillary Resource' ) !== false ) {
 					$filetype = '.ancillary';
 				}
 			}
 
-			// If it's not an ancillary file or print file, then set the file type from the filename
-			if ( $filetype !== '.ancillary' || $filetype !== '.print' ) {
+			// If file type was not set by any of the above, let's grab it from the file name
+			if ( $filetype !== '.ancillary' || $filetype !== '.print' || $filetype !== '.url' || $filetype !== '.gh' ) {
 				if ( isset( $attachment['filename'] ) ) {
 					$filetype = strrchr( $attachment['filename'], '.' );
 				}
-
+				// If it's some other file type not in the arrays, do nothing
 			} else {
 				$filetype = '';
 			}
@@ -800,6 +800,7 @@ class Books {
 				}
 			}
 		}
+
 		foreach ( $files as $k => $v ) {
 			$new_files[] = $attachments[ $k ];
 		}
