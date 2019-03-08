@@ -104,14 +104,15 @@ class BookReviews {
 				$license = ( strtotime( $response['datestamp'] ) < $cut_off ) ? "<a rel='license' href='https://creativecommons.org/licenses/by-nd/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by-nd/3.0/80x15.png' /></a>" : "<a rel='license' href='https://creativecommons.org/licenses/by/3.0/deed.en_US'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/3.0/80x15.png' /></a>";
 
 				$html           .= "<details itemprop='review' itemscope itemtype='https://schema.org/Review'>
-                <summary class='text-info'><strong>" . $num . ". Reviewed by:</strong> <span itemprop='author copyrightHolder'>" . $names . '</span></summary>
-                <ul>
-                    <li><b>Institution:</b> ' . $institutions . '</li>
-                    <li><b>Title/Position:</b> ' . $response['info5'] . "</li>
-                    <li itemprop='reviewRating' itemscope itemtype='https://schema.org/Rating'><b>Overall Rating:</b> <meter min='0' low='0' high='5' max='5' value='" . $overall_avg . "'></meter> <span itemprop='ratingValue'>" . $overall_avg . "</span> out of <span itemprop='bestRating'>5</span></span></li>
-		            <li><b>Date:</b><time itemprop='datePublished'> " . date( 'M j, Y', strtotime( $response['datestamp'] ) ) . '</time></li>
-                    <li><b>License:</b> ' . $license . "</li>
-                </ul>
+                <summary class='text-info mb-1'>
+                <span itemprop='reviewRating' itemscope itemtype='https://schema.org/Rating'>
+                <meter class='mr-4' itemprop='ratingValue' min='0' low='0' high='5' max='5' value='{$overall_avg}'></meter>
+                <span itemprop='author copyrightHolder'>{$names}</span>
+                <time class='float-right' itemprop='datePublished'> " . date( 'M j, Y', strtotime( $response['datestamp'] ) ) . "</time>
+                </summary>
+                <p>
+                <b>Institution:</b>{$institutions}<b class='ml-3'>Title/Position:</b> {$response['info5']}<b class='ml-3'></b>{$license}
+                </p>
                 <div class='tabbable tabs-left'>";
 				$group_keys      = array_keys( $this->questionGroups );
 				$group_questions = array_values( $this->questionGroups );
@@ -153,7 +154,6 @@ class BookReviews {
 				$html .= '</section></div></details></span>';
 				$num++;
 			}
-
 		} // end foreach
 		$html .= '';
 		echo $html;
@@ -166,11 +166,11 @@ class BookReviews {
 	 * @internal param $data
 	 */
 	function displaySummary() {
-		$env            = Config::getInstance()->get();
-		$total          = 0;
-		$min            = 1;
-		$max            = 4;
-		$adaptation     = \BCcampus\Utility\has_canadian_edition( $this->data->getUuid() );
+		$env        = Config::getInstance()->get();
+		$total      = 0;
+		$min        = 1;
+		$max        = 4;
+		$adaptation = \BCcampus\Utility\has_canadian_edition( $this->data->getUuid() );
 
 		if ( is_array( $this->data->getResponses() ) ) {
 
