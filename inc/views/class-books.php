@@ -243,10 +243,10 @@ class Books {
 			<div class="input-group-append">
 				<select class="form-control" id="filter" name="filter">
 			    	<option value="">-- Filter --</option>
-			    	<option value="reviewed">Reviewed</option>
+			    	<option value="accessible">Accessible</option>
 			    	<option value="adopted">Adopted</option>
 			    	<option value="ancillary">Ancillary</option>
-			    	<option value="accessible">Accessible</option>
+			    	<option value="reviewed">Reviewed</option>
 				</select>
 			    <button type="submit" class="btn btn-primary" id="find-oer-2">Search</button>
 			</div>
