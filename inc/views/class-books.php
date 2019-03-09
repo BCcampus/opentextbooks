@@ -79,142 +79,139 @@ class Books {
 			$html .= "<b itemprop='datePublished'>Posted on:</b> {$created_date} <b>Updated on:</b> {$modified_date}";
 			$html .= $revision;
 
-			if ( ! empty( $adaptation ) ) {
-				$html .= "<h4 class='alert alert-success'>Good news! This book has been updated and revised. An adaptation of this book can be found here: ";
-				$html .= $this->formatUrl( $adaptation );
-				$html .= '</h4>';
-			}
+		if ( ! empty( $adaptation ) ) {
+			$html .= "<h4 class='alert alert-success'>Good news! This book has been updated and revised. An adaptation of this book can be found here: ";
+			$html .= $this->formatUrl( $adaptation );
+			$html .= '</h4>';
+		}
 
 			$html .= $img;
 			$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $data['description'] . '</span></p>';
 			$html .= "<p><strong>Subject Areas</strong>: <a href='?subject={$meta_xml->item->subject_class_level1}' itemprop='about'>{$meta_xml->item->subject_class_level1}</a>, <a href='?subject={$meta_xml->item->subject_class_level2}'>{$meta_xml->item->subject_class_level2}</a></p>";
 			$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
 
-			if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
-				$html .= '<p><strong>Original source:</strong> ';
+		if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
+			$html .= '<p><strong>Original source:</strong> ';
 
-				foreach ( $meta_xml->item->source as $source ) {
-					$sources .= $this->formatUrl( $source );
-				}
-
-				$sources = rtrim( $sources, ', ' );
-				$html   .= $sources . '</p>';
+			foreach ( $meta_xml->item->source as $source ) {
+				$sources .= $this->formatUrl( $source );
 			}
+
+			$sources = rtrim( $sources, ', ' );
+			$html   .= $sources . '</p>';
+		}
 
 			$html .= $this->renderBookInfo();
 
-			$readable = $this->getAttachmentsByType( $data['attachments'], 'readable' );
-			$editable = $this->getAttachmentsByType( $data['attachments'], 'editable' );
-			$ancillary = $this->getAttachmentsByType( $data['attachments'], 'ancillary' );
-			$print = $this->getAttachmentsByType( $data['attachments'], 'buy' );
+			$grouped = $this->groupAttachmentsByType( $data['attachments'] );
 
 			$html .= '<div id="accordion">'
-			         . ' <div class="card-header">'
-			         . '<h4>Get This Book</h4><span class="text-muted">Select a file format</span>'
-			         . '</div>'
-			         . '<div class="card border-0">'
-			         . '<div class="card-header p-1" id="headingOne">'
-			         . '<h5 class="mb-0">'
-			         . '<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">'
-			         . ' Readable <span class="badge badge-secondary">' . count($readable) . '</span>'
-			         . ' </button>'
-			         . '</h5>'
-			         . '</div>'
-			         . '<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">'
-			         . ' <div class="card-body">'
-			         . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
+					 . ' <div class="card-header">'
+					 . '<h4>Get This Book</h4><span class="text-muted">Select a file format</span>'
+					 . '</div>'
+					 . '<div class="card border-0">'
+					 . '<div class="card-header p-1" id="headingOne">'
+					 . '<h5 class="mb-0">'
+					 . '<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">'
+					 . ' Readable <span class="badge badge-secondary">' . count( $grouped['readable'] ) . '</span>'
+					 . ' </button>'
+					 . '</h5>'
+					 . '</div>'
+					 . '<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">'
+					 . ' <div class="card-body">'
+					 . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
 			// get readable attachments
-			foreach ( $readable as $attachment ) {
-				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-				$logo_type = $this->addLogo( $attachment['description'] );
-				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-				$html      .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-				              . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-				              . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-				              . ' onclick="' . $tracking . '"'
-				              . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
-				              . $attachment['description'] . ' ' . $file_size . '</li>';
-			}
+		foreach ( $grouped['readable'] as $attachment ) {
+			( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+			$logo_type = $this->addLogo( $attachment['description'] );
+			$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
+			$html     .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+						  . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+						  . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+						  . ' onclick="' . $tracking . '"'
+						  . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
+						  . $attachment['description'] . ' ' . $file_size . '</li>';
+		}
 			$html .= '</ul></div>'
-			         . '</div>'
-			         . '</div>'
-			         . '<div class="card border-0">'
-			         . '<div class="card-header p-1" id="headingTwo">'
-			         . '<h5 class="mb-0">'
-			         . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">'
-			         . ' Editable <span class="badge badge-secondary">' . count($editable) . '</span>'
-			         . '</button>'
-			         . '</h5>'
-			         . '</div>'
-			         . '<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">'
-			         . '<div class="card-body">'
-			         . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
+					 . '</div>'
+					 . '</div>'
+					 . '<div class="card border-0">'
+					 . '<div class="card-header p-1" id="headingTwo">'
+					 . '<h5 class="mb-0">'
+					 . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">'
+					 . ' Editable <span class="badge badge-secondary">' . count( $grouped['editable'] ) . '</span>'
+					 . '</button>'
+					 . '</h5>'
+					 . '</div>'
+					 . '<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">'
+					 . '<div class="card-body">'
+					 . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
 			// get editable attachments
-			foreach ( $editable as $attachment ) {
-				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-				$logo_type = $this->addLogo( $attachment['description'] );
-				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-				$html      .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-				              . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-				              . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-				              . ' onclick="' . $tracking . '"'
-				              . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
-				              . $attachment['description'] . ' ' . $file_size . '</li>';
-			}
+		foreach ( $grouped['editable'] as $attachment ) {
+			( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+			$logo_type = $this->addLogo( $attachment['description'] );
+			$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
+			$html     .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+						  . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+						  . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+						  . ' onclick="' . $tracking . '"'
+						  . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
+						  . $attachment['description'] . ' ' . $file_size . '</li>';
+		}
 			$html .= '</ul></div>'
-			         . '</div>'
-			         . '</div>'
-			         . '<div class="card border-0">'
-			         . '<div class="card-header p-1" id="headingThree">'
-			         . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">'
-			         . ' Ancillary <span class="badge badge-secondary">' . count($ancillary) . '</span>'
-			         . '</button>'
-			         . '</h5>'
-			         . '</div>'
-			         . '<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">'
-			         . '<div class="card-body">'
-			         . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
+					 . '</div>'
+					 . '</div>'
+					 . '<div class="card border-0">'
+					 . '<div class="card-header p-1" id="headingThree">'
+					 . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">'
+					 . ' Ancillary <span class="badge badge-secondary">' . count( $grouped['ancillary'] ) . '</span>'
+					 . '</button>'
+					 . '</h5>'
+					 . '</div>'
+					 . '<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">'
+					 . '<div class="card-body">'
+					 . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
 			// get ancillary attachments
-			foreach ( $ancillary as $attachment ) {
-				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-				$logo_type = $this->addLogo( $attachment['description'] );
-				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-				$html      .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-				              . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-				              . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-				              . ' onclick="' . $tracking . '"'
-				              . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
-				              . $attachment['description'] . ' ' . $file_size . '</li>';
-			}
+		foreach ( $grouped['ancillary'] as $attachment ) {
+			( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+			$logo_type = $this->addLogo( $attachment['description'] );
+			$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
+			$html     .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+						  . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+						  . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+						  . ' onclick="' . $tracking . '"'
+						  . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
+						  . $attachment['description'] . ' ' . $file_size . '</li>';
+		}
 			$html .= '</ul></div>'
-			         . '</div>'
-			         . '</div>'
-			         . '<div class="card border-0">'
-			         . '<div class="card-header p-1" id="headingFour">'
-			         . '<h5 class="mb-0">'
-			         . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">'
-			         . ' Buy print copy <span class="badge badge-secondary">' . count($print) . '</span>'
-			         . '</button>'
-			         . ' </h5>'
-			         . '</div>'
-			         . '<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">'
-			         . '<div class="card-body">'
-			         . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
+					 . '</div>'
+					 . '</div>'
+					 . '<div class="card border-0">'
+					 . '<div class="card-header p-1" id="headingFour">'
+					 . '<h5 class="mb-0">'
+					 . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">'
+					 . ' Buy print copy <span class="badge badge-secondary">' . count( $grouped['buy'] ) . '</span>'
+					 . '</button>'
+					 . ' </h5>'
+					 . '</div>'
+					 . '<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">'
+					 . '<div class="card-body">'
+					 . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
 			// get buy print attachments
-			foreach ( $print as $attachment ) {
-				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-				$logo_type = $this->addLogo( $attachment['description'] );
-				$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-				$html      .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-				              . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-				              . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-				              . ' onclick="' . $tracking . '"'
-				              . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
-				              . $attachment['description'] . ' ' . $file_size . '</li>';
-			}
+		foreach ( $grouped['buy'] as $attachment ) {
+			( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+			$logo_type = $this->addLogo( $attachment['description'] );
+			$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
+			$html     .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
+						  . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
+						  . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
+						  . ' onclick="' . $tracking . '"'
+						  . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
+						  . $attachment['description'] . ' ' . $file_size . '</li>';
+		}
 			$html .= '</ul></div>'
-			         . ' </div>'
-			         . '</div></div>';
+					 . ' </div>'
+					 . '</div></div>';
 
 			//send it to the picker for evaluation
 			$substring = $this->licensePicker( $data['metadata'], $authors );
@@ -682,18 +679,30 @@ class Books {
 	 * Returns array of attachments of the requested type
 	 *
 	 * @param array $attachments
-	 * @param string $type
 	 *
 	 * @return array
 	 */
-	private function getAttachmentsByType( array $attachments, $type ) {
-		$new_files = [];
-		$files     = [];
-		$readable  = [ '.pdf', '.epub', '.mobi', '.hpub', '.url' ];
-		$editable  = [ '.xml', '.html', '.odt', '.docx', '.doc', '._vanilla.xml', '.rtf', '.tex', '.zip', '.gh' ];
-		$ancillary = [ '.ancillary' ];
-		$buy       = [ '.print' ];
-
+	private function groupAttachmentsByType( array $attachments ) {
+		$new_files          = [];
+		$files['ancillary'] = [];
+		$files['readable']  = [];
+		$files['editable']  = [];
+		$files['buy']       = [];
+		$readable           = [ '.pdf', '.epub', '.mobi', '.hpub', '.url' ];
+		$editable           = [
+			'.xml',
+			'.html',
+			'.odt',
+			'.docx',
+			'.doc',
+			'._vanilla.xml',
+			'.rtf',
+			'.tex',
+			'.zip',
+			'.gh',
+		];
+		$ancillary          = [ '.ancillary' ];
+		$buy                = [ '.print' ];
 
 		foreach ( $attachments as $key => $attachment ) {
 
@@ -704,10 +713,10 @@ class Books {
 				if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) || strpos( $attachment['description'], 'print copy' ) !== false ) {
 					$filetype = '.print';
 				}// check if it's in ancillary resource URL
-				else if ( ( isset( $attachment['description'] ) ) && strpos( $attachment['description'], 'Ancillary Resource' ) !== false ) {
+				elseif ( ( isset( $attachment['description'] ) ) && strpos( $attachment['description'], 'Ancillary Resource' ) !== false ) {
 					$filetype = '.ancillary';
 					// if its a github url, give it a .gh value, which is in the editable array
-				} else if ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
+				} elseif ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
 					$filetype = '.gh';
 				} // otherwise it's just a regular url
 				else {
@@ -733,25 +742,14 @@ class Books {
 			}
 
 			// build the requested file type array
-			if ( $type == 'readable' ) {
-				( in_array( $filetype, $readable ) ) ? $val = 'readable' : $val = '';
-			} elseif ( $type == 'editable' ) {
-				( in_array( $filetype, $editable ) ) ? $val = 'editable' : $val = '';
-			} elseif ( $type == 'ancillary' ) {
-				( in_array( $filetype, $ancillary ) ) ? $val = 'ancillary' : $val = '';
-			} elseif ( $type == 'buy' ) {
-				( in_array( $filetype, $buy ) ) ? $val = 'buy' : $val = '';
-			}
-			if ( ! empty( $val ) ) {
-				$files[ $key ] = $val;
-			}
+			( in_array( $filetype, $readable ) ) ? array_push( $files['readable'], $attachments[ $key ] ) : '';
+			( in_array( $filetype, $editable ) ) ? array_push( $files['editable'], $attachments[ $key ] ) : '';
+			( in_array( $filetype, $ancillary ) ) ? array_push( $files['ancillary'], $attachments[ $key ] ) : '';
+			( in_array( $filetype, $buy ) ) ? array_push( $files['buy'], $attachments[ $key ] ) : '';
+
 		}
 
-		foreach ( $files as $k => $v ) {
-			$new_files[] = $attachments[ $k ];
-		}
-
-		return $new_files;
+		return $files;
 	}
 
 	/**
