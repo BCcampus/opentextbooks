@@ -623,7 +623,7 @@ class Books {
 		$files['ancillary'] = [];
 		$files['readable']  = [];
 		$files['editable']  = [];
-		$files['buy']       = [];
+		$files['print']     = [];
 		$readable           = [ '.pdf', '.epub', '.mobi', '.hpub', '.url' ];
 		$editable           = [
 			'.xml',
@@ -638,7 +638,7 @@ class Books {
 			'.gh',
 		];
 		$ancillary          = [ '.ancillary' ];
-		$buy                = [ '.print' ];
+		$print              = [ '.print' ];
 
 		foreach ( $attachments as $key => $attachment ) {
 
@@ -681,7 +681,7 @@ class Books {
 			( in_array( $filetype, $readable ) ) ? array_push( $files['readable'], $attachments[ $key ] ) : '';
 			( in_array( $filetype, $editable ) ) ? array_push( $files['editable'], $attachments[ $key ] ) : '';
 			( in_array( $filetype, $ancillary ) ) ? array_push( $files['ancillary'], $attachments[ $key ] ) : '';
-			( in_array( $filetype, $buy ) ) ? array_push( $files['buy'], $attachments[ $key ] ) : '';
+			( in_array( $filetype, $print ) ) ? array_push( $files['print'], $attachments[ $key ] ) : '';
 
 		}
 
