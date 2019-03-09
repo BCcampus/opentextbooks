@@ -57,27 +57,28 @@ class Books {
 		} catch ( \Exception $e ) {
 			error_log( $e->getMessage() );
 		}
-		$html    = '';
-		$sources = '';
-		$data    = $this->books->getResponses();
+		$html_accordion_attachments = '';
+		$html_accordion_cards       = '';
+		$sources                    = '';
+		$data                       = $this->books->getResponses();
 
-			$meta_xml         = simplexml_load_string( $data['metadata'] );
-			$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
-			$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
-			$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
-			$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
-			$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-													   . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
-			$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
-			$adaptation       = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
-			$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
+		$meta_xml         = simplexml_load_string( $data['metadata'] );
+		$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
+		$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
+		$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
+		$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
+		$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
+														 . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+		$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
+		$adaptation       = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
+		$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
-			$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
-			$html .= $this->getResultsMicrodata( $data );
+		$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
+		$html .= $this->getResultsMicrodata( $data );
 
-			$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
-			$html .= "<b itemprop='datePublished'>Posted on:</b> {$created_date} <b>Updated on:</b> {$modified_date}";
-			$html .= $revision;
+		$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
+		$html .= "<b itemprop='datePublished'>Posted on:</b> {$created_date} <b>Updated on:</b> {$modified_date}";
+		$html .= $revision;
 
 		if ( ! empty( $adaptation ) ) {
 			$html .= "<h4 class='alert alert-success'>Good news! This book has been updated and revised. An adaptation of this book can be found here: ";
@@ -85,10 +86,10 @@ class Books {
 			$html .= '</h4>';
 		}
 
-			$html .= $img;
-			$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $data['description'] . '</span></p>';
-			$html .= "<p><strong>Subject Areas</strong>: <a href='?subject={$meta_xml->item->subject_class_level1}' itemprop='about'>{$meta_xml->item->subject_class_level1}</a>, <a href='?subject={$meta_xml->item->subject_class_level2}'>{$meta_xml->item->subject_class_level2}</a></p>";
-			$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
+		$html .= $img;
+		$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $data['description'] . '</span></p>';
+		$html .= "<p><strong>Subject Areas</strong>: <a href='?subject={$meta_xml->item->subject_class_level1}' itemprop='about'>{$meta_xml->item->subject_class_level1}</a>, <a href='?subject={$meta_xml->item->subject_class_level2}'>{$meta_xml->item->subject_class_level2}</a></p>";
+		$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
 
 		if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
 			$html .= '<p><strong>Original source:</strong> ';
@@ -101,122 +102,57 @@ class Books {
 			$html   .= $sources . '</p>';
 		}
 
-			$html .= $this->renderBookInfo();
+		$html .= $this->renderBookInfo();
 
-			$grouped = $this->groupAttachmentsByType( $data['attachments'] );
+		$grouped = $this->groupAttachmentsByType( $data['attachments'] );
 
-			$html .= '<div id="accordion">'
-					 . ' <div class="card-header">'
-					 . '<h4>Get This Book</h4><span class="text-muted">Select a file format</span>'
-					 . '</div>'
-					 . '<div class="card border-0">'
-					 . '<div class="card-header p-1" id="headingOne">'
-					 . '<h5 class="mb-0">'
-					 . '<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">'
-					 . ' Readable <span class="badge badge-secondary">' . count( $grouped['readable'] ) . '</span>'
-					 . ' </button>'
-					 . '</h5>'
-					 . '</div>'
-					 . '<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">'
-					 . ' <div class="card-body">'
-					 . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
-			// get readable attachments
-		foreach ( $grouped['readable'] as $attachment ) {
-			( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-			$logo_type = $this->addLogo( $attachment['description'] );
-			$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-			$html     .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-						  . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-						  . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-						  . ' onclick="' . $tracking . '"'
-						  . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
-						  . $attachment['description'] . ' ' . $file_size . '</li>';
-		}
-			$html .= '</ul></div>'
-					 . '</div>'
-					 . '</div>'
-					 . '<div class="card border-0">'
-					 . '<div class="card-header p-1" id="headingTwo">'
-					 . '<h5 class="mb-0">'
-					 . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">'
-					 . ' Editable <span class="badge badge-secondary">' . count( $grouped['editable'] ) . '</span>'
-					 . '</button>'
-					 . '</h5>'
-					 . '</div>'
-					 . '<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">'
-					 . '<div class="card-body">'
-					 . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
-			// get editable attachments
-		foreach ( $grouped['editable'] as $attachment ) {
-			( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-			$logo_type = $this->addLogo( $attachment['description'] );
-			$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-			$html     .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-						  . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-						  . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-						  . ' onclick="' . $tracking . '"'
-						  . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
-						  . $attachment['description'] . ' ' . $file_size . '</li>';
-		}
-			$html .= '</ul></div>'
-					 . '</div>'
-					 . '</div>'
-					 . '<div class="card border-0">'
-					 . '<div class="card-header p-1" id="headingThree">'
-					 . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">'
-					 . ' Ancillary <span class="badge badge-secondary">' . count( $grouped['ancillary'] ) . '</span>'
-					 . '</button>'
-					 . '</h5>'
-					 . '</div>'
-					 . '<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">'
-					 . '<div class="card-body">'
-					 . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
-			// get ancillary attachments
-		foreach ( $grouped['ancillary'] as $attachment ) {
-			( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-			$logo_type = $this->addLogo( $attachment['description'] );
-			$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-			$html     .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-						  . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-						  . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-						  . ' onclick="' . $tracking . '"'
-						  . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
-						  . $attachment['description'] . ' ' . $file_size . '</li>';
-		}
-			$html .= '</ul></div>'
-					 . '</div>'
-					 . '</div>'
-					 . '<div class="card border-0">'
-					 . '<div class="card-header p-1" id="headingFour">'
-					 . '<h5 class="mb-0">'
-					 . '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">'
-					 . ' Buy print copy <span class="badge badge-secondary">' . count( $grouped['buy'] ) . '</span>'
-					 . '</button>'
-					 . ' </h5>'
-					 . '</div>'
-					 . '<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">'
-					 . '<div class="card-body">'
-					 . '<ul class="list-group list-group-flush list-unstyled line-height-lg">';
-			// get buy print attachments
-		foreach ( $grouped['buy'] as $attachment ) {
-			( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
-			$logo_type = $this->addLogo( $attachment['description'] );
-			$tracking  = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
-			$html     .= "<link itemprop='bookFormat' href='https://schema.org/EBook'><li class='p-1' itemprop='offers' itemscope itemtype='https://schema.org/Offer'>"
-						  . "<meta itemprop='price' content='$0.00'><link itemprop='availability' href='https://schema.org/InStock'>"
-						  . "<a class='btn btn btn-outline-primary btn-sm' role='button'"
-						  . ' onclick="' . $tracking . '"'
-						  . " href='{$attachment['links']['view']}' title='{$attachment['description']}'>{$logo_type['string']}</a> "
-						  . $attachment['description'] . ' ' . $file_size . '</li>';
-		}
-			$html .= '</ul></div>'
-					 . ' </div>'
-					 . '</div></div>';
+		foreach ( $grouped as $type => $attachments ) {
+			if ( empty( $attachments ) ) {
+				continue;
+			}
 
-			//send it to the picker for evaluation
-			$substring = $this->licensePicker( $data['metadata'], $authors );
-			//include it, depending on what license it is
-			$html .= $substring;
+			// get attachments
+			foreach ( $attachments as $attachment ) {
+				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+				$logo_type                   = $this->addLogo( $attachment['description'] );
+				$tracking                    = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
+				$html_accordion_attachments .= sprintf(
+					'<link itemprop="bookFormat" href="https://schema.org/EBook"><li class="p-1" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+			              <meta itemprop="price" content="$0.00"><link itemprop="availability" href="https://schema.org/InStock">
+			              <a class="btn btn btn-outline-primary btn-sm" role="button" onclick="%1$s" href="%2$s" title="%3$s">%4$s</a> %5$s %6$s</li>', $tracking, $attachment['links']['view'], $attachment['description'], $logo_type['string'], $attachment['description'], $file_size
+				);
+			}
+
+			// wrap attachments in accordion card
+			$html_accordion_cards .= sprintf(
+				'<div class="card border-0">
+				<div class="card-header p-1" id="headingOne">
+				<h5 class="mb-0">
+				<button class="btn btn-link" data-toggle="collapse" data-target="#collapse%1$s" aria-expanded="true" aria-controls="collapse%1$s">
+			    %1$s <span class="badge badge-secondary">%2$s</span>
+				</button>
+				</h5>
+				</div>
+				<div id="collapse%1$s" class="collapse" aria-labelledby="heading%1$s" data-parent="#accordion">
+				<div class="card-body"><ul class="list-group list-group-flush list-unstyled line-height-lg">
+				<ul class="list-group list-group-flush list-unstyled line-height-lg">%3$s</ul></div></div></div>', ucfirst( $type ), count( $attachments ), $html_accordion_attachments
+			);
+
+		}
+
+		$html .= sprintf(
+			'<div id="accordion">
+			<div class="card-header">
+			<h4>Get This Book</h4>
+			<span class="text-muted">Select a file format</span>
+			</div>%1$s</div>', $html_accordion_cards
+		);
+
+		//send it to the picker for evaluation
+		$substring = $this->licensePicker( $data['metadata'], $authors );
+
+		//include it, depending on what license it is
+		$html .= $substring;
 		echo $html;
 	}
 
@@ -435,7 +371,7 @@ class Books {
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
 			if ( isset( $args['filter'] ) && in_array( $args['filter'], $expected_filters ) ) { // check if it's been reviewed,adopted,ancillary,accessible
 				if ( 0 === preg_match( "/{$args['filter']}/", $metadata ) ) {
-					$this->size--;
+					$this->size --;
 					$start ++;
 					$i ++;
 					continue;
