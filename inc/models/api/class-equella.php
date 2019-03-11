@@ -77,7 +77,7 @@ class Equella implements Polymorphism\RestInterface {
 			if ( $any_query !== '' ) {
 				$order     = 'relevance';
 				$any_query = \BCcampus\Utility\raw_url_encode( $any_query );
-				$any_query = 'search?q=' . $any_query;
+				$any_query = 'q=' . $any_query;
 			}
 
 			// start building the URL
@@ -95,7 +95,7 @@ class Equella implements Polymorphism\RestInterface {
 				$first_subject_path = \BCcampus\Utility\url_encode( $this->contributorPath );
 				$this->url          = $this->apiBaseUrl . $search_where . $first_subject_path . $is . "'" . $args['subject'] . "'" . $optional_param;
 			} elseif ( ! empty( $args['subject_class_level2'] ) && ! empty( $args['subject_class_level1'] ) ) {
-				$this->url = sprintf( '%1$s%2$s%3$s%4$s\'%5$s\'%6$s%7$s%4$s\'%8$s\'%9$s', $this->apiBaseUrl, $search_where, $first_subject_path, $is, $args['subject_class_level1'], $or, $second_subject_path, $args['subject_class_level2'], $optional_param );
+				$this->url = sprintf( '%1$s%2$s%3$s%4$s\'%5$s\'%6$s%7$s%4$s\'%8$s\'%9$s', $this->apiBaseUrl, $search_where, $first_subject_path, $is, \BCcampus\Utility\raw_url_encode( $args['subject_class_level1'] ), $or, $second_subject_path, \BCcampus\Utility\raw_url_encode( $args['subject_class_level2'] ), $optional_param );
 			} elseif ( isset( $args['subject_class_level2'] ) && ! empty( $args['subject_class_level2'] ) ) { // to handle multiple secondary subjects
 				$sec_subj   = explode( ',', $args['subject_class_level2'] );
 				$c_sec_subj = count( $sec_subj );
@@ -103,7 +103,7 @@ class Equella implements Polymorphism\RestInterface {
 
 				foreach ( $sec_subj as $s ) {
 					$sec_subj_opr = ( $i === $c_sec_subj ) ? '' : $or;
-					$combined    .= $second_subject_path . $is . "'" . $s . "'" . $sec_subj_opr;
+					$combined    .= $second_subject_path . $is . "'" . \BCcampus\Utility\raw_url_encode( $s ) . "'" . $sec_subj_opr;
 					$i ++;
 				}
 				$this->url = sprintf( '%1$s%2$s%3$s%4$s', $this->apiBaseUrl, $search_where, $combined, $optional_param );
