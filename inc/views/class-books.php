@@ -111,6 +111,8 @@ class Books {
 				continue;
 			}
 
+			$html_accordion_attachments = '';
+
 			// get attachments
 			foreach ( $attachments as $attachment ) {
 				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
