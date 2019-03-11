@@ -649,7 +649,7 @@ class Books {
 				if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) || strpos( $attachment['description'], 'print copy' ) !== false ) {
 					$filetype = '.print';
 				}// check if it's in ancillary resource URL
-				elseif ( ( isset( $attachment['description'] ) ) && strpos( $attachment['description'], 'Ancillary Resource' ) !== false ) {
+				elseif ( ( isset( $attachment['description'] ) ) && ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
 					$filetype = '.ancillary';
 					// if its a github url, give it a .gh value, which is in the editable array
 				} elseif ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
