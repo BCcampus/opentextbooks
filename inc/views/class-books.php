@@ -68,9 +68,9 @@ class Books {
 		$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
 		$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
 		$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-														 . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover[ @copyright ] . '</small></figcaption></figure>' : '';
+														 . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover->attributes()->copyright . '</small></figcaption></figure>' : '';
 		$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
-		$adaptation       = ( true == $meta_xml->item->adaptation[ @value ] ) ? $meta_xml->item->adaptation->source : '';
+		$adaptation       = ( true == $meta_xml->item->adaptation->attributes()->value ) ? $meta_xml->item->adaptation->source : '';
 		$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
 		$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
@@ -153,6 +153,56 @@ class Books {
 
 		//include it, depending on what license it is
 		$html .= $substring;
+		echo $html;
+	}
+
+	/**
+	 * @param $uuid
+	 * @param $subject_areas
+	 * @param $limit
+	 *
+	 * @return string
+	 */
+	public function displayRelevant( $uuid, $subject_areas, $limit ) {
+
+		$sorted   = $this->books->sortByRelevance( $subject_areas, true );
+		$env      = Config::getInstance()->get();
+		$articles = '';
+		$i        = 0;
+
+		foreach ( $sorted as $book ) {
+			if ( 0 === strcmp( $uuid, $book['uuid'] ) ) { // don't print the one we're on
+				continue;
+			}
+
+			if ( $limit === $i ) {
+				break;
+			}
+
+			$meta_xml = \simplexml_load_string( $book['metadata'] );
+			$cover    = \preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
+
+			$articles .= sprintf(
+				'
+				<article class="col-md-3 mb-2 text-center" itemscope itemtype="http://schema.org/Article">
+				<a href="%1$s">
+				<img itemprop="image" class="img-polaroid" src="%2$s" alt="Image for the textbook titled %3$s" width="151px" height="196px" />
+				</a>
+				<p>%3$s</p>
+				</article>', $env['domain']['scheme'] . $env['domain']['host'] . '/' . $env['domain']['app_path'] . '/?' . $book['uuid'], $cover, $book['name']
+			);
+			$i ++;
+		}
+
+		$html = sprintf(
+			'
+			<section class="bkgd-blue-navy d-flex flex-row flex-wrap full-width py-3 mt-3">
+			    <div class="col-12">
+			        <h4>Similar Textbooks</h4>
+			    </div>%1$s
+			</section>', $articles
+		);
+
 		echo $html;
 	}
 

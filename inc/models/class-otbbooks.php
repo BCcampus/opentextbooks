@@ -105,7 +105,7 @@ class OtbBooks extends Polymorphism\DataAbstract {
 	private function setFileName() {
 		$name = '';
 		// name file after the collection
-		if ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) && empty( $this->args['subject_class_level_2'] ) ) {
+		if ( empty( $this->args['subject'] ) && empty( $this->args['uuid'] ) && empty( $this->args['search'] ) && empty( $this->args['subject_class_level2'] ) ) {
 			$name = $this->args['collectionUuid'];
 		} elseif ( ! empty( $this->args['uuid'] ) ) { // individual record
 			$name = $this->args['uuid'];
@@ -115,8 +115,10 @@ class OtbBooks extends Polymorphism\DataAbstract {
 			$name = $this->args['collectionUuid'] . $this->args['subject'] . $this->args['search'];
 		} elseif ( ! empty( $this->args['subject'] ) && ! empty( $this->args['search'] ) ) { // name the file after the subject area and search term
 			$name = $this->args['subject'] . $this->args['search'];
-		} elseif ( ! empty( $this->args['subject_class_level_2'] ) ) {
-			$name = $this->args['subject_class_level_2'];
+		} elseif ( ! empty( $this->args['subject_class_level2'] ) && ! empty( $this->args['subject_class_level1'] ) ) {
+			$name = $this->args['subject_class_level2'] . $this->args['subject_class_level1'];
+		} elseif ( ! empty( $this->args['subject_class_level2'] ) ) {
+			$name = $this->args['subject_class_level2'];
 		}
 
 		return $name;
@@ -183,6 +185,63 @@ class OtbBooks extends Polymorphism\DataAbstract {
 		} else {
 			return $this->data;
 		}
+	}
+
+	/**
+	 * @param $uuid
+	 *
+	 * @return mixed
+	 */
+	public function getBookSubjectAreas( $uuid ) {
+		$subject_areas['subject_class_level1'] = '';
+		$subject_areas['subject_class_level2'] = '';
+
+		if ( 0 !== strcmp( $this->data['uuid'], $uuid ) ) {
+			return $subject_areas;
+		}
+
+		$xml  = new \SimpleXMLElement( $this->data['metadata'] );
+		$sub1 = $xml->xpath( 'item/subject_class_level1' );
+		$sub2 = $xml->xpath( 'item/subject_class_level2' );
+
+		$subject_areas['subject_class_level1'] = $sub1[0]->__toString();
+		$subject_areas['subject_class_level2'] = $sub2[0]->__toString();
+
+		return $subject_areas;
+	}
+
+	/**
+	 * @param $subject_areas
+	 *
+	 * @return array
+	 */
+	public function sortByRelevance( $subject_areas, $random = false ) {
+		$sorted_first  = [];
+		$sorted_second = [];
+
+		if ( ! is_array( $subject_areas ) ) {
+			return [];
+		}
+
+		foreach ( $this->data as $book ) {
+			$xml  = new \SimpleXMLElement( $book['metadata'] );
+			$sub1 = $xml->xpath( 'item/subject_class_level1' );
+			$sub2 = $xml->xpath( 'item/subject_class_level2' );
+
+			if ( 0 === strcmp( $sub2[0]->__toString(), $subject_areas['subject_class_level2'] ) ) {
+				array_push( $sorted_first, $book );
+			}
+
+			if ( 0 === strcmp( $sub1[0]->__toString(), $subject_areas['subject_class_level1'] ) ) {
+				array_push( $sorted_second, $book );
+			}
+		}
+
+		if ( true === $random ) {
+			shuffle( $sorted_first );
+		}
+
+		return array_merge( $sorted_first, $sorted_second );
 	}
 
 	/**
