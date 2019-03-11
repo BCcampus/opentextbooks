@@ -675,7 +675,7 @@ class Books {
 			}
 
 			// If file type was not set by any of the above, let's grab it from the file name
-			if ( $filetype !== '.ancillary' || $filetype !== '.print' || $filetype !== '.url' || $filetype !== '.gh' || $filetype !== '.pressbooks' ) {
+			if ( $filetype !== '.ancillary' || $filetype !== '.print' || $filetype !== '.url' || $filetype !== '.gh' || $filetype !== '.editable' ) {
 				if ( isset( $attachment['filename'] ) ) {
 					$filetype = strrchr( $attachment['filename'], '.' );
 				}
