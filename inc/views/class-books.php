@@ -196,7 +196,7 @@ class Books {
 
 		$html = sprintf(
 			'
-			<section class="bkgd-blue-navy d-flex flex-row flex-wrap full-width py-3 mt-3">
+			<section class="bkgd-grey-light d-flex flex-row flex-wrap full-width py-3 mt-3">
 			    <div class="col-12">
 			        <h4>Similar Textbooks</h4>
 			    </div>%1$s
