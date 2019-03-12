@@ -637,6 +637,7 @@ class Books {
 			'.rtf',
 			'.tex',
 			'.zip',
+			'.editable',
 			'.gh',
 		];
 		$ancillary          = [ '.ancillary' ];
@@ -648,13 +649,17 @@ class Books {
 			if ( isset( $attachment['url'] ) ) {
 				$url = parse_url( $attachment['url'] );
 				// give it a print filetype if it's coming from sfu domain, or has the string "print copy"
-				if ( isset( $url['host'] ) && 0 == strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) || strpos( $attachment['description'], 'print copy' ) !== false ) {
+				if ( isset( $url['host'] ) && 0 === strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) || 1 === preg_match( '/print(\s*)copy/iU', $attachment['description'] ) ) {
 					$filetype = '.print';
-				}// check if it's in ancillary resource URL
+				} // give it an editable file type if it has the string "editable"
+				elseif ( 1 === preg_match( '/^editable/iU', $attachment['description'] ) ) {
+					$filetype = '.editable';
+				}
+					// check if it's in ancillary resource URL
 				elseif ( ( isset( $attachment['description'] ) ) && ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
 					$filetype = '.ancillary';
 					// if its a github url, give it a .gh value, which is in the editable array
-				} elseif ( isset( $url['host'] ) && 0 == strcmp( 'github.com', $url['host'] ) ) {
+				} elseif ( isset( $url['host'] ) && 0 === strcmp( 'github.com', $url['host'] ) ) {
 					$filetype = '.gh';
 				} // otherwise it's just a regular url
 				else {
@@ -664,13 +669,13 @@ class Books {
 
 			// check if it's in ancillary resource
 			if ( isset( $attachment['description'] ) && $filetype !== '.ancillary' ) {
-				if ( strpos( $attachment['description'], 'Ancillary Resource' ) !== false ) {
+				if ( ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
 					$filetype = '.ancillary';
 				}
 			}
 
 			// If file type was not set by any of the above, let's grab it from the file name
-			if ( $filetype !== '.ancillary' || $filetype !== '.print' || $filetype !== '.url' || $filetype !== '.gh' ) {
+			if ( $filetype !== '.ancillary' || $filetype !== '.print' || $filetype !== '.url' || $filetype !== '.gh' || $filetype !== '.editable' ) {
 				if ( isset( $attachment['filename'] ) ) {
 					$filetype = strrchr( $attachment['filename'], '.' );
 				}
