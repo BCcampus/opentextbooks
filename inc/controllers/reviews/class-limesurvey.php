@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Controller accepts input and converts it to commands for the model or view
  * LimeSurvey provides and API with a JSON-RPC web service which we initially

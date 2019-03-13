@@ -136,7 +136,7 @@ class Otb {
 			$this->args = array_merge( $this->defaultArgs, $args );
 		}
 
-		if ( in_array( $this->args['type_of'], $this->expected ) ) {
+		if ( in_array( $this->args['type_of'], $this->expected, true ) ) {
 			$this->decider();
 		} else {
 			return new Views\Errors( [ 'msg' => 'Whoops! Looks like you need to pass an expected parameter. Love ya!' ] );
@@ -156,7 +156,7 @@ class Otb {
 			$expected_lists = [ 'adopted', 'ancillary', 'reviewed', 'accessible', 'titles', 'latest_additions' ];
 
 			// for lists of books matching certain criteria
-			if ( ! empty( $this->args['lists'] ) && in_array( $this->args['lists'], $expected_lists ) ) {
+			if ( ! empty( $this->args['lists'] ) && in_array( $this->args['lists'], $expected_lists, true ) ) {
 
 				switch ( $this->args['lists'] ) {
 					case 'titles':
@@ -172,8 +172,7 @@ class Otb {
 					default:
 						$view->displayTitlesByType( $this->args['lists'] );
 				}
-			} // for one book
-			elseif ( ! empty( $this->args['uuid'] ) ) {
+			} elseif ( ! empty( $this->args['uuid'] ) ) { // for one book
 				$view->displayOneTextbook();
 			} else {
 				$view->displayBooks( $this->args['start'] );

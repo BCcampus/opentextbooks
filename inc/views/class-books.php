@@ -57,20 +57,19 @@ class Books {
 		} catch ( \Exception $e ) {
 			error_log( $e->getMessage() );
 		}
-		$html_accordion_attachments = '';
-		$html_accordion_cards       = '';
-		$sources                    = '';
-		$data                       = $this->books->getResponses();
+		$html_accordion_cards = '';
+		$sources              = '';
+		$data                 = $this->books->getResponses();
 
 		$meta_xml         = simplexml_load_string( $data['metadata'] );
 		$citation_pdf_url = $this->getCitationPdfUrl( $data['attachments'] );
 		$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
 		$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
 		$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
-		$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />"
-														 . "<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover->attributes()->copyright . '</small></figcaption></figure>' : '';
+		$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />
+														<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover->attributes()->copyright . '</small></figcaption></figure>' : '';
 		$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
-		$adaptation       = ( true == $meta_xml->item->adaptation->attributes()->value ) ? $meta_xml->item->adaptation->source : '';
+		$adaptation       = ( true === $meta_xml->item->adaptation->attributes()->value ) ? $meta_xml->item->adaptation->source : '';
 		$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
 		$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
@@ -285,7 +284,7 @@ class Books {
 			//set the limit if there are less than 10 results based on where we start
 			if ( ( $this->size - $start_here ) < 10 ) {
 				//add a limit to the results, but avoid setting the limit to 0, since that'll give you more than you want
-				$limit = ( $this->size - $start_here ) == 0 ? $limit = 1 : $this->size - $start_here;
+				$limit = ( $this->size - $start_here ) === 0 ? $limit = 1 : $this->size - $start_here;
 			}
 
 			$html .= $this->displaySearchForm( $this->args['search'] );
@@ -294,8 +293,7 @@ class Books {
 			if ( empty( $this->args['search'] ) ) {
 				$html .= $this->displayBySubject( $start_here, $limit );
 				$html .= $this->displayLinks( $start_here, $this->args['search'] );
-			} //otherwise, display all the results starting at the first one (from a search form)
-			else {
+			} else { //otherwise, display all the results starting at the first one (from a search form)
 				$html .= $this->displayBySubject( 0, 0, $this->args );
 			}
 			echo $html;
@@ -364,10 +362,10 @@ class Books {
 
 		$count = count( $name );
 
-		if ( 'ancillary' == $type ) {
+		if ( 'ancillary' === $type ) {
 			$html = "<p>There are currently {$count} textbooks with {$type} resources.</p>";
 		}
-		if ( 'accessible' == $type ) {
+		if ( 'accessible' === $type ) {
 			$html = "<p>There are currently {$count} {$type} textbooks. Accessible textbooks must meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.</a></p>";
 		} else {
 			$html = "<p>There are currently {$count} {$type} textbooks.</p>";
@@ -409,10 +407,10 @@ class Books {
 		}
 
 		// necessary to see the last record
-		$start = ( $start == $this->size ? $start = $start - 1 : $start = $start );
+		$start = ( $start === $this->size ? $start = $start - 1 : $start = $start );
 
 		// if we're displaying all of the results (from a search form request)
-		if ( $limit == 0 ) {
+		if ( $limit === 0 ) {
 			$limit = $this->size;
 			$html .= '<ol class="list-group">';
 		} else {
@@ -421,7 +419,7 @@ class Books {
 
 		while ( $i < $limit ) {
 			$metadata = $this->getMetaData( $data[ $start ]['metadata'] );
-			if ( isset( $args['filter'] ) && in_array( $args['filter'], $expected_filters ) ) { // check if it's been reviewed,adopted,ancillary,accessible
+			if ( isset( $args['filter'] ) && in_array( $args['filter'], $expected_filters, true ) ) { // check if it's been reviewed,adopted,ancillary,accessible
 				if ( 0 === preg_match( "/{$args['filter']}/", $metadata ) ) {
 					$this->size --;
 					$start ++;
@@ -440,7 +438,7 @@ class Books {
 			$start ++;
 			$i ++;
 		}
-		if ( $limit == $this->size ) {
+		if ( $limit === $this->size ) {
 			$html .= '</ol>';
 		} else {
 			$html .= '</ul>';
@@ -475,7 +473,7 @@ class Books {
 
 		foreach ( $this->books->getResponses() as $data ) {
 			// omit if 4 or more reviews
-			if ( in_array( substr( $data['uuid'], 0, 5 ), $omit ) || array_key_exists( $data['uuid'], $do_not_display ) ) {
+			if ( in_array( substr( $data['uuid'], 0, 5 ), $omit, true ) || array_key_exists( $data['uuid'], $do_not_display ) ) {
 				continue;
 			} elseif ( false === \BCcampus\Utility\has_canadian_edition( substr( $data['uuid'], 0, 5 ) ) ) {
 				$html[] = ucfirst( $data['name'] );
@@ -492,32 +490,32 @@ class Books {
 
 	/**
 	 *
-	 * @param int $startHere
-	 * @param string $searchTerm
+	 * @param int $start_here
+	 * @param string $search_term
 	 *
 	 * @return string $html
 	 */
-	private function displayLinks( $startHere, $searchTerm ) {
+	private function displayLinks( $start_here, $search_term ) {
 		$limit  = 0;
 		$by_ten = 0;
 
 		//reduce startHere to a multiple of 10
-		$startHere = ( 10 * intval( $startHere / 10 ) );
+		$start_here = ( 10 * intval( $start_here / 10 ) );
 
 		//reduce limit to an integer value
 		$limit = intval( $this->size / 10 );
 
 		//if it is less than 10 or equal to 10, just return (all the links are on the page)
-		if ( $limit == 0 || $this->size == 10 ) {
+		if ( $limit === 0 || $this->size === 10 ) {
 			return;
 		}
 		$html = '<section class="p-3"><p>';
 		//otherwise, produce as many links as there are results divided by 10
 		while ( $limit >= 0 ) {
-			if ( $startHere == $by_ten ) {
+			if ( $start_here === $by_ten ) {
 				$html .= '<strong>' . $by_ten . '</strong> | ';
 			} else {
-				$html .= "<a href='?start=" . $by_ten . '&subject=' . $this->args['subject'] . '&contributor=' . $this->args['subject'] . '&searchTerm=' . $searchTerm . '&keyword=' . $this->args['keyword'] . "'>" . $by_ten . '</a> | ';
+				$html .= "<a href='?start=" . $by_ten . '&subject=' . $this->args['subject'] . '&contributor=' . $this->args['subject'] . '&searchTerm=' . $search_term . '&keyword=' . $this->args['keyword'] . "'>" . $by_ten . '</a> | ';
 			}
 			$by_ten = $by_ten + 10;
 			$limit --;
@@ -606,7 +604,7 @@ class Books {
 		} else {
 			$url = parse_url( $source );
 			// change the base domain if we're not in the base domain environment
-			if ( 0 == strcmp( $url['host'], 'open.bccampus.ca' ) && 0 !== strcmp( $env['domain']['host'], 'open.bccampus.ca' ) ) {
+			if ( 0 === strcmp( $url['host'], 'open.bccampus.ca' ) && 0 !== strcmp( $env['domain']['host'], 'open.bccampus.ca' ) ) {
 				$url['host'] = $env['domain']['host'];
 			}
 			if ( is_array( $url ) ) {
@@ -638,11 +636,11 @@ class Books {
 			error_log( $e->getMessage() );
 		}
 		$base = "{$env['domain']['scheme']}{$env['domain']['host']}/wp-content/opensolr/opentextbooks/redirects.php";
-		//$base = 'http://localhost/opentextbooks/redirects.php';
+
 		foreach ( $attachments as $attachment ) {
-			if ( 'file' == $attachment['type'] && isset( $attachment['filename'] ) ) {
+			if ( 'file' === $attachment['type'] && isset( $attachment['filename'] ) ) {
 				$filetype = strstr( $attachment['filename'], '.' );
-				if ( '.pdf' == $filetype && ! empty( $attachment['links']['view'] ) ) {
+				if ( '.pdf' === $filetype && ! empty( $attachment['links']['view'] ) ) {
 					$link       = $attachment['links']['view'];
 					$parts      = parse_url( $link );
 					$uuid_parts = explode( '/', $parts['path'] );
@@ -701,18 +699,14 @@ class Books {
 				// give it a print filetype if it's coming from sfu domain, or has the string "print copy"
 				if ( isset( $url['host'] ) && 0 === strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) || 1 === preg_match( '/print(\s*)copy/iU', $attachment['description'] ) ) {
 					$filetype = '.print';
-				} // give it an editable file type if it has the string "editable"
-				elseif ( 1 === preg_match( '/^editable/iU', $attachment['description'] ) ) {
+				} elseif ( 1 === preg_match( '/^editable/iU', $attachment['description'] ) ) { // give it an editable file type if it has the string "editable"
 					$filetype = '.editable';
-				}
-					// check if it's in ancillary resource URL
-				elseif ( ( isset( $attachment['description'] ) ) && ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
+				} elseif ( ( isset( $attachment['description'] ) ) && ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
 					$filetype = '.ancillary';
 					// if its a github url, give it a .gh value, which is in the editable array
 				} elseif ( isset( $url['host'] ) && 0 === strcmp( 'github.com', $url['host'] ) ) {
 					$filetype = '.gh';
-				} // otherwise it's just a regular url
-				else {
+				} else { // otherwise it's just a regular url
 					$filetype = '.url';
 				}
 			}
@@ -735,10 +729,10 @@ class Books {
 			}
 
 			// build the requested file type array
-			( in_array( $filetype, $readable ) ) ? array_push( $files['readable'], $attachments[ $key ] ) : '';
-			( in_array( $filetype, $editable ) ) ? array_push( $files['editable'], $attachments[ $key ] ) : '';
-			( in_array( $filetype, $ancillary ) ) ? array_push( $files['ancillary'], $attachments[ $key ] ) : '';
-			( in_array( $filetype, $print ) ) ? array_push( $files['print'], $attachments[ $key ] ) : '';
+			( in_array( $filetype, $readable, true ) ) ? array_push( $files['readable'], $attachments[ $key ] ) : '';
+			( in_array( $filetype, $editable, true ) ) ? array_push( $files['editable'], $attachments[ $key ] ) : '';
+			( in_array( $filetype, $ancillary, true ) ) ? array_push( $files['ancillary'], $attachments[ $key ] ) : '';
+			( in_array( $filetype, $print, true ) ) ? array_push( $files['print'], $attachments[ $key ] ) : '';
 
 		}
 
@@ -822,8 +816,7 @@ class Books {
 		$val = array_values( $expected[ $license ] );
 
 		// build the url
-		$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] .
-			   '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
+		$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] . '&creator=' . rawurlencode( $authors ) . '&title=' . rawurlencode( $title ) . '&locale=' . $lang;
 
 		// go and get it
 		$c = curl_init( $url );
@@ -834,7 +827,7 @@ class Books {
 		curl_close( $c );
 
 		// if server response is not ok, return semi-meaningful string
-		if ( false == $response ) {
+		if ( false === $response ) {
 			return 'license information currently unavailable from https://api.creativecommons.org/rest/1.5/';
 		}
 
@@ -862,7 +855,7 @@ class Books {
 		}
 
 		// modify it for v3 if need be
-		if ( true == $v3 ) {
+		if ( true === $v3 ) {
 			$result = preg_replace( '/(4\.0)/', '3.0', $result );
 		}
 
@@ -952,7 +945,7 @@ class Books {
 	 */
 	private function addLogo( $string ) {
 
-		if ( ! stristr( $string, 'print copy' ) == false ) {
+		if ( ! stristr( $string, 'print copy' ) === false ) {
 			$result = [
 				'string' => "PRINT <i class='fa fa-print'></i>",
 				'type'   => 'print',
@@ -966,7 +959,7 @@ class Books {
 		}
 
 		//if it's a zip
-		if ( ! stristr( $string, '.zip' ) == false || ! stristr( $string, '.tbz' ) == false ) {
+		if ( ! stristr( $string, '.zip' ) === false || ! stristr( $string, '.tbz' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
@@ -974,7 +967,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
 			];
 		}
 		//if it's a word file
-		if ( ! stristr( $string, '.doc' ) == false || ! stristr( $string, '.rtf' ) == false ) {
+		if ( ! stristr( $string, '.doc' ) === false || ! stristr( $string, '.rtf' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
@@ -982,7 +975,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 			];
 		}
 		//if it's a pdf
-		if ( ! stristr( $string, '.pdf' ) == false ) {
+		if ( ! stristr( $string, '.pdf' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
@@ -990,7 +983,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 			];
 		}
 		//if it's an epub
-		if ( ! stristr( $string, '.epub' ) == false ) {
+		if ( ! stristr( $string, '.epub' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
@@ -998,7 +991,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 			];
 		}
 		//if it's a mobi
-		if ( ! stristr( $string, '.mobi' ) == false ) {
+		if ( ! stristr( $string, '.mobi' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
@@ -1006,7 +999,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 			];
 		}
 		// if it's a wxr
-		if ( ! stristr( $string, '.xml' ) == false ) {
+		if ( ! stristr( $string, '.xml' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
@@ -1014,21 +1007,21 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			];
 		}
 		// if it's an odt
-		if ( ! stristr( $string, '.odt' ) == false ) {
+		if ( ! stristr( $string, '.odt' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='ODT file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'odt',
 			];
 		}
-		if ( ! stristr( $string, '.hpub' ) == false ) {
+		if ( ! stristr( $string, '.hpub' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='HPUB file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'hpub',
 			];
 		}
-		if ( ! stristr( $string, '.html' ) == false ) {
+		if ( ! stristr( $string, '.html' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-code.png' alt='XHTML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
@@ -1036,7 +1029,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			];
 		}
 		// if it's a tex
-		if ( ! stristr( $string, '.tex' ) == false ) {
+		if ( ! stristr( $string, '.tex' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEX file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
@@ -1071,9 +1064,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				break;
 		}
 
-		$return .= trim( $error->message ) .
-				   "  Line: $error->line" .
-				   "  Column: $error->column";
+		$return .= trim( $error->message ) . "  Line: $error->line" . "  Column: $error->column";
 
 		if ( $error->file ) {
 			$return .= "  File: $error->file";
@@ -1142,7 +1133,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 	 * @return string
 	 */
 	private function displayShortURL( $url ) {
-		$url_encode = urlencode( $url );
+		$url_encode = rawurlencode( $url );
 		try {
 			$env = Config::getInstance()->get();
 		} catch ( \Exception $e ) {
@@ -1150,7 +1141,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		}
 		$urls = $env['yourls']['url'] . '?signature=' . $env['yourls']['uuid'] . '&action=shorturl&format=simple&url=';
 
-		//get the string result
+		// get the string result
 		$result  = '<p><strong>Short URL</strong>: ';
 		$result .= "<input type='text' name='yourl' id='yourl' value='";
 		$result .= file_get_contents( $urls . $url_encode );
@@ -1173,8 +1164,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 		//if the string passed has only one value, or no commas
 		if ( ! strstr( $authors, ',' ) ) {
 			$result = "<a title='more from this author' href='" . $this->authorBaseURL . $this->authorSearch1 . $authors . $this->authorSearch2 . $authors . $this->authorSearch3 . $authors . $this->authorSearch4 . $this->authorSearch5 . "'>" . $authors . '</a>';
-		} //otherwise, if there is more than one author
-		else {
+		} else { //otherwise, if there is more than one author
 			$result = explode( ',', $authors );
 			for ( $i = 0; $i < count( $result ); $i ++ ) {
 				$tmp_array[ $i ] = "<a title='more from this author' href='" . $this->authorBaseURL . $this->authorSearch1 . $result[ $i ] . $this->authorSearch2 . $result[ $i ] . $this->authorSearch3 . $result[ $i ] . $this->authorSearch4 . $this->authorSearch5 . "'>" . $result[ $i ] . '</a>';

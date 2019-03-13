@@ -20,7 +20,7 @@ namespace BCcampus\Utility;
  * helper function to sanitize user input. If it's not empty,
  * returns the trimmed, sanitized string.
  *
- * @param $anyString
+ * @param $any_string
  *
  * @return bool|mixed|string
  */
@@ -42,14 +42,14 @@ function sanitize( $any_string ) {
  *
  * @param item that needs encoding
  *
- * @param $anyString
+ * @param $any_string
  *
  * @return bool|string
  */
-function url_encode( $anyString ) {
+function url_encode( $any_string ) {
 	$result = '';
-	if ( ! empty( $anyString ) ) {
-		$result = urlencode( $anyString );
+	if ( ! empty( $any_string ) ) {
+		$result = urlencode( $any_string ); // @codingStandardsIgnoreLine
 
 		return $result;
 	} else {
@@ -60,13 +60,13 @@ function url_encode( $anyString ) {
 /**
  * helper function that rawURL encodes (with %20 as spaces)
  *
- * @param $anyString
+ * @param $any_string
  *
  * @return bool
  */
-function raw_url_encode( $anyString ) {
-	if ( ! empty( $anyString ) ) {
-		return rawurlencode( $anyString );
+function raw_url_encode( $any_string ) {
+	if ( ! empty( $any_string ) ) {
+		return rawurlencode( $any_string );
 	} else {
 		return false;
 	}
@@ -76,25 +76,25 @@ function raw_url_encode( $anyString ) {
  * Helper function to turn an array into a comma separated value. If it's passed
  * a key (mostly an author's name) it will strip out the Equella user name
  *
- * @param array $anyArray
+ * @param array $any_array
  * @param string $key
  *
  * @return bool|string
  */
-function array_to_csv( $anyArray = [], $key = '' ) {
+function array_to_csv( $any_array = [], $key = '' ) {
 	$result = '';
 
-	if ( is_array( $anyArray ) ) {
+	if ( is_array( $any_array ) ) {
 		//if it's not being passed a key from an associative array
 		//NOTE adding a space to either side of the comma below will break the
 		//integrity of the url given to get_file_contents above.
-		if ( $key == '' ) {
-			foreach ( $anyArray as $value ) {
+		if ( $key === '' ) {
+			foreach ( $any_array as $value ) {
 				$result .= $value . ',';
 			}
 			//return the value at the key in the associative array
 		} else {
-			foreach ( $anyArray as $value ) {
+			foreach ( $any_array as $value ) {
 				//names in db sometimes contain usernames [inbrackets], strip 'em out!
 				$tmp     = ( ! strpos( $value[ $key ], '[' ) ) ? $value[ $key ] : rtrim( strstr( $value[ $key ], '[', true ) );
 				$result .= $tmp . ', ';
@@ -192,7 +192,7 @@ function has_canadian_edition( $uuid ) {
  */
 function ls_sanity_check( $book, $data ) {
 
-	if ( false == array_key_exists( $book, $data ) ) {
+	if ( false === array_key_exists( $book, $data ) ) {
 		throw new \Exception(
 			'The bookUid entered is not one that we have listed
         in our survey'
@@ -239,7 +239,7 @@ function set_app_url( $app_path ) {
 	if ( function_exists( 'get_site_url' ) ) {
 		$wp_uri    = get_site_url( get_current_blog_id(), '/wp-content/' );
 		$ex        = explode( '/', $app_path );
-		$key       = array_search( 'wp-content', $ex );
+		$key       = array_search( 'wp-content', $ex, true );
 		$slice     = array_slice( $ex, $key + 1 );
 		$file_path = '';
 		foreach ( $slice as $path ) {

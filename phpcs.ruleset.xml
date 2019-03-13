@@ -21,6 +21,7 @@
         <!-- though it can live in a WP environment, it is not a WP application -->
         <exclude name="WordPress.WP.AlternativeFunctions"/>
         <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification"/>
+        <exclude name="WordPress.PHP.DevelopmentFunctions.error_log_error_log"/>
     </rule>
 
     <!-- Re-enable rules we agree with -->
@@ -40,4 +41,8 @@
         <exclude-pattern>/assets/templates/partial/*</exclude-pattern>
     </rule>
 
+    <!-- line endings for CSV -->
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <exclude-pattern>/inc/controllers/reviews/</exclude-pattern>
+    </rule>
 </ruleset>

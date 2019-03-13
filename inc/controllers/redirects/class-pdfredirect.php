@@ -86,7 +86,7 @@ class PdfRedirect {
 			$this->args = array_merge( $this->defaultArgs, $args );
 		}
 
-		if ( in_array( $this->args['type_of'], $this->expected ) ) {
+		if ( in_array( $this->args['type_of'], $this->expected, true ) ) {
 			$this->decider();
 		} else {
 			return 'no args';
@@ -121,7 +121,7 @@ class PdfRedirect {
 		$rest_api = new Models\Api\Equella();
 		$data     = new Models\OtbBooks( $rest_api, '' );
 
-		if ( in_array( $this->args['uuid'], $data->getUuids() ) ) {
+		if ( in_array( $this->args['uuid'], $data->getUuids(), true ) ) {
 			$result = true;
 		}
 
