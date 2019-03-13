@@ -46,13 +46,8 @@ class Analytics {
 		$page_visits   = $this->data->getVisits( $segment_title );
 		$visits        = $this->data->getVisits();
 		$percentage    = round( 100 * ( $page_visits / $visits ) );
-		//image accepted values are: 'evolution', 'verticalBar', 'pie' and '3dPie'
-		//      $graphType   = 'verticalBar';
-		//      $apiModule   = 'UserCountry';
-		//      $apiAction   = 'getRegion';
-		//      $image_graph = $this->data->getImageGraph( $apiModule, $apiAction, $graphType );
 
-		$html = "
+		$html  = "
 		<h2>Summary</h2>
             <h4>Number of books in the collection: <b>{$num_of_books}</b></h4>
             <h4>Number of visits to the site in the last 4 months: <b>{$visits}</b></h4>
@@ -64,14 +59,7 @@ class Analytics {
                             <h4 class='modal-title' id='myModalLabel'>Location of site visitors</h4>
                             <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span
                                     aria-hidden='true'>&times;</span></button>
-                        </div>
-                        ";
-		//      $html .= "<div class='modal-body'>
-		//                           <img src='{$image_graph}'/>
-		//                        </div>
-		//                    </div>
-		//                </div>
-		//            </div>";
+                        </div>";
 		$html .= '</div>
                 </div>
             </div>';
@@ -115,8 +103,8 @@ class Analytics {
 
 		// Predictions
 		$freq_of_visits   = round( $total['visits'] / $days, 2 );
-		$low_prob_future  = ( 0 == $freq_of_visits ) ? 0 : 24 * ( round( 1500 / $freq_of_visits, 2 ) );
-		$high_prob_future = ( 0 == $freq_of_visits ) ? 0 : 24 * ( round( 500 / $freq_of_visits, 2 ) );
+		$low_prob_future  = ( 0 === $freq_of_visits ) ? 0 : 24 * ( round( 1500 / $freq_of_visits, 2 ) );
+		$high_prob_future = ( 0 === $freq_of_visits ) ? 0 : 24 * ( round( 500 / $freq_of_visits, 2 ) );
 
 		$html .= "<hr><h2>Likely adoptions</h2><h3>Based on visits <a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#likely' data-toggle='modal'
                    title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><h5>Site: opentextbc.ca</h5><table class='table table-striped'><tbody>";
@@ -169,8 +157,8 @@ class Analytics {
 		$freq_of_downloads  = round( $cumulative / $days, 2 );
 		$low_prob_adoption  = round( 0.02 * $cumulative );
 		$high_prob_adoption = round( 0.1 * $cumulative );
-		$low_prob_future    = ( 0 == $freq_of_downloads ) ? 0 : 24 * ( round( 50 / $freq_of_downloads, 2 ) );
-		$high_prob_future   = ( 0 == $freq_of_downloads ) ? 0 : 24 * ( round( 10 / $freq_of_downloads, 2 ) );
+		$low_prob_future    = ( 0 === $freq_of_downloads ) ? 0 : 24 * ( round( 50 / $freq_of_downloads, 2 ) );
+		$high_prob_future   = ( 0 === $freq_of_downloads ) ? 0 : 24 * ( round( 10 / $freq_of_downloads, 2 ) );
 
 		$html .= "<h3>Based on downloads <a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#likely-downloads' data-toggle='modal'
                    title='Likely adoptions explained'>What is this?</a></h3></h3><h4>Date range: {$range['start']} - {$range['end']}</h4><h5>Site: opentextbc.ca</h5><table class='table table-striped'><tbody>";
@@ -270,7 +258,7 @@ class Analytics {
 		$env                    = Config::getInstance()->get();
 		$days                   = round( ( time() - strtotime( $range_start ) ) / 84600, 2 );
 		$event_actions_resource = [];
-		$segment                = 'eventAction==' . urlencode( $book_data['name'] );
+		$segment                = 'eventAction==' . rawurlencode( $book_data['name'] );
 		$event_actions          = $this->data->getEventActions( $segment );
 
 		// iterate through outlinks generated on open site
@@ -295,8 +283,8 @@ class Analytics {
 		$freq_of_downloads  = round( $num_downloads / $days, 2 );
 		$low_prob_adoption  = ( 0.02 * $num_downloads );
 		$high_prob_adoption = ( 0.1 * $num_downloads );
-		$low_prob_future    = ( 0 == $freq_of_downloads ) ? 0 : round( 50 / $freq_of_downloads, 2 );
-		$high_prob_future   = ( 0 == $freq_of_downloads ) ? 0 : round( 10 / $freq_of_downloads, 2 );
+		$low_prob_future    = ( 0 === $freq_of_downloads ) ? 0 : round( 50 / $freq_of_downloads, 2 );
+		$high_prob_future   = ( 0 === $freq_of_downloads ) ? 0 : round( 10 / $freq_of_downloads, 2 );
 
 		$html .= $this->displayPredictions( $days, $num_downloads, $freq_of_downloads, $low_prob_adoption, $high_prob_adoption, $low_prob_future, $high_prob_future );
 		echo $html;
@@ -319,8 +307,8 @@ class Analytics {
 		$freq_of_downloads  = round( $num_downloads / $days, 2 );
 		$low_prob_adoption  = ( 0.02 * $num_downloads );
 		$high_prob_adoption = ( 0.1 * $num_downloads );
-		$low_prob_future    = ( 0 == $freq_of_downloads ) ? 0 : round( 50 / $freq_of_downloads, 2 );
-		$high_prob_future   = ( 0 == $freq_of_downloads ) ? 0 : round( 10 / $freq_of_downloads, 2 );
+		$low_prob_future    = ( 0 === $freq_of_downloads ) ? 0 : round( 50 / $freq_of_downloads, 2 );
+		$high_prob_future   = ( 0 === $freq_of_downloads ) ? 0 : round( 10 / $freq_of_downloads, 2 );
 
 		$html .= $this->displayPredictions( $days, $num_downloads, $freq_of_downloads, $low_prob_adoption, $high_prob_adoption, $low_prob_future, $high_prob_future );
 		echo $html;

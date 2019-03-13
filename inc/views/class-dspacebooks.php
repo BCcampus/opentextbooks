@@ -125,8 +125,7 @@ class DspaceBooks {
 		if ( empty( $this->args['search'] ) ) {
 			$html .= $this->displayLinks( $args['start'], $this->args['search'] );
 			$html .= $this->displayBySubject( $limit );
-		} // otherwise, no pagination links
-		else {
+		} else {
 			$html .= $this->displayBySubject( $limit );
 		}
 		echo $html;
@@ -168,7 +167,6 @@ class DspaceBooks {
 
 			$html .= '<li>';
 			$html .= '<h4><a href="?uuid=' . $data[ $i ]['uuid'] . '">' . $title . '</a></h4>';
-			//$html .= $this->getCustomMeta( $data_adj[ $i ] );
 			$html .= '<b>Author(s):</b> ' . $authors . '<br>';
 			$html .= '<b>Date Issued:</b> ' . $date . '<br>';
 			$html .= '<p><b>Description:</b> ' . $desc . '</p>';
@@ -208,13 +206,13 @@ class DspaceBooks {
 		$limit = intval( $this->books->getSize() / 10 );
 
 		//if it is less than 10 or equal to 10, just return (all the links are on the page)
-		if ( $limit == 0 || $this->books->getSize() == 10 ) {
+		if ( $limit === 0 || $this->books->getSize() === 10 ) {
 			return;
 		}
 		$html = '<p>';
 		//otherwise, produce as many links as there are results divided by 10
 		while ( $limit >= 0 ) {
-			if ( $start_here == $by_ten ) {
+			if ( $start_here === $by_ten ) {
 				$html .= '<strong>' . $by_ten . '</strong> | ';
 			} else {
 				$html .= "<a href='?start=" . $by_ten . '&subject=' . $this->args['subject'] . '&search=' . $search_term . "'>" . $by_ten . '</a> | ';
@@ -300,8 +298,7 @@ class DspaceBooks {
 				$val = array_values( $expected[ $license ] );
 
 				// build the url
-				$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] .
-					   '&creator=' . urlencode( $authors ) . '&title=' . urlencode( $title ) . '&locale=' . $lang;
+				$url = $endpoint . $key[0] . '/' . $val[0] . '/get?' . $key[1] . '=' . $val[1] . '&' . $key[2] . '=' . $val[2] . '&creator=' . rawurlencode( $authors ) . '&title=' . rawurlencode( $title ) . '&locale=' . $lang;
 
 				// go and get it
 				$c = curl_init( $url );
@@ -312,7 +309,7 @@ class DspaceBooks {
 				curl_close( $c );
 
 				// if server response is not ok, return semi-meaningful string
-				if ( false == $response ) {
+				if ( false === $response ) {
 					return 'license information currently unavailable from https://api.creativecommons.org/rest/1.5/';
 				}
 
@@ -385,7 +382,7 @@ class DspaceBooks {
 	 */
 	private function displayBitStreamFiles( $dspace_array ) {
 		$html = '';
-		// return empty, return early
+
 		if ( ! is_array( $dspace_array ) || ! isset( $dspace_array['bitstreams'] ) ) {
 			return $html;
 		}
@@ -413,18 +410,18 @@ class DspaceBooks {
 	 * Helper function to display an appropriate logo
 	 * for different mime types
 	 *
-	 * @param $mimeType
+	 * @param $mime_type
 	 *
 	 * @return string $logo
 	 */
-	private function addLogo( $mimeType ) {
-		if ( empty( $mimeType ) || ! is_string( $mimeType ) ) {
+	private function addLogo( $mime_type ) {
+		if ( empty( $mime_type ) || ! is_string( $mime_type ) ) {
 			return '';
 		}
 		$copyright = 'This icon is licensed under a Creative Commons Attribution 3.0 License. Copyright Yusuke Kamiyamane.';
 
 		// get the logo image for each mimetype we an image for
-		switch ( $mimeType ) {
+		switch ( $mime_type ) {
 			case 'application/pdf':
 				$logo = "<img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. " . $copyright . "'/>";
 				break;
@@ -489,9 +486,7 @@ class DspaceBooks {
 				break;
 		}
 
-		$return .= trim( $error->message ) .
-				   "  Line: $error->line" .
-				   "  Column: $error->column";
+		$return .= trim( $error->message ) . "  Line: $error->line" . "  Column: $error->column";
 
 		if ( $error->file ) {
 			$return .= "  File: $error->file";
@@ -645,8 +640,8 @@ class DspaceBooks {
 			'eperson.phone',
 		];
 		$list     = '';
-		// return empty, return early
-		if ( ! is_array( $dspace_array ) || ! in_array( $dc_type, $expected ) ) {
+
+		if ( ! is_array( $dspace_array ) || ! in_array( $dc_type, $expected, true ) ) {
 			return $list;
 		}
 

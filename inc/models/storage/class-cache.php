@@ -118,7 +118,7 @@ class Cache implements StorageInterface {
 
 		if ( file_exists( $this->name ) && is_writeable( $this->name ) || file_exists( $this->location ) && is_writeable( $this->location ) ) {
 			if ( true === $this->serialize ) {
-				$data = json_encode( $data );
+				$data = serialize( $data ); // @codingStandardsIgnoreLine
 			}
 
 			return (bool) file_put_contents( $this->name, $data );
@@ -126,7 +126,7 @@ class Cache implements StorageInterface {
 		} else {
 			$this->mkFile();
 			if ( true === $this->serialize ) {
-				$data = json_encode( $data );
+				$data = serialize( $data ); // @codingStandardsIgnoreLine
 			}
 
 			return (bool) file_put_contents( $this->name, $data );
@@ -142,7 +142,7 @@ class Cache implements StorageInterface {
 	 */
 	public function load() {
 		if ( file_exists( $this->name ) && is_readable( $this->name ) ) {
-			( true === $this->serialize ? $data = json_decode( file_get_contents( $this->name ) ) : $data = file_get_contents( $this->name ) );
+			( true === $this->serialize ? $data = unserialize( file_get_contents( $this->name ) ) : $data = file_get_contents( $this->name ) ); // @codingStandardsIgnoreLine
 
 			return $data;
 		}
