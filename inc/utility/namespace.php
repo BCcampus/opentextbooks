@@ -149,7 +149,7 @@ function determine_file_size( $number ) {
 		$result = ( $num / 1000000 );
 		//account for the fact that it might be less than 1MB
 		( $result <= 1 ) ? $result = round( $result, 2 ) : $result = intval( $result );
-		$result                    = '(' . $result . ' MB)';
+		$result                    = $result . ' MB';
 	}
 
 	return $result;
