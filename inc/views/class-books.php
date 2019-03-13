@@ -190,7 +190,7 @@ class Books {
 				<img itemprop="image" class="img-polaroid" src="%2$s" alt="Image for the textbook titled %3$s" width="151px" height="196px" />
 				</a>
 				<p><a href="%1$s">%3$s</a></p>
-				</article>', $env['domain']['scheme'] . $env['domain']['host'] . '/' . $env['domain']['app_path'] . '/?' . $book['uuid'], $cover, $book['name']
+				</article>', $env['domain']['scheme'] . $env['domain']['host'] . '/' . $env['domain']['app_path'] . '/?uuid=' . $book['uuid'], $cover, $book['name']
 			);
 			$i ++;
 		}
