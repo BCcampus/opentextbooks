@@ -12,8 +12,6 @@
 
 namespace BCcampus\OpenTextBooks\Polymorphism;
 
-//use BCcampus\OpenTextBooks\Catalogue\EquellaFetch;
-
 /**
  * Description of Sitemap
  *

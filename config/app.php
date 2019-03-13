@@ -11,8 +11,8 @@ use BCcampus\OpenTextBooks;
 |
 |
 */
+include( dirname( __DIR__ ) . '/inc/utility/namespace.php' );
 include( 'constants.php' );
-include( OTB_DIR . 'inc/utility/namespace.php' );
 include( OTB_DIR . 'vendor/autoload.php' );
 
 /*

@@ -83,13 +83,13 @@ class BookReviews {
 
 		foreach ( $this->data->getResponses() as $response ) {
 
-			if ( is_array( $response ) && in_array( $this->data->getUuid(), $response ) ) {
+			if ( is_array( $response ) && in_array( $this->data->getUuid(), $response, true ) ) {
 
 				// just grab the questions and answers
 				$q_and_a = array_slice( $response, $this->slice, null, false );
 
 				// for collaboration projects
-				if ( 'N' == $response['info7'] ) {
+				if ( 'N' === $response['info7'] ) {
 					$names        = $response['info2'];
 					$institutions = $institution_ids[ $response['info6'] ];
 				} else {
@@ -143,8 +143,8 @@ class BookReviews {
                         <p><strong>' . $group_keys[ $i - 1 ] . ' Rating:</strong> ' . $val . " out of 5<aside><meter min='0' low='0' high='5' max='5' value='" . $val . "'></meter><aside></p></section>";
 					}
 					if ( ! is_numeric( $val ) ) {
-						( $i == 0 ) ? $active .= ' active' : $active = '';
-						$html                 .= "
+						( $i === 0 ) ? $active .= ' active' : $active = '';
+						$html                  .= "
                         <section class='tab-pane " . $active . "' role='tabpanel' id='" . substr( $group_keys[ $i ], 0, 5 ) . $num . "'>";
 
 						$html .= '
@@ -177,20 +177,19 @@ class BookReviews {
 		if ( is_array( $this->data->getResponses() ) ) {
 
 			foreach ( $this->data->getResponses() as $response ) {
-				if ( is_array( $response ) && in_array( $this->data->getUuid(), $response ) ) {
+				if ( is_array( $response ) && in_array( $this->data->getUuid(), $response, true ) ) {
 					$total++;
 				}
 			}
 
-			$bookAvg = $this->getOverallAvg( $this->data->getResponses(), $this->data->getUuid() );
+			$book_avg = $this->getOverallAvg( $this->data->getResponses(), $this->data->getUuid() );
 
 			$html = '<hr/>';
 
-			if ( 0 == $total ) {
+			if ( 0 === $total ) {
 				$html .= "<p class='text-success'>There are currently no reviews for this book.</p>"
 					. "<p>Be the first to <a href='/{$env['domain']['reviews_path']}/'>request to review this textbook</a></p>";
-			} // limit to books that have 4 or less
-			elseif ( $total < $max ) {
+			} elseif ( $total < $max ) { // 4 or less
 				$html .= "<p><a href='/{$env['domain']['reviews_path']}/'>Request to review this textbook</a></p>";
 			}
 
@@ -206,7 +205,7 @@ class BookReviews {
 			if ( $total >= $min ) {
 				$html .= "<span itemprop='aggregateRating' itemscope itemtype='https://schema.org/AggregateRating'>
                 <h5>Reviews (<span itemprop='reviewCount'>{$total}</span>) 
-                <span class='float-right'>Avg: <meter min='0' low='0' high='5' max='5' value='{$bookAvg}'></meter> <span itemprop='ratingValue'>{$bookAvg}</span> / 5</span></h5></span>";
+                <span class='float-right'>Avg: <meter min='0' low='0' high='5' max='5' value='{$book_avg}'></meter> <span itemprop='ratingValue'>{$book_avg}</span> / 5</span></h5></span>";
 			}
 
 			$html .= '<hr/>';
@@ -239,7 +238,7 @@ class BookReviews {
 				return ( $result );
 			} else {
 				foreach ( $array as $val ) {
-					if ( is_array( $val ) && in_array( $book_uuid, $val ) ) {
+					if ( is_array( $val ) && in_array( $book_uuid, $val, true ) ) {
 						// need to lop off the first bit of array to get just Q&A
 						$q_and_a = array_slice( $val, $this->slice, null, false );
 						foreach ( $q_and_a as $key => $value ) {
@@ -250,7 +249,7 @@ class BookReviews {
 						}
 					}
 				}
-				if ( $count == 0 ) {
+				if ( $count === 0 ) {
 					return $count;
 				} else {
 					$result = round( $sum / $count, 2 );

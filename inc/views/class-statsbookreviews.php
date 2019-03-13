@@ -80,11 +80,11 @@ class StatsBookReviews {
 		}
 
 		// number of reviews per book
-		$html .= '<hgroup><h2>Summary</h2>';
-		$html .= "<h4>Number of completed reviews: {$num_reviews}</h4>";
-		$html .= "<h4>Number of textbooks reviewed: {$num_books} ";
-		$html .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#book_titles' data-toggle='modal' title='Book Titles'>Which Books?</a></h4>";
-		$html .= '<div class="modal fade" id="book_titles" tabindex="-1" role="dialog" aria-labelledby="book_titles_label">
+		$html    .= '<hgroup><h2>Summary</h2>';
+		$html    .= "<h4>Number of completed reviews: {$num_reviews}</h4>";
+		$html    .= "<h4>Number of textbooks reviewed: {$num_books} ";
+		$html    .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#book_titles' data-toggle='modal' title='Book Titles'>Which Books?</a></h4>";
+		$html    .= '<div class="modal fade" id="book_titles" tabindex="-1" role="dialog" aria-labelledby="book_titles_label">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -95,19 +95,7 @@ class StatsBookReviews {
                 </div>
               </div>
             </div>';
-		$html .= "<h4>Number of participating institutions: {$num_inst} </h4>";
-		//        $html .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#inst' data-toggle='modal' title='Institution Names'>Which Institutions?</a></h4>";
-		//        $html .= '<div class="modal fade" id="inst" tabindex="-1" role="dialog" aria-labelledby="inst_label">
-		//                  <div class="modal-dialog" role="document">
-		//                    <div class="modal-content">
-		//                      <div class="modal-header">
-		//                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		//                        <h4 class="modal-title" id="instLabel">Participating Institutions</h4>
-		//                      </div>
-		//                      <div class="modal-body"><ol>' . $name_inst . '</ol></div>
-		//                </div>
-		//              </div>
-		//            </div>';
+		$html    .= "<h4>Number of participating institutions: {$num_inst} </h4>";
 		$html    .= '</hgroup>';
 		$rev_perc = round( 100 * ( $num_books / $num_reviews ) );
 		$html    .= "<h3>Percentage of books in the collection that have been reviewed: </h3>

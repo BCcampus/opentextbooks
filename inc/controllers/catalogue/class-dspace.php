@@ -102,7 +102,7 @@ class Dspace {
 			$this->args = array_merge( $this->defaultArgs, $args );
 		}
 
-		if ( in_array( $this->args['type_of'], $this->expected ) ) {
+		if ( in_array( $this->args['type_of'], $this->expected, true ) ) {
 			$this->formatArgs( $this->args );
 			$this->decider();
 		} else {
@@ -151,7 +151,7 @@ class Dspace {
 		$rest_api = new Api\Dspace();
 		$data     = new Models\DspaceBooks( $rest_api, $this->args );
 
-		if ( $this->args['type_of'] == 'books' ) {
+		if ( $this->args['type_of'] === 'books' ) {
 			$view = new Views\DspaceBooks( $data );
 
 			if ( ! empty( $this->args['uuid'] ) ) {
