@@ -669,7 +669,6 @@ class Books {
 	 * @return array
 	 */
 	private function groupAttachmentsByType( array $attachments ) {
-		$new_files          = [];
 		$files['ancillary'] = [];
 		$files['readable']  = [];
 		$files['editable']  = [];
@@ -692,47 +691,48 @@ class Books {
 		$print              = [ '.print' ];
 
 		foreach ( $attachments as $key => $attachment ) {
+			$file_type = '';
 
 			// deal with url attachments
 			if ( isset( $attachment['url'] ) ) {
 				$url = parse_url( $attachment['url'] );
 				// give it a print filetype if it's coming from sfu domain, or has the string "print copy"
 				if ( isset( $url['host'] ) && 0 === strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) || 1 === preg_match( '/print(\s*)copy/iU', $attachment['description'] ) ) {
-					$filetype = '.print';
+					$file_type = '.print';
 				} elseif ( 1 === preg_match( '/^editable/iU', $attachment['description'] ) ) { // give it an editable file type if it has the string "editable"
-					$filetype = '.editable';
+					$file_type = '.editable';
 				} elseif ( ( isset( $attachment['description'] ) ) && ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
-					$filetype = '.ancillary';
+					$file_type = '.ancillary';
 					// if its a github url, give it a .gh value, which is in the editable array
 				} elseif ( isset( $url['host'] ) && 0 === strcmp( 'github.com', $url['host'] ) ) {
-					$filetype = '.gh';
+					$file_type = '.gh';
 				} else { // otherwise it's just a regular url
-					$filetype = '.url';
+					$file_type = '.url';
 				}
 			}
 
 			// check if it's in ancillary resource
-			if ( isset( $attachment['description'] ) && $filetype !== '.ancillary' ) {
+			if ( isset( $attachment['description'] ) && $file_type !== '.ancillary' ) {
 				if ( ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
-					$filetype = '.ancillary';
+					$file_type = '.ancillary';
 				}
 			}
 
 			// If file type was not set by any of the above, let's grab it from the file name
-			if ( $filetype !== '.ancillary' || $filetype !== '.print' || $filetype !== '.url' || $filetype !== '.gh' || $filetype !== '.editable' ) {
+			if ( $file_type !== '.ancillary' || $file_type !== '.print' || $file_type !== '.url' || $file_type !== '.gh' || $file_type !== '.editable' ) {
 				if ( isset( $attachment['filename'] ) ) {
-					$filetype = strrchr( $attachment['filename'], '.' );
+					$file_type = strrchr( $attachment['filename'], '.' );
 				}
 				// treat any other file format as .pdf so it makes it into readable group
 			} else {
-				$filetype = '.pdf';
+				$file_type = '.pdf';
 			}
 
 			// build the requested file type array
-			( in_array( $filetype, $readable, true ) ) ? array_push( $files['readable'], $attachments[ $key ] ) : '';
-			( in_array( $filetype, $editable, true ) ) ? array_push( $files['editable'], $attachments[ $key ] ) : '';
-			( in_array( $filetype, $ancillary, true ) ) ? array_push( $files['ancillary'], $attachments[ $key ] ) : '';
-			( in_array( $filetype, $print, true ) ) ? array_push( $files['print'], $attachments[ $key ] ) : '';
+			( in_array( $file_type, $readable, true ) ) ? array_push( $files['readable'], $attachments[ $key ] ) : '';
+			( in_array( $file_type, $editable, true ) ) ? array_push( $files['editable'], $attachments[ $key ] ) : '';
+			( in_array( $file_type, $ancillary, true ) ) ? array_push( $files['ancillary'], $attachments[ $key ] ) : '';
+			( in_array( $file_type, $print, true ) ) ? array_push( $files['print'], $attachments[ $key ] ) : '';
 
 		}
 
