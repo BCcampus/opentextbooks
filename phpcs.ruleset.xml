@@ -35,4 +35,9 @@
         <exclude-pattern>/inc/models/class-webform.php</exclude-pattern>
     </rule>
 
+    <!-- no php code in partials -->
+    <rule ref="Internal.NoCodeFound">
+        <exclude-pattern>/assets/templates/partial/*</exclude-pattern>
+    </rule>
+
 </ruleset>

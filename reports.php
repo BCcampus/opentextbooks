@@ -30,7 +30,6 @@ include( OTB_DIR . 'assets/templates/partial/style.php' );
 	}
 </style>
 <?php
-include( OTB_DIR . 'assets/templates/partial/error-level.php' );
 include( OTB_DIR . 'assets/templates/partial/container-start.php' );
 include( OTB_DIR . 'assets/templates/partial/nav-stats.php' );
 

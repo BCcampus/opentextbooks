@@ -10,7 +10,6 @@ include_once 'autoloader.php';
 
 include( OTB_DIR . 'assets/templates/partial/header.php' );
 include( OTB_DIR . 'assets/templates/partial/head.php' );
-include( OTB_DIR . 'assets/templates/partial/error-level.php' );
 include( OTB_DIR . 'assets/templates/partial/container-solr-start.php' );
 ?>
 

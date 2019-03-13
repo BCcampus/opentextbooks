@@ -203,11 +203,17 @@ function ls_sanity_check( $book, $data ) {
 }
 
 function restrict_access() {
+	if ( defined( OTB_DIR ) ) {
+		$app_path = OTB_DIR;
+	} else {
+		$app_path = dirname( dirname( __FILE__ ) );
+	}
+
 	$expected = [
-		OTB_DIR . 'cache/analytics/',
-		OTB_DIR . 'cache/catalogue/',
-		OTB_DIR . 'cache/reviews/',
-		OTB_DIR . 'cache/webform/',
+		$app_path . 'cache/analytics/',
+		$app_path . 'cache/catalogue/',
+		$app_path . 'cache/reviews/',
+		$app_path . 'cache/webform/',
 	];
 
 	foreach ( $expected as $path ) {
@@ -219,4 +225,46 @@ function restrict_access() {
 	}
 
 	return true;
+}
+
+/**
+ * @param $app_path
+ *
+ * @return string
+ */
+function set_app_url( $app_path ) {
+	$uri = '';
+
+	// check for a WordPress environment
+	if ( function_exists( 'get_site_url' ) ) {
+		$wp_uri    = get_site_url( get_current_blog_id(), '/wp-content/' );
+		$ex        = explode( '/', $app_path );
+		$key       = array_search( 'wp-content', $ex );
+		$slice     = array_slice( $ex, $key + 1 );
+		$file_path = '';
+		foreach ( $slice as $path ) {
+			if ( empty( $path ) ) {
+				continue;
+			}
+			$file_path .= '/' . $path;
+		}
+		$uri = $wp_uri . $file_path . '/';
+	} else {
+		$path     = '';
+		$domain   = $_SERVER['HTTP_HOST'];
+		$doc_root = $_SERVER['DOCUMENT_ROOT'];
+		$d        = explode( '/', $doc_root );
+		$e        = explode( '/', $app_path );
+		$s        = array_diff( $e, $d );
+		if ( is_array( $s ) ) {
+			foreach ( $s as $dir ) {
+				$path .= $dir . '/';
+			}
+		} else {
+			$path = '';
+		}
+		$uri = '//' . $domain . '/' . $path;
+	}
+
+	return $uri;
 }
