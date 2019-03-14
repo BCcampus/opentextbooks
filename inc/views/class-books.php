@@ -81,7 +81,7 @@ class Books {
 		$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
 		$html .= ( $created_date === $modified_date ) ? "<small><p class='text-muted'><b itemprop='datePublished'>Published:</b> {$created_date} " : "<small><p class='text-muted'><b itemprop='datePublished'>Published:</b> {$created_date} <b>&#124; Updated:</b> {$modified_date} ";
 		$html .= "<strong>&#124; Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p></small>';
-		$html .= "<p>" . $revision . "</p>";
+		$html .= '<p>' . $revision . '</p>';
 
 		if ( ! empty( $adaptation ) ) {
 			$html .= "<h4 class='alert alert-success'>Good news! This book has been updated and revised. An adaptation of this book can be found here: ";
@@ -154,9 +154,9 @@ class Books {
 			%1$s', $html_accordion_cards
 		);
 
-		$html .='</div></div>';
+		$html .= '</div></div>';
 
-		$html .= "</div></div>";
+		$html .= '</div></div>';
 
 		//send it to the picker for evaluation
 		$substring = $this->licensePicker( $data['metadata'], $authors );
