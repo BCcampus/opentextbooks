@@ -66,8 +66,11 @@ class Books {
 		$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
 		$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
 		$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
-		$img              = ( $meta_xml->item->cover ) ? "<figure class='float-right cover'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' />
-														<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover->attributes()->copyright . '</small></figcaption></figure>' : '';
+		$img              = ( $meta_xml->item->cover ) ? "<figure class='pt-3 m-0 text-center bg-light'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' /> <br>
+														<small><a data-toggle='collapse' href=\"#collapseCopyright\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\"> Photo credit </a></small>
+														<div class=\"collapse\" id=\"collapseCopyright\"> <div class=\"card card-body\">
+														<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover->attributes()->copyright . '</small></figcaption>
+														 </div> </div></figure>' : '';
 		$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
 		$adaptation       = ( true === $meta_xml->item->adaptation->attributes()->value ) ? $meta_xml->item->adaptation->source : '';
 		$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
@@ -76,8 +79,9 @@ class Books {
 		$html .= $this->getResultsMicrodata( $data );
 
 		$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
-		$html .= "<b itemprop='datePublished'>Posted on:</b> {$created_date} <b>Updated on:</b> {$modified_date}";
-		$html .= $revision;
+		$html .= ( $created_date === $modified_date ) ? "<small><p class='text-muted'><b itemprop='datePublished'>Published:</b> {$created_date} " : "<small><p class='text-muted'><b itemprop='datePublished'>Published:</b> {$created_date} <b>&#124; Updated:</b> {$modified_date} ";
+		$html .= "<strong>&#124; Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p></small>';
+		$html .= '<p>' . $revision . '</p>';
 
 		if ( ! empty( $adaptation ) ) {
 			$html .= "<h4 class='alert alert-success'>Good news! This book has been updated and revised. An adaptation of this book can be found here: ";
@@ -85,13 +89,12 @@ class Books {
 			$html .= '</h4>';
 		}
 
-		$html .= $img;
-		$html .= "<p><strong>Description</strong>: <span itemprop='description'>" . $data['description'] . '</span></p>';
-		$html .= "<p><strong>Subject Areas</strong>: <a href='?subject={$meta_xml->item->subject_class_level1}' itemprop='about'>{$meta_xml->item->subject_class_level1}</a>, <a href='?subject={$meta_xml->item->subject_class_level2}'>{$meta_xml->item->subject_class_level2}</a></p>";
-		$html .= "<p><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p>';
+		$html .= "<div class='row'><div class='col-sm-8'>";
+		$html .= "<p><span itemprop='description'>" . $data['description'] . '</span></p>';
+		$html .= "<p><strong>Subject Areas</strong><br><a href='?subject={$meta_xml->item->subject_class_level1}' itemprop='about'>{$meta_xml->item->subject_class_level1}</a>, <a href='?subject={$meta_xml->item->subject_class_level2}'>{$meta_xml->item->subject_class_level2}</a></p>";
 
 		if ( is_object( $meta_xml->item->source ) && ! empty( $meta_xml->item->source ) ) {
-			$html .= '<p><strong>Original source:</strong> ';
+			$html .= '<p><strong>Original source</strong><br>';
 
 			foreach ( $meta_xml->item->source as $source ) {
 				$sources .= $this->formatUrl( $source );
@@ -102,6 +105,7 @@ class Books {
 		}
 
 		$html .= $this->renderBookInfo();
+		$html .= "</div><div class='col-sm-4'>";
 
 		$grouped = $this->groupAttachmentsByType( $data['attachments'] );
 
@@ -118,16 +122,16 @@ class Books {
 				$logo_type                   = $this->addLogo( $attachment['description'] );
 				$tracking                    = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
 				$html_accordion_attachments .= sprintf(
-					'<link itemprop="bookFormat" href="https://schema.org/EBook"><li class="p-1" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+					'<link itemprop="bookFormat" href="https://schema.org/EBook"><li class="p-1 mb-2" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
 			              <meta itemprop="price" content="$0.00"><link itemprop="availability" href="https://schema.org/InStock">
-			              <a class="btn btn btn-outline-primary btn-sm" role="button" onclick="%1$s" href="%2$s" title="%3$s">%4$s</a> %5$s %6$s</li>', $tracking, $attachment['links']['view'], $attachment['description'], $logo_type['string'], $attachment['description'], $file_size
+			              <a class="btn btn btn-outline-primary btn-sm" role="button" onclick="%1$s" href="%2$s" title="%3$s">%4$s</a> <br> %5$s <br><span class="text-muted">%6$s</span></li>', $tracking, $attachment['links']['view'], $attachment['description'], $logo_type['string'], $attachment['description'], $file_size
 				);
 			}
 
 			// wrap attachments in accordion card
 			$html_accordion_cards .= sprintf(
 				'<div class="card border-0">
-				<div class="card-header p-1" id="headingOne">
+				<div class="card-header border-0 p-1" id="headingOne">
 				<h5 class="mb-0">
 				<button class="btn btn-link" data-toggle="collapse" data-target="#collapse%1$s" aria-expanded="true" aria-controls="collapse%1$s">
 			    %1$s <span class="badge badge-secondary">%2$s</span>
@@ -135,19 +139,24 @@ class Books {
 				</h5>
 				</div>
 				<div id="collapse%1$s" class="collapse" aria-labelledby="heading%1$s" data-parent="#accordion">
-				<div class="card-body"><ul class="list-group list-group-flush list-unstyled line-height-lg">
-				<ul class="list-group list-group-flush list-unstyled line-height-lg">%3$s</ul></div></div></div>', ucfirst( $type ), count( $attachments ), $html_accordion_attachments
+				<div class="card-body bg-light p-1">
+				<ul class="list-unstyled line-height-lg">%3$s</ul></div></div></div>', ucfirst( $type ), count( $attachments ), $html_accordion_attachments
 			);
 
 		}
 
 		$html .= sprintf(
 			'<div id="accordion">
-			<div class="card-header">
+		' . $img . '
+					<div class="card-header text-center">
 			<h4>Get This Book</h4>
 			<span class="text-muted">Select a file format</span>
-			</div>%1$s</div>', $html_accordion_cards
+			%1$s', $html_accordion_cards
 		);
+
+		$html .= '</div></div>';
+
+		$html .= '</div></div>';
 
 		//send it to the picker for evaluation
 		$substring = $this->licensePicker( $data['metadata'], $authors );
@@ -224,7 +233,7 @@ class Books {
 			if ( isset( $env['domain'][ $entry ] ) && ! empty( $env['domain'][ $entry ] ) ) {
 				$fa    = isset( $env['domain'][ $entry ]['fa'] ) ? $env['domain'][ $entry ]['fa'] : '';
 				$font  = "<i class='fa fa-{$fa}'></i>";
-				$html .= "<p><strong>{$env['domain'][$entry]['label']}</strong> <a href='{$env['domain'][$entry]['path']}'>{$env['domain'][$entry]['text']} {$font}</a></p>";
+				$html .= "<p><strong>{$env['domain'][$entry]['label']}</strong><br><a href='{$env['domain'][$entry]['path']}'>{$env['domain'][$entry]['text']} {$font}</a></p>";
 			}
 		}
 
@@ -1118,8 +1127,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			);
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
-			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
-					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
+			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><small><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
+					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></small></div>';
 		}
 
 		return html_entity_decode( $html, ENT_XHTML, 'UTF-8' );
