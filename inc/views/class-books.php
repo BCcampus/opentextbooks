@@ -1127,8 +1127,8 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			);
 			$content = preg_replace( '/http:\/\/i.creativecommons/iU', 'https://i.creativecommons', $content );
 
-			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
-					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></div>';
+			$html = '<div class="license-attribution" xmlns:cc="http://creativecommons.org/ns#"><small><p class="text-muted" xmlns:dct="http://purl.org/dc/terms/">'
+					. rtrim( $content, '.' ) . ', except where otherwise noted.</p></small></div>';
 		}
 
 		return html_entity_decode( $html, ENT_XHTML, 'UTF-8' );
