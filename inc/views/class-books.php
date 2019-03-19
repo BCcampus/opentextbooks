@@ -256,7 +256,7 @@ class Books {
 			<label for="find-oer-1" class="sr-only">Search the BC Open Textbook Collection</label>
 			<input type="text" class="form-control" placeholder="Search..." name="search" id="find-oer-1" aria-label="search terms" aria-describedby="find-oer-2"/>
 			<div class="input-group-append">
-				<select class="form-control" id="filter" name="filter">
+				<select aria-label="search filters" class="form-control" id="filter" name="filter">
 			    	<option value="">-- Filter --</option>
 			    	<option value="accessible">Accessible</option>
 			    	<option value="adopted">Adopted</option>
