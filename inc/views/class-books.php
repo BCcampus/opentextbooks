@@ -79,8 +79,8 @@ class Books {
 		$html .= $this->getResultsMicrodata( $data );
 
 		$html .= "<h2 itemprop='name'>" . $data['name'] . '</h2>';
-		$html .= ( $created_date === $modified_date ) ? "<small><p class='text-muted'><b itemprop='datePublished'>Published:</b> {$created_date} " : "<small><p class='text-muted'><b itemprop='datePublished'>Published:</b> {$created_date} <b>&#124; Updated:</b> {$modified_date} ";
-		$html .= "<strong>&#124; Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p></small>';
+		$html .= ( $created_date === $modified_date ) ? "<small><p class='text-muted'><b itemprop='datePublished'>Posted:</b> {$created_date} " : "<small><p class='text-muted'><b itemprop='datePublished'>Posted:</b> {$created_date} <b>&#124; Updated:</b> {$modified_date} ";
+		$html .= "<br><strong>Author</strong>: <span itemprop='author copyrightHolder'>" . $authors . '</span></p></small>';
 		$html .= '<p>' . $revision . '</p>';
 
 		if ( ! empty( $adaptation ) ) {
