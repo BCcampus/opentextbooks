@@ -205,7 +205,7 @@ class OtbBooks extends Polymorphism\DataAbstract {
 		$sub2 = $xml->xpath( 'item/subject_class_level2' );
 
 		$subject_areas['subject_class_level1'] = $sub1[0]->__toString();
-		$subject_areas['subject_class_level2'] = $sub2[0]->__toString();
+		( ! empty( $subject_areas['subject_class_level2'] ) ? $subject_areas['subject_class_level2'] = $sub2[0]->__toString() : '' );
 
 		return $subject_areas;
 	}
@@ -228,8 +228,10 @@ class OtbBooks extends Polymorphism\DataAbstract {
 			$sub1 = $xml->xpath( 'item/subject_class_level1' );
 			$sub2 = $xml->xpath( 'item/subject_class_level2' );
 
-			if ( 0 === strcmp( $sub2[0]->__toString(), $subject_areas['subject_class_level2'] ) ) {
-				array_push( $sorted_first, $book );
+			if ( ! empty( $subject_areas['subject_class_level2'] ) ) {
+				if ( 0 === strcmp( $sub2[0]->__toString(), $subject_areas['subject_class_level2'] ) ) {
+					array_push( $sorted_first, $book );
+				}
 			}
 
 			if ( 0 === strcmp( $sub1[0]->__toString(), $subject_areas['subject_class_level1'] ) ) {
