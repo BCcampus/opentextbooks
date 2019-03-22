@@ -81,8 +81,8 @@ class StatsBookReviews {
 
 		// number of reviews per book
 		$html    .= '<hgroup><h2>Summary</h2>';
-		$html    .= "<h4>Number of completed reviews: {$num_reviews}</h4>";
-		$html    .= "<h4>Number of textbooks reviewed: {$num_books} ";
+		$html    .= "<p>Number of completed reviews: {$num_reviews}</p>";
+		$html    .= "<p>Number of textbooks reviewed: {$num_books} ";
 		$html    .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#book_titles' data-toggle='modal' title='Book Titles'>Which Books?</a></h4>";
 		$html    .= '<div class="modal fade" id="book_titles" tabindex="-1" role="dialog" aria-labelledby="book_titles_label">
                   <div class="modal-dialog" role="document">
@@ -95,10 +95,10 @@ class StatsBookReviews {
                 </div>
               </div>
             </div>';
-		$html    .= "<h4>Number of participating institutions: {$num_inst} </h4>";
+		$html    .= "<p>Number of participating institutions: {$num_inst} </p>";
 		$html    .= '</hgroup>';
 		$rev_perc = round( 100 * ( $num_books / $num_reviews ) );
-		$html    .= "<h3>Percentage of books in the collection that have been reviewed: </h3>
+		$html    .= "<p>Percentage of books in the collection that have been reviewed: </p>
                 <div class='progress'>
                 <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuemin='0'
                      aria-valuenow='{$num_reviews}' aria-valuemax='{$num_books}'
