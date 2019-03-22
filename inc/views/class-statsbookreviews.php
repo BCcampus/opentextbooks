@@ -81,8 +81,8 @@ class StatsBookReviews {
 
 		// number of reviews per book
 		$html    .= '<hgroup><h2>Summary</h2>';
-		$html    .= "<p>Number of completed reviews: {$num_reviews}</p>";
-		$html    .= "<p>Number of textbooks reviewed: {$num_books} ";
+		$html    .= "<p>Number of completed reviews: <b>{$num_reviews}</b></p>";
+		$html    .= "<p>Number of textbooks reviewed: <b>{$num_books}</b> ";
 		$html    .= "<a class='btn btn btn-outline-primary' role='button' tabindex='0' data-target='#book_titles' data-toggle='modal' title='Book Titles'>Which Books?</a></h4>";
 		$html    .= '<div class="modal fade" id="book_titles" tabindex="-1" role="dialog" aria-labelledby="book_titles_label">
                   <div class="modal-dialog" role="document">
@@ -95,7 +95,7 @@ class StatsBookReviews {
                 </div>
               </div>
             </div>';
-		$html    .= "<p>Number of participating institutions: {$num_inst} </p>";
+		$html    .= "<p>Number of participating institutions: <b>{$num_inst}</b> </p>";
 		$html    .= '</hgroup>';
 		$rev_perc = round( 100 * ( $num_books / $num_reviews ) );
 		$html    .= "<p>Percentage of books in the collection that have been reviewed: </p>
