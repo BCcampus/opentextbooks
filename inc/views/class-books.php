@@ -250,7 +250,7 @@ class Books {
 	 */
 	public function displaySearchForm( $post_value = '' ) {
 
-		$html = '<section class="bkgd-blue-navy full-width py-4 px-5 mb-3">
+		$html = '<section class="bkgd-blue-navy full-width py-4 px-5">
         <form class="mb-0" action="" method="get" role="search">
         <div class="form-group input-group">
 			<label for="find-oer-1" class="sr-only">Search the BC Open Textbook Collection</label>
@@ -453,9 +453,9 @@ class Books {
 			$html .= '</ul>';
 		}
 		if ( $this->size > 0 ) {
-			$results .= '<h5 class="bkgd-grey-light p-3 clearfix"><span class="font-weight-light">Results:</span> ' . $this->size . ' Open Textbooks</h5>';
+			$results .= '<h5 class="bkgd-grey-light p-3 mb-0 clearfix"><span class="font-weight-light">Results:</span> ' . $this->size . ' Open Textbooks</h5>';
 		} else {
-			$results .= "<h5 class='bkgd-grey-light clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
+			$results .= "<h5 class='bkgd-grey-light p-3 mb-0 clearfix'>Available: <span style='color:red;'>sorry, your search returned no results</span></h5>";
 		}
 		echo $results . $html;
 	}
