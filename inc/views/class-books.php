@@ -1008,7 +1008,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 			];
 		}
 		// if it's a wxr
-		if ( ! stristr( $string, '.xml' ) === false ) {
+		if ( ! stristr( $string, 'XML' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
