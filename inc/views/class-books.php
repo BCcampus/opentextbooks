@@ -976,7 +976,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
 			];
 		}
 		//if it's a word file
-		if ( ! stristr( $string, '.doc' ) === false || ! stristr( $string, '.rtf' ) === false ) {
+		if ( ! stristr( $string, 'Word' ) === false || ! stristr( $string, '.rtf' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
@@ -984,7 +984,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 			];
 		}
 		//if it's a pdf
-		if ( ! stristr( $string, '.pdf' ) === false ) {
+		if ( ! stristr( $string, 'PDF' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
@@ -992,7 +992,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 			];
 		}
 		//if it's an epub
-		if ( ! stristr( $string, '.epub' ) === false ) {
+		if ( ! stristr( $string, 'eReader' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
@@ -1000,7 +1000,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
 			];
 		}
 		//if it's a mobi
-		if ( ! stristr( $string, '.mobi' ) === false ) {
+		if ( ! stristr( $string, 'Kindle' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
@@ -1016,7 +1016,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 			];
 		}
 		// if it's an odt
-		if ( ! stristr( $string, '.odt' ) === false ) {
+		if ( ! stristr( $string, 'OpenDocument Text' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='ODT file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
@@ -1030,7 +1030,7 @@ Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
 				'type'   => 'hpub',
 			];
 		}
-		if ( ! stristr( $string, '.html' ) === false ) {
+		if ( ! stristr( $string, 'HTML' ) === false ) {
 			$result = [
 				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-code.png' alt='XHTML file. This icon is licensed under a Creative Commons
 Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
