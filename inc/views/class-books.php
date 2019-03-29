@@ -708,7 +708,7 @@ class Books {
 				// give it a print filetype if it's coming from sfu domain, or has the string "print copy"
 				if ( isset( $url['host'] ) && 0 === strcmp( 'opentextbook.docsol.sfu.ca', $url['host'] ) || 1 === preg_match( '/print(\s*)copy/iU', $attachment['description'] ) ) {
 					$file_type = '.print';
-				} elseif ( 1 === preg_match( '/^editable/iU', $attachment['description'] ) ) { // give it an editable file type if it has the string "editable"
+				} elseif ( ( isset( $attachment['description'] ) ) && ( 1 === preg_match( '/^editable/iU', $attachment['description'] ) ) ) { // give it an editable file type if it has the string "editable"
 					$file_type = '.editable';
 				} elseif ( ( isset( $attachment['description'] ) ) && ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
 					$file_type = '.ancillary';
@@ -721,8 +721,8 @@ class Books {
 			}
 
 			// check if it's in ancillary resource
-			if ( isset( $attachment['description'] ) && $file_type !== '.ancillary' ) {
-				if ( ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
+			if ( isset( $attachment['description'] ) && ( $file_type !== '.ancillary' ) ) {
+				if ( ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?):/iU', $attachment['description'] ) ) ) {
 					$file_type = '.ancillary';
 				}
 			}
