@@ -970,78 +970,68 @@ class Books {
 		//if it's a zip
 		if ( ! stristr( $string, '.zip' ) === false || ! stristr( $string, '.tbz' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane. '/>",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-zipper.png' alt='ZIP file '/>",
 				'type'   => 'zip',
 			];
 		}
 		//if it's a word file
 		if ( ! stristr( $string, 'Word' ) === false || ! stristr( $string, '.rtf' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-word.png' alt='WORD file'/>",
 				'type'   => 'doc',
 			];
 		}
 		//if it's a pdf
 		if ( ! stristr( $string, 'PDF' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-pdf.png' alt='PDF file'/>",
 				'type'   => 'pdf',
 			];
 		}
 		//if it's an epub
 		if ( ! stristr( $string, 'eReader' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-epub.png' alt='EPUB file'/>",
 				'type'   => 'epub',
 			];
 		}
 		//if it's a mobi
 		if ( ! stristr( $string, 'Kindle' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.'/>",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-mobi.png' alt='MOBI file'/>",
 				'type'   => 'mobi',
 			];
 		}
 		// if it's a wxr
 		if ( ! stristr( $string, 'XML' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-xml.png' alt='XML file' />",
 				'type'   => 'xml',
 			];
 		}
 		// if it's an odt
 		if ( ! stristr( $string, 'OpenDocument Text' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='ODT file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='ODT file' />",
 				'type'   => 'odt',
 			];
 		}
 		if ( ! stristr( $string, '.hpub' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='HPUB file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document.png' alt='HPUB file' />",
 				'type'   => 'hpub',
 			];
 		}
 		if ( ! stristr( $string, 'HTML' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-code.png' alt='XHTML file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-code.png' alt='XHTML file' />",
 				'type'   => 'html',
 			];
 		}
 		// if it's a tex
 		if ( ! stristr( $string, '.tex' ) === false ) {
 			$result = [
-				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEX file. This icon is licensed under a Creative Commons
-Attribution 3.0 License. Copyright Yusuke Kamiyamane.' />",
+				'string' => "<i class='fa fa-download'></i> <span class='small-for-mobile'>DOWNLOAD</span> <img src='" . OTB_URL . "assets/images/document-tex.png' alt='TEX file' />",
 				'type'   => 'tex',
 			];
 		}
