@@ -718,19 +718,16 @@ class Books {
 
 			// check if it's in ancillary resource
 			if ( isset( $attachment['description'] ) && ( $file_type !== '.ancillary' ) ) {
-				if ( ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?):/iU', $attachment['description'] ) ) ) {
+				if ( ( 1 === preg_match( '/^(ancillary|student|instructor)(\s*)resource(s?)/iU', $attachment['description'] ) ) ) {
 					$file_type = '.ancillary';
 				}
 			}
 
 			// If file type was not set by any of the above, let's grab it from the file name
-			if ( $file_type !== '.ancillary' || $file_type !== '.print' || $file_type !== '.url' || $file_type !== '.gh' || $file_type !== '.editable' ) {
+			if ( empty( $file_type ) ) {
 				if ( isset( $attachment['filename'] ) ) {
 					$file_type = strrchr( $attachment['filename'], '.' );
 				}
-				// treat any other file format as .pdf so it makes it into readable group
-			} else {
-				$file_type = '.pdf';
 			}
 
 			// build the requested file type array
