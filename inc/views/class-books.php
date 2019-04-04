@@ -72,7 +72,7 @@ class Books {
 														<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover->attributes()->copyright . '</small></figcaption>
 														 </div> </div></figure>' : '';
 		$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
-		$adaptation       = ( true === $meta_xml->item->adaptation->attributes()->value ) ? $meta_xml->item->adaptation->source : '';
+		$adaptation       = ( $meta_xml->item->adaptation->attributes()->value ) ? $meta_xml->item->adaptation->source : '';
 		$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
 		$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
