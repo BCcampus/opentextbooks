@@ -66,7 +66,7 @@ class Books {
 		$cover            = preg_replace( '/^http:\/\//iU', '//', $meta_xml->item->cover );
 		$created_date     = date( 'F j, Y', strtotime( $data['createdDate'] ) );
 		$modified_date    = date( 'F j, Y', strtotime( $data['modifiedDate'] ) );
-		$img              = ( $meta_xml->item->cover ) ? "<figure class='pt-3 m-0 text-center bg-light'><img itemprop='image' class='img-polaroid' src=" . $cover . " alt='textbook cover image' width='151px' height='196px' /> <br>
+		$img              = ( $meta_xml->item->cover ) ? "<figure class='pt-3 m-0 text-center bg-light'><img itemprop='image' class='img-polaroid' src='{$cover}' alt='textbook cover image' width='151px' height='196px' /> <br>
 														<small><a data-toggle='collapse' href='#collapseCopyright' role='button' aria-expanded='false' aria-controls='collapseExample'> Photo credit </a></small>
 														<div class='collapse' id='collapseCopyright'> <div class='card card-body'>
 														<figcaption><small class='text-muted copyright-notice'>" . $meta_xml->item->cover->attributes()->copyright . '</small></figcaption>
@@ -145,16 +145,12 @@ class Books {
 
 		}
 
-		$html .= sprintf(
-			'<div id="accordion">
-		' . $img . '
-					<div class="card-header text-center">
+		$html .= sprintf( '<div id="accordion">%1$s
+			<div class="card-header text-center">
 			<h4>Get This Book</h4>
 			<span class="text-muted">Select a file format</span>
-			%1$s', $html_accordion_cards
+			%2$s</div></div>', $img, $html_accordion_cards
 		);
-
-		$html .= '</div></div>';
 
 		$html .= '</div></div>';
 
