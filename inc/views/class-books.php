@@ -436,7 +436,7 @@ class Books {
 			$html .= '<li class="list-group-item">';
 			$html .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4>';
 			$html .= '<p>Author(s): ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '</p>';
-			$html .= '<p>Date: ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) ) . '</p>';
+			$html .= '<p>Updated: ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) ) . '</p>';
 			$html .= '<p><strong>Description:</strong> ' . $desc . '</p>';
 			$html .= '<h4>' . $metadata . '</h4>';
 			$html .= '</li>';
