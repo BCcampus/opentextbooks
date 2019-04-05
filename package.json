@@ -1,6 +1,6 @@
 {
   "name": "opentextbooks",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "The application is currently hosted on open.bccampus.ca and is built and maintained to support the [Open Textbook Project](https://open.bccampus.ca/2016/06/01/the-b-c-open-textbook-project-celebrates-another-milestone-151-open-textbooks/) by [BCcampus](https://bccampus.ca/) - [books](https://open.bccampus.ca/find-open-textbooks/) - [stats](https://open.bccampus.ca/open-textbook-stats) - [sitemap](https://open.bccampus.ca/wp-content/opensolr/opentextbooks/sitemap.php)",
   "scripts": {
     "build": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
