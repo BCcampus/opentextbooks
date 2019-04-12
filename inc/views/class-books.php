@@ -16,6 +16,7 @@ namespace BCcampus\OpenTextBooks\Views;
 
 use BCcampus\OpenTextBooks\Config;
 use BCcampus\OpenTextBooks\Models;
+use BCcampus\Utility;
 
 class Books {
 	private $baseURL       = ''; // no value will generate relative urls
@@ -73,7 +74,7 @@ class Books {
 														 </div> </div></figure>' : '';
 		$revision         = ( $meta_xml->item->daterevision && ! empty( $meta_xml->item->daterevision[0] ) ) ? '<h4 class="alert alert-info">Good news! An updated and revised version of this textbook will be available in ' . date( 'F j, Y', strtotime( $meta_xml->item->daterevision[0] ) ) . '</h4>' : '';
 		$adaptation       = ( $meta_xml->item->adaptation->attributes()->value ) ? $meta_xml->item->adaptation->source : '';
-		$authors          = \BCcampus\Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
+		$authors          = Utility\array_to_csv( $data['drm']['options']['contentOwners'], 'name' );
 
 		$html  = $this->getSimpleXmlMicrodata( $meta_xml, $citation_pdf_url );
 		$html .= $this->getResultsMicrodata( $data );
@@ -118,7 +119,7 @@ class Books {
 
 			// get attachments
 			foreach ( $attachments as $attachment ) {
-				( array_key_exists( 'size', $attachment ) ) ? $file_size = \BCcampus\Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
+				( array_key_exists( 'size', $attachment ) ) ? $file_size = Utility\determine_file_size( $attachment['size'] ) : $file_size = '';
 				$logo_type                   = $this->addLogo( $attachment['description'] );
 				$tracking                    = "_paq.push(['trackEvent','exportFiles','{$data['name']}','{$logo_type['type']}']);";
 				$html_accordion_attachments .= sprintf(
@@ -435,7 +436,7 @@ class Books {
 			$desc  = ( strlen( $data[ $start ]['description'] ) > 500 ) ? mb_substr( $data[ $start ]['description'], 0, 499 ) . '<a href=' . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . '>...[more]</a>' : $data[ $start ]['description'];
 			$html .= '<li class="list-group-item">';
 			$html .= "<h4><a href='" . $this->baseURL . '?uuid=' . $data[ $start ]['uuid'] . '&contributor=' . $this->args['contributor'] . '&keyword=' . $this->args['keyword'] . '&subject=' . $this->args['subject'] . "'>" . $data[ $start ]['name'] . '</a></h4>';
-			$html .= '<p>Author(s): ' . \BCcampus\Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '</p>';
+			$html .= '<p>Author(s): ' . Utility\array_to_csv( $data[ $start ]['drm']['options']['contentOwners'], 'name' ) . '</p>';
 			$html .= '<p>Updated: ' . date( 'M j, Y', strtotime( $data[ $start ]['modifiedDate'] ) ) . '</p>';
 			$html .= '<p><strong>Description:</strong> ' . $desc . '</p>';
 			$html .= '<h4>' . $metadata . '</h4>';
@@ -480,7 +481,7 @@ class Books {
 			// omit if 4 or more reviews
 			if ( in_array( substr( $data['uuid'], 0, 5 ), $omit, true ) || array_key_exists( $data['uuid'], $do_not_display ) ) {
 				continue;
-			} elseif ( false === \BCcampus\Utility\has_canadian_edition( substr( $data['uuid'], 0, 5 ) ) ) {
+			} elseif ( false === Utility\has_canadian_edition( substr( $data['uuid'], 0, 5 ) ) ) {
 				$html[] = ucfirst( $data['name'] );
 			}
 		}
@@ -941,9 +942,9 @@ class Books {
 	/**
 	 * helper function to evaluate the type of document and add the appropriate logo
 	 *
-	 * @param type $string
+	 * @param $string
 	 *
-	 * @return string
+	 * @return array
 	 */
 	private function addLogo( $string ) {
 
@@ -1034,11 +1035,10 @@ class Books {
 
 
 	/**
+	 * @param $error
+	 * @param $xml
 	 *
-	 * @param array $error
-	 * @param type $xml
-	 *
-	 * @return type
+	 * @return string
 	 */
 	protected function displayXmlError( $error, $xml ) {
 		$return  = $xml[ $error->line - 1 ];
@@ -1161,7 +1161,7 @@ class Books {
 			for ( $i = 0; $i < count( $result ); $i ++ ) {
 				$tmp_array[ $i ] = "<a title='more from this author' href='" . $this->authorBaseURL . $this->authorSearch1 . $result[ $i ] . $this->authorSearch2 . $result[ $i ] . $this->authorSearch3 . $result[ $i ] . $this->authorSearch4 . $this->authorSearch5 . "'>" . $result[ $i ] . '</a>';
 			}
-			$result = \BCcampus\Utility\array_to_csv( $tmp_array );
+			$result = Utility\array_to_csv( $tmp_array );
 		}
 
 		return $result;
