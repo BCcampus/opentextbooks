@@ -43,9 +43,11 @@ before_deploy:
 - cd $TRAVIS_BUILD_DIR
 deploy:
   provider: releases
+  skip_cleanup: true
   api_key:
     secure: kytAZC6PdgL0tbMyl1wlFTn+XR512QFnkq1IAzlYiB5hKqYKv8jLuj5qsq9izUsEjsksSyIllKmyfVW/P1W/1EDNMBcsxlDYFldERf1K2XJbNhoOHn/JETuJ7gi1GHdsqUPcDTx0DOICJOFlNP84YnSWSf+xl4q5ezlsj/NZT3lqGfaxQwFmnBlXgHZxnYOveaoz0IYfUFvWrbWqVWHbZDWbB7dHCUYTLpgIoJop8Rhuc1MEDUMW6E3R3SONbdP8rFb/mfD3nRN1o/nCBthNtf9fL0rfLRaYMc1t7ckvZxj9uLmvi3DzRRr9m8+Erg+tKDL72UAY5Wvjv9i2ve2uzkEh4CAaamy3bR/gR0nurf25kwOrBzMZKAmmsbbIS0YMcE7rmdK+5id3jGT3w3PpONFDZdSnhGKVOsBTyf2CmVBGurfBp9j/T2VPWZMVNi2+ErTWUgcLl5Y6i5GWM5SyHq3CkZOi5Opr1XP+qxKXO8Nn42l2D9EBWNRRZ7dTMkiBBnJtYZdFgnMox4/3ogiqeY3ThjXthw5uYJAuxw2YSnmds7xn010lpl66uQIbRQbGkJJERuhhfvoDkn5uKkbkQpuNHSactNrVe0MlqC7rEPa91LjOIpTHbwDD7OQ2ozaT/cz7/aao7ljl+Z7bP9oIQLYZrTIb0zAn/XMu8MDH6Qc=
   file: opentextbooks-$TRAVIS_TAG.zip
   on:
+    tags: true    
     repo: BCcampus/opentextbooks
     branch: dev
