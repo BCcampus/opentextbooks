@@ -115,7 +115,7 @@ class BookReviews {
                 <b>Institution:</b>{$institutions}<b class='ml-3'>Title/Position:</b> {$response['info5']}<b class='ml-3'></b>{$license}
                 </p>
                 <div class='row'>
-                <div class='col-3'>
+                <div class='col-sm-3'>
                 <div class='nav flex-column nav-pills' role='tablist' aria-orientation='vertical'>";
 				$group_keys      = array_keys( $this->questionGroups );
 				$group_questions = array_values( $this->questionGroups );
@@ -133,7 +133,7 @@ class BookReviews {
 				$html  .= '</div></div>';
 
 				// create the content
-				$html .= "<div class='col-9'><div class='tab-content' itemprop='reviewBody'>";
+				$html .= "<div class='col-sm-9'><div class='tab-content' itemprop='reviewBody'>";
 				$i     = 0;
 
 				foreach ( $q_and_a as $key => $val ) {

@@ -29,8 +29,8 @@ install:
 - composer install
 - ulimit -n 4096
 script:
-  - yarn run build:production
-  - vendor/bin/phpcs --standard=phpcs.ruleset.xml .
+ - yarn run build:production
+ - vendor/bin/phpcs --standard=phpcs.ruleset.xml .
 before_deploy:
 - export TRAVIS_PROJECT_SLUG="$(basename $TRAVIS_BUILD_DIR)"
 - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -45,7 +45,7 @@ deploy:
   provider: releases
   skip_cleanup: true
   api_key:
-    secure: tbjtsVQQosro4zeLn6iFSyq1kpaS0Ywe1r/QRsj9IEx5Mqp80pAg6UMZ+lVpViiEtKkq/J7qTJYqhlbwS3u1RoiDi25cVA/Pwc9wE8iTTYmDggB3I6zmVN+P1WBJ4i8uNYuZRuCvq1yKBI0GuPx158lANsStuZ+BhN9vHinLjL1v78sSDiXp4bTQ3RPNSj80Cgdh9d6rgQEOAThELic7ddcdMxrUgKL7mH8PqXrfRM6PEOABqgmCwWQFLqKSWLDJS9VgHCKcBkSFyDou0lYj1xO4cLWZxoVGDPmRnLQ9teHLePQA8ZpeI+k9NCEJZvY0va64HigvURUPhfDtRMRemBKcHjG7x50CcjBCZ871e0lpfTH0wJ33SX0cNHEdlK84oTG0WBjIRb8bwA1wCT3l/OA7L7GjDHGN9QKaRkP1pR1MQ+vbjr5QxFVhKiGTweYUMZ3X5P23lFJoOr3nMN0xTg9BQona8MIKvitDfKufhS3ZKWONerjPvl2DBnez8kkFK/e+Jk16v5hrQGiu007Nb918ne6LWVvBpvh/6KkGhQ0NMqSBW113+Cbc6ZqJPEg63Y/k0ELrDb4XvwpIRyWFtE0ijuldi5YKba7DuV4sRWx+60qlPsXcpC2y2yfsRWFOJqkEBD6xVptMpoh48nkcrmjtojVf8j4AChuHyUNEh8o=
+    secure: kytAZC6PdgL0tbMyl1wlFTn+XR512QFnkq1IAzlYiB5hKqYKv8jLuj5qsq9izUsEjsksSyIllKmyfVW/P1W/1EDNMBcsxlDYFldERf1K2XJbNhoOHn/JETuJ7gi1GHdsqUPcDTx0DOICJOFlNP84YnSWSf+xl4q5ezlsj/NZT3lqGfaxQwFmnBlXgHZxnYOveaoz0IYfUFvWrbWqVWHbZDWbB7dHCUYTLpgIoJop8Rhuc1MEDUMW6E3R3SONbdP8rFb/mfD3nRN1o/nCBthNtf9fL0rfLRaYMc1t7ckvZxj9uLmvi3DzRRr9m8+Erg+tKDL72UAY5Wvjv9i2ve2uzkEh4CAaamy3bR/gR0nurf25kwOrBzMZKAmmsbbIS0YMcE7rmdK+5id3jGT3w3PpONFDZdSnhGKVOsBTyf2CmVBGurfBp9j/T2VPWZMVNi2+ErTWUgcLl5Y6i5GWM5SyHq3CkZOi5Opr1XP+qxKXO8Nn42l2D9EBWNRRZ7dTMkiBBnJtYZdFgnMox4/3ogiqeY3ThjXthw5uYJAuxw2YSnmds7xn010lpl66uQIbRQbGkJJERuhhfvoDkn5uKkbkQpuNHSactNrVe0MlqC7rEPa91LjOIpTHbwDD7OQ2ozaT/cz7/aao7ljl+Z7bP9oIQLYZrTIb0zAn/XMu8MDH6Qc=
   file: opentextbooks-$TRAVIS_TAG.zip
   on:
     tags: true
