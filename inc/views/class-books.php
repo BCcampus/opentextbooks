@@ -146,7 +146,8 @@ class Books {
 
 		}
 
-		$html .= sprintf( '<div id="accordion">%1$s
+		$html .= sprintf(
+			'<div id="accordion">%1$s
 			<div class="card-header text-center">
 			<h4>Get This Book</h4>
 			<span class="text-muted">Select a file format</span>
@@ -370,8 +371,7 @@ class Books {
 
 		if ( 'ancillary' === $type ) {
 			$html = "<p>There are currently {$count} textbooks with {$type} resources.</p>";
-		}
-		if ( 'accessible' === $type ) {
+		} elseif ( 'accessible' === $type ) {
 			$html = "<p>There are currently {$count} {$type} textbooks. Accessible textbooks must meet the criteria noted on the <a href='https://opentextbc.ca/accessibilitytoolkit/back-matter/appendix-checklist-for-accessibility-toolkit/'>Accessibility Checklist.</a></p>";
 		} else {
 			$html = "<p>There are currently {$count} {$type} textbooks.</p>";
