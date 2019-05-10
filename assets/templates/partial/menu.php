@@ -10,7 +10,7 @@
 		<?php foreach ( $subject_areas as $sub1 => $sub2 ) { ?>
 			<div class="accordion-group">
 				<?php $abr = substr( $sub1, 0, 4 ) ?>
-				<?php $abr = str_replace(['/', ' '], '', $abr); ?>
+				<?php $abr = str_replace( [ '/', ' ' ], '', $abr ); ?>
 				<li class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#catalogue-menu" href="#collapse<?php echo( $abr ) ?>"><?php echo( $sub1 ) ?></a></li>
 				<div id="collapse<?php echo( $abr ) ?>" class="accordion-body collapse">
 					<ul class="children">
