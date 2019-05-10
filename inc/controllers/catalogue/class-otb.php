@@ -222,4 +222,41 @@ class Otb {
 
 	}
 
+	/**
+	 * @param bool $summary
+	 * @param bool $alpha
+	 *
+	 * @return mixed
+	 */
+	public static function getSubjectStats( $summary = true, $alpha = false ) {
+		$rest_api                         = new Models\Api\Equella();
+		$data                             = new Models\OtbBooks( $rest_api, [] );
+		$results['summary']['num_sub1']   = count( $data->getSubjectAreas() );
+		$results['summary']['num_sub2']   = 0;
+		$results['summary']['cumulative'] = 0;
+
+		foreach ( $data->getSubjectAreas() as $key => $val ) {
+			$results['summary']['num_sub2'] = $results['summary']['num_sub2'] + count( $val );
+
+			foreach ( $val as $sub2 => $num ) {
+				$results['summary']['cumulative'] = $results['summary']['cumulative'] + intval( $num );
+				$results[ $key ][ $sub2 ]         = $num;
+			}
+		}
+
+		if ( false === $summary ) {
+			unset( $results['summary'] );
+		}
+
+		if ( true === $alpha ) {
+			ksort( $results, SORT_ASC );
+			foreach ( $results as $k => $v ) {
+				ksort( $v, SORT_ASC );
+				$tmp[ $k ] = $v;
+			}
+			$results = $tmp;
+		}
+
+		return $results;
+	}
 }
