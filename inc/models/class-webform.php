@@ -85,7 +85,7 @@ class WebForm extends Polymorphism\DataAbstract {
 		'Nicola Valley Institute of Technology'                  => 0,
 		'North Island College'                                   => 1,
 		'Northern Lights College'                                => 0,
-		'Northwest Community College'                            => 33,
+		'Coast Mountain College'                                 => 33,
 		'Okanagan College'                                       => 0,
 		'Pacific Coast University for Workplace Health Sciences' => 0,
 		'Quest University'                                       => 0,
